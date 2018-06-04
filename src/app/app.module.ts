@@ -1,16 +1,41 @@
+
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { AppComponent } from './app.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { AppRoutingModule } from './app-routing.module';
+
+import { OlprrSearchFilterComponent } from './olprr-search/olprr-search-filter.component';
+import { OlprrSearchResultComponent } from './olprr-search/olprr-search-result.component';
+import { MaterialModule } from './share/material.module';
+import { SiteTypesResolver } from './share/site-types-resolver.service';
+import { DeqOfficesResolver } from './share/deq-offices-resolver.service';
+import { IncidentStatusesResolver } from './share/incident-statuses-resolver.service';
+import { LustDataService } from './service/lust-data.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MDBBootstrapModule.forRoot(),
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MaterialModule,
   ],
-  providers: [],
+  declarations: [
+    AppComponent,
+    OlprrSearchFilterComponent,
+    OlprrSearchResultComponent,
+  ],
+
+  schemas: [ NO_ERRORS_SCHEMA ],
+  providers: [LustDataService, SiteTypesResolver, DeqOfficesResolver, IncidentStatusesResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,65 @@
+<div class="incident">
+
+
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-table class="incidents-table mat-elevation-z8" [dataSource]="dataSource">
+
+        <ng-container matColumnDef="olprrId">
+            <mat-header-cell *matHeaderCellDef>OlprrId</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.olprrId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteStatus">
+            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteStatus}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="releaseType">
+            <mat-header-cell *matHeaderCellDef>Release Type</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.releaseTypeName}}</mat-cell>
+        </ng-container>
+                
+        <ng-container matColumnDef="receivedDate">
+            <mat-header-cell *matHeaderCellDef>Received Date</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.receivedDate}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteName">
+            <mat-header-cell *matHeaderCellDef>Site Name</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteAddress">
+            <mat-header-cell *matHeaderCellDef>Site Address</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteAdress}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteCounty">
+            <mat-header-cell *matHeaderCellDef>Site County</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.countyName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reportedBy">
+            <mat-header-cell *matHeaderCellDef>Reported By</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.reportedBy}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
+
+
+
+    <mat-paginator [length]="1000" [pageSize]="40"
+    [pageSizeOptions]="[10, 20, 30, 40]"></mat-paginator>
+
+</div>
+
+
+<div><h1>{{totalRows}}</h1>></div>
