@@ -24,7 +24,8 @@ export class LustDataService {
     console.log(olprrSearchFilter);
     const params = new HttpParams({
         fromString: `deqo=${olprrSearchFilter.deqOffice}&stat=${olprrSearchFilter.incidentStatus}`
-        + `&st=${olprrSearchFilter.siteTypeCode}&id=${olprrSearchFilter.olprrId}&sc=1&so=1&pn=1&rpp=40`
+        + `&st=${olprrSearchFilter.siteTypeCode}&id=${olprrSearchFilter.olprrId}&sc=1&so=1`
+        + `&pn=${olprrSearchFilter.pageNumber}&rpp=${olprrSearchFilter.rowsPerPage}`
     });
     return this.http.get<OlprrSearchResultStats[]>(environment.olprrapi_review_search, { params: params });
   }

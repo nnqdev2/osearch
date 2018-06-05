@@ -6,20 +6,25 @@ import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-
 import { OlprrSearchResult } from '../models/olprr-search-result';
 import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResultStats> {
 
     private resultsSubject = new BehaviorSubject<OlprrSearchResultStats[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private olprrSearchResultStats: OlprrSearchResultStats[];
-    private totalRows = 0;
+
+    searchResultReturned$ = this.resultsSubject.asObservable();
+
 
     public loading$ = this.loadingSubject.asObservable();
 
     constructor(private lustDataService: LustDataService) {}
 
     connect(collectionViewer: CollectionViewer): Observable<OlprrSearchResult[]> {
-        return this.resultsSubject.asObservable();
+        return this.searchResultReturned$;
+        // return this.resultsSubject.asObservable();
     }
 
     disconnect(collectionViewer: CollectionViewer): void {
@@ -40,7 +45,7 @@ export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResul
             )
             .subscribe(
                 data => { this.olprrSearchResultStats = data;
-                    console.log('*******loadIncidents(olprrSearchFilter: OlprrSearchFilter) inside subscribe');
+                    console.log('*******loadIncidents(olprrSearchFilter: OlprrSearchFilter)1 inside subscribe');
                     console.log(this.olprrSearchResultStats);
                     this.resultsSubject.next(this.olprrSearchResultStats);
                     this.loadingSubject.next(false);
