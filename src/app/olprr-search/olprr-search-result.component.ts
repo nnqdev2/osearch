@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, ElementRef } from '@angular/core';
-import { LustDataService } from '../service/lust-data.service';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { OlprrSearchResultsDataSource } from './olprr-search-results-data-source';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
@@ -10,7 +9,8 @@ import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
 @Component({
   selector: 'app-olprr-search-result',
   templateUrl: './olprr-search-result.component.html',
-  styleUrls: ['./olprr-search-result.component.scss']
+  styleUrls: ['./olprr-search-result.component.scss'],
+  providers: [OlprrSearchResultsDataSource]
 })
 export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChanges, OnDestroy {
 
@@ -20,7 +20,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   @ViewChild(MatSort) sort: MatSort;
 
 
-  dataSource: OlprrSearchResultsDataSource;
+  // dataSource: OlprrSearchResultsDataSource;
   displayedColumns = ['olprrId', 'siteStatus', 'releaseType', 'receiveDate', 'siteName'
                     , 'siteAddress', 'siteCounty', 'reportedBy', 'siteComment'];
 
@@ -28,11 +28,8 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   olprrSearchResultStats: OlprrSearchResultStats[];
   totalTotal = 300;
 
-  constructor(private lustDataService: LustDataService) {
-    console.log('constructor() this.olprrSearchFilter');
-    console.log(this.olprrSearchFilter);
-    this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
-  }
+  constructor(private dataSource: OlprrSearchResultsDataSource) { }
+
 
   ngOnChanges(changes: SimpleChanges) {
 
