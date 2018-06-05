@@ -2,11 +2,10 @@ export interface OlprrSearchResult {
     olprrId: number;
     releaseTypeCode: string;
     releaseType: string;
-    receivedDate: Date;
+    receiveDate: Date;
     facilityId: string;
     siteName: string;
     siteCountyCode: string;
-    siteCounty: string;
     siteAddress: string;
     otherAddress: string;
     siteCity: string;
@@ -21,7 +20,7 @@ export interface OlprrSearchResult {
     reportedByPhone: string;
     companyName: string;
     emailAddress: string;
-
+    siteCounty: string;
 }
 
     // constructor( olprrid: number, incidentStatus?: string, siteType?: string, olprrId?: string

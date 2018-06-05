@@ -24,9 +24,9 @@
             <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.releaseTypeName}}</mat-cell>
         </ng-container>
                 
-        <ng-container matColumnDef="receivedDate">
+        <ng-container matColumnDef="receiveDate">
             <mat-header-cell *matHeaderCellDef  mat-sort-header >Received Date</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.receivedDate | date:'d/MMM/y HH:mm'}}</mat-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.receiveDate | date:'MM/dd/yyyy'}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="siteName">
@@ -47,6 +47,11 @@
         <ng-container matColumnDef="reportedBy">
             <mat-header-cell *matHeaderCellDef  mat-sort-header >Reported By</mat-header-cell>
             <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.reportedBy}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteComment">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Comment</mat-header-cell>
+            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteComment}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>

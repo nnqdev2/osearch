@@ -2,8 +2,8 @@ import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { LustDataService } from '../service/lust-data.service';
-import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
-import { OlprrSearchResult } from '../models/olprr-search-result';
+// import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
+// import { OlprrSearchResult } from '../models/olprr-search-result';
 import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { Injectable } from '@angular/core';
@@ -22,7 +22,7 @@ export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResul
 
     constructor(private lustDataService: LustDataService) {}
 
-    connect(collectionViewer: CollectionViewer): Observable<OlprrSearchResult[]> {
+    connect(collectionViewer: CollectionViewer): Observable<OlprrSearchResultStats[]> {
         return this.searchResultReturned$;
         // return this.resultsSubject.asObservable();
     }
