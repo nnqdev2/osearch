@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, ElementRef } from '@angular/core';
 import { LustDataService } from '../service/lust-data.service';
 import { OlprrSearchResultsDataSource } from './olprr-search-results-data-source';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
-import { MatPaginator } from '@angular/material';
-import { tap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
+import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subscription, fromEvent, merge } from 'rxjs';
 import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
 
 @Component({
@@ -14,8 +14,12 @@ import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
 })
 export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChanges, OnDestroy {
 
+
   @Input() olprrSearchFilter: OlprrSearchFilter;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('sortColName') sortColName: ElementRef;
+
 
   dataSource: OlprrSearchResultsDataSource;
   // displayedColumns = ['olprrId', 'dateReceived', 'siteName'];
@@ -36,7 +40,22 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     console.log('****ngOnChanges');
     console.log(changes);
     console.log(this.olprrSearchFilter);
+
+    console.log('ngOnChanges(changes: SimpleChanges) this.sort');
+    console.log(this.sort);
+
+    console.log('ngOnChanges(changes: SimpleChanges) this.sort.active');
+    console.log(this.sort.active);
+
+    console.log('ngOnChanges(changes: SimpleChanges) this.sort.direction');
+    console.log(this.sort.direction);
+
     this.loadIncidentsPage();
+    // merge(this.sort.sortChange, this.paginator.page)
+    // .pipe(
+    //     tap(() => this.loadIncidentsPage())
+    // )
+    // .subscribe();
     // this.dataSource.loadIncidents(this.olprrSearchFilter);
     console.log('****ngOnChanges done');
 
@@ -63,13 +82,56 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit() this.olprrSearchFilter');
+    console.log('######################################ngAfterViewInit() this.olprrSearchFilter');
     console.log(this.olprrSearchFilter);
-    this.paginator.page
-        .pipe(
-            tap(() => this.loadIncidentsPage())
-        )
-        .subscribe();
+
+    console.log('ngAfterViewInit() this.sort');
+    console.log(this.sort);
+
+    console.log('ngAfterViewInit() this.sort.active');
+    console.log(this.sort.active);
+
+    console.log('ngAfterViewInit() this.sort.direction');
+    console.log(this.sort.direction);
+
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    // if (this.sortColName !== undefined) {
+    //   fromEvent(this.sortColName.nativeElement, 'keyup')
+    //       .pipe(
+    //           debounceTime(150),
+    //           distinctUntilChanged(),
+    //           tap(() => {
+    //               this.paginator.pageIndex = 0;
+    //               this.loadIncidentsPage();
+    //           })
+    //       )
+    //       .subscribe();
+    //   fromEvent(this.sortColName.nativeElement, 'keydown')
+    //       .pipe(
+    //           debounceTime(150),
+    //           distinctUntilChanged(),
+    //           tap(() => {
+    //               this.paginator.pageIndex = 0;
+    //               this.loadIncidentsPage();
+    //           })
+    //       )
+    //       .subscribe();
+    // }
+
+    merge(this.sort.sortChange, this.paginator.page)
+    .pipe(
+        tap(() => this.loadIncidentsPage())
+    )
+    .subscribe();
+
+
+
+    // this.paginator.page
+    //     .pipe(
+    //         tap(() => this.loadIncidentsPage())
+    //     )
+    //     .subscribe();
   }
 
   loadIncidentsPage() {
@@ -78,6 +140,12 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     this.olprrSearchFilter.pageNumber = this.paginator.pageIndex + 1;
     this.olprrSearchFilter.rowsPerPage = ((this.paginator.pageSize === 0 || this.paginator.pageSize === undefined)
      ? 40 : this.paginator.pageSize);
+
+    this.olprrSearchFilter.sortColumn = (this.sort.active === undefined ? 1 : this.getSortCol(this.sort.active));
+
+
+    this.olprrSearchFilter.sortOrder = this.getSortOrder(this.sort.direction);
+
     console.log('loadIncidentsPage() this.olprrSearchFilter filter after');
     console.log(this.olprrSearchFilter);
     this.dataSource.loadIncidents(this.olprrSearchFilter);
@@ -91,6 +159,46 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   //       this.paginator.pageSize);
   // }
 
+  private getSortCol(colName: string): number {
+    console.log('#################getSortCol(colName: string): number ');
+    console.log(colName);
+    switch (colName) {
+      case 'releaseType':
+        return 1;
+      case 'siteName':
+        return 2;
+      case 'siteAddress':
+        return 3;
+      case 'siteStatus':
+        return 5;
+      case 'reportedBy':
+        return 6;
+      case 'siteCounty':
+        return 8;
+      case 'receivedDate':
+        return 9;
+      default:
+        return 1;
+    }
+  }
+
+  private getSortOrder(sortDirection: string): number {
+    console.log('#################getSortOrder(sortDirection: string): number ');
+    console.log(sortDirection);
+    switch (sortDirection) {
+      case 'asc':
+        return 1;
+      case 'desc':
+        return -1;
+      default:
+        return 1;
+    }
+  }
+
+  onRowClicked(row: OlprrSearchResultStats) {
+    console.log('*****onRowClicked(row: OlprrSearchResultStats)');
+    console.log(row);
+  }
 
   getSearchResults() {
     console.log('****SearchResultsComponent  getLustSearchResults()  ******');
