@@ -5,12 +5,12 @@ import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription, fromEvent, merge } from 'rxjs';
 import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
+import { LustDataService } from '../service/lust-data.service';
 
 @Component({
   selector: 'app-olprr-search-result',
   templateUrl: './olprr-search-result.component.html',
-  styleUrls: ['./olprr-search-result.component.scss'],
-  providers: [OlprrSearchResultsDataSource]
+  styleUrls: ['./olprr-search-result.component.scss']
 })
 export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChanges, OnDestroy {
 
@@ -20,7 +20,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   @ViewChild(MatSort) sort: MatSort;
 
 
-  // dataSource: OlprrSearchResultsDataSource;
+  dataSource: OlprrSearchResultsDataSource;
   displayedColumns = ['olprrId', 'siteStatus', 'releaseType', 'receiveDate', 'siteName'
                     , 'siteAddress', 'siteCounty', 'reportedBy', 'siteComment'];
 
@@ -28,18 +28,16 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   olprrSearchResultStats: OlprrSearchResultStats[];
   totalTotal = 300;
 
-  constructor(private dataSource: OlprrSearchResultsDataSource) { }
+  constructor(private lustDataService: LustDataService) {
+    this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
+  }
 
 
   ngOnChanges(changes: SimpleChanges) {
-
     console.log('****ngOnChanges');
     console.log(changes);
     console.log(this.olprrSearchFilter);
-
     this.loadIncidentsPage();
-
-    console.log('****ngOnChanges done');
   }
 
   ngOnInit() {
@@ -77,8 +75,6 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   }
 
   private getSortCol(colName: string): number {
-    console.log('#################getSortCol(colName: string): number ');
-    console.log(colName);
     switch (colName) {
       case 'releaseType':
         return 1;
@@ -100,8 +96,6 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   }
 
   private getSortOrder(sortDirection: string): number {
-    console.log('#################getSortOrder(sortDirection: string): number ');
-    console.log(sortDirection);
     switch (sortDirection) {
       case 'asc':
         return 1;

@@ -50,7 +50,7 @@ export class OlprrSearchFilterComponent implements OnInit {
     });
   }
 
-  private resetOlprrSearchFilterForm() {
+  resetOlprrSearchFilterForm() {
     this.olprrSearchFilterForm.reset();
     this.olprrSearchFilterForm.setValue({
       deqOffice: '',
@@ -62,7 +62,7 @@ export class OlprrSearchFilterComponent implements OnInit {
     this.showOlprrSearchResultsFlag = false;
   }
 
-  private submitOlprrSearchFilterForm() {
+  submitOlprrSearchFilterForm() {
     this.showOlprrSearchResultsFlag = false;
     // const filters = Object.assign({}, this.olprrSearchFilter, this.olprrSearchFilterForm.value);
     this.olprrSearchFilter = Object.assign({}, this.olprrSearchFilterForm.value);

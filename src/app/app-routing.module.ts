@@ -7,7 +7,8 @@ import { DeqOfficesResolver } from './share/deq-offices-resolver.service';
 import { IncidentStatusesResolver } from './share/incident-statuses-resolver.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'app-olprr-search-filter', pathMatch: 'full' },
+  { path: '', redirectTo: 'osearch', pathMatch: 'full' },
+  { path: '**', redirectTo: 'osearch', pathMatch: 'full' },
   // { path: '**', redirectTo: 'olprrsearch', pathMatch: 'full' },
   { path: 'osearch', component: OlprrSearchFilterComponent,
   resolve: {
