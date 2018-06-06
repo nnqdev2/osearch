@@ -8,15 +8,14 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { AppComponent } from './app.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 
-import { OlprrSearchFilterComponent } from './olprr-search/olprr-search-filter.component';
-import { OlprrSearchResultComponent } from './olprr-search/olprr-search-result.component';
 import { MaterialModule } from './share/material.module';
 import { SiteTypesResolver } from './share/site-types-resolver.service';
 import { DeqOfficesResolver } from './share/deq-offices-resolver.service';
 import { IncidentStatusesResolver } from './share/incident-statuses-resolver.service';
 import { LustDataService } from './service/lust-data.service';
+import { OlprrIncidentComponent } from './olprr-incident/olprr-incident.component';
 
 @NgModule({
   imports: [
@@ -30,8 +29,8 @@ import { LustDataService } from './service/lust-data.service';
   ],
   declarations: [
     AppComponent,
-    OlprrSearchFilterComponent,
-    OlprrSearchResultComponent,
+    routingComponents,
+    OlprrIncidentComponent
   ],
 
   schemas: [ NO_ERRORS_SCHEMA ],

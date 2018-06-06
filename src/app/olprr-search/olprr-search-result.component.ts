@@ -106,10 +106,15 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     }
   }
 
-  onRowClicked(row: OlprrSearchResultStats) {
+  onRowClicked(row: string) {
     console.log('*****onRowClicked(row: OlprrSearchResultStats)');
     console.log(row);
   }
+
+  // onRowClicked(row: OlprrSearchResultStats) {
+  //   console.log('*****onRowClicked(row: OlprrSearchResultStats)');
+  //   console.log(row);
+  // }
 
   getSearchResults() {
     console.log('****SearchResultsComponent  getLustSearchResults()  ******');

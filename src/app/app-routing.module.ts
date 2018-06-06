@@ -5,6 +5,7 @@ import { OlprrSearchFilterComponent } from './olprr-search/olprr-search-filter.c
 import { SiteTypesResolver } from './share/site-types-resolver.service';
 import { DeqOfficesResolver } from './share/deq-offices-resolver.service';
 import { IncidentStatusesResolver } from './share/incident-statuses-resolver.service';
+import { OlprrSearchResultComponent } from './olprr-search/olprr-search-result.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -25,3 +26,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+export const routingComponents = [OlprrSearchFilterComponent, OlprrSearchResultComponent];

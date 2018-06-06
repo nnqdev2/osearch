@@ -48,13 +48,13 @@
         </ng-container>
 
         <ng-container matColumnDef="siteComment">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Comment</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef  >Site Comment</mat-header-cell>
             <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteComment}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
 
-        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.olprrId)"></mat-row>
 
     </mat-table>
 
