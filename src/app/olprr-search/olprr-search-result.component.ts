@@ -5,7 +5,7 @@ import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription, fromEvent, merge } from 'rxjs';
 import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
-import { LustDataService } from '../service/lust-data.service';
+import { LustDataService } from '../services/lust-data.service';
 
 @Component({
   selector: 'app-olprr-search-result',
@@ -13,7 +13,6 @@ import { LustDataService } from '../service/lust-data.service';
   styleUrls: ['./olprr-search-result.component.scss']
 })
 export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChanges, OnDestroy {
-
 
   @Input() olprrSearchFilter: OlprrSearchFilter;
   @ViewChild(MatPaginator) paginator: MatPaginator;

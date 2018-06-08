@@ -3,7 +3,7 @@ import { Router, Resolve, RouterStateSnapshot,
          ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { SiteType } from '../models/site-type';
-import { LustDataService } from '../service/lust-data.service';
+import { LustDataService } from '../services/lust-data.service';
 
 @Injectable()
 export class SiteTypesResolver implements Resolve<Observable<SiteType[]>> {

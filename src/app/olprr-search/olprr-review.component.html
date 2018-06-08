@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
@@ -7,9 +9,6 @@
     </head>
 
     <body>
-
-
-
         <!-- table lustReportingTable  -->
         <!-- <table id="lustReportingTable"> -->
             <div class="container-fluid">   
@@ -400,84 +399,89 @@
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="heatingOil"> Heating Oil   
+                                                <!-- <input class="form-check-input" type="checkbox" formControlName="heatingOil"> Heating Oil    -->
+                                                <mat-checkbox formControlName="heatingOil"> Heating Oil </mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="unleadedGas">Unleaded Gasoline
+                                                <mat-checkbox formControlName="unleadedGas">Unleaded Gasoline</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="leadedGas">Leaded Gasoline
+                                                <!-- <input class="form-check-input" type="checkbox" formControlName="leadedGas">Leaded Gasoline -->
+                                                <mat-checkbox formControlName="leadedGas">Leaded Gasoline</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="misGas">Misc. Gasoline
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" formControlName="diesel">Diesel (Motor Fuel)
-                                                </label>
-                                            </div>
-                                        </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="wasteOil">Waste Oil
+                                                <!-- <input class="form-check-input" type="checkbox" formControlName="misGas">Misc. Gasoline -->
+                                                <mat-checkbox formControlName="misGas">Misc. Gasoline</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="lubricant">Lubricant
+                                                <!-- <input class="form-check-input" type="checkbox" formControlName="diesel">Diesel (Motor Fuel) -->
+                                                <mat-checkbox formControlName="diesel">Diesel (Motor Fuel)</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="solvent">Solvent
+                                                <!-- <input class="form-check-input" type="checkbox" formControlName="wasteOil">Waste Oil -->
+                                                <mat-checkbox formControlName="wasteOil">Waste Oil</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="otherPet">Other Pet. Dist.  
+                                                <mat-checkbox formControlName="lubricant">Lubricant</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="chemical">Chemical
+                                                <mat-checkbox formControlName="solvent">Solvent</mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="mtbe">MTBE  
+                                                <mat-checkbox formControlName="otherPet">Other Pet. Dist.  </mat-checkbox>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" formControlName="unknown">Unknown Contaminant   
+                                                <mat-checkbox formControlName="chemical">Chemical</mat-checkbox>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <mat-checkbox formControlName="mtbe">MTBE  </mat-checkbox>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <mat-checkbox formControlName="unknown">Unknown Contaminant  </mat-checkbox> 
                                             </label>
                                         </div>
                                     </div>
@@ -505,42 +509,42 @@
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" formControlName="groundWater"> Groundwater
+                                            <mat-checkbox  formControlName="groundWater"> Groundwater </mat-checkbox> 
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox"  formControlName="surfaceWater"> Surface Water
+                                            <mat-checkbox   formControlName="surfaceWater"> Surface Water </mat-checkbox> 
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox"  formControlName="drinkingWater"> Drinking Water
+                                            <mat-checkbox   formControlName="drinkingWater"> Drinking Water </mat-checkbox> 
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox"  formControlName="soil"> Soil
+                                            <mat-checkbox   formControlName="soil"> Soil </mat-checkbox> 
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox"  formControlName="vapor">Vapor
+                                                <mat-checkbox   formControlName="vapor">Vapor </mat-checkbox> 
                                             </label>
                                         </div>
                                     </div>
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox"  formControlName="freeProduct">Free Product
+                                            <mat-checkbox mat-autosize="true"  formControlName="freeProduct">Free Product </mat-checkbox> 
                                         </label>
                                     </div>
                                 </div>
@@ -567,6 +571,30 @@
                                 </div>    
                             </div>
                             <!-- /Site Comments  -->
+
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
+                            <!-- Site Comments -->
+                            <div class="form-row mt-4">
+                                <label for="siteComments">Please enter a comment for the LUST incident (limit 717 characters)</label>
+                            </div>
+                            <div class="form-group col-sm-12 pb-3 example-container">
+                                <mat-form-field>
+                                  <textarea minRows="1" maxRows="9" maxlengh="5" matInput formControlName="initialComment" ></textarea>
+                                </mat-form-field>  
+                            </div>   
+                            <!-- /Site Comments  -->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                         <!-- show errors  -->
@@ -599,8 +627,6 @@
                      <!-- Form incidentForm ends --> 
                 </div>
             </div>
-
-
 
 
 

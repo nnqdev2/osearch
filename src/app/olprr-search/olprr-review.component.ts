@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { Observable} from 'rxjs';
@@ -19,18 +20,18 @@ import { StreetType } from '../models/street-type';
 import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../common/config.service';
-import { IdToNameService } from './id-to-name.service';
-
+import { IdToNameService } from '../olprr-incident/id-to-name.service';
 
 @Component({
-  selector: 'app-incident',
-  templateUrl: './olprr-incident.component.html',
-  styleUrls: ['./olprr-incident.component.scss'],
-  providers: [ DatePipe, LustDataService, IdToNameService ]
+  selector: 'app-olprr-review',
+  templateUrl: './olprr-review.component.html',
+  styleUrls: ['./olprr-review.component.css']
 })
-export class OlprrIncidentComponent implements OnInit {
+export class OlprrReviewComponent implements OnInit {
 
-  incident: Incident = new Incident();
+  olprrId: number;
+  // incident: Incident = new Incident();
+  incident: Incident;
   incidentForm: FormGroup;
   confirmationTypes: ConfirmationType[] = [];
   counties: County[] = [];
@@ -66,6 +67,7 @@ export class OlprrIncidentComponent implements OnInit {
 
 
   ngOnInit() {
+    this.olprrId = +this.route.snapshot.params['olprrid'];
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
     this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, Resolve, RouterStateSnapshot,
          ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { LustDataService } from '../service/lust-data.service';
+import { LustDataService } from '../services/lust-data.service';
 import { IncidentStatus } from '../models/incident-status';
 
 @Injectable()

@@ -1,0 +1,17 @@
+{
+    "contractorUid": "api/heroes",
+    "contractorPwd": "assets/textfile.txt",
+    "confirmationtypeUrl": "confirmationtype",
+    "countyUrl": "county",
+    "discoverytypeUrl": "discoverytype",
+    "quadrantUrl": "quadrant",
+    "releaseCauseTypeUrl": "releaseCauseType",
+    "sitetypeUrl": "sitetype",
+    "sourcetypeUrl": "sourcetype",
+    "stateUrl": "state",
+    "streettypeUrl": "streettype",
+    "incidentUrl": "incident",
+    "deqOffices": "NWR,DAL,SLM,EUG,MDG",
+    "olprrReviewType": "NEW,HOLD,ACCEPTED,DECLINE"
+  }
+

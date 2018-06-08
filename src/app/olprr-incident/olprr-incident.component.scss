@@ -1,0 +1,23 @@
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+
+.input-group.required .control-label:after{
+content:"*";
+color:red;
+}
+
+#dateReleaseDiscovered {
+height: 38px;
+padding: 6px 12px;
+}
+
+.btn-outline-secondary {
+height: 38px;
+padding: 4px 2px;
+}
+
+.btn-outline-secondary img {
+height: 30px;
+}

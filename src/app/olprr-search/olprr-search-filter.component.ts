@@ -7,12 +7,12 @@ import { Observable} from 'rxjs';
 import { SiteType } from '../models/site-type';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { OlprrSearchResult } from '../models/olprr-search-result';
-import { LustDataService } from '../service/lust-data.service';
+import { LustDataService } from '../services/lust-data.service';
 import { DeqOffice } from '../models/deq-office';
 import { IncidentStatus } from '../models/incident-status';
-import { SiteTypesResolver } from '../share/site-types-resolver.service';
-import { DeqOfficesResolver } from '../share/deq-offices-resolver.service';
-import { IncidentStatusesResolver } from '../share/incident-statuses-resolver.service';
+import { SiteTypesResolver } from '../resolvers/site-types-resolver.service';
+import { DeqOfficesResolver } from '../resolvers/deq-offices-resolver.service';
+import { IncidentStatusesResolver } from '../resolvers/incident-statuses-resolver.service';
 import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
 
 @Component({

@@ -1,7 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { LustDataService } from '../service/lust-data.service';
+import { LustDataService } from '../services/lust-data.service';
 // import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
 // import { OlprrSearchResult } from '../models/olprr-search-result';
 import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
