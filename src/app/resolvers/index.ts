@@ -10,9 +10,10 @@ import { ReleaseCauseTypesResolver } from './release-cause-types-resolver.servic
 import { SourceTypesResolver } from './source-types-resolver.service';
 import { StatesResolver } from './states-resolver.service';
 import { StreetTypesResolver } from './street-types-resolver.service';
+import { IncidentReviewResolver } from './incident-resolver.service';
 
 export const resolverProviders = [
     SiteTypesResolver, DeqOfficesResolver, IncidentStatusesResolver, ConfirmationTypesResolver
     , CountiesResolver, DiscoveryTypesResolver, QuadrantsResolver, ReleaseCauseTypesResolver
-    , SourceTypesResolver, StatesResolver, StreetTypesResolver
+    , SourceTypesResolver, StatesResolver, StreetTypesResolver, IncidentReviewResolver
 ];

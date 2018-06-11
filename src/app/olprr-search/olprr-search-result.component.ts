@@ -1,4 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+
+
 import { OlprrSearchResultsDataSource } from './olprr-search-results-data-source';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
@@ -27,7 +30,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   olprrSearchResultStats: OlprrSearchResultStats[];
   totalTotal = 300;
 
-  constructor(private lustDataService: LustDataService) {
+  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
   }
 
@@ -105,10 +108,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     }
   }
 
-  onRowClicked(row: string) {
-    console.log('*****onRowClicked(row: OlprrSearchResultStats)');
-    console.log(row);
-  }
+
 
   // onRowClicked(row: OlprrSearchResultStats) {
   //   console.log('*****onRowClicked(row: OlprrSearchResultStats)');
@@ -127,6 +127,14 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
 
   ngOnDestroy() {
     // this.subscription.unsubscribe();
+  }
+
+  // onRowClicked(row: string) {
+  //   console.log('*****onRowClicked(row: OlprrSearchResultStats)');
+  //   console.log(row);
+  // }
+  onRowClicked(olprrId: string) {
+    this.router.navigate(['/review', +olprrId]);
   }
 }
 

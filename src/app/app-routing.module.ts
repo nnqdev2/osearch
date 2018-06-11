@@ -19,6 +19,7 @@ import { SourceTypesResolver } from './resolvers/source-types-resolver.service';
 import { StatesResolver } from './resolvers/states-resolver.service';
 import { StreetTypesResolver } from './resolvers/street-types-resolver.service';
 import { OlprrReviewComponent } from './olprr-search/olprr-review.component';
+import { IncidentReviewResolver } from './resolvers/incident-resolver.service';
 
 
 
@@ -26,8 +27,13 @@ const routes: Routes = [
   { path: '', redirectTo: 'app', pathMatch: 'full' },
   // { path: '**', redirectTo: 'incident', pathMatch: 'full' },
   // { path: '**', redirectTo: 'olprrsearch', pathMatch: 'full' },
-  { path: 'review', component: OlprrReviewComponent
-},
+  { path: 'review/:id', component: OlprrReviewComponent,
+      resolve: {
+        incidentReview: IncidentReviewResolver,
+        incidentStatuses: IncidentStatusesResolver,
+        siteTypes: SiteTypesResolver,
+      }
+  },
   { path: 'app', component: AppNavComponent
   },
   { path: 'osearch', component: OlprrSearchFilterComponent,

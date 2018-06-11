@@ -23,6 +23,7 @@ import { SourceType } from '../models/source-type';
 import { State } from '../models/state';
 import { StreetType } from '../models/street-type';
 import { LogPublisherConfig } from '../common/log-publishers';
+import { IncidentData } from '../models/incident-review';
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +101,9 @@ export class LustDataService {
     return this.http.post<Incident>(environment.olprrapi_incident, incident);
   }
 
-
+  getIncidentData(olprrId: string): Observable<IncidentData> {
+    return this.http.get<IncidentData>(environment.olprrapi_review_incidentdatabyid + olprrId);
+  }
 
 
 }

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
-        <title>LUST Incident Reporting Form</title>
+        <title>OLPRR Review Form</title>
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
@@ -13,7 +13,11 @@
         <!-- <table id="lustReportingTable"> -->
             <div class="container-fluid">   
                 <div class="row">
-                    <h1 class="display-5 text-left m-4">LUST Incident Reporting Form</h1>
+                  <!-- Title of an Card -->    
+                  <mat-card-title >    
+                    OLPRR Incident Search    
+                  </mat-card-title>  
+    
                 </div>
                 <div class="container">
                     <p class="text-left">Notice (6/23/17): The OLPRR reporting tool is offline for maintenance. You have reached an alternative webpage to submit incident report information. Reporters will continue to receive an email confirming receipt and providing the incident log number. During this period DEQ responses may take up to 3 business days to complete. Please email hotinfo@deq.state.or.us with questions or problems, or call 503-229-5263 and ask to speak with the Heating Oil Tank or Leaking Underground Storage Tank Duty Officer. We apologize for any inconvenience or delays you may experience.</p>                    
@@ -231,7 +235,6 @@
                                     <label  class="control-label" for="rpState">State</label>
                                     <div class="input-group">
                                         <select class="form-control" id="rpState"  formControlName="rpState" >
-                                                <option selected="selected" value=""></option>
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let state of states" 
                                                 [value]="state?.stateCode" >
