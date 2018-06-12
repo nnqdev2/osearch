@@ -108,19 +108,9 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     }
   }
 
-
-
-  // onRowClicked(row: OlprrSearchResultStats) {
-  //   console.log('*****onRowClicked(row: OlprrSearchResultStats)');
-  //   console.log(row);
-  // }
-
   getSearchResults() {
-    console.log('****SearchResultsComponent  getLustSearchResults()  ******');
     this.subscription = this.dataSource.searchResultReturned$.subscribe(
       olprrSearchResultStats => {
-        console.log('$$$$$$$$$*****getSearchResults()');
-        console.log(this.olprrSearchResultStats);
         this.olprrSearchResultStats = olprrSearchResultStats;
     });
   }
@@ -130,8 +120,6 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   }
 
   onRowClicked(olprrId: string) {
-    console.log('********* olprrid is....');
-    console.log(olprrId);
     this.router.navigate(['review/', +olprrId]);
   }
 }

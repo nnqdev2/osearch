@@ -51,9 +51,6 @@ export class AppComponent implements OnInit {
 
 ngOnInit(): void {
     this.router.events.subscribe((res) => {
-      console.log('******************');
-      console.log(this.router);
-
         this.activeLinkIndex = this.routeLinks.indexOf(this.routeLinks.find(tab => tab.link === '.' + this.router.url));
     });
 }

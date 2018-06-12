@@ -27,11 +27,12 @@ const routes: Routes = [
   { path: 'app', component: AppNavComponent
   },
   { path: 'osearch', component: OlprrSearchFilterComponent,
-   resolve: {
-    deqOffices: DeqOfficesResolver,
-    incidentStatuses: IncidentStatusesResolver,
-    siteTypes: SiteTypesResolver,
-  }, },
+    resolve: {
+      deqOffices: DeqOfficesResolver,
+      incidentStatuses: IncidentStatusesResolver,
+      siteTypes: SiteTypesResolver,
+    },
+  },
   { path: 'incident', component: OlprrIncidentComponent,
       resolve: {
         siteTypes: SiteTypesResolver,
@@ -44,7 +45,6 @@ const routes: Routes = [
         states: StatesResolver,
         streetTypes: StreetTypesResolver,
       },
-
   },
 
 ];

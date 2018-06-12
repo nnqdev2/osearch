@@ -11,7 +11,6 @@ import { LustDataService } from '../services/lust-data.service';
 export class DeqOfficesResolver implements Resolve<Observable<DeqOffice[]>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DeqOffice[]> {
-    console.log('###############DEQOFFICE LOOKUP??????????????');
     return this.lustDataService.getDeqOffices();
   }
 }
