@@ -9,7 +9,7 @@ import { IncidentData } from '../models/incident-review';
 @Injectable({
   providedIn: 'root'
 })
-export class IncidentReviewResolver implements Resolve<Observable<IncidentData>> {
+export class IncidentDataResolver implements Resolve<Observable<IncidentData>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IncidentData> {
       const myid = route.paramMap.get('olprrid');

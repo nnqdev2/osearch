@@ -16,7 +16,7 @@ import { ReleaseCauseTypesResolver } from '../resolvers/release-cause-types-reso
 import { SourceTypesResolver } from '../resolvers/source-types-resolver.service';
 import { StatesResolver } from '../resolvers/states-resolver.service';
 import { StreetTypesResolver } from '../resolvers/street-types-resolver.service';
-import { IncidentReviewResolver } from '../resolvers/incident-resolver.service';
+import { IncidentDataResolver } from '../resolvers/incident-resolver.service';
 
 const routes: Routes = [
   { path: 'osearch', component: OlprrSearchFilterComponent,
@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   { path: 'review/:olprrid', component: OlprrReviewComponent,
       resolve: {
-        incidentReview: IncidentReviewResolver,
+        incidentData: IncidentDataResolver,
         incidentStatuses: IncidentStatusesResolver,
         siteTypes: SiteTypesResolver,
         confirmationTypes: ConfirmationTypesResolver,

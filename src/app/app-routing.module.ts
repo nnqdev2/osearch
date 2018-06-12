@@ -18,7 +18,7 @@ import { ReleaseCauseTypesResolver } from './resolvers/release-cause-types-resol
 import { SourceTypesResolver } from './resolvers/source-types-resolver.service';
 import { StatesResolver } from './resolvers/states-resolver.service';
 import { StreetTypesResolver } from './resolvers/street-types-resolver.service';
-import { IncidentReviewResolver } from './resolvers/incident-resolver.service';
+import { IncidentDataResolver } from './resolvers/incident-resolver.service';
 
 
 

@@ -21,6 +21,7 @@ import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../common/config.service';
 import { IncidentIdToNameService } from './incident-id-to-name.service';
+import { IncidentData } from '../models/incident-review';
 
 @Component({
   selector: 'app-olprr-review',
@@ -61,6 +62,8 @@ export class OlprrReviewComponent implements OnInit {
 
   errors: any[];
 
+  incidentData: IncidentData;
+
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router) {}
@@ -68,6 +71,7 @@ export class OlprrReviewComponent implements OnInit {
 
   ngOnInit() {
     this.olprrId = +this.route.snapshot.params['olprrid'];
+    this.route.data.subscribe((data: {incidentData: IncidentData}) => {this.incidentData = data.incidentData; } );
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
     this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
@@ -77,6 +81,9 @@ export class OlprrReviewComponent implements OnInit {
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
     this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
+
+    console.log('olprr review init this.incidentData');
+    console.log(this.incidentData);
     this.createForm();
   }
 
