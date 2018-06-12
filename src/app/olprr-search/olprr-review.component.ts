@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
@@ -21,18 +21,19 @@ import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../common/config.service';
 import { IncidentIdToNameService } from './incident-id-to-name.service';
-import { IncidentData } from '../models/incident-review';
+import { IncidentData } from '../models/incident-data';
 
 @Component({
   selector: 'app-olprr-review',
   templateUrl: './olprr-review.component.html',
   styleUrls: ['./olprr-review.component.css']
 })
-export class OlprrReviewComponent implements OnInit {
+export class OlprrReviewComponent implements OnInit, OnChanges {
+
 
   olprrId: number;
-  // incident: Incident = new Incident();
-  incident: Incident;
+  // incidentData: Incident = new Incident();
+  incidentData: IncidentData;
   incidentForm: FormGroup;
   confirmationTypes: ConfirmationType[] = [];
   counties: County[] = [];
@@ -62,8 +63,6 @@ export class OlprrReviewComponent implements OnInit {
 
   errors: any[];
 
-  incidentData: IncidentData;
-
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router) {}
@@ -87,74 +86,68 @@ export class OlprrReviewComponent implements OnInit {
     this.createForm();
   }
 
+  ngOnChanges(changes: SimpleChanges): void { }
 
   createForm() {
     this.incidentForm = this.formBuilder.group({
-        contractorUid:  [''],
-        contractorPwd:  [''],
-        reportedBy:  ['', Validators.required],
-        reportedByPhone:  ['', Validators.required],
-        reportedByEmail: ['', [Validators.required, Validators.email]],
-        releaseType:  ['', Validators.required],
-        dateReceived:  [{value: '', disabled: true},  Validators.required],
-        facilityId: [''],
-        siteName:  ['', Validators.required],
-        siteCounty:  ['', Validators.required],
-        streetNbr: ['', Validators.required],
-        streetQuad:  ['', Validators.required],
-        streetName:  ['', Validators.required],
-        streetType: ['', Validators.required],
-        siteAddress:  [''],
-        siteCity:  ['', Validators.required],
-        siteZipcode: ['', Validators.required],
-        sitePhone:  [''],
-        company:  ['', Validators.required],
-        initialComment:  ['', Validators.maxLength(710)],
-        discoveryDate: ['', Validators.required],
-        confirmationCode:  ['', Validators.required],
-        discoveryCode:  ['', Validators.required],
-        causeCode: ['', Validators.required],
-        sourceId:  ['', Validators.required],
-        rpFirstName:  ['', Validators.required],
-        rpLastName: ['', Validators.required],
-        rpOrganization:  ['', Validators.required],
-        rpAddress:  ['', Validators.required],
-        rpAddress2: [''],
-        rpCity:  ['', Validators.required],
-        rpState:  ['', Validators.required],
-        rpZipcode: ['', Validators.required],
-        rpPhone:  ['', Validators.required],
-        rpEmail:  ['', [Validators.email]],
-        icFirstName:  ['', Validators.required],
-        icLastName: ['', Validators.required],
-        icOrganization:  ['', Validators.required],
-        icAddress:  [''],
-        icAddress2: [''],
-        icCity:  ['', Validators.required],
-        icState:  ['', Validators.required],
-        icZipcode: ['', Validators.required],
-        icPhone:  ['', Validators.required],
-        icEmail:  ['', [Validators.email]],
-        groundWater: [0],
-        surfaceWater: [0],
-        drinkingWater: [0],
-        soil: [0],
-        vapor: [0],
-        freeProduct: [0],
-        unleadedGas: [0],
-        leadedGas: [0],
-        misGas: [0],
-        diesel: [0],
-        wasteOil: [0],
-        heatingOil: [0],
-        lubricant: [0],
-        solvent: [0],
-        otherPet: [0],
-        chemical: [0],
-        unknown: [0],
-        mtbe: [0],
-        submitDateTime: [''],
-        deqOffice: ['']
+        contractorEmail:  [{value: this.incidentData.contractorEmail, disabled: true}],
+        reportedBy:       [{value: this.incidentData.reportedBy, disabled: true}],
+        reportedByPhone:  [{value: this.incidentData.reportedByPhone, disabled: true}],
+        reportedByEmail:  ['', [Validators.required, Validators.email]],
+        releaseType:      [{value: this.incidentData.releaseTypeCode, disabled: true}],
+        dateReceived:     [{value: this.incidentData.dateReceived, disabled: true}],
+        facilityId:       [this.incidentData.facilityId],
+        siteName:         [this.incidentData.siteName, Validators.required],
+        siteCounty:       [this.incidentData.siteCounty, Validators.required],
+        siteAddress:      [this.incidentData.siteAddress],
+        siteCity:         [this.incidentData.siteCity, Validators.required],
+        siteZipcode:      [this.incidentData.siteZipcode, Validators.required],
+        sitePhone:        [this.incidentData.sitePhone],
+        company:          [{value: this.incidentData.contractorName, disabled: true}],
+        initialComment:   [{value: this.incidentData.siteComment, disabled: true}],
+        discoveryDate:    [{value: this.transformDate(this.incidentData.discoveryDate), disabled: true}],
+        confirmationCode: [{value: this.incidentData.confirmationCode, disabled: true}],
+        discoveryCode:    [{value: this.incidentData.discoveryCode, disabled: true}],
+        causeCode:        [{value: this.incidentData.causeCode, disabled: true}],
+        sourceId:         [{value: this.incidentData.sourceId, disabled: true}],
+        rpFirstName:  [this.incidentData.rpFirstName, Validators.required],
+        rpLastName: [this.incidentData.rpLastName, Validators.required],
+        rpOrganization:  [this.incidentData.rpOrganization, Validators.required],
+        rpAddress:  [this.incidentData.rpAddress, Validators.required],
+        rpAddress2: [this.incidentData.rpAddress2],
+        rpCity:  [this.incidentData.rpCity, Validators.required],
+        rpState:  [this.incidentData.rpState, Validators.required],
+        rpZipcode: [this.incidentData.rpZipcode, Validators.required],
+        rpPhone:  [this.incidentData.rpPhone, Validators.required],
+        rpEmail:  [this.incidentData.rpEmail, [Validators.email]],
+        icFirstName:  [this.incidentData.icFirstName, Validators.required],
+        icLastName: [this.incidentData.icLastName, Validators.required],
+        icOrganization:  [this.incidentData.icOrganization, Validators.required],
+        icAddress:  [this.incidentData.icAddress],
+        icAddress2: [this.incidentData.icAddress2],
+        icCity:  [this.incidentData.icCity, Validators.required],
+        icState:  [this.incidentData.icState, Validators.required],
+        icZipcode: [this.incidentData.icZipcode, Validators.required],
+        icPhone:  [this.incidentData.icPhone, Validators.required],
+        icEmail:  [this.incidentData.icEmail, [Validators.email]],
+        groundWater: [{value: this.incidentData.groundWater, disabled: true}],
+        surfaceWater:[{value: this.incidentData.surfaceWater, disabled: true}],
+        drinkingWater: [{value: this.incidentData.drinkingWater, disabled: true}],
+        soil: [{value: this.incidentData.soil, disabled: true}],
+        vapor: [{value: this.incidentData.vapor, disabled: true}],
+        freeProduct: [{value: this.incidentData.freeProduct, disabled: true}],
+        unleadedGas: [{value: this.incidentData.unleadedGas, disabled: true}],
+        leadedGas: [{value: this.incidentData.leadedGas, disabled: true}],
+        misGas: [{value: this.incidentData.misGas, disabled: true}],
+        diesel: [{value: this.incidentData.diesel, disabled: true}],
+        wasteOil: [{value: this.incidentData.wasteOil, disabled: true}],
+        heatingOil: [{value: this.incidentData.heatingOil, disabled: true}],
+        lubricant: [{value: this.incidentData.lubricant, disabled: true}],
+        solvent: [{value: this.incidentData.solvent, disabled: true}],
+        otherPet: [{value: this.incidentData.otherPet, disabled: true}],
+        chemical: [{value: this.incidentData.chemical, disabled: true}],
+        unknown: [{value: this.incidentData.unknown, disabled: true}],
+        mtbe: [{value: this.incidentData.mtbe, disabled: true}]
       },
       {validator: [IncidentValidators.selectOneOrMoreMedia, IncidentValidators.selectOneOrMoreContaminants] }
     );
@@ -226,15 +219,15 @@ export class OlprrReviewComponent implements OnInit {
     const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     this.incidentForm.controls['discoveryDate'].setValue(myDate);
     this.incidentForm.controls['submitDateTime'].setValue(myDate);
-    this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
+    this.incidentData.dateReceived = (this.incidentForm.controls.dateReceived.value);
 
     console.log('*********this.incidentForm is ');
     console.log(this.incidentForm.value);
     console.log('*********this.incident is ' );
-    console.log( JSON.stringify(this.incident));
+    console.log( JSON.stringify(this.incidentData));
 
     // Copy the form values over the product object values
-    const p = Object.assign({}, this.incident, this.incidentForm.value);
+    const p = Object.assign({}, this.incidentData, this.incidentForm.value);
 
     console.log('*********p is ' + JSON.stringify(p));
 
@@ -253,6 +246,7 @@ export class OlprrReviewComponent implements OnInit {
     // this.incidentForm.patchValue({
     //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
     // });
+
   }
 
   resetFlags() {
@@ -268,9 +262,9 @@ export class OlprrReviewComponent implements OnInit {
   }
 
   resetDate(): void {
-    this.incidentForm.patchValue({
-      dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
-    });
+    // this.incidentForm.patchValue({
+    //   dateReceived: this.datePipe.transform(new Date(), 'MM/dd/yyyy')
+    // });
   }
 
   resetForm(): void {
@@ -357,8 +351,8 @@ export class OlprrReviewComponent implements OnInit {
     // end of populate test data
   }
 
-  transformDate(date) {
-    this.datePipe.transform(date, 'yyyy-MM-dd');
+  transformDate(inDate: Date): string {
+    return this.datePipe.transform(inDate, 'MM/dd/yyyy');
   }
 
   private getDeqOffice(): string {

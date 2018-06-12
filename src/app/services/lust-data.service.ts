@@ -23,7 +23,7 @@ import { SourceType } from '../models/source-type';
 import { State } from '../models/state';
 import { StreetType } from '../models/street-type';
 import { LogPublisherConfig } from '../common/log-publishers';
-import { IncidentData } from '../models/incident-review';
+import { IncidentData } from '../models/incident-data';
 
 @Injectable({
   providedIn: 'root'
