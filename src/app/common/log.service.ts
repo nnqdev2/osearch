@@ -50,7 +50,9 @@ export class LogEntry {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LogService {
   constructor(private publishersService: LogPublishersService) {
     // Set all the publishers into the local array

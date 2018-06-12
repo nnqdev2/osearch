@@ -35,8 +35,8 @@ export class LustDataService {
   constructor(private http: HttpClient)  { }
 
   getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter): Observable<OlprrSearchResultStats[]> {
-    console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
-    console.log(olprrSearchFilter);
+    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
+    // console.log(olprrSearchFilter);
     const params = new HttpParams({
         fromString: `deqo=${olprrSearchFilter.deqOffice}&stat=${olprrSearchFilter.incidentStatus}`
         + `&st=${olprrSearchFilter.siteTypeCode}&id=${olprrSearchFilter.olprrId}`

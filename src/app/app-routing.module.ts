@@ -4,8 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { OlprrSearchFilterComponent } from './olprr-search/olprr-search-filter.component';
 import { OlprrSearchResultComponent } from './olprr-search/olprr-search-result.component';
 import { OlprrIncidentComponent } from './olprr-incident/olprr-incident.component';
+import { OlprrReviewComponent } from './olprr-search/olprr-review.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
-
 
 import { SiteTypesResolver } from './resolvers/site-types-resolver.service';
 import { DeqOfficesResolver } from './resolvers/deq-offices-resolver.service';
@@ -18,31 +18,20 @@ import { ReleaseCauseTypesResolver } from './resolvers/release-cause-types-resol
 import { SourceTypesResolver } from './resolvers/source-types-resolver.service';
 import { StatesResolver } from './resolvers/states-resolver.service';
 import { StreetTypesResolver } from './resolvers/street-types-resolver.service';
-import { OlprrReviewComponent } from './olprr-search/olprr-review.component';
 import { IncidentReviewResolver } from './resolvers/incident-resolver.service';
 
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'app', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'incident', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'olprrsearch', pathMatch: 'full' },
-  { path: 'review/:id', component: OlprrReviewComponent,
-      resolve: {
-        incidentReview: IncidentReviewResolver,
-        incidentStatuses: IncidentStatusesResolver,
-        siteTypes: SiteTypesResolver,
-      }
-  },
   { path: 'app', component: AppNavComponent
   },
   { path: 'osearch', component: OlprrSearchFilterComponent,
-      resolve: {
-        deqOffices: DeqOfficesResolver,
-        incidentStatuses: IncidentStatusesResolver,
-        siteTypes: SiteTypesResolver,
-      }
-  },
+   resolve: {
+    deqOffices: DeqOfficesResolver,
+    incidentStatuses: IncidentStatusesResolver,
+    siteTypes: SiteTypesResolver,
+  }, },
   { path: 'incident', component: OlprrIncidentComponent,
       resolve: {
         siteTypes: SiteTypesResolver,
@@ -54,7 +43,8 @@ const routes: Routes = [
         sourceTypes: SourceTypesResolver,
         states: StatesResolver,
         streetTypes: StreetTypesResolver,
-      }
+      },
+
   },
 
 ];
@@ -64,4 +54,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [OlprrSearchFilterComponent, OlprrSearchResultComponent, OlprrIncidentComponent];
+export const routingComponents = [AppNavComponent, OlprrSearchFilterComponent
+  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent];
+
+

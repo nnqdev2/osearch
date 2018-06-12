@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root'
   })
-export class IdToNameService {
+export class IncidentIdToNameService {
     private idToName = [{'reportedBy': 'Reported By'}, {'reportedByPhone': 'Reported By Phone'}
                         , {'reportedByEmail': 'Reported By Email'}, {'releaseType': 'Site Type'}
                         , {'siteName': 'Site Name'}, {'siteCounty': 'Site County'}

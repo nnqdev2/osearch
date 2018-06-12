@@ -46,7 +46,7 @@ export class CachingInterceptor implements HttpInterceptor {
 
 /** Is this request cachable? */
 function isCachable(req: HttpRequest<any>) {
-  console.log('******req.url');
+  console.log('******IS cacheable req.url');
   console.log(req.url);
   return (req.method === 'GET') &&
   (-1 < req.url.indexOf(environment.olprrapi_confirmationtype)

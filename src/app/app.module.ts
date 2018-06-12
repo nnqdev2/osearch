@@ -23,9 +23,10 @@ import { ConfigService } from './common/config.service';
 import { ShowErrorsComponent } from './show-errors/show-errors.component';
 import { ShowAllMessagesComponent } from './show-all-messages/show-all-messages.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
-import { OlprrReviewComponent } from './olprr-search/olprr-review.component';
 
 import { IdToNameService } from './olprr-incident/id-to-name.service';
+import { OlprrSearchRoutingModule } from './olprr-search/olprr-search.routing';
+
 
 @NgModule({
   imports: [
@@ -34,23 +35,23 @@ import { IdToNameService } from './olprr-incident/id-to-name.service';
     HttpClientModule,
     NgbModule.forRoot(),
     BrowserAnimationsModule,
-    AppRoutingModule,
     MaterialModule,
+    AppRoutingModule,
+    OlprrSearchRoutingModule,
+
   ],
   declarations: [
     AppComponent,
     routingComponents,
     ShowErrorsComponent,
     ShowAllMessagesComponent,
-    AppNavComponent,
-    OlprrReviewComponent
   ],
 
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: RequestCache, useClass: RequestCacheWithMap },
-    LogService, LogPublishersService, ConfigService,
-    LustDataService, resolverProviders, IdToNameService],
+    resolverProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

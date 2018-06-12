@@ -6,7 +6,9 @@ import { Observable} from 'rxjs';
 
 const PUBLISHERS_FILE = './assets/log-publishers.json';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LogPublishersService {
   constructor(private http: HttpClient) {
     this.buildPublishers();

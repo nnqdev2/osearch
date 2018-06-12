@@ -20,7 +20,7 @@ import { StreetType } from '../models/street-type';
 import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../common/config.service';
-import { IdToNameService } from '../olprr-incident/id-to-name.service';
+import { IncidentIdToNameService } from './incident-id-to-name.service';
 
 @Component({
   selector: 'app-olprr-review',
@@ -62,7 +62,7 @@ export class OlprrReviewComponent implements OnInit {
   errors: any[];
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
-    , private configService: ConfigService, private idToNameService: IdToNameService, private route: ActivatedRoute
+    , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router) {}
 
 

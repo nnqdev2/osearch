@@ -5,7 +5,9 @@ import { Observable, of } from 'rxjs';
 import { DiscoveryType } from '../models/discovery-type';
 import { LustDataService } from '../services/lust-data.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DiscoveryTypesResolver implements Resolve<Observable<DiscoveryType[]>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DiscoveryType[]> {

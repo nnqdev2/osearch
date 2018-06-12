@@ -129,12 +129,10 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     // this.subscription.unsubscribe();
   }
 
-  // onRowClicked(row: string) {
-  //   console.log('*****onRowClicked(row: OlprrSearchResultStats)');
-  //   console.log(row);
-  // }
   onRowClicked(olprrId: string) {
-    this.router.navigate(['/review', +olprrId]);
+    console.log('********* olprrid is....');
+    console.log(olprrId);
+    this.router.navigate(['review/', +olprrId]);
   }
 }
 

@@ -5,7 +5,9 @@ import { Observable, of } from 'rxjs';
 import { County } from '../models/county';
 import { LustDataService } from '../services/lust-data.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CountiesResolver implements Resolve<Observable<County[]>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<County[]> {

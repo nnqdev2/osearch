@@ -22,7 +22,9 @@ export class IConfig {
 
 const APP_CONFIG_URL = './assets/config.json';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ConfigService implements OnInit {
   // private configUrl = './assets/config.json';
   private configs: IConfig[];
