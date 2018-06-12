@@ -23,7 +23,7 @@ import { IncidentReviewResolver } from './resolvers/incident-resolver.service';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'app', pathMatch: 'full' },
+  { path: '', redirectTo: 'osearch', pathMatch: 'full' },
   { path: 'app', component: AppNavComponent
   },
   { path: 'osearch', component: OlprrSearchFilterComponent,

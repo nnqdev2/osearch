@@ -1,4 +1,20 @@
 
-<router-outlet></router-outlet>
+<div style="padding: 5px;">
+    <div>
+    <h1>HOL (HOTC OLPRR LUST)</h1>
+    <nav md-tab-nav-bar >
+        <a md-tab-link
+           *ngFor="let routeLink of routeLinks; let i = index;"
+           [routerLink]="routeLink.link"
+           routerLinkActive #rla="routerLinkActive"
+           (click)="activeLinkIndex = i"
+           [routerLinkActiveOptions]="{exact: true}"
+        >
+            {{routeLink.label}}
+        </a>
+    </nav>
+</div>
+  <router-outlet></router-outlet>
+  </div>
       
 
