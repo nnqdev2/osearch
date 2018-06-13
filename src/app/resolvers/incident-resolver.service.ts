@@ -4,7 +4,7 @@ import { Router, Resolve, RouterStateSnapshot,
 import { Observable, of } from 'rxjs';
 import { ConfirmationType } from '../models/confirmation-type';
 import { LustDataService } from '../services/lust-data.service';
-import { IncidentData } from '../models/incident-review';
+import { IncidentData } from '../models/incident-data';
 
 @Injectable({
   providedIn: 'root'

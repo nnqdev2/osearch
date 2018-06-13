@@ -1,5 +1,5 @@
 export interface IncidentData {
-    olprrid: string;
+    olprrId: string;
     releaseTypeCode: string;
     releaseType: string;
     dateReceived: Date;

@@ -1,68 +1,59 @@
 
-
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-    <head>
-        <title>OLPRR Review Form</title>
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
-
-    <body>
         <!-- table lustReportingTable  -->
         <!-- <table id="lustReportingTable"> -->
-            <div class="container-fluid">   
-                <div class="row">
-                  <!-- Title of an Card -->    
-                  <mat-card-title >    
-                    OLPRR Incident Search    
-                  </mat-card-title>  
-    
-                </div>
+            <mat-card>    
+                <!-- Title of an Card -->    
+                <mat-card-title >    
+                  OLPRR Incident Review    
+                </mat-card-title>  
+                
+              
+                <mat-card-content> 
                 <div class="container">
-                    <p class="text-left">Notice (6/23/17): The OLPRR reporting tool is offline for maintenance. You have reached an alternative webpage to submit incident report information. Reporters will continue to receive an email confirming receipt and providing the incident log number. During this period DEQ responses may take up to 3 business days to complete. Please email hotinfo@deq.state.or.us with questions or problems, or call 503-229-5263 and ask to speak with the Heating Oil Tank or Leaking Underground Storage Tank Duty Officer. We apologize for any inconvenience or delays you may experience.</p>                    
                     <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Information</p>
                  
-                     <!-- Form incidentForm begins -->
-                     <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
-                        <!-- Date Released Discovered -->
-                        <div class="form-group col-md-4 mt-2">                               
-                            <label class="control-label col-12"  for="dateReceived">Date Reported</label>
-                            <input formControlName="dateReceived" type="text" class="form-control" id="dateReceived"  />
-                        </div>
+                    <!-- Form incidentForm begins -->
+                    <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
 
-
-
-
-
-                        
-                        <div class="input-group required">
-                            <label class="control-label col-12 " for="dateReleaseDiscovered">Date Release Discovered</label>
-                            <input formControlName="discoveryDate" type="text" class="form-control" id="discoveryDate"  />                            
+                        <div class="form-row mt-4">
+                            <div class="form-group col-md-4 mt-2"> 
+                                <mat-form-field>
+                                    <input matInput placeholder="OlprrId" class="form-control" formControlName="olprrId">
+                                </mat-form-field>
+                            </div>  
+                            <!-- Date Reported -->
+                            <div class="form-group col-md-4 mt-2"> 
+                                <mat-form-field>
+                                    <input matInput placeholder="Received Date" class="form-control" formControlName="dateReceived">
+                                </mat-form-field>
+                            </div>  
+                            <!-- /Date Reported -->
+                            <div class="form-group col-md-4 mt-2"> 
+                                <mat-form-field>
+                                    <input matInput placeholder="Discover Date" class="form-control" formControlName="discoveryDate">
+                                </mat-form-field>
+                            </div> 
                         </div>
                         <!-- /Date Released Discovered -->
                         <!-- SiteType FacilityId -->
                         <div class="form-row mt-4"> 
                             <!-- Site Type -->
                             <div class="form-group required col-md-2 mt-2">
-                                <label class="control-label" for="releaseType">Site Type</label>
-                                <select class="form-control" id="releaseType" formControlName="releaseType" (click)="setShowContactInvoice()" >
-                                    <option value=""></option>
-                                    <option *ngFor="let siteType of siteTypes" 
-                                            [value]="siteType?.siteTypeCode" >
-                                            {{siteType?.siteType}}
-                                    </option>
-                                </select>    
-                                <app-show-errors [control]="incidentForm.controls.releaseType"  [submitClicked]="submitClicked"></app-show-errors>                            
-                            </div>
+                                <mat-form-field>    
+                                    <mat-select placeholder="Site Type"  formControlName="releaseType">   
+                                        <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>  
+                                    </mat-select>    
+                                </mat-form-field>    
+                            </div> 
                             <!-- /Site Type -->
                             <!-- DEQ UST Facility ID  -->
                             <div *ngIf="showInvoiceContact; then showFacility"></div>
                             <ng-template #showFacility> 
-                                <div class="form-group col-md-4 mt-2"   >
-                                    <label class="control-label" for="facilityId">DEQ UST Facility ID</label>
-                                    <input type="text" class="form-control" id="facilityId" formControlName="facilityId"/>
-                                </div>
+                                <div class="form-group col-md-4 mt-2"> 
+                                    <mat-form-field>
+                                        <input matInput placeholder="Facility Id" class="form-control" formControlName="facilityId">
+                                    </mat-form-field>
+                                </div> 
                             </ng-template>
                             <!-- /DEQ UST Facility ID -->
                         </div>
@@ -89,46 +80,6 @@
                             </div>                        
                         </div>
                         <!-- /Site Name, County -->
-                        <!-- Street number, quadrant, street name, street type -->
-                        <!-- <div class="form-row mt-4"> -->
-                            <!-- <div class="form-group required col-md-3 pb-3">
-                                <label class="control-label" for="streetNbr">Site Street Number</label>
-                                <input type="text" class="form-control" id="streetNbr" formControlName="streetNbr" />
-                                <app-show-errors [control]="incidentForm.controls.streetNbr"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-3 pb-3">
-                                <label  class="control-label" for="streetQuad">Quadrant</label>
-                                <div class="input-group">
-                                    <select class="form-control" id="streetQuad" formControlName="streetQuad">
-                                            <option selected="selected" value=""></option>
-                                            <option *ngFor="let quadrant of quadrants" 
-                                            [value]="quadrant?.quadrant" >
-                                            {{quadrant?.quadrant}}
-                                            </option>
-                                    </select>                                    
-                                </div>
-                                <app-show-errors [control]="incidentForm.controls.streetQuad"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>  -->
-                            <!-- <div class="form-group required col-md-3 pb-3">
-                                    <label class="control-label" for="streetName">Site Street Name </label>
-                                    <input type="text" class="form-control" id="streetName"  formControlName="streetName"/>
-                                    <app-show-errors [control]="incidentForm.controls.streetName"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                                <div class="form-group required col-md-3 pb-3">
-                                    <label  class="control-label" for="streetType">Site Street Type</label>
-                                    <div class="input-group">
-                                        <select class="form-control" id="streetType" formControlName="streetType" >
-                                                <option selected="selected" value=""></option>
-                                                <option *ngFor="let streetType of streetTypes" 
-                                                [value]="streetType?.streetType" >
-                                                {{streetType?.streetType}}
-                                                </option>
-                                        </select>                                        
-                                    </div>
-                                    <app-show-errors [control]="incidentForm.controls.streetType" [submitClicked]="submitClicked"></app-show-errors>
-                                </div>                        
-                            </div> -->
-                        <!-- /Street number, quadrant, street name, street type  -->
                         <!-- city, zip, phone -->
                         <div class="form-row mt-4">
                                 <div class="form-group required col-md-4 pb-3">
@@ -255,14 +206,7 @@
                             <!-- Invoice Contact -->
                             <div *ngIf="showInvoiceContact; then showContactInvoice"></div>
                             <ng-template #showContactInvoice> 
-                            <p class=" text-left font-weight-bold pl-1" style="background-color: darkSeaGreen"  >Invoice Contact</p>
-                        
-                            <div class="form-group row">
-                                <div class="col-sm-4">
-                                    <button type="button" class=" btn btn-md btn-block" (click)="copyResponsibleToInvoice(incidentForm)">Copy Responsible Party information</button>
-                                </div>
-                            </div>
-                       
+                            <p class=" text-left font-weight-bold pl-1" style="background-color: darkSeaGreen"  >Invoice Contact</p>                     
                        
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-6 pb-3">
@@ -563,38 +507,15 @@
                             <!-- /show Contaminant errors  -->
 
 
-                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
-                            <!-- Site Comments -->
-                            <div class="form-row mt-4">
-                                <div class="form-group col-sm-12 pb-3">
-                                    <label for="siteComments">Please enter a comment for the LUST incident (limit 717 characters)</label>
-                                    <textarea type="textarea" class="form-control" id="siteComments"  maxlength="717" rows=6  formControlName="initialComment"></textarea>
-                                </div>    
-                            </div>
-                            <!-- /Site Comments  -->
 
                             <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
                             <!-- Site Comments -->
-                            <div class="form-row mt-4">
-                                <label for="siteComments">Please enter a comment for the LUST incident (limit 717 characters)</label>
-                            </div>
-                            <div class="form-group col-sm-12 pb-3 example-container">
+                            <div class="form-row example-container">
                                 <mat-form-field>
-                                  <textarea minRows="1" maxRows="9" maxlengh="5" matInput formControlName="initialComment" ></textarea>
+                                  <textarea minRows="10" maxRows="90" maxlengh="717" matInput formControlName="initialComment" ></textarea>
                                 </mat-form-field>  
                             </div>   
                             <!-- /Site Comments  -->
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -613,27 +534,23 @@
                         <div class="form-group row">
 
                             <div class="col-sm-3">
-                                <button type="submit" class="btn btn-success btn-md btn-block" >Submit</button>
-                                <!-- <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button> -->
+                                <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
                             </div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()">Reset</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Hold</button>
                             </div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-default btn-md btn-block" (click)="populateTestData()">Populate Test Data</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Decline</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Done</button>
                             </div>
                         </div>
                         <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->
                     </form>
                      <!-- Form incidentForm ends --> 
                 </div>
-            </div>
+            <!-- </div> -->
 
-
-
-
-
-    </body>
-
-
-</html>
+        </mat-card-content>    
+    </mat-card>   

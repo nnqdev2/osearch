@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
@@ -28,11 +28,10 @@ import { IncidentData } from '../models/incident-data';
   templateUrl: './olprr-review.component.html',
   styleUrls: ['./olprr-review.component.css']
 })
-export class OlprrReviewComponent implements OnInit, OnChanges {
+export class OlprrReviewComponent implements OnInit {
 
 
   olprrId: number;
-  // incidentData: Incident = new Incident();
   incidentData: IncidentData;
   incidentForm: FormGroup;
   confirmationTypes: ConfirmationType[] = [];
@@ -83,19 +82,19 @@ export class OlprrReviewComponent implements OnInit, OnChanges {
 
     console.log('olprr review init this.incidentData');
     console.log(this.incidentData);
+    this.setShowContactInvoice();
     this.createForm();
   }
 
-  ngOnChanges(changes: SimpleChanges): void { }
-
   createForm() {
     this.incidentForm = this.formBuilder.group({
+        olprrId:          [{value: this.incidentData.olprrId, disabled: true}],
         contractorEmail:  [{value: this.incidentData.contractorEmail, disabled: true}],
         reportedBy:       [{value: this.incidentData.reportedBy, disabled: true}],
         reportedByPhone:  [{value: this.incidentData.reportedByPhone, disabled: true}],
         reportedByEmail:  ['', [Validators.required, Validators.email]],
         releaseType:      [{value: this.incidentData.releaseTypeCode, disabled: true}],
-        dateReceived:     [{value: this.incidentData.dateReceived, disabled: true}],
+        dateReceived:     [{value: this.transformDate(this.incidentData.dateReceived), disabled: true}],
         facilityId:       [this.incidentData.facilityId],
         siteName:         [this.incidentData.siteName, Validators.required],
         siteCounty:       [this.incidentData.siteCounty, Validators.required],
@@ -155,8 +154,8 @@ export class OlprrReviewComponent implements OnInit, OnChanges {
   }
 
   setShowContactInvoice() {
-    if (typeof this.incidentForm.controls.releaseType.value !== 'undefined'
-    && (this.incidentForm.controls.releaseType.value === 'R' || this.incidentForm.controls.releaseType.value === 'U')) {
+    if (typeof this.incidentData.releaseTypeCode !== 'undefined'
+    && (this.incidentData.releaseTypeCode === 'R' || this.incidentData.releaseTypeCode === 'U')) {
       this.showInvoiceContact = true;
     } else {
       this.showInvoiceContact = false;
