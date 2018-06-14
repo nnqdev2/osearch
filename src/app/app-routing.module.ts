@@ -6,6 +6,7 @@ import { OlprrSearchResultComponent } from './olprr-search/olprr-search-result.c
 import { OlprrIncidentComponent } from './olprr-incident/olprr-incident.component';
 import { OlprrReviewComponent } from './olprr-search/olprr-review.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
+import { LustSearchFilterComponent } from './lust-search/lust-search-filter.component';
 
 import { SiteTypesResolver } from './resolvers/site-types-resolver.service';
 import { DeqOfficesResolver } from './resolvers/deq-offices-resolver.service';
@@ -19,8 +20,14 @@ import { SourceTypesResolver } from './resolvers/source-types-resolver.service';
 import { StatesResolver } from './resolvers/states-resolver.service';
 import { StreetTypesResolver } from './resolvers/street-types-resolver.service';
 import { IncidentDataResolver } from './resolvers/incident-resolver.service';
-
-
+import { TankStatusesResolver } from './resolvers/tank-statuses-resolver.service';
+import { FileStatusesResolver } from './resolvers/file-statuses-resolver.service';
+import { ZipCodesResolver } from './resolvers/zipcodes-resolver.service';
+import { RegionsResolver } from './resolvers/regions-resolver.service';
+import { CitiesResolver } from './resolvers/cities-resolver.service';
+import { DateComparesResolver } from './resolvers/date-compares-resolver.service';
+import { ProjectManagersResolver } from './resolvers/project-managers-resolver.service';
+import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -31,6 +38,19 @@ const routes: Routes = [
       deqOffices: DeqOfficesResolver,
       incidentStatuses: IncidentStatusesResolver,
       siteTypes: SiteTypesResolver,
+    },
+  },
+  { path: 'lsearch', component: LustSearchFilterComponent,
+    resolve: {
+      tankStatuses: TankStatusesResolver,
+      fileStatuses: FileStatusesResolver,
+      siteTypes: SiteTypesResolver,
+      zipcodes: ZipCodesResolver,
+      regions: RegionsResolver,
+      cities: CitiesResolver,
+      projectManagers: ProjectManagersResolver,
+      dateCompares: DateComparesResolver,
+      cleanupSiteTypes: CleanupSiteTypesResolver,
     },
   },
   { path: 'incident', component: OlprrIncidentComponent,
@@ -55,6 +75,6 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [AppNavComponent, OlprrSearchFilterComponent
-  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent];
+  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent];
 
 

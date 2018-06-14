@@ -26,6 +26,7 @@ import { AppNavComponent } from './app-nav/app-nav.component';
 
 import { IdToNameService } from './olprr-incident/id-to-name.service';
 import { OlprrSearchRoutingModule } from './olprr-search/olprr-search.routing';
+import { LustSearchRoutingModule } from './lust-search/lust-search-routing.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { OlprrSearchRoutingModule } from './olprr-search/olprr-search.routing';
     MaterialModule,
     AppRoutingModule,
     OlprrSearchRoutingModule,
+    LustSearchRoutingModule,
 
   ],
   declarations: [
@@ -50,7 +52,7 @@ import { OlprrSearchRoutingModule } from './olprr-search/olprr-search.routing';
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: RequestCache, useClass: RequestCacheWithMap },
-    resolverProviders
+    // resolverProviders
   ],
   bootstrap: [AppComponent]
 })

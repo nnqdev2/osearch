@@ -1,4 +1,4 @@
-export class SourceType {
+export interface SourceType {
     releaseSourceId: number;
     releaseSourceDescription: string;
 

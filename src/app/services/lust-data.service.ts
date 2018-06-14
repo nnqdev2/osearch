@@ -24,6 +24,16 @@ import { State } from '../models/state';
 import { StreetType } from '../models/street-type';
 import { LogPublisherConfig } from '../common/log-publishers';
 import { IncidentData } from '../models/incident-data';
+import { FileStatus } from '../models/file-status';
+import { TankStatus } from '../models/tank-status';
+import { ProjectManager } from '../models/project-manager';
+import { CleanupSiteType } from '../models/cleanup-site-type';
+import { City } from '../models/city';
+import { ZipCode } from '../models/zipcode';
+import { Region } from '../models/region';
+import { DateCompare } from '../models/date-compare';
+import { LustSearchFilter } from '../models/lust-search-filter';
+import { LustSearchResultStats } from '../models/lust-search-result-stats';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +115,40 @@ export class LustDataService {
     return this.http.get<IncidentData>(environment.olprrapi_review_incidentdatabyid + olprrId);
   }
 
+  getFileStatuses(): Observable<FileStatus[]> {
+    return this.http.get<FileStatus[]>(environment.olprrapi_filestatus);
+  }
 
+  getTankStatuses(): Observable<TankStatus[]> {
+    return this.http.get<TankStatus[]>(environment.olprrapi_tankstatus);
+  }
+
+  getProjectManagers(): Observable<ProjectManager[]> {
+    return this.http.get<ProjectManager[]>(environment.olprrapi_projectmanager);
+  }
+
+  getCleanupSiteTypes(): Observable<CleanupSiteType[]> {
+    return this.http.get<CleanupSiteType[]>(environment.olprrapi_cleanupsitetype);
+  }
+
+  getCities(): Observable<City[]> {
+    return this.http.get<City[]>(environment.olprrapi_city);
+  }
+
+  getZipCodes(): Observable<ZipCode[]> {
+    return this.http.get<ZipCode[]>(environment.olprrapi_zipcode);
+  }
+
+  getRegions(): Observable<Region[]> {
+    return this.http.get<Region[]>(environment.olprrapi_region);
+  }
+
+  getDateCompares(): Observable<DateCompare[]> {
+    return this.http.get<DateCompare[]>(environment.olprrapi_datecompare);
+  }
+
+  getLustSearch(lustSearchFilter: LustSearchFilter): Observable<LustSearchResultStats> {
+    return this.http.post<LustSearchResultStats>(environment.olprrapi_incident, lustSearchFilter);
+  }
 }
 
