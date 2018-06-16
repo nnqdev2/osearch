@@ -11,6 +11,7 @@ import { CitiesResolver } from '../resolvers/cities-resolver.service';
 import { DateComparesResolver } from '../resolvers/date-compares-resolver.service';
 import { ProjectManagersResolver } from '../resolvers/project-managers-resolver.service';
 import { CleanupSiteTypesResolver } from '../resolvers/cleanup-site-types-resolver.service';
+import { CountiesResolver } from '../resolvers/counties-resolver.service';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,
@@ -18,12 +19,13 @@ const routes: Routes = [
       tankStatuses: TankStatusesResolver,
       fileStatuses: FileStatusesResolver,
       siteTypes: SiteTypesResolver,
-      zipcodes: ZipCodesResolver,
+      zipCodes: ZipCodesResolver,
       regions: RegionsResolver,
       cities: CitiesResolver,
       projectManagers: ProjectManagersResolver,
       dateCompares: DateComparesResolver,
       cleanupSiteTypes: CleanupSiteTypesResolver,
+      counties: CountiesResolver,
     },
   },
   // { path: 'lust/:olprrid', component: OlprrReviewComponent,

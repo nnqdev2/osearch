@@ -14,6 +14,8 @@ import { ProjectManager } from '../models/project-manager';
 import { City } from '../models/city';
 import { DateCompare } from '../models/date-compare';
 import { Region } from '../models/region';
+import { SiteType } from '../models/site-type';
+import { County } from '../models/county';
 
 @Component({
   selector: 'app-lust-search-filter',
@@ -32,14 +34,24 @@ export class LustSearchFilterComponent implements OnInit {
   dateCompares: DateCompare[] = [];
   projectManagers: ProjectManager[] = [];
   cities: City[] = [];
+  siteTypes: SiteType[] = [];
+  counties: County[] = [];
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
     , private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    // this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; console.log(data.siteTypes); });
-    // this.route.data.subscribe((data: {deqOffices: DeqOffice[]}) => {this.deqOffices = data.deqOffices; });
-    // this.route.data.subscribe((data: {incidentStatuses: IncidentStatus[]}) => {this.incidentStatuses = data.incidentStatuses; });
+    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; console.log(data.siteTypes); });
+    this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
+    this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
+    // tslint:disable-next-line:max-line-length
+    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
+    this.route.data.subscribe((data: {regions: Region[]}) => {this.regions = data.regions; });
+    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
+    this.route.data.subscribe((data: {dateCompares: DateCompare[]}) => {this.dateCompares = data.dateCompares; });
+    this.route.data.subscribe((data: {tankStatuses: TankStatus[]}) => {this.tankStatuses = data.tankStatuses; });
+    this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
+    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
     this.createSearchFilterForm();
   }
   private createSearchFilterForm() {
@@ -51,11 +63,13 @@ export class LustSearchFilterComponent implements OnInit {
       siteName:  [''],
       siteAddress:  [''],
       siteZipcode: [''],
+      siteCounty: [''],
+      siteCity: [''],
       regionCode: [''],
       releaseSiteTypeCode:  [''],
-      cleanUpSiteTypeId:  [''],
+      cleanupSiteTypeId:  [''],
       fileStatusId: [''],
-      projectManager: [''],
+      projectManagerCode: [''],
       contactFirstName:  [''],
       contactLastName:  [''],
       contactOrganization: [''],

@@ -1,6 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files 
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+*/
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-body { margin: 0; }
 
 [_nghost-c5] {
     display: inline-block !important;
@@ -27,3 +29,7 @@ body { margin: 0; }
     border: 1px solid #aaaaaa;
     background: #ffffff 50% 50% repeat-x;
 }
+
+
+
+

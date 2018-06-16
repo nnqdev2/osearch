@@ -8,10 +8,10 @@ export interface LustSearchFilter {
     siteZipcode: string;
     regionCode: string;
     releaseSiteTypeCode: string;
-    cleanUpSiteTypeId: number;
+    cleanupSiteTypeId: number;
 
     fileStatusId: number;
-    projectManager: string;
+    projectManagerCode: string;
     contactFirstName: string;
     contactLastName: string;
     contactOrganization: string;

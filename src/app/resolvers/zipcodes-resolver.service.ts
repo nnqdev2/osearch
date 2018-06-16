@@ -3,8 +3,6 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { LustDataService } from '../services/lust-data.service';
 import { Observable } from 'rxjs';
 import { ProjectManager } from '../models/project-manager';
-import { Region } from '../models/region';
-import { TankStatus } from '../models/tank-status';
 import { ZipCode } from '../models/zipcode';
 
 @Injectable({
