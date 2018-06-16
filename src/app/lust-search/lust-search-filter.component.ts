@@ -44,7 +44,6 @@ export class LustSearchFilterComponent implements OnInit {
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; console.log(data.siteTypes); });
     this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
     this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
-    // tslint:disable-next-line:max-line-length
     this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
     this.route.data.subscribe((data: {regions: Region[]}) => {this.regions = data.regions; });
     this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
