@@ -1,4 +1,4 @@
-export interface OlprrSearchResultStats {
+export interface OlprrSearchResultStat {
     reqDeqOffice?: string;
     reqIncidentStatus?: string;
     reqSiteType?: string;

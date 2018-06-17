@@ -20,7 +20,7 @@ import { County } from '../models/county';
 @Component({
   selector: 'app-lust-search-filter',
   templateUrl: './lust-search-filter.component.html',
-  styleUrls: ['./lust-search-filter.component.css']
+  styleUrls: ['./lust-search-filter.component.scss']
 })
 export class LustSearchFilterComponent implements OnInit {
   lustSearchFilterForm: FormGroup;

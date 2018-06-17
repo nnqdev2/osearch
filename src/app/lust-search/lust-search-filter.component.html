@@ -151,27 +151,104 @@
             </mat-form-field>
           </div> 
         </div>
-                  
+
         
+        <div class="form-row mt-4">
+          <div class="form-group col-xs-3 ">
+            <mat-form-field  appearance="outline">  
+              <mat-label>Date Comparison 1</mat-label>  
+              <mat-select placeholder="Date Comparison 1"  formControlName="compareDate1Id">    
+                <mat-option value=""> </mat-option>    
+                <mat-option *ngFor="let dateCompare of dateCompares" [value]="dateCompare?.id" > {{dateCompare?.dateComparision}}</mat-option>  
+              </mat-select>    
+            </mat-form-field>    
+          </div>
+          <div class="form-group col-xs-1 ">
+            <mat-form-field appearance="outline">
+              <mat-label>From Date</mat-label> 
+              <input matInput [matDatepicker]="compareDate1IdFromDate" formControlName="compareDate1IdFromDate" placeholder="From date">
+              <mat-datepicker-toggle matSuffix [for]="compareDate1IdFromDate"></mat-datepicker-toggle>
+              <mat-datepicker #compareDate1IdFromDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-xs-1 ">
+            <mat-form-field appearance="outline">
+              <mat-label>To Date</mat-label> 
+              <input matInput [matDatepicker]="compareDate1IdToDate" formControlName="compareDate1IdToDate" placeholder="From date">
+              <mat-datepicker-toggle matSuffix [for]="compareDate1IdToDate"></mat-datepicker-toggle>
+              <mat-datepicker #compareDate1IdToDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+
+          <div class="form-group col-xs-3 ">
+            <mat-form-field  appearance="outline">  
+              <mat-label>Date Comparison 2</mat-label>  
+              <mat-select placeholder="Date Comparison 2"  formControlName="compareDate2Id">    
+                <mat-option value=""> </mat-option>    
+                <mat-option *ngFor="let dateCompare of dateCompares" [value]="dateCompare?.id" > {{dateCompare?.dateComparision}}</mat-option>  
+              </mat-select>    
+            </mat-form-field>    
+          </div>
+          <div class="form-group col-xs-1 ">
+            <mat-form-field appearance="outline">
+              <mat-label>From Date</mat-label> 
+              <input matInput [matDatepicker]="compareDate2IdFromDate" formControlName="compareDate2IdFromDate" placeholder="From date">
+              <mat-datepicker-toggle matSuffix [for]="compareDate2IdFromDate"></mat-datepicker-toggle>
+              <mat-datepicker #compareDate2IdFromDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-xs-1 ">
+            <mat-form-field appearance="outline">
+              <mat-label>To Date</mat-label> 
+              <input matInput [matDatepicker]="compareDate2IdToDate" formControlName="compareDate2IdToDate" placeholder="From date">
+              <mat-datepicker-toggle matSuffix [for]="compareDate2IdToDate"></mat-datepicker-toggle>
+              <mat-datepicker #compareDate2IdToDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
         
         <div class="form-group row">  
-                          <div class="col-sm-2 col-md-2 col-lg-2"> 
-                              <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
-                          </div>
-                          <div class="col-sm-2 col-md-2 col-lg-2"> 
-                              <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetOlprrSearchFilterForm()" >Clear</button>    
-                          </div>    
-                      </div>     
-                </form>    
-            </mat-card-content>    
-          </mat-card>   
+          <div class="form-group col-xs-3 ">
+            <mat-form-field  appearance="outline">  
+              <mat-label>Tank Status</mat-label>  
+              <mat-select placeholder="Tank Status"  formControlName="tankStatusId">    
+                <mat-option value=""> </mat-option>    
+                <mat-option *ngFor="let tankStatus of tankStatuses" [value]="tankStatus?.tankStatusId" > {{tankStatus?.tankStatusDescription}}</mat-option>  
+              </mat-select>    
+            </mat-form-field>    
+          </div>
+
+          <div class="col-sm-3">
+              <div class="form-check">
+                  <label class="form-check-label">
+                      <!-- <input class="form-check-input" type="checkbox" formControlName="heatingOil"> Heating Oil    -->
+                      <mat-checkbox formControlName="hotAuditRejectInd"> HOT Audit/Reject </mat-checkbox>
+                  </label>
+              </div>
+          </div>
+
+
+        </div>        
+        <div class="form-group row">  
+          <div class="col-sm-2 col-md-2 col-lg-2"> 
+              <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2"> 
+              <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetOlprrSearchFilterForm()" >Clear</button>    
+          </div>    
+        </div>     
+      </form>    
+      </mat-card-content>    
+      </mat-card>   
           
           
   
   
-  <div *ngIf="showOlprrSearchResultsFlag==true; then showResultComp ">  </div> 
+  <div *ngIf="showLustSearchResultsFlag==true; then showResultComp ">  </div> 
   <ng-template #showResultComp>
-      <app-olprr-search-result [olprrSearchFilter]="olprrSearchFilter"></app-olprr-search-result>>
+      <app-lust-search-result [lustSearchFilter]="lustSearchFilter"></app-lust-search-result>>
   </ng-template>
   
   </div>

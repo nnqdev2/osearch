@@ -1,4 +1,4 @@
-export interface LustSearchResultStats {
+export interface LustSearchResultStat {
     reqPageNumber?: number;
     reqRowsPerPage?: number;
     reqSortColumn?: number;

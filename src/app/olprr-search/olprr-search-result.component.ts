@@ -7,7 +7,7 @@ import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription, fromEvent, merge } from 'rxjs';
-import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
+import { OlprrSearchResultStat } from '../models/olprr-search-result-stat';
 import { LustDataService } from '../services/lust-data.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
                     , 'siteAddress', 'siteCounty', 'reportedBy', 'siteComment'];
 
   subscription: Subscription;
-  olprrSearchResultStats: OlprrSearchResultStats[];
+  olprrSearchResultStats: OlprrSearchResultStat[];
   totalTotal = 300;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
@@ -46,7 +46,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     console.log('ngOnInit() this.olprrSearchFilter');
     console.log(this.olprrSearchFilter);
     // this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
-    // this.dataSource.loadIncidents(this.olprrSearchFilter);
+    // this.dataSource.loadResults(this.olprrSearchFilter);
   }
 
   ngAfterViewInit() {

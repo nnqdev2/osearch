@@ -1,0 +1,64 @@
+<div class="lustsearch">
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-table class="incidents-table mat-elevation-z8 table-hover " [dataSource]="dataSource"
+                matSort  matSortActive="lustId" matSortDirection="asc" matSortDisableClear >
+
+        <ng-container matColumnDef="lustId">
+            <mat-header-cell *matHeaderCellDef >lustId</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.logNumber}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteStatus">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Status</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStas.siteStatus}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="releaseType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header >Release Type</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.releaseTypeName}}</mat-cell>
+        </ng-container>
+                
+        <ng-container matColumnDef="receiveDate">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Received Date</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.receiveDate | date:'MM/dd/yyyy'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteName">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Name</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.siteName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteAddress">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Address</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.siteAddress}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteCounty">
+            <mat-header-cell *matHeaderCellDef>Site County</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.countyName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reportedBy">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Reported By</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.reportedBy}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="siteComment">
+            <mat-header-cell *matHeaderCellDef  >Site Comment</mat-header-cell>
+            <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.siteComment}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.lustId)"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [length]="totalTotal" [pageSize]="40"
+    [pageSizeOptions]="[10, 20, 30, 40]" ></mat-paginator>
+
+</div>

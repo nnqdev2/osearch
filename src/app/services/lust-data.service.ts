@@ -9,7 +9,7 @@ import { DeqOffice } from '../models/deq-office';
 import { IncidentStatus } from '../models/incident-status';
 import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
 import { ApOlprrGetIncident } from '../models/apOlprrGetIncident';
-import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
+import { OlprrSearchResultStat } from '../models/olprr-search-result-stat';
 
 
 import { Incident } from '../models/incident';
@@ -33,7 +33,7 @@ import { ZipCode } from '../models/zipcode';
 import { Region } from '../models/region';
 import { DateCompare } from '../models/date-compare';
 import { LustSearchFilter } from '../models/lust-search-filter';
-import { LustSearchResultStats } from '../models/lust-search-result-stats';
+import { LustSearchResultStat } from '../models/lust-search-result-stat';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +44,7 @@ export class LustDataService {
 
   constructor(private http: HttpClient)  { }
 
-  getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter): Observable<OlprrSearchResultStats[]> {
+  getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter): Observable<OlprrSearchResultStat[]> {
     // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
     // console.log(olprrSearchFilter);
     const params = new HttpParams({
@@ -53,7 +53,7 @@ export class LustDataService {
         + `&sc=${olprrSearchFilter.sortColumn}&so=${olprrSearchFilter.sortOrder}`
         + `&pn=${olprrSearchFilter.pageNumber}&rpp=${olprrSearchFilter.rowsPerPage}`
     });
-    return this.http.get<OlprrSearchResultStats[]>(environment.olprrapi_review_search, { params: params });
+    return this.http.get<OlprrSearchResultStat[]>(environment.olprrapi_review_search, { params: params });
   }
 
   // getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter): Observable<OlprrSearchResultWithStats> {
@@ -147,8 +147,8 @@ export class LustDataService {
     return this.http.get<DateCompare[]>(environment.olprrapi_datecompare);
   }
 
-  getLustSearch(lustSearchFilter: LustSearchFilter): Observable<LustSearchResultStats> {
-    return this.http.post<LustSearchResultStats>(environment.olprrapi_incident, lustSearchFilter);
+  getLustSearch(lustSearchFilter: LustSearchFilter): Observable<LustSearchResultStat[]> {
+    return this.http.post<LustSearchResultStat[]>(environment.olprrapi_lust_search, lustSearchFilter);
   }
 }
 

@@ -59,6 +59,14 @@ function isCachable(req: HttpRequest<any>) {
   || -1 < req.url.indexOf(environment.olprrapi_releasecausetype)
   || -1 < req.url.indexOf(environment.olprrapi_deqoffice)
   || -1 < req.url.indexOf(environment.olprrapi_incidentstatus)
+  || -1 < req.url.indexOf(environment.olprrapi_datecompare)
+  || -1 < req.url.indexOf(environment.olprrapi_region)
+  || -1 < req.url.indexOf(environment.olprrapi_cleanupsitetype)
+  || -1 < req.url.indexOf(environment.olprrapi_filestatus)
+  || -1 < req.url.indexOf(environment.olprrapi_tankstatus)
+  || -1 < req.url.indexOf(environment.olprrapi_city)
+  || -1 < req.url.indexOf(environment.olprrapi_projectmanager)
+  || -1 < req.url.indexOf(environment.olprrapi_zipcode)
   );
 }
 

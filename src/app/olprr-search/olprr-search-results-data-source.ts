@@ -4,16 +4,16 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import { LustDataService } from '../services/lust-data.service';
 // import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
 // import { OlprrSearchResult } from '../models/olprr-search-result';
-import { OlprrSearchResultStats } from '../models/olprr-search-result-stat';
+import { OlprrSearchResultStat } from '../models/olprr-search-result-stat';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResultStats> {
+export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResultStat> {
 
-    private resultsSubject = new BehaviorSubject<OlprrSearchResultStats[]>([]);
+    private resultsSubject = new BehaviorSubject<OlprrSearchResultStat[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    private olprrSearchResultStats: OlprrSearchResultStats[];
+    private olprrSearchResultStats: OlprrSearchResultStat[];
 
     searchResultReturned$ = this.resultsSubject.asObservable();
 
@@ -22,7 +22,7 @@ export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResul
 
     constructor(private lustDataService: LustDataService) {}
 
-    connect(collectionViewer: CollectionViewer): Observable<OlprrSearchResultStats[]> {
+    connect(collectionViewer: CollectionViewer): Observable<OlprrSearchResultStat[]> {
         return this.searchResultReturned$;
         // return this.resultsSubject.asObservable();
     }
@@ -54,7 +54,7 @@ export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResul
     }
 
 
-    // loadIncidents(olprrSearchFilter: OlprrSearchFilter) {
+    // loadResults(olprrSearchFilter: OlprrSearchFilter) {
 
     //     this.loadingSubject.next(true);
 

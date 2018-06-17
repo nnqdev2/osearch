@@ -12,6 +12,7 @@ import { DateComparesResolver } from '../resolvers/date-compares-resolver.servic
 import { ProjectManagersResolver } from '../resolvers/project-managers-resolver.service';
 import { CleanupSiteTypesResolver } from '../resolvers/cleanup-site-types-resolver.service';
 import { CountiesResolver } from '../resolvers/counties-resolver.service';
+import { LustSearchResultComponent } from './lust-search-result.component';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,
@@ -50,6 +51,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class LustSearchRoutingModule { }
-export const lustSearchRoutingComponents = [LustSearchFilterComponent];
+export const lustSearchRoutingComponents = [LustSearchFilterComponent, LustSearchResultComponent];
+
+
 
 
