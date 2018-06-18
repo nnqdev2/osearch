@@ -1,0 +1,41 @@
+<div class="ustsearch">
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-table class="incidents-table mat-elevation-z8 table-hover " [dataSource]="dataSource"
+                matSort  matSortActive="facilityId" matSortDirection="asc" matSortDisableClear >
+
+        <ng-container matColumnDef="facilityId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Facility Id</mat-header-cell>
+            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="facilityName">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Name</mat-header-cell>
+            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="facilityAddress">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Address</mat-header-cell>
+            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityAddress}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="facilityCity">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility City</mat-header-cell>
+            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityCity}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="facilityZip">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Zip</mat-header-cell>
+            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityZip}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.facilityId)"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [length]="totalTotal" [pageSize]="40"
+    [pageSizeOptions]="[10, 20, 30, 40]" ></mat-paginator>
+
+</div>

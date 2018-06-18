@@ -29,6 +29,8 @@ import { DateComparesResolver } from './resolvers/date-compares-resolver.service
 import { ProjectManagersResolver } from './resolvers/project-managers-resolver.service';
 import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolver.service';
 import { LustSearchResultComponent } from './lust-search/lust-search-result.component';
+import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
+import { UstSearchResultComponent } from './ust-search/ust-search-result.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -55,6 +57,8 @@ const routes: Routes = [
       cleanupSiteTypes: CleanupSiteTypesResolver,
     },
   },
+  { path: 'usearch', component: UstSearchFilterComponent,
+  },
   { path: 'incident', component: OlprrIncidentComponent,
       resolve: {
         siteTypes: SiteTypesResolver,
@@ -77,6 +81,7 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [AppNavComponent, OlprrSearchFilterComponent
-  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent, LustSearchResultComponent];
+  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent
+  , LustSearchResultComponent, UstSearchFilterComponent,  UstSearchResultComponent];
 
 

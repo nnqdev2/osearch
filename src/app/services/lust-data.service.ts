@@ -34,6 +34,8 @@ import { Region } from '../models/region';
 import { DateCompare } from '../models/date-compare';
 import { LustSearchFilter } from '../models/lust-search-filter';
 import { LustSearchResultStat } from '../models/lust-search-result-stat';
+import { UstSearchFilter } from '../models/ust-search-filter';
+import { UstSearchResultStat } from '../models/ust-search-result-stat';
 
 @Injectable({
   providedIn: 'root'
@@ -149,6 +151,10 @@ export class LustDataService {
 
   getLustSearch(lustSearchFilter: LustSearchFilter): Observable<LustSearchResultStat[]> {
     return this.http.post<LustSearchResultStat[]>(environment.olprrapi_lust_search, lustSearchFilter);
+  }
+
+  getUstSearch(ustSearchFilter: UstSearchFilter): Observable<UstSearchResultStat[]> {
+    return this.http.post<UstSearchResultStat[]>(environment.olprrapi_ust_search, ustSearchFilter);
   }
 }
 
