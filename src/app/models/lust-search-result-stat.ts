@@ -7,7 +7,6 @@ export interface LustSearchResultStat {
     totalPages?: number;
     lustId: number;
     logNumber: string;
-    releaseType: string;
     siteName: string;
     siteAddress: string;
     firDt: Date;

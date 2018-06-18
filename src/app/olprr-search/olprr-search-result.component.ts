@@ -28,7 +28,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
 
   subscription: Subscription;
   olprrSearchResultStats: OlprrSearchResultStat[];
-  totalTotal = 300;
+  totalTotal = 3000;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
@@ -84,10 +84,14 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
         return 2;
       case 'siteAddress':
         return 3;
+      case 'siteCity':
+        return 4;
       case 'siteStatus':
         return 5;
       case 'reportedBy':
         return 6;
+      case 'companyName':
+        return 7;
       case 'siteCounty':
         return 8;
       case 'receiveDate':

@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-
-
-import { LustSearchResultDataSourceService } from './lust-search-result-data-source.service';
-import { LustSearchFilter } from '../models/lust-search-filter';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription, fromEvent, merge } from 'rxjs';
+
+import { LustSearchResultDataSourceService } from './lust-search-result-data-source.service';
+import { LustSearchFilter } from '../models/lust-search-filter';
 import { LustSearchResultStat } from '../models/lust-search-result-stat';
 import { LustDataService } from '../services/lust-data.service';
 
@@ -23,12 +22,12 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
 
 
   dataSource: LustSearchResultDataSourceService;
-  displayedColumns = ['lustId', 'siteStatus', 'releaseType', 'receiveDate', 'siteName'
-                    , 'siteAddress', 'siteCounty', 'reportedBy', 'siteComment'];
+  displayedColumns = ['logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
+                    , 'facilityId', 'siteScore'];
 
   subscription: Subscription;
   lustSearchResultStats: LustSearchResultStat[];
-  totalTotal = 300;
+  totalTotal = 3000;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new LustSearchResultDataSourceService(this.lustDataService);
@@ -78,20 +77,22 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
 
   private getSortCol(colName: string): number {
     switch (colName) {
-      case 'releaseType':
+      case 'lustId':
         return 1;
-      case 'siteName':
+      case 'logNumber':
         return 2;
-      case 'siteAddress':
+      case 'siteName':
         return 3;
-      case 'siteStatus':
+      case 'siteAddress':
+        return 4;
+      case 'firDt':
         return 5;
-      case 'reportedBy':
+      case 'closedDt':
         return 6;
-      case 'siteCounty':
+      case 'facilityId':
+        return 7;
+      case 'siteScore':
         return 8;
-      case 'receiveDate':
-        return 9;
       default:
         return 1;
     }
@@ -119,9 +120,9 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
     // this.subscription.unsubscribe();
   }
 
-  onRowClicked(lustId: string) {
-    this.router.navigate(['review/', +lustId]);
-  }
+  // onRowClicked(lustId: string) {
+  //   this.router.navigate(['review/', +lustId]);
+  // }
 }
 
 

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SiteTypesResolver } from '../resolvers/site-types-resolver.service';
-import { LustSearchFilterComponent } from './lust-search-filter.component';
 import { TankStatusesResolver } from '../resolvers/tank-statuses-resolver.service';
 import { FileStatusesResolver } from '../resolvers/file-statuses-resolver.service';
 import { ZipCodesResolver } from '../resolvers/zipcodes-resolver.service';
@@ -13,6 +12,7 @@ import { ProjectManagersResolver } from '../resolvers/project-managers-resolver.
 import { CleanupSiteTypesResolver } from '../resolvers/cleanup-site-types-resolver.service';
 import { CountiesResolver } from '../resolvers/counties-resolver.service';
 import { LustSearchResultComponent } from './lust-search-result.component';
+import { LustSearchFilterComponent } from './lust-search-filter.component';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,

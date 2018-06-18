@@ -28,6 +28,7 @@ import { CitiesResolver } from './resolvers/cities-resolver.service';
 import { DateComparesResolver } from './resolvers/date-compares-resolver.service';
 import { ProjectManagersResolver } from './resolvers/project-managers-resolver.service';
 import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolver.service';
+import { LustSearchResultComponent } from './lust-search/lust-search-result.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -76,6 +77,6 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [AppNavComponent, OlprrSearchFilterComponent
-  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent];
+  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent, LustSearchResultComponent];
 
 

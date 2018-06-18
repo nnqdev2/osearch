@@ -23,7 +23,7 @@ import { LustSearchResultComponent } from './lust-search-result.component';
     MaterialModule,
     LustSearchRoutingModule
   ],
-  declarations: [lustSearchRoutingComponents, LustSearchResultComponent]
+  declarations: [lustSearchRoutingComponents],
 })
 export class LustSearchModule { }
 

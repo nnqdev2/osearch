@@ -36,6 +36,7 @@ export class LustSearchResultDataSourceService implements DataSource<LustSearchR
 
         console.log('*******loadResults(lustSearchFilter: LustSearchFilter) begins');
         console.log(lustSearchFilter);
+        console.log( JSON.stringify(lustSearchFilter));
 
         this.loadingSubject.next(true);
 
@@ -49,6 +50,7 @@ export class LustSearchResultDataSourceService implements DataSource<LustSearchR
                     console.log(this.lustSearchResultStats);
                     this.resultsSubject.next(this.lustSearchResultStats);
                     this.loadingSubject.next(false);
+                    console.log('*******loadResults(lustSearchFilter: LustSearchFilter)1 inside subscribe done');
                 }
             );
     }

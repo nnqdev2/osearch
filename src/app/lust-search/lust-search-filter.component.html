@@ -236,20 +236,17 @@
               <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
           </div>
           <div class="col-sm-2 col-md-2 col-lg-2"> 
-              <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetOlprrSearchFilterForm()" >Clear</button>    
+              <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetLustSearchFilterForm()" >Clear</button>    
           </div>    
         </div>     
       </form>    
-      </mat-card-content>    
-      </mat-card>   
-          
-          
-  
+    </mat-card-content>    
+  </mat-card>  
   
   <div *ngIf="showLustSearchResultsFlag==true; then showResultComp ">  </div> 
   <ng-template #showResultComp>
-      <app-lust-search-result [lustSearchFilter]="lustSearchFilter"></app-lust-search-result>>
+    <app-lust-search-result [lustSearchFilter]="lustSearchFilter"></app-lust-search-result>
   </ng-template>
   
-  </div>
+</div>
   

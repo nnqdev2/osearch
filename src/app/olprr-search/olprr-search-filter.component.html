@@ -17,7 +17,8 @@
       <form [formGroup]="olprrSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitOlprrSearchFilterForm()">    
             <div class="form-row mt-4">
                 <div class="form-group col-xs-3 ">
-                    <mat-form-field>    
+                    <mat-form-field appearance="outline">   
+                        <mat-label>DEQ Office</mat-label>  
                         <mat-select placeholder="DEQ Office"  formControlName="deqOffice">    
                             <mat-option value=""> </mat-option>    
                             <mat-option *ngFor="let deqOffice of deqOffices" [value]="deqOffice?.deqOffice" > {{deqOffice?.deqOffice}}</mat-option>  
@@ -25,7 +26,8 @@
                     </mat-form-field>    
                 </div>  
                 <div class="form-group col-xs-3 ">   
-                    <mat-form-field>    
+                    <mat-form-field appearance="outline"> 
+                        <mat-label>Site Type</mat-label>    
                         <mat-select placeholder="Site Type"  formControlName="siteTypeCode">    
                             <mat-option value=""> </mat-option>    
                             <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>     
@@ -33,7 +35,8 @@
                     </mat-form-field>    
                 </div>  
                 <div class="form-group col-xs-3 ">      
-                    <mat-form-field>    
+                    <mat-form-field appearance="outline"> 
+                        <mat-label>Status</mat-label>       
                         <mat-select placeholder="Status"  formControlName="incidentStatus">    
                                 <mat-option value=""> </mat-option>    
                                 <mat-option *ngFor="let incidentStatus of incidentStatuses" [value]="incidentStatus?.incidentStatus" > {{incidentStatus?.incidentStatus}}</mat-option>   
@@ -41,7 +44,8 @@
                     </mat-form-field>    
                 </div>  
                 <div class="form-group col-xs-3 ">    
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field appearance="outline"> 
+                        <mat-label>OlprrId</mat-label> 
                         <input matInput placeholder="OlprrId" class="form-control" formControlName="olprrId">
                     </mat-form-field>  
                 </div>   
@@ -63,7 +67,7 @@
 
 <div *ngIf="showOlprrSearchResultsFlag==true; then showResultComp ">  </div> 
 <ng-template #showResultComp>
-    <app-olprr-search-result [olprrSearchFilter]="olprrSearchFilter"></app-olprr-search-result>>
+    <app-olprr-search-result [olprrSearchFilter]="olprrSearchFilter"></app-olprr-search-result>
 </ng-template>
 
 </div>

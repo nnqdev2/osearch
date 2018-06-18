@@ -73,7 +73,7 @@ export class LustSearchFilterComponent implements OnInit {
       contactLastName:  [''],
       contactOrganization: [''],
       tankStatusId: [''],
-      hotAuditRejectInd:  [''],
+      hotAuditRejectInd:  [0],
       compareDate1Id:  [''],
       compareDate2Id: [''],
       compareDate1IdFromDate: [''],
@@ -83,7 +83,7 @@ export class LustSearchFilterComponent implements OnInit {
       sortColumn: [1],
       sortOrder: [1],
       pageNumber: [1],
-      rowsPerPage: [30],
+      rowsPerPage: [1],
     });
   }
 
@@ -94,6 +94,12 @@ export class LustSearchFilterComponent implements OnInit {
   }
 
   submitLustSearchFilterForm() {
+    if (this.lustSearchFilterForm.controls.hotAuditRejectInd.value === false) {
+      this.lustSearchFilterForm.controls.hotAuditRejectInd.setValue(0);
+    }
+    if (this.lustSearchFilterForm.controls.hotAuditRejectInd.value === true) {
+      this.lustSearchFilterForm.controls.hotAuditRejectInd.setValue(1);
+    }
     this.showLustSearchResultsFlag = false;
     this.lustSearchFilter = Object.assign({}, this.lustSearchFilterForm.value);
     console.log('searchfilter  lustSearchFilter =====>');
