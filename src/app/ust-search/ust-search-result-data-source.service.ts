@@ -33,59 +33,17 @@ export class UstSearchResultDataSourceService implements DataSource<UstSearchRes
     }
 
     loadResults(ustSearchFilter: UstSearchFilter) {
-
-        console.log('*******loadResults(ustSearchFilter: UstSearchFilter) begins');
-        // console.log(ustSearchFilter);
-        // console.log( JSON.stringify(ustSearchFilter));
-
         this.loadingSubject.next(true);
-
-        console.log('*******loadResults(ustSearchFilter: UstSearchFilter) continues');
         this.lustDataService.getUstSearch(ustSearchFilter)
             .pipe(
                 finalize(() => this.loadingSubject.next(false)),
             )
             .subscribe(
                 data => { this.ustSearchResultStats = data;
-                    console.log('*******loadResults(ustSearchFilter: UstSearchFilter)1 inside subscribe');
-                    console.log(this.ustSearchResultStats);
                     this.resultsSubject.next(this.ustSearchResultStats);
                     this.loadingSubject.next(false);
-                    console.log('*******loadResults(ustSearchFilter: UstSearchFilter)1 inside subscribe done');
                 }
             );
     }
-
-
-    // loadResults(ustSearchFilter: UstSearchFilter) {
-
-    //     this.loadingSubject.next(true);
-
-    //     this.lustDataService.getLustIncidents(ustSearchFilter)
-    //         .pipe(
-    //             finalize(() => this.loadingSubject.next(false))
-    //         )
-    //         .subscribe(
-    //             data => {
-    //                 console.log('**********************');
-    //                 console.log(data);
-    //                 this.ustSearchResults = data.ustSearchResults;
-    //                 this.totalRows = data.totalRows;
-    //                 console.log('totalRows====>');
-    //                 console.log(this.totalRows);
-    //                 this.ustSearchResultStat = new UstSearchResultStat(data.deqOffice, data.incidentStatus
-    //                 , data.siteType, data.lustId
-    //                 , data.totalRows, data.totalPages, data.pageNumber, data.rowsPerPage, data.sortColumn, data.sortOrder);
-    //                 console.log('subscribe..this.ustSearchResults ...........');
-    //                 console.log(this.ustSearchResults);
-    //                 console.log('subscribe..this.ustSearchResultStat ...........');
-    //                 console.log(this.ustSearchResultStat);
-    //                 this.resultsSubject.next(this.ustSearchResults);
-    //                 this.statSubject.next(this.ustSearchResultStat);
-    //             }
-    //         );
-    // }
-
-
 
 }

@@ -26,7 +26,7 @@ export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChange
 
   subscription: Subscription;
   ustSearchResultStats: UstSearchResultStat[];
-  totalTotal = 3000;
+  totalRows = 0;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new UstSearchResultDataSourceService(this.lustDataService);
@@ -38,11 +38,13 @@ export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChange
     console.log(changes);
     console.log(this.ustSearchFilter);
     this.loadResultPage();
+    this.getSearchResults();
   }
 
   ngOnInit() {
     console.log('ngOnInit() this.ustSearchFilter');
     console.log(this.ustSearchFilter);
+    this.getSearchResults();
     // this.dataSource = new UstSearchResultsDataSource(this.lustDataService);
     // this.dataSource.loadResults(this.ustSearchFilter);
   }
@@ -105,12 +107,19 @@ export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChange
   getSearchResults() {
     this.subscription = this.dataSource.searchResultReturned$.subscribe(
       ustSearchResultStats => {
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Hello!!!!!!!');
         this.ustSearchResultStats = ustSearchResultStats;
+        console.log(this.ustSearchResultStats);
+        if (this.ustSearchResultStats !== undefined &&
+        this.ustSearchResultStats.length > 0) {
+          this.totalRows = this.ustSearchResultStats[0].totalRows;
+          console.log('$$$$$totalrows is ' + this.totalRows);
+        }
     });
   }
 
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   // onRowClicked(lustId: string) {
