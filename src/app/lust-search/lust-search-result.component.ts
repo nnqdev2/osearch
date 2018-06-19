@@ -27,7 +27,7 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
 
   subscription: Subscription;
   lustSearchResultStats: LustSearchResultStat[];
-  totalTotal = 3000;
+  totalRows = 0;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new LustSearchResultDataSourceService(this.lustDataService);
@@ -39,11 +39,13 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
     console.log(changes);
     console.log(this.lustSearchFilter);
     this.loadResultPage();
+    this.getSearchResults();
   }
 
   ngOnInit() {
     console.log('ngOnInit() this.lustSearchFilter');
     console.log(this.lustSearchFilter);
+    this.getSearchResults();
     // this.dataSource = new LustSearchResultsDataSource(this.lustDataService);
     // this.dataSource.loadResults(this.lustSearchFilter);
   }
@@ -62,16 +64,11 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
   }
 
   loadResultPage() {
-    console.log('loadResultPage() this.lustSearchFilter filter before');
-    console.log(this.lustSearchFilter);
     this.lustSearchFilter.pageNumber = this.paginator.pageIndex + 1;
     this.lustSearchFilter.rowsPerPage = ((this.paginator.pageSize === 0 || this.paginator.pageSize === undefined)
           ? 40 : this.paginator.pageSize);
     this.lustSearchFilter.sortColumn = (this.sort.active === undefined ? 1 : this.getSortCol(this.sort.active));
     this.lustSearchFilter.sortOrder = this.getSortOrder(this.sort.direction);
-
-    console.log('loadResultPage() this.lustSearchFilter filter after');
-    console.log(this.lustSearchFilter);
     this.dataSource.loadResults(this.lustSearchFilter);
   }
 
@@ -113,11 +110,18 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
     this.subscription = this.dataSource.searchResultReturned$.subscribe(
       lustSearchResultStats => {
         this.lustSearchResultStats = lustSearchResultStats;
-    });
+        if (this.lustSearchResultStats !== undefined &&
+          this.lustSearchResultStats.length > 0) {
+            this.totalRows = this.lustSearchResultStats[0].totalRows;
+        } else {
+          this.totalRows = 0;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   // onRowClicked(lustId: string) {

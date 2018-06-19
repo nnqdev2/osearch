@@ -28,7 +28,7 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
 
   subscription: Subscription;
   olprrSearchResultStats: OlprrSearchResultStat[];
-  totalTotal = 3000;
+  totalRows = 0;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
@@ -40,11 +40,13 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     console.log(changes);
     console.log(this.olprrSearchFilter);
     this.loadIncidentsPage();
+    this.getSearchResults();
   }
 
   ngOnInit() {
     console.log('ngOnInit() this.olprrSearchFilter');
     console.log(this.olprrSearchFilter);
+    this.getSearchResults();
     // this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
     // this.dataSource.loadResults(this.olprrSearchFilter);
   }
@@ -116,11 +118,18 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     this.subscription = this.dataSource.searchResultReturned$.subscribe(
       olprrSearchResultStats => {
         this.olprrSearchResultStats = olprrSearchResultStats;
-    });
+        if (this.olprrSearchResultStats !== undefined &&
+          this.olprrSearchResultStats.length > 0) {
+            this.totalRows = this.olprrSearchResultStats[0].totalRows;
+        } else {
+          this.totalRows = 0;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   onRowClicked(olprrId: string) {

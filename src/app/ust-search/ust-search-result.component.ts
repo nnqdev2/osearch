@@ -63,16 +63,11 @@ export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChange
   }
 
   loadResultPage() {
-    console.log('loadResultPage() this.ustSearchFilter filter before');
-    console.log(this.ustSearchFilter);
     this.ustSearchFilter.pageNumber = this.paginator.pageIndex + 1;
     this.ustSearchFilter.rowsPerPage = ((this.paginator.pageSize === 0 || this.paginator.pageSize === undefined)
           ? 40 : this.paginator.pageSize);
     this.ustSearchFilter.sortColumn = (this.sort.active === undefined ? 1 : this.getSortCol(this.sort.active));
     this.ustSearchFilter.sortOrder = this.getSortOrder(this.sort.direction);
-
-    console.log('loadResultPage() this.ustSearchFilter filter after');
-    console.log(this.ustSearchFilter);
     this.dataSource.loadResults(this.ustSearchFilter);
   }
 
@@ -107,13 +102,12 @@ export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChange
   getSearchResults() {
     this.subscription = this.dataSource.searchResultReturned$.subscribe(
       ustSearchResultStats => {
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Hello!!!!!!!');
         this.ustSearchResultStats = ustSearchResultStats;
-        console.log(this.ustSearchResultStats);
         if (this.ustSearchResultStats !== undefined &&
         this.ustSearchResultStats.length > 0) {
           this.totalRows = this.ustSearchResultStats[0].totalRows;
-          console.log('$$$$$totalrows is ' + this.totalRows);
+        } else {
+          this.totalRows = 0;
         }
     });
   }
