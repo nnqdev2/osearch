@@ -1,7 +1,7 @@
+import { Injectable } from '@angular/core';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
 import { LustDataService } from '../services/lust-data.service';
 import { UstSearchResultStat } from '../models/ust-search-result-stat';
 import { UstSearchFilter } from '../models/ust-search-filter';
@@ -15,9 +15,7 @@ export class UstSearchResultDataSourceService implements DataSource<UstSearchRes
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private ustSearchResultStats: UstSearchResultStat[];
 
-    searchResultReturned$ = this.resultsSubject.asObservable();
-
-
+    public searchResultReturned$ = this.resultsSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
 
     constructor(private lustDataService: LustDataService) {}
@@ -39,7 +37,8 @@ export class UstSearchResultDataSourceService implements DataSource<UstSearchRes
                 finalize(() => this.loadingSubject.next(false)),
             )
             .subscribe(
-                data => { this.ustSearchResultStats = data;
+                data => {
+                    this.ustSearchResultStats = data;
                     this.resultsSubject.next(this.ustSearchResultStats);
                     this.loadingSubject.next(false);
                 }

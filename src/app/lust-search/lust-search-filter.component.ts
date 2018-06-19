@@ -41,7 +41,7 @@ export class LustSearchFilterComponent implements OnInit {
     , private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; console.log(data.siteTypes); });
+    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
     this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
     this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
@@ -102,9 +102,7 @@ export class LustSearchFilterComponent implements OnInit {
     }
     this.showLustSearchResultsFlag = false;
     this.lustSearchFilter = Object.assign({}, this.lustSearchFilterForm.value);
-    console.log('searchfilter  lustSearchFilter =====>');
-    console.log(this.lustSearchFilter);
-    console.log(JSON.stringify(this.lustSearchFilter));
+    // console.log(JSON.stringify(this.lustSearchFilter));
     this.showLustSearchResultsFlag = true;
   }
 }

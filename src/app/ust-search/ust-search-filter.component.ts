@@ -46,9 +46,7 @@ export class UstSearchFilterComponent implements OnInit {
   submitUstSearchFilterForm() {
     this.showUstSearchResultsFlag = false;
     this.ustSearchFilter = Object.assign({}, this.ustSearchFilterForm.value);
-    console.log('searchfilter  ustSearchFilter =====>');
-    console.log(this.ustSearchFilter);
-    console.log(JSON.stringify(this.ustSearchFilter));
+    // console.log(JSON.stringify(this.ustSearchFilter));
     this.showUstSearchResultsFlag = true;
   }
 }

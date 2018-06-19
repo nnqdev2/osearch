@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -14,12 +14,11 @@ import { LustDataService } from '../services/lust-data.service';
   templateUrl: './ust-search-result.component.html',
   styleUrls: ['./ust-search-result.component.scss']
 })
-export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChanges, OnDestroy {
+export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() ustSearchFilter: UstSearchFilter;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
 
   dataSource: UstSearchResultDataSourceService;
   displayedColumns = ['facilityId', 'facilityName', 'facilityAddress', 'facilityCity', 'facilityZip'];
@@ -32,29 +31,13 @@ export class UstSearchResultComponent implements AfterViewInit, OnInit, OnChange
     this.dataSource = new UstSearchResultDataSourceService(this.lustDataService);
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
-    console.log('****ngOnChanges');
-    console.log(changes);
-    console.log(this.ustSearchFilter);
     this.loadResultPage();
     this.getSearchResults();
   }
 
-  ngOnInit() {
-    console.log('ngOnInit() this.ustSearchFilter');
-    console.log(this.ustSearchFilter);
-    this.getSearchResults();
-    // this.dataSource = new UstSearchResultsDataSource(this.lustDataService);
-    // this.dataSource.loadResults(this.ustSearchFilter);
-  }
-
   ngAfterViewInit() {
-    console.log('######################################ngAfterViewInit() this.ustSearchFilter');
-    console.log(this.ustSearchFilter);
-
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
     .pipe(
         tap(() => this.loadResultPage())

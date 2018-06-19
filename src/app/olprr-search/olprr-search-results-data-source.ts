@@ -1,23 +1,21 @@
+import { Injectable } from '@angular/core';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { LustDataService } from '../services/lust-data.service';
-// import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
-// import { OlprrSearchResult } from '../models/olprr-search-result';
 import { OlprrSearchResultStat } from '../models/olprr-search-result-stat';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
-import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResultStat> {
 
     private resultsSubject = new BehaviorSubject<OlprrSearchResultStat[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private olprrSearchResultStats: OlprrSearchResultStat[];
 
-    searchResultReturned$ = this.resultsSubject.asObservable();
-
-
+    public searchResultReturned$ = this.resultsSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
 
     constructor(private lustDataService: LustDataService) {}
@@ -33,56 +31,18 @@ export class OlprrSearchResultsDataSource implements DataSource<OlprrSearchResul
     }
 
     loadIncidents(olprrSearchFilter: OlprrSearchFilter) {
-
-        console.log('*******loadIncidents(olprrSearchFilter: OlprrSearchFilter) begins');
-        console.log(olprrSearchFilter);
-
+        // console.log( JSON.stringify(olprrSearchFilter));
         this.loadingSubject.next(true);
-
         this.lustDataService.getOlprrIncidents(olprrSearchFilter)
             .pipe(
                 finalize(() => this.loadingSubject.next(false)),
             )
             .subscribe(
-                data => { this.olprrSearchResultStats = data;
-                    console.log('*******loadIncidents(olprrSearchFilter: OlprrSearchFilter)1 inside subscribe');
-                    console.log(this.olprrSearchResultStats);
+                data => {
+                    this.olprrSearchResultStats = data;
                     this.resultsSubject.next(this.olprrSearchResultStats);
                     this.loadingSubject.next(false);
                 }
             );
     }
-
-
-    // loadResults(olprrSearchFilter: OlprrSearchFilter) {
-
-    //     this.loadingSubject.next(true);
-
-    //     this.lustDataService.getOlprrIncidents(olprrSearchFilter)
-    //         .pipe(
-    //             finalize(() => this.loadingSubject.next(false))
-    //         )
-    //         .subscribe(
-    //             data => {
-    //                 console.log('**********************');
-    //                 console.log(data);
-    //                 this.olprrSearchResults = data.olprrSearchResults;
-    //                 this.totalRows = data.totalRows;
-    //                 console.log('totalRows====>');
-    //                 console.log(this.totalRows);
-    //                 this.olprrSearchResultStat = new OlprrSearchResultStat(data.deqOffice, data.incidentStatus
-    //                 , data.siteType, data.olprrId
-    //                 , data.totalRows, data.totalPages, data.pageNumber, data.rowsPerPage, data.sortColumn, data.sortOrder);
-    //                 console.log('subscribe..this.olprrSearchResults ...........');
-    //                 console.log(this.olprrSearchResults);
-    //                 console.log('subscribe..this.olprrSearchResultStat ...........');
-    //                 console.log(this.olprrSearchResultStat);
-    //                 this.resultsSubject.next(this.olprrSearchResults);
-    //                 this.statSubject.next(this.olprrSearchResultStat);
-    //             }
-    //         );
-    // }
-
-
-
 }

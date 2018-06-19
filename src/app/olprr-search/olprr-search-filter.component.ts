@@ -66,20 +66,7 @@ export class OlprrSearchFilterComponent implements OnInit {
     this.showOlprrSearchResultsFlag = false;
     // const filters = Object.assign({}, this.olprrSearchFilter, this.olprrSearchFilterForm.value);
     this.olprrSearchFilter = Object.assign({}, this.olprrSearchFilterForm.value);
-    console.log('searchfilter  olprrSearchFilter =====>');
-    console.log(this.olprrSearchFilter);
-    console.log(JSON.stringify(this.olprrSearchFilter));
-    // this.olprrSearchFilter.deqOffice = this.olprrSearchFilterForm.controls.deqOffice.value;
-    // this.olprrSearchFilter.incidentStatus = this.olprrSearchFilterForm.controls.incidentStatus.value;
-    // this.olprrSearchFilter.siteType = this.olprrSearchFilterForm.controls.siteType.value;
-    // this.olprrSearchFilter.olprrId = this.olprrSearchFilterForm.controls.olprrId.value;
-    // this.olprrSearchFilter.deqOffice = 'NWR';
-    // this.olprrSearchFilter.incidentStatus = 'NWR';
-    // this.olprrSearchFilter.siteType = 'NWR';
-    // this.olprrSearchFilter.olprrId = 12345;
-    // console.log(filters.deqOffice.value);
-    // console.log(this.olprrSearchFilter.deqOffice);
-    // this.getOlprrSearchResults(p);
+    // console.log(JSON.stringify(this.olprrSearchFilter));
     this.showOlprrSearchResultsFlag = true;
   }
 

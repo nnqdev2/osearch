@@ -41,10 +41,6 @@ export class AppComponent implements OnInit {
             label: 'UST Search',
             link: '/usearch',
             index: 3
-        }, {
-            label: 'LUST',
-            link: '/osearch',
-            index: 4
         }
     ];
 }

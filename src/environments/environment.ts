@@ -30,7 +30,7 @@ export const environment = {
   olprrapi_review_search: 'http://deqwebdev/olprrapi/review',
   olprrapi_review_incidentdatabyid: 'http://deqwebdev/olprrapi/review/incidentdatabyid/',
   contractor_uid: 'INGRID',
-  contractor_pwd: 'GAFFNEY'
+  contractor_pwd: 'GAFFNEY',
 };
 
 /*

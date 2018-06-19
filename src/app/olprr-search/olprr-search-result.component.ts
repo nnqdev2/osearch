@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
-
 import { OlprrSearchResultsDataSource } from './olprr-search-results-data-source';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
@@ -21,7 +20,6 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
   dataSource: OlprrSearchResultsDataSource;
   displayedColumns = ['olprrId', 'siteStatus', 'releaseType', 'receiveDate', 'siteName'
                     , 'siteAddress', 'siteCounty', 'reportedBy', 'siteComment'];
@@ -34,29 +32,17 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
     this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
-    console.log('****ngOnChanges');
-    console.log(changes);
-    console.log(this.olprrSearchFilter);
     this.loadIncidentsPage();
     this.getSearchResults();
   }
 
   ngOnInit() {
-    console.log('ngOnInit() this.olprrSearchFilter');
-    console.log(this.olprrSearchFilter);
     this.getSearchResults();
-    // this.dataSource = new OlprrSearchResultsDataSource(this.lustDataService);
-    // this.dataSource.loadResults(this.olprrSearchFilter);
   }
 
   ngAfterViewInit() {
-    console.log('######################################ngAfterViewInit() this.olprrSearchFilter');
-    console.log(this.olprrSearchFilter);
-
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
     .pipe(
         tap(() => this.loadIncidentsPage())
@@ -65,16 +51,11 @@ export class OlprrSearchResultComponent implements AfterViewInit, OnInit, OnChan
   }
 
   loadIncidentsPage() {
-    console.log('loadIncidentsPage() this.olprrSearchFilter filter before');
-    console.log(this.olprrSearchFilter);
     this.olprrSearchFilter.pageNumber = this.paginator.pageIndex + 1;
     this.olprrSearchFilter.rowsPerPage = ((this.paginator.pageSize === 0 || this.paginator.pageSize === undefined)
           ? 40 : this.paginator.pageSize);
     this.olprrSearchFilter.sortColumn = (this.sort.active === undefined ? 1 : this.getSortCol(this.sort.active));
     this.olprrSearchFilter.sortOrder = this.getSortOrder(this.sort.direction);
-
-    console.log('loadIncidentsPage() this.olprrSearchFilter filter after');
-    console.log(this.olprrSearchFilter);
     this.dataSource.loadIncidents(this.olprrSearchFilter);
   }
 

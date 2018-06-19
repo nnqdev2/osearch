@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { LustDataService } from '../services/lust-data.service';
   templateUrl: './lust-search-result.component.html',
   styleUrls: ['./lust-search-result.component.scss']
 })
-export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChanges, OnDestroy {
+export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() lustSearchFilter: LustSearchFilter;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,27 +35,12 @@ export class LustSearchResultComponent implements AfterViewInit, OnInit, OnChang
 
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('****ngOnChanges');
-    console.log(changes);
-    console.log(this.lustSearchFilter);
     this.loadResultPage();
     this.getSearchResults();
   }
 
-  ngOnInit() {
-    console.log('ngOnInit() this.lustSearchFilter');
-    console.log(this.lustSearchFilter);
-    this.getSearchResults();
-    // this.dataSource = new LustSearchResultsDataSource(this.lustDataService);
-    // this.dataSource.loadResults(this.lustSearchFilter);
-  }
-
   ngAfterViewInit() {
-    console.log('######################################ngAfterViewInit() this.lustSearchFilter');
-    console.log(this.lustSearchFilter);
-
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
     .pipe(
         tap(() => this.loadResultPage())
