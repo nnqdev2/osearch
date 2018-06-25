@@ -6,57 +6,57 @@
 </mat-toolbar>     -->
 
 <div class="container-fluid"> 
-    <mat-card>    
-      <!-- Title of an Card -->    
-      <mat-card-title >    
-        Lookup UST Facility Address    
-      </mat-card-title>  
-      
+  <mat-card>    
+    <!-- Title of an Card -->    
+    <mat-card-title >    
+      Lookup UST Facility Address    
+    </mat-card-title>  
     
-      <mat-card-content>    
-        <form [formGroup]="ustSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitUstSearchFilterForm()">    
-          <div class="form-row mt-4">
-            <div class="form-group col-xs-1 ">
-              <mat-form-field appearance="outline">
-                <mat-label>Facility Name</mat-label>
-                <input matInput formControlName="facilityName">
-              </mat-form-field>
-            </div>
-            <div class="form-group col-xs-1 ">
-              <mat-form-field appearance="outline">
-                <mat-label>Facility Address</mat-label>
-                <input matInput formControlName="facilityAddress">
-              </mat-form-field>
-            </div>
-            <div class="form-group col-xs-3 ">
-              <mat-form-field appearance="outline">
-                <mat-label>Facility City</mat-label>
-                <input matInput formControlName="facilityCity">
-              </mat-form-field>
-            </div> 
-            <div class="form-group col-xs-3 ">
-              <mat-form-field appearance="outline">
-                <mat-label>Facility Zip</mat-label>
-                <input matInput  formControlName="facilityZip">
-              </mat-form-field>
-            </div> 
+  
+    <mat-card-content>    
+      <form [formGroup]="ustSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitUstSearchFilterForm()">    
+        <div class="form-row full-width">
+          <div class="form-group col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Facility Name</mat-label>
+              <input matInput formControlName="facilityName">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Facility Address</mat-label>
+              <input matInput formControlName="facilityAddress">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Facility City</mat-label>
+              <input matInput formControlName="facilityCity">
+            </mat-form-field>
+          </div> 
+          <div class="form-group col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Facility Zip</mat-label>
+              <input matInput  formControlName="facilityZip">
+            </mat-form-field>
+          </div> 
+        </div>    
+        <div class="form-group row">  
+          <div class="col-sm-2 col-md-2 col-lg-2"> 
+              <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2"> 
+              <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetUstSearchFilterForm()" >Clear</button>    
           </div>    
-          <div class="form-group row">  
-            <div class="col-sm-2 col-md-2 col-lg-2"> 
-                <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
-            </div>
-            <div class="col-sm-2 col-md-2 col-lg-2"> 
-                <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetUstSearchFilterForm()" >Clear</button>    
-            </div>    
-          </div>     
-        </form>    
-      </mat-card-content>    
-    </mat-card>  
-    
-    <div *ngIf="showUstSearchResultsFlag==true; then showResultComp ">  </div> 
-    <ng-template #showResultComp>
-      <app-ust-search-result [ustSearchFilter]="ustSearchFilter"></app-ust-search-result>
-    </ng-template>
-    
-  </div>
-    
+        </div>     
+      </form>    
+    </mat-card-content>    
+  </mat-card>  
+  
+  <div *ngIf="showUstSearchResultsFlag==true; then showResultComp ">  </div> 
+  <ng-template #showResultComp>
+    <app-ust-search-result [ustSearchFilter]="ustSearchFilter"></app-ust-search-result>
+  </ng-template>
+  
+</div>
+  

@@ -6,68 +6,69 @@
 </mat-toolbar>     -->
 
 <div class="container-fluid"> 
-<mat-card>    
-  <!-- Title of an Card -->    
-  <mat-card-title >    
-    OLPRR Incident Search    
-  </mat-card-title>  
-  
-
-  <mat-card-content>    
-      <form [formGroup]="olprrSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitOlprrSearchFilterForm()">    
-            <div class="form-row mt-4">
-                <div class="form-group col-xs-3 ">
-                    <mat-form-field appearance="outline">   
-                        <mat-label>DEQ Office</mat-label>  
-                        <mat-select placeholder="DEQ Office"  formControlName="deqOffice">    
-                            <mat-option value=""> </mat-option>    
-                            <mat-option *ngFor="let deqOffice of deqOffices" [value]="deqOffice?.deqOffice" > {{deqOffice?.deqOffice}}</mat-option>  
-                        </mat-select>    
-                    </mat-form-field>    
-                </div>  
-                <div class="form-group col-xs-3 ">   
-                    <mat-form-field appearance="outline"> 
-                        <mat-label>Site Type</mat-label>    
-                        <mat-select placeholder="Site Type"  formControlName="siteTypeCode">    
-                            <mat-option value=""> </mat-option>    
-                            <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>     
-                        </mat-select>    
-                    </mat-form-field>    
-                </div>  
-                <div class="form-group col-xs-3 ">      
-                    <mat-form-field appearance="outline"> 
-                        <mat-label>Status</mat-label>       
-                        <mat-select placeholder="Status"  formControlName="incidentStatus">    
+    <mat-card>    
+      <!-- Title of an Card -->    
+      <mat-card-title >    
+        OLPRR Incident Search    
+      </mat-card-title>  
+      
+    
+      <mat-card-content>    
+          <form [formGroup]="olprrSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitOlprrSearchFilterForm()">    
+                <div class="form-row full-width">
+                    <div class="form-group col-md-3">
+                        <mat-form-field appearance="outline">   
+                            <mat-label>DEQ Office</mat-label>  
+                            <mat-select placeholder="DEQ Office"  formControlName="deqOffice">    
                                 <mat-option value=""> </mat-option>    
-                                <mat-option *ngFor="let incidentStatus of incidentStatuses" [value]="incidentStatus?.incidentStatus" > {{incidentStatus?.incidentStatus}}</mat-option>   
-                        </mat-select>    
-                    </mat-form-field>    
-                </div>  
-                <div class="form-group col-xs-3 ">    
-                    <mat-form-field appearance="outline"> 
-                        <mat-label>OlprrId</mat-label> 
-                        <input matInput placeholder="OlprrId" class="form-control" formControlName="olprrId">
-                    </mat-form-field>  
-                </div>   
-                
-
-            </div>    
-            <div class="form-group row">  
-                <div class="col-sm-2 col-md-2 col-lg-2"> 
-                    <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
-                </div>
-                <div class="col-sm-2 col-md-2 col-lg-2"> 
-                    <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetOlprrSearchFilterForm()" >Clear</button>    
+                                <mat-option *ngFor="let deqOffice of deqOffices" [value]="deqOffice?.deqOffice" > {{deqOffice?.deqOffice}}</mat-option>  
+                            </mat-select>    
+                        </mat-form-field>    
+                    </div>  
+                    <div class="form-group col-md-3">   
+                        <mat-form-field appearance="outline"> 
+                            <mat-label>Site Type</mat-label>    
+                            <mat-select placeholder="Site Type"  formControlName="siteTypeCode">    
+                                <mat-option value=""> </mat-option>    
+                                <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>     
+                            </mat-select>    
+                        </mat-form-field>    
+                    </div>  
+                    <div class="form-group col-md-3">      
+                        <mat-form-field appearance="outline"> 
+                            <mat-label>Status</mat-label>       
+                            <mat-select placeholder="Status"  formControlName="incidentStatus">    
+                                    <mat-option value=""> </mat-option>    
+                                    <mat-option *ngFor="let incidentStatus of incidentStatuses" [value]="incidentStatus?.incidentStatus" > {{incidentStatus?.incidentStatus}}</mat-option>   
+                            </mat-select>    
+                        </mat-form-field>    
+                    </div>  
+                    <div class="form-group col-md-3">    
+                        <mat-form-field appearance="outline"> 
+                            <mat-label>OlprrId</mat-label> 
+                            <input matInput placeholder="OlprrId" class="form-control" formControlName="olprrId">
+                        </mat-form-field>  
+                    </div>   
+                    
+    
                 </div>    
-            </div>     
-      </form>    
-  </mat-card-content>    
-</mat-card>   
-
-
-<div *ngIf="showOlprrSearchResultsFlag==true; then showResultComp ">  </div> 
-<ng-template #showResultComp>
-    <app-olprr-search-result [olprrSearchFilter]="olprrSearchFilter"></app-olprr-search-result>
-</ng-template>
-
-</div>
+                <div class="form-group row">  
+                    <div class="col-sm-2 col-md-2 col-lg-2"> 
+                        <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-lg-2"> 
+                        <button mat-raised-button color="accent" type="button"class="btn btn-default btn-md btn-block" (click)="resetOlprrSearchFilterForm()" >Clear</button>    
+                    </div>    
+                </div>     
+          </form>    
+      </mat-card-content>    
+    </mat-card>   
+    
+    
+    <div *ngIf="showOlprrSearchResultsFlag==true; then showResultComp ">  </div> 
+    <ng-template #showResultComp>
+        <app-olprr-search-result [olprrSearchFilter]="olprrSearchFilter"></app-olprr-search-result>
+    </ng-template>
+    
+    </div>
+    

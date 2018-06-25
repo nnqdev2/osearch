@@ -18,21 +18,28 @@
   color:red;
   }
   
-  .input-mysize { width: 80% }
-
-  @media print {
-
-    @page {     size: auto;   /* auto is the initial value */ 
-
-      /* this affects the margin in the printer settings */ 
-      margin: 25mm 25mm 25mm 25mm;  }
-    body
-{
-  margin: 25mm 25mm 25mm 25mm;
-}
-    
-    .noprint {
-      display:none;
-    }
-
+  .full-width {
+    width: 100%;
   }
+  
+md-card{
+  width: 20em;
+}
+  .example-container > * {
+    width: 100%;
+    height: auto;
+  }
+  
+  mat-form-field {
+    width:100%;
+  }
+
+  
+mat-card-title { 
+  background-color: darkSeaGreen !important; 
+}
+
+mat-card-content {
+  padding-bottom: 0%;
+}
+

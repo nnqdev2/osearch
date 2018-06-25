@@ -240,7 +240,7 @@ export class OlprrReviewComponent implements OnInit {
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
-        this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
+        // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
         this.createIncident();
     } else if (this.incidentForm.invalid) {
         console.log('not ok-invalid form');
@@ -264,7 +264,7 @@ export class OlprrReviewComponent implements OnInit {
         this.isMediaClosed = false;
         console.log('ok why the errors not showing?????');
     } else if (!this.incidentForm.dirty && this.incidentForm.pristine) {
-        this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
+        // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
         this.onCreateComplete();
     }
   }
@@ -566,64 +566,6 @@ export class OlprrReviewComponent implements OnInit {
   }
 
 
-  getAddressCorrection(address: string, city: string, reportedCountyCode: string) {
-    console.log('getAddressCorrection');
-    this.addressCorrectDataService.getAddressCorrectStat(address, city)
-      .pipe(
-        map(melissaData => {
-          this.addressCorrectStat = melissaData,
-          this.countyOnlyFips = melissaData.Records[0].CountyFIPS.substring(2);
-        }),
-        flatMap(countyCheck => this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyOnlyFips)
-        )
-    )
-    .subscribe(
-      (data => {
-        this.postalCountyVerification = data;
-        console.log('this.postalCountyVerification is .....');
-        console.log(this.postalCountyVerification);
-        console.log('this.addressCorrectStat is .....');
-        console.log(this.addressCorrectStat);
-      } )
-    );
-     console.log('getAddressCorrection done');
-  }
-
-
-
-
-
-
-  getAddressCorrectionOrig(address: string, city: string, reportedCountyCode: string) {
-    console.log('getAddressCorrection');
-    this.addressCorrectDataService.getAddressCorrectStat(address, city)
-    .pipe(
-      map(data => {
-        this.addressCorrectStat = data,
-        this.countyOnlyFips = data.Records[0].CountyFIPS.substring(2);
-      })
-    )
-    .subscribe(
-      (data => {
-        console.log('this.addressCorrectDataService.getAddressCorrectStat(address, city) -- subscribing'),
-        // this.addressCorrectStat = data,
-        // console.log(this.addressCorrectStat.Records[0].CountyFIPS);
-        console.log(this.addressCorrectStat);
-        console.log(this.addressCorrectStat.Records[0].CountyFIPS);
-        console.log(this.countyOnlyFips);
-        this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyOnlyFips)
-        .pipe(
-
-        )
-        .subscribe(data1 => {
-          this.postalCountyVerification = data1;
-          console.log('this.lustDataService.getPostalCountyVerification we made it to here!!!!!!!');
-          console.log(this.postalCountyVerification);
-        } );
-      } )
-    );
-     console.log('getAddressCorrection done');
-  }
 
 
 }

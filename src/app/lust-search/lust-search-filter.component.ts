@@ -55,9 +55,9 @@ export class LustSearchFilterComponent implements OnInit {
   }
   private createSearchFilterForm() {
     this.lustSearchFilterForm = this.formBuilder.group({
-      logCounty:  [''],
-      logYear:  [''],
-      logSeqNbr: [''],
+      logCounty:  ['', Validators.compose([Validators.maxLength(2),Validators.pattern("[0-9][0-9]")])],
+      logYear:  ['', Validators.compose([Validators.maxLength(2),Validators.pattern("[0-9][0-9]")])],
+      logSeqNbr: ['', Validators.compose([Validators.maxLength(4),Validators.pattern("[0-9][0-9][0-9][0-9]")])],
       facilityId: [''],
       siteName:  [''],
       siteAddress:  [''],
@@ -83,7 +83,7 @@ export class LustSearchFilterComponent implements OnInit {
       sortColumn: [1],
       sortOrder: [1],
       pageNumber: [1],
-      rowsPerPage: [1],
+      rowsPerPage: [40],
     });
   }
 

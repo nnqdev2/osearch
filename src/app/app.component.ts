@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   routeLinks: any[];
   activeLinkIndex = -1;
+  background = '';
 
   constructor(private router: Router) {
     this.routeLinks = [

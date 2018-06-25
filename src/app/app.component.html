@@ -6,10 +6,10 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
-        <div style="padding: 5px;">
-            <div class="container-fluid">
-                <nav md-tab-nav-bar appearance="outline">
-                    <a md-tab-link
+        <!-- <div style="padding: 5px;"> -->
+            <div class="container-fluid noprint">
+                <nav mat-tab-nav-bar appearance="outline" [backgroundColor]="background">
+                    <a mat-tab-link
                     *ngFor="let routeLink of routeLinks; let i = index;"
                     [routerLink]="routeLink.link"
                     routerLinkActive #rla="routerLinkActive"
@@ -21,6 +21,6 @@
                 </nav>
             </div>
             <router-outlet></router-outlet>
-        </div>      
+        <!-- </div>       -->
     </body>
 </html>
