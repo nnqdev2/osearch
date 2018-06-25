@@ -36,6 +36,7 @@ import { LustSearchFilter } from '../models/lust-search-filter';
 import { LustSearchResultStat } from '../models/lust-search-result-stat';
 import { UstSearchFilter } from '../models/ust-search-filter';
 import { UstSearchResultStat } from '../models/ust-search-result-stat';
+import { PostalCountyVerification } from '../models/postal-county-verification';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +156,15 @@ export class LustDataService {
 
   getUstSearch(ustSearchFilter: UstSearchFilter): Observable<UstSearchResultStat[]> {
     return this.http.post<UstSearchResultStat[]>(environment.olprrapi_ust_search, ustSearchFilter);
+  }
+
+  getPostalCountyVerification(reportedCountyCode: number, usPostalCountyCodeFips: string ): Observable<PostalCountyVerification> {
+    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
+    // console.log(olprrSearchFilter);
+    const params = new HttpParams({
+        fromString: `reported=${reportedCountyCode}&usPostal=${usPostalCountyCodeFips}`
+    });
+    return this.http.get<PostalCountyVerification>(environment.olprrapi_review_postalcounty, { params: params });
   }
 }
 

@@ -24,6 +24,8 @@ export const environment = {
   olprrapi_ust_search: 'http://deqwebdev/olprrapi/review/ustsite',
   olprrapi_review_search: 'http://deqwebdev/olprrapi/review',
   olprrapi_review_incidentdatabyid: 'http://deqwebdev/olprrapi/review/incidentdatabyid/',
+  address_correction: 'https://personator.melissadata.net/v3/WEB/ContactVerify/doContactVerify',
+  olprrapi_review_postalcounty: 'http://deqwebdev/olprrapi/review/postalcounty',
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY'
 };

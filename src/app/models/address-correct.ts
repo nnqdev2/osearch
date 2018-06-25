@@ -1,0 +1,32 @@
+export class AddressCorrect {
+    AddressDeliveryInstallation: string;
+    AddressExtras: string;
+    AddressHouseNumber: string;
+    AddressKey: string;
+    AddressLine1: string;
+    AddressLine2: string;
+    AddressLockBox: string;
+    AddressPostDirection: string;
+    AddressPreDirection: string;
+    AddressPrivateMailboxName: string;
+    AddressPrivateMailboxRange: string;
+    AddressRouteService: string;
+    AddressStreetName: string;
+    AddressStreetSuffix: string;
+    AddressSuiteName: string;
+    AddressSuiteNumber: string;
+    City: string;
+    CompanyName: string;
+    CountyFIPS: string;
+    EmailAddress: string;
+    MelissaAddressKey: string;
+    MelissaAddressKeyBase: string;
+    NameFull: string;
+    PhoneNumber: string;
+    PostalCode: string;
+    RecordExtras: string;
+    RecordID: string;
+    Reserved: string;
+    Results: string;
+    State: string;
+}

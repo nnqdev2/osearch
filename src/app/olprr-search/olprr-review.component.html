@@ -9,57 +9,95 @@
                 
               
                 <mat-card-content> 
-                <div class="container">
+                <div class="container" >
+
+                
                     <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Information</p>
                  
                     <!-- Form incidentForm begins -->
                     <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
-
-                        <div class="form-row mt-4">
-                            <div class="form-group col-md-4 mt-2"> 
-                                <mat-form-field>
+                        <div class="form-row">
+                            <div class="form-group col-xs-3"> 
+                                <mat-form-field appearance="outline">
+                                    <mat-label class="control-label">OlprrId</mat-label> 
                                     <input matInput placeholder="OlprrId" class="form-control" formControlName="olprrId">
                                 </mat-form-field>
                             </div>  
+
                             <!-- Date Reported -->
-                            <div class="form-group col-md-4 mt-2"> 
-                                <mat-form-field>
+                            <div class="form-group col-xs-3"> 
+                                <mat-form-field appearance="outline">
+                                    <mat-label class="control-label">Received Date</mat-label> 
                                     <input matInput placeholder="Received Date" class="form-control" formControlName="dateReceived">
                                 </mat-form-field>
                             </div>  
                             <!-- /Date Reported -->
-                            <div class="form-group col-md-4 mt-2"> 
-                                <mat-form-field>
+                            <!-- Date Released Discovered -->
+                            <div class="form-group col-xs-3"> 
+                                <mat-form-field appearance="outline">
+                                    <mat-label class="control-label">Discover Date</mat-label>
                                     <input matInput placeholder="Discover Date" class="form-control" formControlName="discoveryDate">
                                 </mat-form-field>
                             </div> 
+                            <!-- /Date Released Discovered -->
+
                         </div>
-                        <!-- /Date Released Discovered -->
+                        
                         <!-- SiteType FacilityId -->
-                        <div class="form-row mt-4"> 
-                            <!-- Site Type -->
-                            <div class="form-group required col-md-2 mt-2">
-                                <mat-form-field>    
-                                    <mat-select placeholder="Site Type"  formControlName="releaseType">   
+                        <div class="form-row"> 
+                            <!-- Release Site Type -->
+                            <div class="form-group required col-xs-3 ">
+                                <mat-form-field appearance="outline">  
+                                    <mat-label class="control-label">Release Site Type</mat-label> 
+                                    <mat-select placeholder="Release Site Type"  formControlName="releaseType">   
                                         <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>  
                                     </mat-select>    
                                 </mat-form-field>    
                             </div> 
-                            <!-- /Site Type -->
+                            <!-- /Release Site Type -->
                             <!-- DEQ UST Facility ID  -->
                             <div *ngIf="showInvoiceContact; then showFacility"></div>
                             <ng-template #showFacility> 
-                                <div class="form-group col-md-4 mt-2"> 
-                                    <mat-form-field>
+                                <div class="form-group col-xs-3 mt-6 "> 
+                                    <mat-form-field appearance="outline">  
+                                        <mat-label class="control-label">Facility Id</mat-label> 
                                         <input matInput placeholder="Facility Id" class="form-control" formControlName="facilityId">
                                     </mat-form-field>
                                 </div> 
                             </ng-template>
                             <!-- /DEQ UST Facility ID -->
-                        </div>
+                        </div>                    
                         <!-- /SiteType FacilityId -->
+
                         <!-- Site Name, County -->
-                        <div class="form-row mt-4">
+                        <div class="form-row ">
+                            <div class="form-group required col-sm-8 pb-3 input-mysize">
+                                <mat-form-field appearance="outline"> 
+                                    <mat-label class="control-label" for="siteName">Site Name</mat-label>
+                                    <input matInput type="text" class="form-control " id="siteName" formControlName="siteName" />                                    
+                                </mat-form-field>
+                                <app-show-errors [control]="incidentForm.controls.siteName"  [submitClicked]="submitClicked"></app-show-errors>
+                            </div>
+                            <div class="form-group required col-sm-4 pb-3">
+                                <label  class="control-label" for="siteCounty">Site County</label>
+                                <div class="input-group">
+                                    <select class="form-control" id="siteCounty" formControlName="siteCounty" >
+                                        <option selected="selected" value=""></option>
+                                        <option *ngFor="let county of counties" 
+                                        [value]="county?.countyCode" >
+                                        {{county?.countyName}}
+                                        </option>
+                                    </select>                                    
+                                </div>
+                                <app-show-errors [control]="incidentForm.controls.siteCounty"  [submitClicked]="submitClicked"></app-show-errors>
+                            </div>                        
+                        </div>
+                        
+                        <!-- /Site Name, County -->
+
+
+                        <!-- Site Name, County -->
+                        <div class="form-row ">
                             <div class="form-group required col-sm-8 pb-3">
                                 <label class="control-label" for="siteName">Site Name</label>
                                 <input type="text" class="form-control" id="siteName" formControlName="siteName" />
@@ -79,6 +117,7 @@
                                 <app-show-errors [control]="incidentForm.controls.siteCounty"  [submitClicked]="submitClicked"></app-show-errors>
                             </div>                        
                         </div>
+                        
                         <!-- /Site Name, County -->
                         <!-- city, zip, phone -->
                         <div class="form-row mt-4">
@@ -339,7 +378,7 @@
                             <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Contaminants</p>
                             <div class="form-group required row">
                                     <label class="control-label col-lg-12">(select one or more)</label>
-                                </div>
+                            </div>
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                         <div class="form-check">
@@ -495,6 +534,7 @@
                                 </div>
                             </div>
 
+
                             <!-- show Contaminant errors  -->
                             <!-- <div *ngIf="showMediaErrorMessage; then showMediaErrorMessage"></div>
                             <ng-template #showMediaErrorMessage> 
@@ -507,17 +547,17 @@
                             <!-- /show Contaminant errors  -->
 
 
-
+                            
                             <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
                             <!-- Site Comments -->
                             <div class="form-row example-container">
                                 <mat-form-field>
                                   <textarea minRows="10" maxRows="90" maxlengh="717" matInput formControlName="initialComment" ></textarea>
                                 </mat-form-field>  
-                            </div>   
+                            </div>  
                             <!-- /Site Comments  -->
 
-
+                        <!--</div>  end Print form -->
 
                         <!-- show errors  -->
                         <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
@@ -533,17 +573,20 @@
 
                         <div class="form-group row">
 
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Hold</button>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Decline</button>
                             </div>
-                            <div class="col-sm-3">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Done</button>
+                            <div class="col-sm-2">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Done/Search</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
                             </div>
                         </div>
                         <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class AddHeaderInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const jsonReq: HttpRequest<any> = req.clone({
-      setHeaders: {'Content-Type': 'application/json', 'Cache-Control': 'no-cache', 'Pragma': 'no-cache'}
+      setHeaders: {'Accept': 'application/json', 'Content-Type': 'application/json', 'Cache-Control': 'no-cache', 'Pragma': 'no-cache'}
     });
     return next.handle(jsonReq);
   }

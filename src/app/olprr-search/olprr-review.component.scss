@@ -1,0 +1,38 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
+    height: auto;
+  }
+
+  .form-group.required .control-label:after {
+    content:"*";
+    color:red;
+  }
+  
+  .input-group.required .control-label:after{
+  content:"*";
+  color:red;
+  }
+  
+  .input-mysize { width: 80% }
+
+  @media print {
+
+    @page {     size: auto;   /* auto is the initial value */ 
+
+      /* this affects the margin in the printer settings */ 
+      margin: 25mm 25mm 25mm 25mm;  }
+    body
+{
+  margin: 25mm 25mm 25mm 25mm;
+}
+    
+    .noprint {
+      display:none;
+    }
+
+  }
