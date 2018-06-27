@@ -26,6 +26,9 @@ import { AddressCorrectDataService } from '../services/address-correct-data.serv
 import { AddressCorrectStat } from '../models/address-correct-stat';
 import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrect } from '../models/address-correct';
+import { AcceptDialogComponent } from './accept-dialog.component';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { ShowErrorsComponent } from '../show-errors/show-errors.component';
 
 @Component({
   selector: 'app-olprr-review',
@@ -74,7 +77,7 @@ export class OlprrReviewComponent implements OnInit {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
-    , private router: Router, private addressCorrectDataService: AddressCorrectDataService) {}
+    , private router: Router, private addressCorrectDataService: AddressCorrectDataService, private dialog: MatDialog) {}
 
 
   ngOnInit() {
@@ -238,6 +241,11 @@ export class OlprrReviewComponent implements OnInit {
     console.log(this.incidentForm.dirty);
     console.log(this.incidentForm.pristine);
     this.submitClicked = true;
+
+
+
+    this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty)
+
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
         this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
@@ -584,13 +592,26 @@ export class OlprrReviewComponent implements OnInit {
         console.log(this.postalCountyVerification);
         console.log('this.addressCorrectStat is .....');
         console.log(this.addressCorrectStat);
+        this.openAcceptDialog();
       } )
     );
      console.log('getAddressCorrection done');
   }
 
 
+  openAcceptDialog() {
 
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        incidentData: this.incidentData,
+        addressCorrect: this.addressCorrect,
+        postalCountyVerification: this.postalCountyVerification
+      };
+      this.dialog.open(AcceptDialogComponent, dialogConfig);
+  }
 
 
 

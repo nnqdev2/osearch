@@ -80,8 +80,9 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [AppNavComponent, OlprrSearchFilterComponent
-  , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent
-  , LustSearchResultComponent, UstSearchFilterComponent,  UstSearchResultComponent];
+// export const routingComponents = [AppNavComponent, OlprrIncidentComponent];
+// export const routingComponents = [AppNavComponent, OlprrSearchFilterComponent
+//   , OlprrSearchResultComponent, OlprrReviewComponent, OlprrIncidentComponent, LustSearchFilterComponent
+//   , LustSearchResultComponent, UstSearchFilterComponent,  UstSearchResultComponent];
 
 

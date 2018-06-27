@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -16,7 +15,6 @@ import { LustSearchResultComponent } from './lust-search-result.component';
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,

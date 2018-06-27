@@ -17,6 +17,7 @@ import { SourceTypesResolver } from '../resolvers/source-types-resolver.service'
 import { StatesResolver } from '../resolvers/states-resolver.service';
 import { StreetTypesResolver } from '../resolvers/street-types-resolver.service';
 import { IncidentDataResolver } from '../resolvers/incident-resolver.service';
+import { AcceptDialogComponent } from './accept-dialog.component';
 
 const routes: Routes = [
   { path: 'osearch', component: OlprrSearchFilterComponent,
@@ -44,11 +45,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class OlprrSearchRoutingModule { }
 export const olprrSearchRoutingComponents = [OlprrSearchFilterComponent
-  , OlprrSearchResultComponent, OlprrReviewComponent];
+  , OlprrSearchResultComponent, OlprrReviewComponent, AcceptDialogComponent];
 
 
