@@ -60,14 +60,9 @@ import { ShowErrorsModule } from './show-errors/show-errors.module';
     AppNavComponent,
     OlprrIncidentComponent,
   ],
-  exports: [
-    ShowErrorsComponent,
-    ShowAllMessagesComponent,
-  ],
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: RequestCache, useClass: RequestCacheWithMap },
-    // resolverProviders
   ],
   bootstrap: [AppComponent],
 })
