@@ -599,11 +599,15 @@ export class OlprrReviewComponent implements OnInit {
   }
 
 
+  processAccept(){
+
+  }
   openAcceptDialog() {
 
       const dialogConfig = new MatDialogConfig();
 
-      dialogConfig.disableClose = true;
+      // dialogConfig.disableClose = false;
+      // dialogConfig.height = '500px';
       dialogConfig.autoFocus = true;
       dialogConfig.data = {
         incidentData: this.incidentData,

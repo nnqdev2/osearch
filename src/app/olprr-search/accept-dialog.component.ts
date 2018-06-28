@@ -28,7 +28,7 @@ export class AcceptDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AcceptDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data ){}
+    @Inject(MAT_DIALOG_DATA) private data ) {}
     // @Inject(MAT_DIALOG_DATA) incidentData: IncidentData, addressCorrect: AddressCorrect
     // , postalCountyVerification: PostalCountyVerification) {
     //   this.incidentData = incidentData;
@@ -38,19 +38,20 @@ export class AcceptDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    this.form = this.fb.group({
-      siteAddress:  [{value: 'test', disabled: true}],
-      siteCity:  [{value: 'testcity', disabled: true}],
-      siteZipcode: [{value: 1234, disabled: true}],
-      countyFips: [{value: 96999, disabled: true}],
-  });
-
-  // this.form = this.fb.group({
-  //   siteAddress:  [{value: this.incidentData.siteAddress, disabled: true}],
-  //   siteCity:  [{value: this.incidentData.siteCity, disabled: true}],
-  //   siteZipcode: [{value: this.incidentData.siteZipcode, disabled: true}],
-  //   countyFips: [{value: this.postalCountyVerification.countyCode, disabled: true}],
+  //   this.form = this.fb.group({
+  //     siteAddress:  [{value: 'test', disabled: true}],
+  //     siteCity:  [{value: 'testcity', disabled: true}],
+  //     siteZipcode: [{value: 1234, disabled: true}],
+  //     countyFips: [{value: 96999, disabled: true}],
   // });
+
+    this.form = this.fb.group({
+      siteAddress:  [{value: this.data.incidentData.siteAddress, disabled: true}],
+      siteCity:  [{value: this.data.incidentData.siteCity, disabled: true}],
+      siteState:  [{value: 'OR', disabled: true}],
+      siteZipcode: [{value: this.data.incidentData.siteZipcode, disabled: true}],
+      countyFips: [{value: this.data.postalCountyVerification.countyCode, disabled: true}],
+    });
   }
 
 

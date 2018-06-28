@@ -6,7 +6,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from '../shared/material.module';
-import { OlprrSearchRoutingModule, olprrSearchRoutingComponents } from './olprr-search.routing';
+import { OlprrSearchRoutingModule } from './olprr-search.routing';
 import { IncidentIdToNameService } from './incident-id-to-name.service';
 import { AcceptDialogComponent } from './accept-dialog.component';
 import { OlprrReviewComponent } from './olprr-review.component';
@@ -19,7 +19,6 @@ import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.mo
 
 @NgModule({
   imports: [
-    // BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
@@ -30,7 +29,6 @@ import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.mo
     ShowAllMessagesModule,
   ],
   declarations: [
-    // olprrSearchRoutingComponents,
     OlprrSearchFilterComponent,
     OlprrSearchResultComponent,
     OlprrReviewComponent,
@@ -38,8 +36,5 @@ import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.mo
   ],
   exports: [AcceptDialogComponent],
   entryComponents: [AcceptDialogComponent]
-  // providers: [
-  //   IncidentIdToNameService,
-  // ],
 })
 export class OlprrSearchModule { }

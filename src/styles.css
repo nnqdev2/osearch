@@ -30,6 +30,10 @@
     background: #ffffff 50% 50% repeat-x;
 }
 
+.mat-form-field {
+    height: 40px;
+}
+
 
 
 
