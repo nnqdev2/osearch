@@ -1,26 +1,10 @@
 
 <h1 mat-dialog-title>{{data.title}}</h1>
 <mat-dialog-content>
-    <mat-card>Are you sure you want to navigate away before saving your changes?  All your updates will be lost!</mat-card>
+    <mat-card>{{data.message1}}</mat-card>
   </mat-dialog-content>
 <div mat-dialog-actions>  
-  <button mat-button [mat-dialog-close]="true">Leave</button>
-  <button mat-button [mat-dialog-close]="false"  cdkFocusInitial>Stay</button>
+  <button mat-button [mat-dialog-close]="true">{{data.button1}}</button>
+  <button mat-button [mat-dialog-close]="false"  cdkFocusInitial>{{data.button2}}</button>
 </div>
 
-
-
-<!-- <h2 mat-dialog-title>Leaving page before saving changes?</h2>
-<mat-dialog-content>
-  <mat-card>Are you sure you want to navigate away before saving your changes?  All your updates will be lost!</mat-card>
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button class="mat-raised-button"
-            (click)="choose(true)">
-        Leave
-    </button>
-    <button class="mat-raised-button mat-primary"
-            (click)="choose(false)">
-        Stay
-    </button>
-</mat-dialog-actions> -->

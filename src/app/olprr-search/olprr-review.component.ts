@@ -625,15 +625,15 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     // return this.dialogService.confirm('Do you really want to discard your changes?');
 
     const choice: Subject<boolean> = new Subject<boolean>();
-
     console.log('openGuardDialog() starts');
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-
     dialogConfig.data = {
-      title: 'Discard changes?'
+      title: 'Discard changes?',
+      message1: 'Are you sure you want to navigate away before saving your changes?  All your updates will be lost!',
+      button1: 'Leave',
+      button2: 'Stay'
     };
-
     this.guardDialogRef = this.dialog.open(GuardDialogComponent, dialogConfig);
     this.guardDialogRef.afterClosed().subscribe(result => {
         // Result MUST be a boolean to work.
