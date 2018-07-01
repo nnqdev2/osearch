@@ -625,6 +625,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     // return this.dialogService.confirm('Do you really want to discard your changes?');
 
     const choice: Subject<boolean> = new Subject<boolean>();
+
     console.log('openGuardDialog() starts');
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
