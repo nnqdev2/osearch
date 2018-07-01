@@ -35,6 +35,9 @@ import { UstSearchModule } from './ust-search/ust-search.module';
 import { OlprrIncidentComponent } from './olprr-incident/olprr-incident.component';
 import { ShowAllMessagesModule } from './show-all-messages/show-all-messages.module';
 import { ShowErrorsModule } from './show-errors/show-errors.module';
+import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
+import { DialogService } from './common/dialogs/dialog.service';
+import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
 
 
 @NgModule({
@@ -59,11 +62,16 @@ import { ShowErrorsModule } from './show-errors/show-errors.module';
     AppComponent,
     AppNavComponent,
     OlprrIncidentComponent,
+    GuardDialogComponent,
   ],
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: RequestCache, useClass: RequestCacheWithMap },
+    DialogService,
+    CanDeactivateGuard,
   ],
+  // exports: [AcceptDialogComponent],
+  entryComponents: [GuardDialogComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

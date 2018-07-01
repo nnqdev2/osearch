@@ -71,4 +71,6 @@ export interface IncidentData {
     unknown: number;
     mtbe: number;
 
+    inUseBy: string;
+
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit, SimpleChanges} from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap, CanDeactivate } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
-import { Observable} from 'rxjs';
+import { Observable, of, Subject} from 'rxjs';
 import { map, catchError, tap, retry, finalize, flatMap} from 'rxjs/operators';
 
 import { LustDataService } from '../services/lust-data.service';
@@ -27,16 +27,20 @@ import { AddressCorrectStat } from '../models/address-correct-stat';
 import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrect } from '../models/address-correct';
 import { AcceptDialogComponent } from './accept-dialog.component';
-import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ShowErrorsComponent } from '../show-errors/show-errors.component';
+import { DialogService } from '../common/dialogs/dialog.service';
+import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
+import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 
 @Component({
   selector: 'app-olprr-review',
   templateUrl: './olprr-review.component.html',
   styleUrls: ['./olprr-review.component.scss'],
 })
-export class OlprrReviewComponent implements OnInit {
+export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
+  guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   olprrId: number;
   incidentData: IncidentData;
   incidentForm: FormGroup;
@@ -55,6 +59,7 @@ export class OlprrReviewComponent implements OnInit {
   addressCorrectStatLoaded = false;
   postalCountyVerification: PostalCountyVerification;
   countyOnlyFips: string;
+  leavePage: boolean;
 
 
   currentDate: Date;
@@ -77,11 +82,47 @@ export class OlprrReviewComponent implements OnInit {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
-    , private router: Router, private addressCorrectDataService: AddressCorrectDataService, private dialog: MatDialog) {}
+    , private router: Router, private addressCorrectDataService: AddressCorrectDataService
+    , public dialogService: DialogService
+    , private dialog: MatDialog) {}
 
 
   ngOnInit() {
     this.olprrId = +this.route.snapshot.params['olprrid'];
+    this.route.data
+    .pipe(
+      map((data: {incidentData: IncidentData}) => {
+        this.incidentData = data.incidentData;
+      }),
+      flatMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
+            (this.incidentData.siteAddress, this.incidentData.siteCity)
+            .pipe(
+              map(melissaData => {
+                this.addressCorrectStat = melissaData,
+                this.countyOnlyFips = melissaData.Records[0].CountyFIPS.substring(2);
+              }),
+              flatMap(countyCheck => this.lustDataService.getPostalCountyVerification
+                    (+this.incidentData.siteCounty, this.countyOnlyFips)
+                    .pipe(
+                      map(countyCheckData => {
+                        this.postalCountyVerification = countyCheckData;
+                      })
+                    )
+              )
+            )
+          )
+      )
+      .subscribe(
+        (data => {
+          console.log(' ngOnInit() this.incidentData is .....');
+          console.log(this.incidentData);
+          console.log(' ngOnInit()this.addressCorrectStat is .....');
+          console.log(this.addressCorrectStat);
+          console.log(' ngOnInit()this.postalCountyVerification is .....');
+          console.log(this.postalCountyVerification);
+        } )
+      );
+
     this.route.data.subscribe((data: {incidentData: IncidentData}) => {this.incidentData = data.incidentData; } );
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
@@ -244,7 +285,7 @@ export class OlprrReviewComponent implements OnInit {
 
 
 
-    this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty)
+    // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty)
 
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
@@ -272,7 +313,7 @@ export class OlprrReviewComponent implements OnInit {
         this.isMediaClosed = false;
         console.log('ok why the errors not showing?????');
     } else if (!this.incidentForm.dirty && this.incidentForm.pristine) {
-        this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
+        // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
         this.onCreateComplete();
     }
   }
@@ -573,6 +614,47 @@ export class OlprrReviewComponent implements OnInit {
 
   }
 
+  canDeactivate(): Observable<boolean> | boolean {
+    // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
+    // if (!this.crisis || this.crisis.name === this.editName) {
+    //   return true;
+    // }
+    // Otherwise ask the user with the dialog service and return its
+    // observable which resolves to true or false when the user decides
+    console.log('HELLOOOOOOOOOO?????? canDeactivate()');
+    // return this.dialogService.confirm('Do you really want to discard your changes?');
+
+    const choice: Subject<boolean> = new Subject<boolean>();
+    console.log('openGuardDialog() starts');
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      title: 'Discard changes?'
+    };
+
+    this.guardDialogRef = this.dialog.open(GuardDialogComponent, dialogConfig);
+    this.guardDialogRef.afterClosed().subscribe(result => {
+        // Result MUST be a boolean to work.
+        // If it is the string 'true' or 'false', it will not work.
+        choice.next(result);
+      });
+
+      return choice;
+  }
+  openGuardDialog(): Observable<boolean> {
+    console.log('openGuardDialog() starts');
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    this.guardDialogRef = this.dialog.open(GuardDialogComponent, dialogConfig);
+    this.guardDialogRef.afterClosed()
+      .subscribe(data => {
+        console.log('openGuardDialog() this.leavePage ====');
+        console.log(this.leavePage);
+      });
+    return of(this.leavePage);
+  }
+
 
   getAddressCorrection(address: string, city: string, reportedCountyCode: string) {
     console.log('getAddressCorrection');
@@ -599,9 +681,7 @@ export class OlprrReviewComponent implements OnInit {
   }
 
 
-  processAccept(){
 
-  }
   openAcceptDialog() {
 
       const dialogConfig = new MatDialogConfig();
@@ -616,8 +696,6 @@ export class OlprrReviewComponent implements OnInit {
       };
       this.dialog.open(AcceptDialogComponent, dialogConfig);
   }
-
-
 
   getAddressCorrectionOrig(address: string, city: string, reportedCountyCode: string) {
     console.log('getAddressCorrection');
@@ -649,6 +727,9 @@ export class OlprrReviewComponent implements OnInit {
     );
      console.log('getAddressCorrection done');
   }
+
+
+
 
 
 }

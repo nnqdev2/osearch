@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanDeactivate } from '@angular/router';
 
 import { OlprrSearchFilterComponent } from './olprr-search-filter.component';
 import { OlprrSearchResultComponent } from './olprr-search-result.component';
@@ -18,6 +18,7 @@ import { StatesResolver } from '../resolvers/states-resolver.service';
 import { StreetTypesResolver } from '../resolvers/street-types-resolver.service';
 import { IncidentDataResolver } from '../resolvers/incident-resolver.service';
 import { AcceptDialogComponent } from './accept-dialog.component';
+import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 
 const routes: Routes = [
   { path: 'osearch', component: OlprrSearchFilterComponent,
@@ -40,7 +41,8 @@ const routes: Routes = [
         sourceTypes: SourceTypesResolver,
         states: StatesResolver,
         streetTypes: StreetTypesResolver,
-      }
+      },
+      canDeactivate: [CanDeactivateGuard]
   },
 ];
 

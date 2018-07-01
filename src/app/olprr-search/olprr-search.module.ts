@@ -16,6 +16,7 @@ import { ShowErrorsComponent } from '../show-errors/show-errors.component';
 import { ShowAllMessagesComponent } from '../show-all-messages/show-all-messages.component';
 import { ShowErrorsModule } from '../show-errors/show-errors.module';
 import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
+import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 
 @NgModule({
   imports: [
@@ -35,6 +36,9 @@ import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.mo
     AcceptDialogComponent
   ],
   exports: [AcceptDialogComponent],
-  entryComponents: [AcceptDialogComponent]
+  entryComponents: [AcceptDialogComponent],
+  providers: [
+    CanDeactivateGuard,
+  ]
 })
 export class OlprrSearchModule { }
