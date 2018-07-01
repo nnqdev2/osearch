@@ -630,7 +630,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       title: 'Discard changes?',
-      message1: 'Are you sure you want to navigate away before saving your changes?  All your updates will be lost!',
+      message1: 'The form has not been submitted yet, do you really want to leave page?',
       button1: 'Leave',
       button2: 'Stay'
     };
