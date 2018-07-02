@@ -33,7 +33,6 @@ import { DialogService } from '../common/dialogs/dialog.service';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
-import { UstSearchDialogComponent } from '../ust-search/ust-search-dialog.component';
 import { SearchDialogComponent } from './search-dialog.component';
 
 @Component({
@@ -44,7 +43,6 @@ import { SearchDialogComponent } from './search-dialog.component';
 export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
-  ustSearchDialogRef: MatDialogRef<UstSearchDialogComponent, any>;
   searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
   olprrId: number;
   incidentData: IncidentData;
@@ -82,8 +80,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   mediaErrorMessage: string;
   contaminantErrorMessages: [string];
   mediaErrorMessages: [string];
-  isLustSearch = false;
-  isUstSearch = false;
+  // isLustSearch = false;
+  // isUstSearch = false;
 
   errors: any[];
 
@@ -92,7 +90,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     , private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , public dialogService: DialogService
     , private canDeactivateDialog: MatDialog
-    , private ustSearchDialog: MatDialog
+    , private searchDialog: MatDialog
   ) {}
 
 
@@ -724,40 +722,22 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
 
-
-  // clickLookupUst() {
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.autoFocus = true;
-  //   dialogConfig.data = {
-  //     title: 'Discard changes?',
-  //     message1: 'The form has not been submitted yet, do you really want to leave page?',
-  //     button1: 'Leave',
-  //     button2: 'Stay'
-  //   };
-  //   this.ustSearchDialogRef = this.ustSearchDialog.open(UstSearchDialogComponent, dialogConfig);
-  // }
-
-
-  clickLookupUst() {
-    this.isUstSearch = true;
+  private clickLookupUst() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       searchType: 'UST'
     };
-    this.searchDialogRef = this.ustSearchDialog.open(SearchDialogComponent, dialogConfig);
-    this.searchDialogRef.afterClosed().subscribe(() => {this.isUstSearch = false; });
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
-  clickLookupLust() {
-    this.isUstSearch = true;
+  private clickLookupLust() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       searchType: 'LUST'
     };
-    this.searchDialogRef = this.ustSearchDialog.open(SearchDialogComponent, dialogConfig);
-    this.searchDialogRef.afterClosed().subscribe(() => {this.isLustSearch = false; });
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
 }
