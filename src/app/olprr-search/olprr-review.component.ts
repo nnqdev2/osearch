@@ -616,14 +616,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   canDeactivate(): Observable<boolean> | boolean {
     // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-    // if (!this.crisis || this.crisis.name === this.editName) {
-    //   return true;
-    // }
-    // Otherwise ask the user with the dialog service and return its
-    // observable which resolves to true or false when the user decides
-    console.log('HELLOOOOOOOOOO?????? canDeactivate()');
-    // return this.dialogService.confirm('Do you really want to discard your changes?');
 
+    if (this.incidentForm.pristine) {
+      return true;
+    }
     const choice: Subject<boolean> = new Subject<boolean>();
     console.log('openGuardDialog() starts');
     const dialogConfig = new MatDialogConfig();
