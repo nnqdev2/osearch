@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -6,6 +6,7 @@ import { Observable} from 'rxjs';
 
 import { LustDataService } from '../services/lust-data.service';
 import { UstSearchFilter } from '../models/ust-search-filter';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ust-search-filter',
@@ -19,7 +20,8 @@ export class UstSearchFilterComponent implements OnInit {
 
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
-    , private route: ActivatedRoute, private router: Router) {}
+    , private route: ActivatedRoute, private router: Router
+  ) {}
 
   ngOnInit() {
     this.createSearchFilterForm();

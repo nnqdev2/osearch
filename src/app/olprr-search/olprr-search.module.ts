@@ -17,6 +17,9 @@ import { ShowAllMessagesComponent } from '../show-all-messages/show-all-messages
 import { ShowErrorsModule } from '../show-errors/show-errors.module';
 import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
+import { UstSearchModule } from '../ust-search/ust-search.module';
+import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
+import { UstSearchResultComponent } from '../ust-search/ust-search-result.component';
 
 @NgModule({
   imports: [
@@ -28,6 +31,7 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
     OlprrSearchRoutingModule,
     ShowErrorsModule,
     ShowAllMessagesModule,
+    UstSearchModule,
   ],
   declarations: [
     OlprrSearchFilterComponent,
@@ -36,7 +40,7 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
     AcceptDialogComponent
   ],
   exports: [AcceptDialogComponent],
-  entryComponents: [AcceptDialogComponent],
+  entryComponents: [AcceptDialogComponent, UstSearchFilterComponent, UstSearchResultComponent],
   providers: [
     CanDeactivateGuard,
   ]

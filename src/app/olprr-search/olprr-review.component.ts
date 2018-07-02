@@ -32,6 +32,8 @@ import { ShowErrorsComponent } from '../show-errors/show-errors.component';
 import { DialogService } from '../common/dialogs/dialog.service';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
+import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
+import { UstSearchDialogComponent } from '../ust-search/ust-search-dialog.component';
 
 @Component({
   selector: 'app-olprr-review',
@@ -41,6 +43,7 @@ import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
+  ustSearchDialogRef: MatDialogRef<UstSearchDialogComponent, any>;
   olprrId: number;
   incidentData: IncidentData;
   incidentForm: FormGroup;
@@ -84,7 +87,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , public dialogService: DialogService
-    , private dialog: MatDialog) {}
+    , private canDeactivateDialog: MatDialog
+    , private ustSearchDialog: MatDialog
+  ) {}
 
 
   ngOnInit() {
@@ -616,12 +621,12 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   canDeactivate(): Observable<boolean> | boolean {
     // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-
+    console.log('openGuardDialog() starts 1');
     if (this.incidentForm.pristine) {
       return true;
     }
     const choice: Subject<boolean> = new Subject<boolean>();
-    console.log('openGuardDialog() starts');
+    console.log('openGuardDialog() starts 2');
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -630,28 +635,17 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       button1: 'Leave',
       button2: 'Stay'
     };
-    this.guardDialogRef = this.dialog.open(GuardDialogComponent, dialogConfig);
+    this.guardDialogRef = this.canDeactivateDialog.open(GuardDialogComponent, dialogConfig);
     this.guardDialogRef.afterClosed().subscribe(result => {
-        // Result MUST be a boolean to work.
-        // If it is the string 'true' or 'false', it will not work.
-        choice.next(result);
-      });
+      console.log('openGuardDialog() starts 3');
+      console.log(result);
+      // Result MUST be a boolean to work.
+      // If it is the string 'true' or 'false', it will not work.
+      choice.next(result);
+    });
 
-      return choice;
+    return choice;
   }
-  openGuardDialog(): Observable<boolean> {
-    console.log('openGuardDialog() starts');
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    this.guardDialogRef = this.dialog.open(GuardDialogComponent, dialogConfig);
-    this.guardDialogRef.afterClosed()
-      .subscribe(data => {
-        console.log('openGuardDialog() this.leavePage ====');
-        console.log(this.leavePage);
-      });
-    return of(this.leavePage);
-  }
-
 
   getAddressCorrection(address: string, city: string, reportedCountyCode: string) {
     console.log('getAddressCorrection');
@@ -691,7 +685,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         addressCorrect: this.addressCorrect,
         postalCountyVerification: this.postalCountyVerification
       };
-      this.dialog.open(AcceptDialogComponent, dialogConfig);
+      this.canDeactivateDialog.open(AcceptDialogComponent, dialogConfig);
   }
 
   getAddressCorrectionOrig(address: string, city: string, reportedCountyCode: string) {
@@ -727,6 +721,16 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
 
 
-
+  clickLookupUst() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Discard changes?',
+      message1: 'The form has not been submitted yet, do you really want to leave page?',
+      button1: 'Leave',
+      button2: 'Stay'
+    };
+    this.ustSearchDialogRef = this.ustSearchDialog.open(UstSearchDialogComponent, dialogConfig);
+  }
 
 }

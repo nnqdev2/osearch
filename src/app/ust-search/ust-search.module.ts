@@ -8,8 +8,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from '../shared/material.module';
 
 import { UstSearchRoutingModule, ustSearchRoutingComponents } from './ust-search-routing.module';
-
-
+import { UstSearchDialogComponent } from './ust-search-dialog.component';
 
 @NgModule({
   imports: [
@@ -20,7 +19,8 @@ import { UstSearchRoutingModule, ustSearchRoutingComponents } from './ust-search
     MaterialModule,
     UstSearchRoutingModule
   ],
-  declarations: [ustSearchRoutingComponents],
+  declarations: [ustSearchRoutingComponents, UstSearchDialogComponent],
+  entryComponents: [ UstSearchDialogComponent]
 })
 export class UstSearchModule { }
 
