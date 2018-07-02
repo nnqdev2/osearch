@@ -20,7 +20,8 @@ import { UstSearchDialogComponent } from './ust-search-dialog.component';
     UstSearchRoutingModule
   ],
   declarations: [ustSearchRoutingComponents, UstSearchDialogComponent],
-  entryComponents: [ UstSearchDialogComponent]
+  exports: [ustSearchRoutingComponents, UstSearchDialogComponent],
+  entryComponents: [ ustSearchRoutingComponents]
 })
 export class UstSearchModule { }
 

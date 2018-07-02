@@ -10,6 +10,7 @@ import { MaterialModule } from '../shared/material.module';
 import { LustSearchRoutingModule, lustSearchRoutingComponents } from './lust-search-routing.module';
 import { LustSearchFilterComponent } from './lust-search-filter.component';
 import { LustSearchResultComponent } from './lust-search-result.component';
+import { LustSearchDialogComponent } from './lust-search-dialog.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { LustSearchResultComponent } from './lust-search-result.component';
     MaterialModule,
     LustSearchRoutingModule
   ],
-  declarations: [lustSearchRoutingComponents],
+  declarations: [lustSearchRoutingComponents, LustSearchDialogComponent],
+  exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }
 

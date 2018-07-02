@@ -20,6 +20,8 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { UstSearchModule } from '../ust-search/ust-search.module';
 import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
 import { UstSearchResultComponent } from '../ust-search/ust-search-result.component';
+import { LustSearchModule } from '../lust-search/lust-search.module';
+import { SearchDialogComponent } from './search-dialog.component';
 
 @NgModule({
   imports: [
@@ -32,15 +34,17 @@ import { UstSearchResultComponent } from '../ust-search/ust-search-result.compon
     ShowErrorsModule,
     ShowAllMessagesModule,
     UstSearchModule,
+    LustSearchModule
   ],
   declarations: [
     OlprrSearchFilterComponent,
     OlprrSearchResultComponent,
     OlprrReviewComponent,
-    AcceptDialogComponent
+    AcceptDialogComponent,
+    SearchDialogComponent
   ],
-  exports: [AcceptDialogComponent],
-  entryComponents: [AcceptDialogComponent, UstSearchFilterComponent, UstSearchResultComponent],
+  exports: [AcceptDialogComponent, SearchDialogComponent],
+  entryComponents: [AcceptDialogComponent, SearchDialogComponent],
   providers: [
     CanDeactivateGuard,
   ]

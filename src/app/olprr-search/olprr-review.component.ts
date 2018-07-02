@@ -34,6 +34,7 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
 import { UstSearchDialogComponent } from '../ust-search/ust-search-dialog.component';
+import { SearchDialogComponent } from './search-dialog.component';
 
 @Component({
   selector: 'app-olprr-review',
@@ -44,6 +45,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   ustSearchDialogRef: MatDialogRef<UstSearchDialogComponent, any>;
+  searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
   olprrId: number;
   incidentData: IncidentData;
   incidentForm: FormGroup;
@@ -80,6 +82,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   mediaErrorMessage: string;
   contaminantErrorMessages: [string];
   mediaErrorMessages: [string];
+  isLustSearch = false;
+  isUstSearch = false;
 
   errors: any[];
 
@@ -721,16 +725,39 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
 
 
+  // clickLookupUst() {
+  //   const dialogConfig = new MatDialogConfig();
+  //   dialogConfig.autoFocus = true;
+  //   dialogConfig.data = {
+  //     title: 'Discard changes?',
+  //     message1: 'The form has not been submitted yet, do you really want to leave page?',
+  //     button1: 'Leave',
+  //     button2: 'Stay'
+  //   };
+  //   this.ustSearchDialogRef = this.ustSearchDialog.open(UstSearchDialogComponent, dialogConfig);
+  // }
+
+
   clickLookupUst() {
+    this.isUstSearch = true;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      title: 'Discard changes?',
-      message1: 'The form has not been submitted yet, do you really want to leave page?',
-      button1: 'Leave',
-      button2: 'Stay'
+      searchType: 'UST'
     };
-    this.ustSearchDialogRef = this.ustSearchDialog.open(UstSearchDialogComponent, dialogConfig);
+    this.searchDialogRef = this.ustSearchDialog.open(SearchDialogComponent, dialogConfig);
+    this.searchDialogRef.afterClosed().subscribe(() => {this.isUstSearch = false; });
+  }
+
+  clickLookupLust() {
+    this.isUstSearch = true;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      searchType: 'LUST'
+    };
+    this.searchDialogRef = this.ustSearchDialog.open(SearchDialogComponent, dialogConfig);
+    this.searchDialogRef.afterClosed().subscribe(() => {this.isLustSearch = false; });
   }
 
 }

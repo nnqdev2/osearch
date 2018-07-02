@@ -38,6 +38,8 @@ import { ShowErrorsModule } from './show-errors/show-errors.module';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { DialogService } from './common/dialogs/dialog.service';
 import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
+import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
+import { LustSearchFilterComponent } from './lust-search/lust-search-filter.component';
 
 
 @NgModule({
