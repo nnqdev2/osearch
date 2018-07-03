@@ -34,6 +34,7 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
 import { SearchDialogComponent } from './search-dialog.component';
+import { PdfService } from '../common/pdf.service';
 
 @Component({
   selector: 'app-olprr-review',
@@ -80,17 +81,22 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   mediaErrorMessage: string;
   contaminantErrorMessages: [string];
   mediaErrorMessages: [string];
-  // isLustSearch = false;
-  // isUstSearch = false;
 
   errors: any[];
+
+
+  panelOpenState = false;
+  public showSiteAddressCompare = true;
+  public showResponsiblePartyAddressCompare = true;
+  public showInvoiceContactAdressCompare = true;
+  public showLITButtons = true;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router, private addressCorrectDataService: AddressCorrectDataService
-    , public dialogService: DialogService
-    , private canDeactivateDialog: MatDialog
-    , private searchDialog: MatDialog
+    // , public dialogService: DialogService
+    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog
+    , private pdfService: PdfService
   ) {}
 
 
@@ -100,6 +106,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     .pipe(
       map((data: {incidentData: IncidentData}) => {
         this.incidentData = data.incidentData;
+        console.log('ngOnInit....incidentData..');
+        console.log(this.incidentData);
       }),
       flatMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
             (this.incidentData.siteAddress, this.incidentData.siteCity)
@@ -107,12 +115,16 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
               map(melissaData => {
                 this.addressCorrectStat = melissaData,
                 this.countyOnlyFips = melissaData.Records[0].CountyFIPS.substring(2);
+                console.log('ngOnInit....melissaData..');
+                console.log(this.addressCorrectStat);
               }),
               flatMap(countyCheck => this.lustDataService.getPostalCountyVerification
                     (+this.incidentData.siteCounty, this.countyOnlyFips)
                     .pipe(
                       map(countyCheckData => {
                         this.postalCountyVerification = countyCheckData;
+                        console.log('ngOnInit....countyCheck..');
+                        console.log(this.postalCountyVerification);
                       })
                     )
               )
@@ -160,8 +172,25 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   // }
 
-  print(): void {
+  private print(): void {
     window.print();
+  }
+
+
+  private pdfGenerate(): void {
+    this.pdfService.createOlprrPdfIncident(this.incidentData);
+  }
+
+  RefreshSiteAddress() {
+    this.showSiteAddressCompare = !this.showSiteAddressCompare; 
+}
+
+RefreshResponsiblePartyAddress() {
+  this.showResponsiblePartyAddressCompare = !this.showResponsiblePartyAddressCompare; 
+}
+
+RefreshInvoiceContactAddress() {
+  this.showInvoiceContactAdressCompare = !this.showInvoiceContactAdressCompare;
 }
 
   createForm() {
@@ -621,34 +650,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   }
 
-  canDeactivate(): Observable<boolean> | boolean {
-    // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-    console.log('openGuardDialog() starts 1');
-    if (this.incidentForm.pristine) {
-      return true;
-    }
-    const choice: Subject<boolean> = new Subject<boolean>();
-    console.log('openGuardDialog() starts 2');
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title: 'Discard changes?',
-      message1: 'The form has not been submitted yet, do you really want to leave page?',
-      button1: 'Leave',
-      button2: 'Stay'
-    };
-    this.guardDialogRef = this.canDeactivateDialog.open(GuardDialogComponent, dialogConfig);
-    this.guardDialogRef.afterClosed().subscribe(result => {
-      console.log('openGuardDialog() starts 3');
-      console.log(result);
-      // Result MUST be a boolean to work.
-      // If it is the string 'true' or 'false', it will not work.
-      choice.next(result);
-    });
-
-    return choice;
-  }
-
   getAddressCorrection(address: string, city: string, reportedCountyCode: string) {
     console.log('getAddressCorrection');
     this.addressCorrectDataService.getAddressCorrectStat(address, city)
@@ -673,22 +674,41 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
      console.log('getAddressCorrection done');
   }
 
-
-
   openAcceptDialog() {
 
-      const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    // dialogConfig.height = '500px';
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      incidentData: this.incidentData,
+      addressCorrect: this.addressCorrect,
+      postalCountyVerification: this.postalCountyVerification
+    };
+    this.canDeactivateDialog.open(AcceptDialogComponent, dialogConfig);
+}
 
-      // dialogConfig.disableClose = false;
-      // dialogConfig.height = '500px';
-      dialogConfig.autoFocus = true;
-      dialogConfig.data = {
-        incidentData: this.incidentData,
-        addressCorrect: this.addressCorrect,
-        postalCountyVerification: this.postalCountyVerification
-      };
-      this.canDeactivateDialog.open(AcceptDialogComponent, dialogConfig);
+  canDeactivate(): Observable<boolean> | boolean {
+    if (this.incidentForm.pristine) {
+      return true;
+    }
+    const choice: Subject<boolean> = new Subject<boolean>();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Discard changes?',
+      message1: 'The form has not been submitted yet, do you really want to leave page?',
+      button1: 'Leave',
+      button2: 'Stay'
+    };
+    this.guardDialogRef = this.canDeactivateDialog.open(GuardDialogComponent, dialogConfig);
+    this.guardDialogRef.afterClosed().subscribe(result => {
+      choice.next(result);
+    });
+    return choice;
   }
+
+
 
   getAddressCorrectionOrig(address: string, city: string, reportedCountyCode: string) {
     console.log('getAddressCorrection');
@@ -722,7 +742,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
 
-  private clickLookupUst() {
+  private openUstSearch() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -731,7 +751,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
-  private clickLookupLust() {
+  private openLustSearch() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
