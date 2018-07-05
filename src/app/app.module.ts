@@ -67,6 +67,7 @@ import { LustSearchFilterComponent } from './lust-search/lust-search-filter.comp
     GuardDialogComponent,
   ],
   providers: [
+    LogService,
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: RequestCache, useClass: RequestCacheWithMap },
     DialogService,

@@ -37,6 +37,7 @@ import { LustSearchResultStat } from '../models/lust-search-result-stat';
 import { UstSearchFilter } from '../models/ust-search-filter';
 import { UstSearchResultStat } from '../models/ust-search-result-stat';
 import { PostalCountyVerification } from '../models/postal-county-verification';
+import { AddressCorrectStat } from '../models/address-correct-stat';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,7 @@ import { PostalCountyVerification } from '../models/postal-county-verification';
 export class LustDataService {
 
   private loggers: LogPublisherConfig[] = [];
+  private addressCorrectStats: AddressCorrectStat[] = [];
 
   constructor(private http: HttpClient)  { }
 
@@ -166,5 +168,6 @@ export class LustDataService {
     });
     return this.http.get<PostalCountyVerification>(environment.olprrapi_review_postalcounty, { params: params });
   }
+
 }
 

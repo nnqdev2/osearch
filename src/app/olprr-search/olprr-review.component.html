@@ -1,5 +1,13 @@
 
  
+     <div class="spinner-container" *ngIf="loading$  | async; else showForm">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <ng-template #showForm>
+
+
+
         <!-- table lustReportingTable  -->
         <!-- <table id="lustReportingTable"> -->
             <div class="container-fluid">
@@ -145,32 +153,30 @@
                                                 US Postal Address
                                             </mat-panel-title>
                                             <mat-panel-description>
-                                                100 Main Street Portland OR, 97232 Multnomah County
+                                                <div class="form-group col-md-4">
+                                                    <input matInput formControlName="saAddressCorrectCounty"/>
+                                                </div>
                                             </mat-panel-description>
             
-                                        </mat-expansion-panel-header>
-                                    
+                                        </mat-expansion-panel-header>                                    
                                         <mat-expansion-panel>
-                                            <mat-panel-title>
-            
+                                            <mat-panel-title>            
                                             </mat-panel-title>
                                         </mat-expansion-panel>
                                         <div class="form-row full-width">
                                             <div class="form-group col-md-4">
-                                                <mat-label>100 Main Street</mat-label>
+                                                <mat-label>Address</mat-label>
+                                                <!-- <input matInput formControlName="saAddressCorrect?"/> -->
                                             </div>
                                             <div class="form-group col-md-4">
-                                                    <mat-label>Portland, 97219 OR</mat-label>
+                                                <mat-label>Portland, 97219 OR</mat-label>
                                             </div>
                                             <div class="form-group col-md-4">
                                                     <mat-label>Multnomah County</mat-label>
                                             </div>
-                                        </div>
-            
-                                    
+                                        </div>      
                                         <mat-expansion-panel>
-                                            <mat-panel-title>
-                                        
+                                            <mat-panel-title>                                        
                                             </mat-panel-title>
                                         </mat-expansion-panel>
                                         <div class="form-row full-width">
@@ -837,3 +843,6 @@
                     <input matInput [(ngModel)]="Incident" placeholder="Address Issues">
                 </mat-form-field>
             </div> -->
+
+
+            </ng-template>
