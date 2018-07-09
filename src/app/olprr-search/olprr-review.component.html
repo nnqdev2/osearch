@@ -148,30 +148,31 @@
                                 <mat-accordion>
                                     <mat-expansion-panel (opened)="panelOpenState = true"
                                                         (closed)="panelOpenState = false">
-                                        <mat-expansion-panel-header style="background-color:rgb(240, 123, 77)">
-                                            <mat-panel-title>
+                                        <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
+                                            <mat-panel-title>                                                        
                                                 US Postal Address
                                             </mat-panel-title>
-                                            <mat-panel-description>
-                                                <!-- <div class="form-group col-md-4"> -->
+                                            <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
+                                            <ng-template #saAddressCorrectNotFound>
+                                                <mat-panel-description>
+                                                    US POSTAL ADDRESS NOT FOUND 
+                                                </mat-panel-description>
+                                            </ng-template>
+                                            <ng-template #saAddressCorrectFound>
+                                                <mat-panel-description >
                                                     <input matInput formControlName="saAddressCorrectAddress"/>
                                                     <input matInput formControlName="saAddressCorrectCity"/>
                                                     <input matInput formControlName="saAddressCorrectState"/>
                                                     <input matInput formControlName="saAddressCorrectZipcode"/>
-                                                    <input matInput formControlName="saAddressCorrectCounty"/>
-                                                <!-- </div> -->
-                                            </mat-panel-description>            
-                                        </mat-expansion-panel-header>                                    
-                                        <!-- <mat-expansion-panel>
-                                            <mat-panel-title>            
-                                            </mat-panel-title>
-                                        </mat-expansion-panel> -->
+                                                </mat-panel-description>
+                                            </ng-template>
+                                        </mat-expansion-panel-header>                                  
                                         <div class="form-row full-width">
-                                            <div class="col-md-1 col-sm-2">
-                                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
+                                            <div class="col-md-2 col-sm-4">
+                                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
                                             </div>
-                                            <div class="col-md-1 col-sm-2">
-                                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
+                                            <div class="col-md-2 col-sm-4">
+                                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
                                             </div>
                                         </div>
                                     </mat-expansion-panel>  
@@ -291,15 +292,23 @@
                                         <mat-expansion-panel (opened)="panelOpenState = true"
                                                             (closed)="panelOpenState = false">
                                             <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
-                                                <mat-panel-title>
+                                                <mat-panel-title>                                                        
                                                     US Postal Address
                                                 </mat-panel-title>
-                                                <mat-panel-description>
-                                                    <input matInput formControlName="rpAddressCorrectAddress"/>
-                                                    <input matInput formControlName="rpAddressCorrectCity"/>
-                                                    <input matInput formControlName="rpAddressCorrectState"/>
-                                                    <input matInput formControlName="rpAddressCorrectZipcode"/>
-                                                </mat-panel-description>                
+                                                <div *ngIf="addressCorrectNotFound('rp'); then rpAddressCorrectNotFound else rpAddressCorrectFound"></div>
+                                                <ng-template #rpAddressCorrectNotFound>
+                                                    <mat-panel-description>
+                                                        US POSTAL ADDRESS NOT FOUND 
+                                                    </mat-panel-description>
+                                                </ng-template>
+                                                <ng-template #rpAddressCorrectFound>
+                                                    <mat-panel-description >
+                                                        <input matInput formControlName="rpAddressCorrectAddress"/>
+                                                        <input matInput formControlName="rpAddressCorrectCity"/>
+                                                        <input matInput formControlName="rpAddressCorrectState"/>
+                                                        <input matInput formControlName="rpAddressCorrectZipcode"/>
+                                                    </mat-panel-description>
+                                                </ng-template>
                                             </mat-expansion-panel-header>
                                             <div class="form-row full-width">
                                                 <div class="col-md-1 col-sm-2">
@@ -444,16 +453,23 @@
                                             <mat-expansion-panel (opened)="panelOpenState = true"
                                                                 (closed)="panelOpenState = false">
                                                 <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
-                                                    <mat-panel-title>
+                                                    <mat-panel-title>                                                        
                                                         US Postal Address
                                                     </mat-panel-title>
-                                                    <mat-panel-description>
-                                                        <input matInput formControlName="icAddressCorrectAddress"/>
-                                                        <input matInput formControlName="icAddressCorrectCity"/>
-                                                        <input matInput formControlName="icAddressCorrectState"/>
-                                                        <input matInput formControlName="icAddressCorrectZipcode"/>
-                                                    </mat-panel-description>
-                    
+                                                    <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
+                                                    <ng-template #icAddressCorrectNotFound>
+                                                        <mat-panel-description>
+                                                            US POSTAL ADDRESS NOT FOUND 
+                                                        </mat-panel-description>
+                                                    </ng-template>
+                                                    <ng-template #icAddressCorrectFound>
+                                                        <mat-panel-description >
+                                                            <input matInput formControlName="icAddressCorrectAddress"/>
+                                                            <input matInput formControlName="icAddressCorrectCity"/>
+                                                            <input matInput formControlName="icAddressCorrectState"/>
+                                                            <input matInput formControlName="icAddressCorrectZipcode"/>
+                                                        </mat-panel-description>
+                                                    </ng-template>
                                                 </mat-expansion-panel-header>
                                                 <div class="form-row full-width">
                                                     <div class="col-md-1 col-sm-2">
