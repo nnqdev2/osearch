@@ -142,7 +142,7 @@
                         </div>
                         <!-- /city, zip, phone  -->
             
-                    <ng-container *ngIf="showSiteAddressCompare">
+                    <ng-container *ngIf="showAddressCorrect('sa')">
                         <div class="form-row full-width">  <!-- style="display:none -->
                             <div class="form-group col-md-11">
                                 <mat-accordion>
@@ -284,40 +284,39 @@
                         </div>
             
                         <!-- Responsible Party Melissa Data Correction   -->
-                        <ng-container *ngIf="showResponsiblePartyAddressCompare">
-                                <div class="form-row full-width" >  <!-- style="display:none -->
-                                    <div class="form-group col-md-11">
-                                        <mat-accordion>
-                                            <mat-expansion-panel (opened)="panelOpenState = true"
-                                                                (closed)="panelOpenState = false">
-                                                <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
-                                                    <mat-panel-title>
-                                                        US Postal Address
-                                                    </mat-panel-title>
-                                                    <mat-panel-description>
-                                                        <input matInput formControlName="rpAddressCorrectAddress"/>
-                                                        <input matInput formControlName="rpAddressCorrectCity"/>
-                                                        <input matInput formControlName="rpAddressCorrectState"/>
-                                                        <input matInput formControlName="rpAddressCorrectZipcode"/>
-                                                    </mat-panel-description>
-                    
-                                                </mat-expansion-panel-header>
-                                                <div class="form-row full-width">
-                                                    <div class="col-md-1 col-sm-2">
-                                                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
-                                                    </div>
-                                                    <div class="col-md-1 col-sm-2">
-                                                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
-                                                    </div>
+                        <ng-container *ngIf="showAddressCorrect('rp')">
+                            <div class="form-row full-width" >  <!-- style="display:none -->
+                                <div class="form-group col-md-11">
+                                    <mat-accordion>
+                                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                                            (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
+                                                <mat-panel-title>
+                                                    US Postal Address
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+                                                    <input matInput formControlName="rpAddressCorrectAddress"/>
+                                                    <input matInput formControlName="rpAddressCorrectCity"/>
+                                                    <input matInput formControlName="rpAddressCorrectState"/>
+                                                    <input matInput formControlName="rpAddressCorrectZipcode"/>
+                                                </mat-panel-description>                
+                                            </mat-expansion-panel-header>
+                                            <div class="form-row full-width">
+                                                <div class="col-md-1 col-sm-2">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
                                                 </div>
-                                            </mat-expansion-panel>  
-                                        </mat-accordion>
-                                    </div>
-                                    <div class="form-group col-md-1">
-                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="RefreshResponsiblePartyAddress()" >Refresh Address</button>
-                                    </div>
+                                                <div class="col-md-1 col-sm-2">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>  
+                                    </mat-accordion>
                                 </div>
-                            </ng-container>
+                                <div class="form-group col-md-1">
+                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="RefreshResponsiblePartyAddress()" >Refresh Address</button>
+                                </div>
+                            </div>
+                        </ng-container>
                     
             
                         <!--    -->
@@ -438,7 +437,7 @@
             
                         <!-- Invoice Contact Address Compare  -->
             
-                        <ng-container *ngIf="showInvoiceContactAdressCompare">
+                        <ng-container *ngIf="showAddressCorrect('ic')">
                                 <div class="form-row full-width" >  <!-- style="display:none -->
                                     <div class="form-group col-md-11">
                                         <mat-accordion>

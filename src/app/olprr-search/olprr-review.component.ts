@@ -128,11 +128,11 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           console.log(this.incidentData);
         }),
         mergeMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
-              (this.incidentData.siteAddress, this.incidentData.siteCity)
+              (this.incidentData.siteAddress, this.incidentData.siteCity, 'OR')
               .pipe(
                 map(addressCorrect => {
                   console.log('ngOnInit....first mergemap ....');
-                  this.addressCorrectStat = addressCorrect;
+                  this.saAddressCorrectStat = addressCorrect;
                   this.countyFips = addressCorrect.Records[0].CountyFIPS.substring(2);
                   if (this.countyFips == null) {
                     this.countyFips = '000';
@@ -155,7 +155,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         ), // flatmap end
 
         mergeMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
-          (this.incidentData.rpAddress, this.incidentData.rpCity)
+          (this.incidentData.rpAddress, this.incidentData.rpCity, this.incidentData.rpState)
           .pipe(
             map(addressCorrect => {
               console.log('ngOnInit....RP ---- mergemap ....');
@@ -167,7 +167,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         ),  // flatmap end
 
         mergeMap(icCheck => this.addressCorrectDataService.getAddressCorrectStat
-          (this.incidentData.icAddress, this.incidentData.icCity)
+          (this.incidentData.icAddress, this.incidentData.icCity, this.incidentData.icState)
           .pipe(
             map(addressCorrect => {
               console.log('ngOnInit....IC ---- mergemap ....');
@@ -201,72 +201,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       );
 
   }
-
-  // ngOnInitOrig() {
-  //   this.olprrId = +this.route.snapshot.params['olprrid'];
-  //   this.route.data
-  //     .pipe(
-  //       map((data: {incidentData: IncidentData}) => {
-  //         this.incidentData = data.incidentData;
-  //         console.log('ngOnInit....incidentData..');
-  //         console.log(this.incidentData);
-  //       }),
-  //       mergeMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
-  //             (this.incidentData.siteAddress, this.incidentData.siteCity)
-  //             .pipe(
-  //               map(melissaData => {
-  //                 console.log('ngOnInit....first mergemap ....');
-  //                 this.addressCorrectStat = melissaData,
-  //                 this.countyFips = melissaData.Records[0].CountyFIPS.substring(2),
-  //                 this.saAddressCorrectStat = melissaData,
-  //                 // this.saAddressCorrect = melissaData.Records[0];
-  //                 // this.saAddressCorrect = this.saAddressCorrectStat.Records[0],
-  //                 console.log('ngOnInit..mergeMap..melissaData..');
-  //               }),
-  //               mergeMap(countyCheck => this.lustDataService.getPostalCountyVerification
-  //                     (+this.incidentData.siteCounty, this.countyFips)
-  //                     .pipe(
-  //                       map(countyCheckData => {
-  //                         this.postalCountyVerification = countyCheckData;
-  //                         console.log('ngOnInit..mergeMap..countyCheckData..');
-  //                       })
-  //                     ) // pipe end
-  //               ), // flatmap end
-  //             ) // pipe end
-  //       ),  // flatmap end
-
-  //     )  // pipe end
-  //     .subscribe(
-  //       (data => {
-  //         console.log(' ngOnInit() this.incidentData is .....');
-  //         console.log(this.incidentData);
-  //         console.log(' ngOnInit()this.saAddressCorrectStat is .....');
-  //         console.log(this.saAddressCorrectStat);
-  //         console.log(' ngOnInit()this.saAddressCorrect is .....');
-  //         console.log(this.saAddressCorrect);
-  //         console.log(' ngOnInit()this.postalCountyVerification is .....');
-  //         console.log(this.postalCountyVerification);
-  //         console.log('ngOnInit.. this.countyOnlyFips..');
-  //         console.log(this.countyFips);
-  //       } )
-  //     );
-
-  //   this.route.data.subscribe((data: {incidentData: IncidentData}) => {this.incidentData = data.incidentData; } );
-  //   this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
-  //   this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
-  //   this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
-  //   this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
-  //   this.route.data.subscribe((data: {quadrants: Quadrant[]}) => {this.quadrants = data.quadrants; });
-  //   this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
-  //   this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
-  //   this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-  //   this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
-
-  //   console.log('olprr review init this.incidentData');
-  //   console.log(this.incidentData);
-  //   this.setShowContactInvoice();
-  //   this.createForm();
-  // }
 
   private print(): void {
     window.print();
@@ -381,6 +315,34 @@ RefreshInvoiceContactAddress() {
     }
   }
 
+  private getAddressCorrectNotFoundMessage(postalCode: string): string {
+    if (postalCode === null) {
+      return 'US POSTAL DOES NOT HAVE THIS ADDRESSS!!!!!!!!!!';
+    }
+  }
+
+  private showAddressCorrect(addressType: string): boolean {
+    if ((addressType === 'sa')
+    && (this.incidentData.siteAddress === this.saAddressCorrectStat.Records[0].AddressLine1
+    && this.incidentData.siteZipcode.toString() === this.saAddressCorrectStat.Records[0].PostalCode
+    && this.incidentData.siteCounty === this.countyFips)) {
+      return false;
+    }
+    if ((addressType === 'rp')
+    && (this.incidentData.siteAddress === this.rpAddressCorrectStat.Records[0].AddressLine1
+    && this.incidentData.siteCity === this.rpAddressCorrectStat.Records[0].City
+    && this.incidentData.siteZipcode.toString() === this.rpAddressCorrectStat.Records[0].PostalCode) ) {
+        return false;
+    }
+    if ((addressType === 'ic')
+    && (this.incidentData.siteAddress === this.icAddressCorrectStat.Records[0].AddressLine1
+    && this.incidentData.siteCity === this.icAddressCorrectStat.Records[0].City
+    && this.incidentData.siteZipcode.toString() === this.icAddressCorrectStat.Records[0].PostalCode)) {
+        return false;
+    }
+    return true;
+  }
+
   setShowContactInvoice() {
     if (typeof this.incidentData.releaseTypeCode !== 'undefined'
     && (this.incidentData.releaseTypeCode === 'R' || this.incidentData.releaseTypeCode === 'U')) {
@@ -390,17 +352,17 @@ RefreshInvoiceContactAddress() {
     }
   }
 
-  copyResponsibleToInvoice() {
-    this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
-    this.incidentForm.controls.icLastName.setValue(this.incidentForm.controls.rpLastName.value);
-    this.incidentForm.controls.icOrganization.setValue(this.incidentForm.controls.rpOrganization.value);
-    this.incidentForm.controls.icAddress.setValue(this.incidentForm.controls.rpAddress.value);
-    this.incidentForm.controls.icPhone.setValue(this.incidentForm.controls.rpPhone.value);
-    this.incidentForm.controls.icCity.setValue(this.incidentForm.controls.rpCity.value);
-    this.incidentForm.controls.icEmail.setValue(this.incidentForm.controls.rpEmail.value);
-    this.incidentForm.controls.icState.setValue(this.incidentForm.controls.rpState.value);
-    this.incidentForm.controls.icZipcode.setValue(this.incidentForm.controls.rpZipcode.value);
-  }
+  // copyResponsibleToInvoice() {
+  //   this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
+  //   this.incidentForm.controls.icLastName.setValue(this.incidentForm.controls.rpLastName.value);
+  //   this.incidentForm.controls.icOrganization.setValue(this.incidentForm.controls.rpOrganization.value);
+  //   this.incidentForm.controls.icAddress.setValue(this.incidentForm.controls.rpAddress.value);
+  //   this.incidentForm.controls.icPhone.setValue(this.incidentForm.controls.rpPhone.value);
+  //   this.incidentForm.controls.icCity.setValue(this.incidentForm.controls.rpCity.value);
+  //   this.incidentForm.controls.icEmail.setValue(this.incidentForm.controls.rpEmail.value);
+  //   this.incidentForm.controls.icState.setValue(this.incidentForm.controls.rpState.value);
+  //   this.incidentForm.controls.icZipcode.setValue(this.incidentForm.controls.rpZipcode.value);
+  // }
 
   submitIncident(): void {
     console.log('submitIncident()');
