@@ -805,4 +805,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
+  cancel() {
+    this.router.navigate(['osearch']);
+  }
+
+
 }

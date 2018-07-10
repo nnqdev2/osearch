@@ -155,7 +155,7 @@
                                             <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
                                             <ng-template #saAddressCorrectNotFound>
                                                 <mat-panel-description>
-                                                    US POSTAL ADDRESS NOT FOUND 
+                                                        US Postal Addresss not found for this Site Address. 
                                                 </mat-panel-description>
                                             </ng-template>
                                             <ng-template #saAddressCorrectFound>
@@ -307,7 +307,7 @@
                                                 <div *ngIf="addressCorrectNotFound('rp'); then rpAddressCorrectNotFound else rpAddressCorrectFound"></div>
                                                 <ng-template #rpAddressCorrectNotFound>
                                                     <mat-panel-description>
-                                                        US POSTAL ADDRESS NOT FOUND 
+                                                            US Postal Addresss not found for this Responsible Party Address. 
                                                     </mat-panel-description>
                                                 </ng-template>
                                                 <ng-template #rpAddressCorrectFound>
@@ -442,7 +442,7 @@
                                                     <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
                                                     <ng-template #icAddressCorrectNotFound>
                                                         <mat-panel-description>
-                                                            US POSTAL ADDRESS NOT FOUND 
+                                                            US Postal Addresss not found for this Invoice Contact Address.
                                                         </mat-panel-description>
                                                     </ng-template>
                                                     <ng-template #icAddressCorrectFound>
@@ -658,18 +658,6 @@
                         </div>
                         <!--  end of contaminants -->
                 
-                                         <!-- show Contaminant errors  -->
-                                         <!-- <div *ngIf="showContaminantErrorMessage; then showContaminantErrorMessage"></div>
-                                         <ng-template #showContaminantErrorMessage> 
-                                             <ngb-alert *ngIf="!isContaminantClosed" [type]="warning" class="fade show hide-the" (close)="isContaminantClosed=true">
-                                                 <div class="form-group row">
-                                                     <app-show-all-messages [messages]="contaminantErrorMessages" [submitClicked]="submitClicked"></app-show-all-messages>
-                                                 </div>
-                                             </ngb-alert>
-                                         </ng-template> -->
-                                         <!-- /show Contaminant errors  -->   
-                
-                
                 
                         <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Impacted Media</p>
                         <div class="form-group required row">
@@ -721,18 +709,7 @@
                             </div>
                         </div>
             
-            
-                                        <!-- show Contaminant errors  -->
-                                        <!-- <div *ngIf="showMediaErrorMessage; then showMediaErrorMessage"></div>
-                                        <ng-template #showMediaErrorMessage> 
-                                            <ngb-alert *ngIf="!isMediaClosed" [type]="warning" class="fade show hide-the" (close)="isMediaClosed=true">
-                                                <div class="form-group row">
-                                                    <app-show-all-messages [messages]="mediaErrorMessages" [submitClicked]="submitClicked"></app-show-all-messages>
-                                                </div>
-                                            </ngb-alert>
-                                        </ng-template> -->
-                                        <!-- /show Contaminant errors  -->
-            
+          
             
                                         
                         <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
@@ -789,8 +766,8 @@
                         <div class="col-md-1 col-sm-2">
                             <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Decline</button>
                         </div>
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Done/Search</button>
+                        <div class="col-md-2 col-sm-3">
+                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Done/Cancel/Return to Search</button>
                         </div>
                         <div class="col-md-1 col-sm-2">
                             <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
