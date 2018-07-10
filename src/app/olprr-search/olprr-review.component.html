@@ -96,8 +96,8 @@
                             <div class="form-group required col-sm-4 pb-3">
                                 <mat-form-field appearance="outline">  
                                     <mat-label class="control-label" for="siteCounty">Site County</mat-label> 
-                                    <mat-select placeholder="Release Site Type" id="siteCounty" formControlName="siteCounty">   
-                                        <mat-option value=""> </mat-option> 
+                                    <mat-select placeholder="Site County" id="siteCounty" formControlName="countyCode">   
+                                        <mat-option selected="selected" value=""> </mat-option> 
                                         <mat-option *ngFor="let county of counties" [value]="county?.countyCode" > {{county?.countyName}}</mat-option>  
                                     </mat-select>    
                                 </mat-form-field>  
@@ -144,7 +144,7 @@
             
                     <ng-container *ngIf="showAddressCorrect('sa')">
                         <div class="form-row full-width">  <!-- style="display:none -->
-                            <div class="form-group col-md-11">
+                            <div class="form-group col-md-10">
                                 <mat-accordion>
                                     <mat-expansion-panel (opened)="panelOpenState = true"
                                                         (closed)="panelOpenState = false">
@@ -164,25 +164,34 @@
                                                     <input matInput formControlName="saAddressCorrectCity"/>
                                                     <input matInput formControlName="saAddressCorrectState"/>
                                                     <input matInput formControlName="saAddressCorrectZipcode"/>
+                                                    <input matInput formControlName="saAddressCorrectCounty"/>
                                                 </mat-panel-description>
                                             </ng-template>
                                         </mat-expansion-panel-header>                                  
                                         <div class="form-row full-width">
-                                            <div class="col-md-2 col-sm-4">
-                                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
+                                            <div class="col-md-3 col-sm-5">
+                                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="saveAddress(1,'sa')" >Save as is</button>
                                             </div>
-                                            <div class="col-md-2 col-sm-4">
-                                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
-                                            </div>
+                                            <div *ngIf="addressCorrectNotFound('sa'); then saCancel else saKeepAddressCorrect"></div>
+                                            <ng-template #saKeepAddressCorrect>
+                                                <div class="col-md-3 col-sm-5">
+                                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="saveAddress(2,'sa')" >Save US Postal Addresss</button>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template #saCancel>
+                                                <div class="col-md-3 col-sm-5">
+                                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancelAndReturnToSearch()" >Cancel and Return to OLPRR Search</button>
+                                                </div>
+                                            </ng-template>
                                         </div>
                                     </mat-expansion-panel>  
                                 </mat-accordion>
                             </div>
-                            <div class="form-group col-md-1">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="RefreshSiteAddress()" >Refresh Address</button>
+                            <div class="form-group col-md-2">
+                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runSaAddressCorrect()" >Run US Postal Check</button>
+                                </div>
                             </div>
-                        </div>
-                    </ng-container>
+                        </ng-container>
             
             
                 
@@ -287,7 +296,7 @@
                         <!-- Responsible Party Melissa Data Correction   -->
                         <ng-container *ngIf="showAddressCorrect('rp')">
                             <div class="form-row full-width" >  <!-- style="display:none -->
-                                <div class="form-group col-md-11">
+                                <div class="form-group col-md-10">
                                     <mat-accordion>
                                         <mat-expansion-panel (opened)="panelOpenState = true"
                                                             (closed)="panelOpenState = false">
@@ -311,18 +320,26 @@
                                                 </ng-template>
                                             </mat-expansion-panel-header>
                                             <div class="form-row full-width">
-                                                <div class="col-md-1 col-sm-2">
-                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
+                                                <div class="col-md-2 col-sm-4">
+                                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="saveAddress(1,'rp')" >Save as is</button>
                                                 </div>
-                                                <div class="col-md-1 col-sm-2">
-                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
-                                                </div>
+                                                <div *ngIf="addressCorrectNotFound('rp'); then rpCancel else rpKeepAddressCorrect"></div>
+                                                <ng-template #rpKeepAddressCorrect>
+                                                    <div class="col-md-3 col-sm-5">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="saveAddress(2,'rp')" >Save US Postal Addresss</button>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #rpCancel>
+                                                    <div class="col-md-3 col-sm-5">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancelAndReturnToSearch()" >Cancel and Return to OLPRR Search</button>
+                                                    </div>
+                                                </ng-template>
                                             </div>
                                         </mat-expansion-panel>  
                                     </mat-accordion>
                                 </div>
-                                <div class="form-group col-md-1">
-                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="RefreshResponsiblePartyAddress()" >Refresh Address</button>
+                                <div class="form-group col-md-2">
+                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runRpAddressCorrect()" >Run US Postal Check</button>
                                 </div>
                             </div>
                         </ng-container>
@@ -409,9 +426,61 @@
                                         </mat-form-field>
                                         <app-show-errors [control]="incidentForm.controls.icZipcode"  [submitClicked]="submitClicked"></app-show-errors>
                                     </div>
-                            </div>    
-            
-            
+                            </div>
+
+                            <!-- Invoice Contact Address Correct  -->            
+                            <ng-container *ngIf="showAddressCorrect('ic')">
+                                <div class="form-row full-width" >  <!-- style="display:none -->
+                                    <div class="form-group col-md-10">
+                                        <mat-accordion>
+                                            <mat-expansion-panel (opened)="panelOpenState = true"
+                                                                (closed)="panelOpenState = false">
+                                                <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
+                                                    <mat-panel-title>                                                        
+                                                        US Postal Address
+                                                    </mat-panel-title>
+                                                    <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
+                                                    <ng-template #icAddressCorrectNotFound>
+                                                        <mat-panel-description>
+                                                            US POSTAL ADDRESS NOT FOUND 
+                                                        </mat-panel-description>
+                                                    </ng-template>
+                                                    <ng-template #icAddressCorrectFound>
+                                                        <mat-panel-description >
+                                                            <input matInput formControlName="icAddressCorrectAddress"/>
+                                                            <input matInput formControlName="icAddressCorrectCity"/>
+                                                            <input matInput formControlName="icAddressCorrectState"/>
+                                                            <input matInput formControlName="icAddressCorrectZipcode"/>
+                                                        </mat-panel-description>
+                                                    </ng-template>
+                                                </mat-expansion-panel-header>
+                                                <div class="form-row full-width">
+                                                    <div class="col-md-2 col-sm-4">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="saveAddress(1,'ic')" >Save as is</button>
+                                                    </div>
+                                                    <div *ngIf="addressCorrectNotFound('ic'); then icCancel else icKeepAddressCorrect"></div>
+                                                    <ng-template #icKeepAddressCorrect>
+                                                        <div class="col-md-3 col-sm-5">
+                                                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="saveAddress(2,'ic')" >Save US Postal Addresss</button>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template #icCancel>
+                                                        <div class="col-md-3 col-sm-5">
+                                                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancelAndReturnToSearch()" >Cancel and Return to OLPRR Search</button>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </mat-expansion-panel>  
+                                        </mat-accordion>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runIcAddressCorrect()" >Run US Postal Check</button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <!-- /Invoice Contact Address Correct  -->  
+
+
                             <div class="form-row full-width">
                                 <div class="form-group required col-md-4 pb-3">
                                     <mat-form-field appearance="outline">  
@@ -441,55 +510,7 @@
                                 </div>
                             </div>
                         </ng-template>
-                                    <!-- /Invoice Contact  -->
-                        
-            
-                        <!-- Invoice Contact Address Compare  -->
-            
-                        <ng-container *ngIf="showAddressCorrect('ic')">
-                                <div class="form-row full-width" >  <!-- style="display:none -->
-                                    <div class="form-group col-md-11">
-                                        <mat-accordion>
-                                            <mat-expansion-panel (opened)="panelOpenState = true"
-                                                                (closed)="panelOpenState = false">
-                                                <mat-expansion-panel-header style="background-color: rgb(240, 123, 77)">
-                                                    <mat-panel-title>                                                        
-                                                        US Postal Address
-                                                    </mat-panel-title>
-                                                    <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
-                                                    <ng-template #icAddressCorrectNotFound>
-                                                        <mat-panel-description>
-                                                            US POSTAL ADDRESS NOT FOUND 
-                                                        </mat-panel-description>
-                                                    </ng-template>
-                                                    <ng-template #icAddressCorrectFound>
-                                                        <mat-panel-description >
-                                                            <input matInput formControlName="icAddressCorrectAddress"/>
-                                                            <input matInput formControlName="icAddressCorrectCity"/>
-                                                            <input matInput formControlName="icAddressCorrectState"/>
-                                                            <input matInput formControlName="icAddressCorrectZipcode"/>
-                                                        </mat-panel-description>
-                                                    </ng-template>
-                                                </mat-expansion-panel-header>
-                                                <div class="form-row full-width">
-                                                    <div class="col-md-1 col-sm-2">
-                                                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseUserData()" >Keep User Data</button>
-                                                    </div>
-                                                    <div class="col-md-1 col-sm-2">
-                                                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="UseMelissaData()" >Use Melissa Data</button>
-                                                    </div>
-                                                </div>
-                                            </mat-expansion-panel>  
-                                        </mat-accordion>
-                                    </div>
-                                    <div class="form-group col-md-1">
-                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="RefreshInvoiceContactAddress()" >Refresh Address</button>
-                                    </div>
-                                </div>
-                            </ng-container>
-            
-            
-                        <!-- Invoice Contact Address Compare  -->    
+                        <!-- /Invoice Contact  -->
             
                         <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Assessment</p>
                         <!-- site assessment -->

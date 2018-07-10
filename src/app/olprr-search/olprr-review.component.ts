@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, ParamMap, CanDeactivate } from '@angular/router
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { Observable, of, Subject, forkJoin, combineLatest, BehaviorSubject} from 'rxjs';
-import { map, catchError, tap, retry, finalize, flatMap, mergeMap} from 'rxjs/operators';
+import { map, catchError, tap, retry, finalize, flatMap, mergeMap, delay} from 'rxjs/operators';
 
 import { LustDataService } from '../services/lust-data.service';
 import { SiteType } from '../models/site-type';
@@ -172,18 +172,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       )  // pipe end
       .subscribe(
         (data => {
-          // console.log(' ngOnInit() ************data===== .....');
-          // console.log(data);
-          // console.log(' ngOnInit() this.incidentData is .....');
-          // console.log(this.incidentData);
-          // console.log(' ngOnInit()this.saAddressCorrectStat is .....');
-          // console.log(this.saAddressCorrectStat);
-          // console.log(' ngOnInit()this.saAddressCorrect is .....');
-          // console.log(this.saAddressCorrect);
-          // console.log(' ngOnInit()this.postalCountyVerification is .....');
-          // console.log(this.postalCountyVerification);
-          // console.log('ngOnInit.. this.countyOnlyFips..');
-          // console.log(this.countyFips);
           this.loadingSubject.next(false);
           this.setShowContactInvoice();
           this.createForm();
@@ -200,18 +188,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.pdfService.createOlprrPdfIncident(this.incidentData);
   }
 
-  RefreshSiteAddress() {
-    this.showSiteAddressCompare = !this.showSiteAddressCompare;
-}
-
-RefreshResponsiblePartyAddress() {
-  this.showResponsiblePartyAddressCompare = !this.showResponsiblePartyAddressCompare;
-}
-
-RefreshInvoiceContactAddress() {
-  this.showInvoiceContactAdressCompare = !this.showInvoiceContactAdressCompare;
-}
-
   createForm() {
     this.incidentForm = this.formBuilder.group({
         olprrId:          [{value: this.incidentData.olprrId, disabled: true}],
@@ -224,7 +200,8 @@ RefreshInvoiceContactAddress() {
         dateReceived:     [{value: this.transformDate(this.incidentData.dateReceived), disabled: true}],
         facilityId:       [{value: this.incidentData.facilityId, disabled: true}],
         siteName:         [this.incidentData.siteName, Validators.required],
-        siteCounty:       [this.incidentData.siteCounty, Validators.required],
+        siteCounty:       [+this.incidentData.siteCounty, Validators.required],
+        countyCode:       [+this.incidentData.countyCode, Validators.required],
         siteAddress:      [this.incidentData.siteAddress],
         siteCity:         [this.incidentData.siteCity, Validators.required],
         siteZipcode:      [this.incidentData.siteZipcode, Validators.required],
@@ -351,18 +328,6 @@ RefreshInvoiceContactAddress() {
       this.showInvoiceContact = false;
     }
   }
-
-  // copyResponsibleToInvoice() {
-  //   this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
-  //   this.incidentForm.controls.icLastName.setValue(this.incidentForm.controls.rpLastName.value);
-  //   this.incidentForm.controls.icOrganization.setValue(this.incidentForm.controls.rpOrganization.value);
-  //   this.incidentForm.controls.icAddress.setValue(this.incidentForm.controls.rpAddress.value);
-  //   this.incidentForm.controls.icPhone.setValue(this.incidentForm.controls.rpPhone.value);
-  //   this.incidentForm.controls.icCity.setValue(this.incidentForm.controls.rpCity.value);
-  //   this.incidentForm.controls.icEmail.setValue(this.incidentForm.controls.rpEmail.value);
-  //   this.incidentForm.controls.icState.setValue(this.incidentForm.controls.rpState.value);
-  //   this.incidentForm.controls.icZipcode.setValue(this.incidentForm.controls.rpZipcode.value);
-  // }
 
   submitIncident(): void {
     console.log('submitIncident()');
@@ -699,6 +664,39 @@ RefreshInvoiceContactAddress() {
     }
 
   }
+
+
+
+  runSaAddressCorrect() {
+    this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
+      , this.incidentForm.controls.siteCity.value, 'OR')
+      .pipe(
+        map(addressCorrectData => {
+          this.saAddressCorrectStat = addressCorrectData,
+          this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
+          console.log('***********************HELP**************');
+          console.log(this.incidentForm.controls.countyCode);
+        }),
+        // delay(7000000000000000000000000000000000000),
+        flatMap(countyCheck => this.lustDataService.getPostalCountyVerification
+          (+this.incidentForm.controls.countyCode.value, this.countyFips)
+        ),
+
+
+    )
+    .subscribe(
+      (data => {
+        this.postalCountyVerification = data;
+        console.log('this.postalCountyVerification is .....');
+        console.log(this.postalCountyVerification);
+        console.log('this.saAddressCorrectStat is .....');
+        console.log(this.saAddressCorrectStat);
+      } )
+    );
+     console.log('getAddressCorrection done');
+  }
+
+
 
   getAddressCorrection(address: string, city: string, reportedCountyCode: string, state: string) {
     console.log('getAddressCorrection');

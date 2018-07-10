@@ -6,6 +6,7 @@ export interface IncidentData {
     facilityId: number;
     siteName: string;
     siteCounty: string;
+    countyCode: string;
     siteAddress: string;
     otherAddress: string;
     siteCity: string;
