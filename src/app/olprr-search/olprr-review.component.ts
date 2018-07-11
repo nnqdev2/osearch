@@ -264,6 +264,11 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         icAddressCorrectCity:    [{value: this.icAddressCorrectStat.Records[0].City, disabled: true}],
         icAddressCorrectZipcode: [{value: this.icAddressCorrectStat.Records[0].PostalCode, disabled: true}],
         icAddressCorrectState:   [{value: this.icAddressCorrectStat.Records[0].State, disabled: true}],
+        updateSaWithAddressCorrect: [0],
+        updateRpWithAddressCorrect: [0],
+        updateIcWithAddressCorrect: [0],
+        bypassLit: [0],
+        authUser: ['', Validators.required]
       },
       {validator: [IncidentValidators.selectOneOrMoreMedia, IncidentValidators.selectOneOrMoreContaminants] }
     );
@@ -667,6 +672,33 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
 
 
+
+  openLit() {
+    let address: string;
+    let city: string;
+    let zipcode: string;
+    if (this.incidentForm.controls.updateSaWithAddressCorrect.value) {
+      address = this.incidentForm.controls.saAddressCorrectAddress.value;
+      city = this.incidentForm.controls.saAddressCorrectCity.value;
+      zipcode = this.incidentForm.controls.saAddressCorrectZipcode.value;
+    } else {
+      address = this.incidentForm.controls.siteAddress.value;
+      city = this.incidentForm.controls.siteCity.value;
+      zipcode = this.incidentForm.controls.siteZipcode.value;
+    }
+    if (typeof this.incidentForm.controls.authUser.value !== 'undefined'
+      && this.incidentForm.controls.authUser.value
+      && this.incidentForm.controls.authUser.value.length > 0) {
+      const params = encodeURI('LUST' + this.incidentForm.controls.authUser.value + '&address='
+                        + address + '&city=' + city +  '&zip='
+                        + zipcode + '&facname=' + this.incidentForm.controls.siteName.value);
+        const lit_url = environment.lit_site_setup + params;
+        console.log('LIT URL IS==========>>>>>>>>>>>>>>>>>>>>>');
+        console.log(lit_url);
+        window.open(lit_url, '_blank');
+    }
+  }
+
   runSaAddressCorrect() {
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
       , this.incidentForm.controls.siteCity.value, 'OR')
@@ -674,29 +706,40 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         map(addressCorrectData => {
           this.saAddressCorrectStat = addressCorrectData,
           this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
-          console.log('***********************HELP**************');
-          console.log(this.incidentForm.controls.countyCode);
         }),
         // delay(7000000000000000000000000000000000000),
         flatMap(countyCheck => this.lustDataService.getPostalCountyVerification
           (+this.incidentForm.controls.countyCode.value, this.countyFips)
         ),
-
-
     )
     .subscribe(
       (data => {
         this.postalCountyVerification = data;
-        console.log('this.postalCountyVerification is .....');
-        console.log(this.postalCountyVerification);
-        console.log('this.saAddressCorrectStat is .....');
-        console.log(this.saAddressCorrectStat);
       } )
     );
-     console.log('getAddressCorrection done');
   }
 
+  runRpAddressCorrect() {
+    this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.rpAddress.value
+      , this.incidentForm.controls.rpCity.value, this.incidentForm.controls.rpState.value)
+      .pipe(
+        map(addressCorrect => {
+          this.rpAddressCorrectStat = addressCorrect;
+      }),
+    )
+    .subscribe();
+  }
 
+  runIcAddressCorrect() {
+    this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.icAddress.value
+      , this.incidentForm.controls.icCity.value, this.incidentForm.controls.icState.value)
+      .pipe(
+        map(addressCorrect => {
+          this.icAddressCorrectStat = addressCorrect;
+      }),
+    )
+    .subscribe();
+  }
 
   getAddressCorrection(address: string, city: string, reportedCountyCode: string, state: string) {
     console.log('getAddressCorrection');
@@ -754,38 +797,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     });
     return choice;
   }
-
-  // getAddressCorrectionOrig(address: string, city: string, reportedCountyCode: string) {
-  //   console.log('getAddressCorrection');
-  //   this.addressCorrectDataService.getAddressCorrectStat(address, city)
-  //   .pipe(
-  //     map(data => {
-  //       this.addressCorrectStat = data,
-  //       this.countyFips = data.Records[0].CountyFIPS.substring(2);
-  //     })
-  //   )
-  //   .subscribe(
-  //     (data => {
-  //       console.log('this.addressCorrectDataService.getAddressCorrectStat(address, city) -- subscribing'),
-  //       // this.addressCorrectStat = data,
-  //       // console.log(this.addressCorrectStat.Records[0].CountyFIPS);
-  //       console.log(this.addressCorrectStat);
-  //       console.log(this.addressCorrectStat.Records[0].CountyFIPS);
-  //       console.log(this.countyFips);
-  //       this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyFips)
-  //       .pipe(
-
-  //       )
-  //       .subscribe(data1 => {
-  //         this.postalCountyVerification = data1;
-  //         console.log('this.lustDataService.getPostalCountyVerification we made it to here!!!!!!!');
-  //         console.log(this.postalCountyVerification);
-  //       } );
-  //     } )
-  //   );
-  //    console.log('getAddressCorrection done');
-  // }
-
 
   private openUstSearch() {
     const dialogConfig = new MatDialogConfig();
