@@ -1,15 +1,10 @@
 
  
-     <div class="spinner-container" *ngIf="loading$  | async; else showForm">
-        <mat-spinner></mat-spinner>
+    <div class="loading-indicator"   *ngIf="loading$  | async; else showForm">
+        <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
     </div>
 
     <ng-template #showForm>
-
-
-
-        <!-- table lustReportingTable  -->
-        <!-- <table id="lustReportingTable"> -->
             <div class="container-fluid">
                 <mat-card>    
                     <!-- Title of an Card -->    
@@ -766,7 +761,7 @@
                     <!-- /show errors  -->
 
 
-                    <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Actions on Incident</p>
+                    <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Review Actions</p>
             
                     <!-- <div class="form-group row full-width">
                         <label class="col-md-1 form-check-label">
