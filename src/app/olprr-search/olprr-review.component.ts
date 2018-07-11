@@ -87,13 +87,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   mediaErrorMessages: [string];
 
   errors: any[];
-
-
-  panelOpenState = false;
-  public showSiteAddressCompare = true;
-  public showResponsiblePartyAddressCompare = true;
-  public showInvoiceContactAdressCompare = true;
-  public showLITButtons = true;
+  authRequired = false;
+  showStatusButtons = false;
+  actionStatusArray: Array<string> = ['NEW', 'HOLD'];
 
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
@@ -173,11 +169,20 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       .subscribe(
         (data => {
           this.loadingSubject.next(false);
+          this.setShowActionButtons();
           this.setShowContactInvoice();
           this.createForm();
         } )
       );
 
+  }
+
+  private setShowActionButtons()  {
+    if (this.actionStatusArray.indexOf(this.incidentData.siteStatus) > -1) {
+      this.showStatusButtons = true;
+    } else {
+      this.showStatusButtons = false;
+    }
   }
 
   private print(): void {
@@ -190,89 +195,90 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   createForm() {
     this.incidentForm = this.formBuilder.group({
-        olprrId:          [{value: this.incidentData.olprrId, disabled: true}],
-        contractorEmail:  [{value: this.incidentData.contractorEmail, disabled: true}],
-        reportedBy:       [{value: this.incidentData.reportedBy, disabled: true}],
-        reportedByPhone:  [{value: this.incidentData.reportedByPhone, disabled: true}],
-        reportedByEmail:  ['', [Validators.email]],
-        // reportedByEmail:  ['', [Validators.required, Validators.email]],
-        releaseType:      [{value: this.incidentData.releaseTypeCode, disabled: true}],
-        dateReceived:     [{value: this.transformDate(this.incidentData.dateReceived), disabled: true}],
-        facilityId:       [{value: this.incidentData.facilityId, disabled: true}],
-        siteName:         [this.incidentData.siteName, Validators.required],
-        siteCounty:       [+this.incidentData.siteCounty, Validators.required],
-        countyCode:       [+this.incidentData.countyCode, Validators.required],
-        siteAddress:      [this.incidentData.siteAddress],
-        siteCity:         [this.incidentData.siteCity, Validators.required],
-        siteZipcode:      [this.incidentData.siteZipcode, Validators.required],
-        sitePhone:        [this.incidentData.sitePhone],
-        company:          [{value: this.incidentData.contractorName, disabled: true}],
-        initialComment:   [{value: this.incidentData.siteComment, disabled: true}],
-        discoveryDate:    [{value: this.transformDate(this.incidentData.discoveryDate), disabled: true}],
-        confirmationCode: [{value: this.incidentData.confirmationCode, disabled: true}],
-        discoveryCode:    [{value: this.incidentData.discoveryCode, disabled: true}],
-        causeCode:        [{value: this.incidentData.causeCode, disabled: true}],
-        sourceId:         [{value: this.incidentData.sourceId, disabled: true}],
-        rpFirstName:      [this.incidentData.rpFirstName, Validators.required],
-        rpLastName:       [this.incidentData.rpLastName, Validators.required],
-        rpOrganization:   [this.incidentData.rpOrganization],
-        rpAddress:        [this.incidentData.rpAddress, Validators.required],
-        rpAddress2:       [this.incidentData.rpAddress2],
-        rpCity:           [this.incidentData.rpCity, Validators.required],
-        rpState:          [this.incidentData.rpState, Validators.required],
-        rpZipcode:        [this.incidentData.rpZipcode, Validators.required],
-        rpPhone:          [this.incidentData.rpPhone, Validators.required],
-        rpEmail:          [this.incidentData.rpEmail, [Validators.email]],
-        icFirstName:      [this.incidentData.icFirstName],
-        icLastName:       [this.incidentData.icLastName],
-        icOrganization:   [this.incidentData.icOrganization],
-        icAddress:        [this.incidentData.icAddress],
-        icAddress2:       [this.incidentData.icAddress2],
-        icCity:           [this.incidentData.icCity],
-        icState:          [this.incidentData.icState],
-        icZipcode:        [this.incidentData.icZipcode],
-        icPhone:          [this.incidentData.icPhone],
-        icEmail:          [this.incidentData.icEmail],
-        groundWater:      [{value: this.incidentData.groundWater, disabled: true}],
-        surfaceWater:     [{value: this.incidentData.surfaceWater, disabled: true}],
-        drinkingWater:    [{value: this.incidentData.drinkingWater, disabled: true}],
-        soil:             [{value: this.incidentData.soil, disabled: true}],
-        vapor:            [{value: this.incidentData.vapor, disabled: true}],
-        freeProduct:      [{value: this.incidentData.freeProduct, disabled: true}],
-        unleadedGas:      [{value: this.incidentData.unleadedGas, disabled: true}],
-        leadedGas:        [{value: this.incidentData.leadedGas, disabled: true}],
-        misGas:           [{value: this.incidentData.misGas, disabled: true}],
-        diesel:           [{value: this.incidentData.diesel, disabled: true}],
-        wasteOil:         [{value: this.incidentData.wasteOil, disabled: true}],
-        heatingOil:       [{value: this.incidentData.heatingOil, disabled: true}],
-        lubricant:        [{value: this.incidentData.lubricant, disabled: true}],
-        solvent:          [{value: this.incidentData.solvent, disabled: true}],
-        otherPet:         [{value: this.incidentData.otherPet, disabled: true}],
-        chemical:         [{value: this.incidentData.chemical, disabled: true}],
-        unknown:          [{value: this.incidentData.unknown, disabled: true}],
-        mtbe:             [{value: this.incidentData.mtbe, disabled: true}],
-        saAddressCorrectAddress: [{value: this.saAddressCorrectStat.Records[0].AddressLine1, disabled: true}],
-        saAddressCorrectCounty:  [{value: this.countyFips, disabled: true}],
-        saAddressCorrectCity:    [{value: this.saAddressCorrectStat.Records[0].City, disabled: true}],
-        saAddressCorrectZipcode: [{value: this.saAddressCorrectStat.Records[0].PostalCode, disabled: true}],
-        saAddressCorrectState:   [{value: this.saAddressCorrectStat.Records[0].State, disabled: true}],
-        rpAddressCorrectAddress: [{value: this.rpAddressCorrectStat.Records[0].AddressLine1, disabled: true}],
-        rpAddressCorrectCity:    [{value: this.rpAddressCorrectStat.Records[0].City, disabled: true}],
-        rpAddressCorrectZipcode: [{value: this.rpAddressCorrectStat.Records[0].PostalCode, disabled: true}],
-        rpAddressCorrectState:   [{value: this.rpAddressCorrectStat.Records[0].State, disabled: true}],
-        icAddressCorrectAddress: [{value: this.icAddressCorrectStat.Records[0].AddressLine1, disabled: true}],
-        icAddressCorrectCity:    [{value: this.icAddressCorrectStat.Records[0].City, disabled: true}],
-        icAddressCorrectZipcode: [{value: this.icAddressCorrectStat.Records[0].PostalCode, disabled: true}],
-        icAddressCorrectState:   [{value: this.icAddressCorrectStat.Records[0].State, disabled: true}],
-        updateSaWithAddressCorrect: [0],
-        updateRpWithAddressCorrect: [0],
-        updateIcWithAddressCorrect: [0],
-        bypassLit: [0],
-        authUser: ['', Validators.required]
-      },
-      {validator: [IncidentValidators.selectOneOrMoreMedia, IncidentValidators.selectOneOrMoreContaminants] }
-    );
+      rpFirstName:      [this.incidentData.rpFirstName, Validators.required],
+      rpLastName:       [this.incidentData.rpLastName, Validators.required],
+      rpOrganization:   [this.incidentData.rpOrganization],
+      rpAddress:        [this.incidentData.rpAddress, Validators.required],
+      rpAddress2:       [this.incidentData.rpAddress2],
+      rpCity:           [this.incidentData.rpCity, Validators.required],
+      rpState:          [this.incidentData.rpState, Validators.required],
+      rpZipcode:        [this.incidentData.rpZipcode, Validators.required],
+      rpPhone:          [this.incidentData.rpPhone, Validators.required],
+      rpEmail:          [this.incidentData.rpEmail, [Validators.email]],
+      icFirstName:      [this.incidentData.icFirstName],
+      icLastName:       [this.incidentData.icLastName],
+      icOrganization:   [this.incidentData.icOrganization],
+      icAddress:        [this.incidentData.icAddress],
+      icAddress2:       [this.incidentData.icAddress2],
+      icCity:           [this.incidentData.icCity],
+      icState:          [this.incidentData.icState],
+      icZipcode:        [this.incidentData.icZipcode],
+      icPhone:          [this.incidentData.icPhone],
+      icEmail:          [this.incidentData.icEmail],
+      reportedByEmail:  ['', [Validators.email]],
+      // reportedByEmail:  ['', [Validators.required, Validators.email]],
+      siteName:         [this.incidentData.siteName, Validators.required],
+      siteCounty:       [+this.incidentData.siteCounty, Validators.required],
+      countyCode:       [+this.incidentData.countyCode, Validators.required],
+      siteAddress:      [this.incidentData.siteAddress],
+      siteCity:         [this.incidentData.siteCity, Validators.required],
+      siteZipcode:      [this.incidentData.siteZipcode, Validators.required],
+      sitePhone:        [this.incidentData.sitePhone],
 
+      olprrId:          [{value: this.incidentData.olprrId, disabled: true}],
+      contractorEmail:  [{value: this.incidentData.contractorEmail, disabled: true}],
+      reportedBy:       [{value: this.incidentData.reportedBy, disabled: true}],
+      reportedByPhone:  [{value: this.incidentData.reportedByPhone, disabled: true}],
+      releaseType:      [{value: this.incidentData.releaseTypeCode, disabled: true}],
+      dateReceived:     [{value: this.transformDate(this.incidentData.dateReceived), disabled: true}],
+      facilityId:       [{value: this.incidentData.facilityId, disabled: true}],
+      company:          [{value: this.incidentData.contractorName, disabled: true}],
+      initialComment:   [{value: this.incidentData.siteComment, disabled: true}],
+      discoveryDate:    [{value: this.transformDate(this.incidentData.discoveryDate), disabled: true}],
+      confirmationCode: [{value: this.incidentData.confirmationCode, disabled: true}],
+      discoveryCode:    [{value: this.incidentData.discoveryCode, disabled: true}],
+      causeCode:        [{value: this.incidentData.causeCode, disabled: true}],
+      sourceId:         [{value: this.incidentData.sourceId, disabled: true}],
+      groundWater:      [{value: this.incidentData.groundWater, disabled: true}],
+      surfaceWater:     [{value: this.incidentData.surfaceWater, disabled: true}],
+      drinkingWater:    [{value: this.incidentData.drinkingWater, disabled: true}],
+      soil:             [{value: this.incidentData.soil, disabled: true}],
+      vapor:            [{value: this.incidentData.vapor, disabled: true}],
+      freeProduct:      [{value: this.incidentData.freeProduct, disabled: true}],
+      unleadedGas:      [{value: this.incidentData.unleadedGas, disabled: true}],
+      leadedGas:        [{value: this.incidentData.leadedGas, disabled: true}],
+      misGas:           [{value: this.incidentData.misGas, disabled: true}],
+      diesel:           [{value: this.incidentData.diesel, disabled: true}],
+      wasteOil:         [{value: this.incidentData.wasteOil, disabled: true}],
+      heatingOil:       [{value: this.incidentData.heatingOil, disabled: true}],
+      lubricant:        [{value: this.incidentData.lubricant, disabled: true}],
+      solvent:          [{value: this.incidentData.solvent, disabled: true}],
+      otherPet:         [{value: this.incidentData.otherPet, disabled: true}],
+      chemical:         [{value: this.incidentData.chemical, disabled: true}],
+      unknown:          [{value: this.incidentData.unknown, disabled: true}],
+      mtbe:             [{value: this.incidentData.mtbe, disabled: true}],
+      saAddressCorrectAddress: [{value: this.saAddressCorrectStat.Records[0].AddressLine1, disabled: true}],
+      saAddressCorrectCounty:  [{value: this.postalCountyVerification.countyName, disabled: true}],
+      saAddressCorrectCity:    [{value: this.saAddressCorrectStat.Records[0].City, disabled: true}],
+      saAddressCorrectZipcode: [{value: this.saAddressCorrectStat.Records[0].PostalCode, disabled: true}],
+      saAddressCorrectState:   [{value: this.saAddressCorrectStat.Records[0].State, disabled: true}],
+      rpAddressCorrectAddress: [{value: this.rpAddressCorrectStat.Records[0].AddressLine1, disabled: true}],
+      rpAddressCorrectCity:    [{value: this.rpAddressCorrectStat.Records[0].City, disabled: true}],
+      rpAddressCorrectZipcode: [{value: this.rpAddressCorrectStat.Records[0].PostalCode, disabled: true}],
+      rpAddressCorrectState:   [{value: this.rpAddressCorrectStat.Records[0].State, disabled: true}],
+      icAddressCorrectAddress: [{value: this.icAddressCorrectStat.Records[0].AddressLine1, disabled: true}],
+      icAddressCorrectCity:    [{value: this.icAddressCorrectStat.Records[0].City, disabled: true}],
+      icAddressCorrectZipcode: [{value: this.icAddressCorrectStat.Records[0].PostalCode, disabled: true}],
+      icAddressCorrectState:   [{value: this.icAddressCorrectStat.Records[0].State, disabled: true}],
+      updateSaWithAddressCorrect: [0],
+      updateRpWithAddressCorrect: [0],
+      updateIcWithAddressCorrect: [0],
+      bypassLit: [0],
+      authUser: ['']
+    }
+  );
+
+  if (this.showStatusButtons) {
     if (this.incidentData.releaseTypeCode !== 'H') {
       this.incidentForm.controls.icAddress.setValidators([Validators.required]);
       this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
@@ -285,7 +291,42 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.incidentForm.controls.icPhone.setValidators([Validators.required]);
       this.incidentForm.controls.icEmail.setValidators([Validators.required]);
     }
+  } else {
+    this.incidentForm.controls.icAddress.disable();
+    this.incidentForm.controls.icAddress2.disable();
+    this.incidentForm.controls.icFirstName.disable();
+    this.incidentForm.controls.icLastName.disable();
+    this.incidentForm.controls.icOrganization.disable();
+    this.incidentForm.controls.icCity.disable();
+    this.incidentForm.controls.icState.disable();
+    this.incidentForm.controls.icZipcode.disable();
+    this.incidentForm.controls.icPhone.disable();
+    this.incidentForm.controls.icEmail.disable();
+
+    this.incidentForm.controls.rpAddress.disable();
+    this.incidentForm.controls.rpAddress2.disable();
+    this.incidentForm.controls.rpFirstName.disable();
+    this.incidentForm.controls.rpLastName.disable();
+    this.incidentForm.controls.rpOrganization.disable();
+    this.incidentForm.controls.rpCity.disable();
+    this.incidentForm.controls.rpState.disable();
+    this.incidentForm.controls.rpZipcode.disable();
+    this.incidentForm.controls.rpPhone.disable();
+    this.incidentForm.controls.rpEmail.disable();
+
+    this.incidentForm.controls.reportedByEmail.disable();
+    this.incidentForm.controls.siteName.disable();
+    this.incidentForm.controls.siteCounty.disable();
+    this.incidentForm.controls.countyCode.disable();
+    this.incidentForm.controls.siteAddress.disable();
+    this.incidentForm.controls.siteCity.disable();
+    this.incidentForm.controls.siteZipcode.disable();
+    this.incidentForm.controls.sitePhone.disable();
+
   }
+
+
+}
 
   addressCorrectNotFound(addressType: string): boolean {
     if ((addressType === 'sa')
@@ -674,6 +715,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
 
   openLit() {
+    // todo: temp for now
     let address: string;
     let city: string;
     let zipcode: string;
@@ -689,14 +731,19 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     if (typeof this.incidentForm.controls.authUser.value !== 'undefined'
       && this.incidentForm.controls.authUser.value
       && this.incidentForm.controls.authUser.value.length > 0) {
+      this.authRequired = false;
       const params = encodeURI('LUST' + this.incidentForm.controls.authUser.value + '&address='
                         + address + '&city=' + city +  '&zip='
                         + zipcode + '&facname=' + this.incidentForm.controls.siteName.value);
         const lit_url = environment.lit_site_setup + params;
-        console.log('LIT URL IS==========>>>>>>>>>>>>>>>>>>>>>');
-        console.log(lit_url);
         window.open(lit_url, '_blank');
+    } else {
+      this.authRequired = true;
     }
+  }
+
+  getAuthUserErrorMessage(): string {
+    return 'Auth User required for opening LIT.....';
   }
 
   runSaAddressCorrect() {

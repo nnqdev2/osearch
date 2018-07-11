@@ -142,7 +142,7 @@
                         </div>
                         <!-- /city, zip, phone  -->
 
-                        <ng-container *ngIf="showAddressCorrect('sa')">
+                        <ng-container *ngIf="showActionButtons && showAddressCorrect('sa')">
                             <div class="form-row full-width">  <!-- style="display:none -->
                                 <div class="form-group col-md-10">
                                     <mat-card>
@@ -173,7 +173,7 @@
                                                 <div *ngIf="addressCorrectNotFound('sa'); else saKeepAddressCorrect"></div>
                                                 <ng-template #saKeepAddressCorrect>
                                                     <div class="form-check">
-                                                        <label class="form-check-label">
+                                                        <label class="form-check-label font-weight-bold">
                                                             <mat-checkbox formControlName="updateSaWithAddressCorrect"> Update the Site Address with the US Postal Address upon Accept action.</mat-checkbox>
                                                         </label>
                                                     </div>
@@ -292,7 +292,7 @@
 
 
                         <!-- Responsible Party Melissa Data Correction   -->
-                        <ng-container *ngIf="showAddressCorrect('rp')">
+                        <ng-container *ngIf="showActionButtons && showAddressCorrect('rp')">
                             <div class="form-row full-width">  <!-- style="display:none -->
                                 <div class="form-group col-md-10">
                                     <mat-card>
@@ -303,7 +303,7 @@
                                             <div *ngIf="addressCorrectNotFound('rp'); then rpAddressCorrectNotFound else rpAddressCorrectFound"></div>
                                             <ng-template #rpAddressCorrectNotFound>
                                                 <mat-panel-description>
-                                                    ** US Postal Addresss not found for this Site Address. **
+                                                    ** US Postal Addresss not found for this Responsible Party Address. **
                                                 </mat-panel-description>
                                             </ng-template>
                                             <ng-template #rpAddressCorrectFound>
@@ -322,7 +322,7 @@
                                                 <div *ngIf="addressCorrectNotFound('rp'); else rpKeepAddressCorrect"></div>
                                                 <ng-template #rpKeepAddressCorrect>
                                                     <div class="form-check">
-                                                        <label class="form-check-label">
+                                                        <label class="form-check-label font-weight-bold">
                                                                 <mat-checkbox formControlName="updateRpWithAddressCorrect"> Update the Responsible Party Address with the US Postal Address upon Accept action.</mat-checkbox>
                                                         </label>
                                                     </div>
@@ -432,7 +432,7 @@
 
 
                             <!-- Invoice Contact Address Correct  --> 
-                            <ng-container *ngIf="showAddressCorrect('ic')">
+                            <ng-container *ngIf="showActionButtons && showAddressCorrect('ic')">
                                 <div class="form-row full-width">  <!-- style="display:none -->
                                     <div class="form-group col-md-10">
                                         <mat-card>
@@ -462,8 +462,8 @@
                                                     <div *ngIf="addressCorrectNotFound('ic'); else icKeepAddressCorrect"></div>
                                                     <ng-template #icKeepAddressCorrect>
                                                         <div class="form-check">
-                                                            <label class="form-check-label">
-                                                                <mat-checkbox formControlName="updateIcWithAddressCorrect"> Update the Responsible Party Address with the US Postal Address upon Accept action.</mat-checkbox>
+                                                            <label class="form-check-label font-weight-bold">
+                                                                <mat-checkbox formControlName="updateIcWithAddressCorrect"> Update the Invoice Contact Address with the US Postal Address upon Accept action.</mat-checkbox>
                                                             </label>
                                                         </div>
                                                     </ng-template>
@@ -714,13 +714,46 @@
                         <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
                         <div class="form-row full-width example-container">
                             <mat-form-field class="example-full-width">
-                                <textarea matInput class="form-control rounded-0" rows="10" formControlName="initialComment" placeholder="Site Comments"></textarea>
+                                <textarea matInput class="form-control rounded-0" rows="10" formControlName="initialComment" ></textarea>
                             </mat-form-field>  
                         </div>                          
                         <!-- /Site Comments  -->
             
                     <!--</div>  end Print form -->
             
+
+
+                    <ng-container *ngIf="showActionButtons && showAddressCorrect('sa')">
+                        <p class="text-left font-weight-bold " style="background-color: darkSeaGreen">Open LIT to setup Site?</p>
+                        <div class="full-width">
+                        <mat-card>
+                            <mat-card-content>
+                                <!-- <div class="form-group row full-width">
+                                    <mat-form-field class="col-md-5 form-check-label">
+                                        <textarea matInput class="form-control "  formControlName="authUser" placeholder="Enter your User Name here"></textarea>
+                                    </mat-form-field>  
+                                </div> -->
+                                <div class="form-group row full-width">
+                                    <mat-form-field class="col-md-5 form-check-label  font-weight-bold">
+                                        <textarea matInput class="form-control "  formControlName="authUser" placeholder="Must enter your Windows User Name here to link to LIT"></textarea>
+                                        <!-- <textarea *ngIf="authUserRequired" disabled="true" >{{getAuthUserErrorMessage()}}</textarear> -->
+                                        <div *ngIf="authUserRequired; then showAuthUserRequiredErrorMessage"></div>
+                                        <ng-template #showAuthUserRequiredErrorMessage>
+                                            <p>{{getAuthUserErrorMessage()}}</p>
+                                        </ng-template>                                    
+                                    </mat-form-field>  
+                                </div>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <div class="col-md-4 col-sm-5">
+                                    <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
+                                </div>
+                            </mat-card-actions>
+                        </mat-card>
+                        </div>
+                    </ng-container>
+
+                    
                     <!-- show errors  -->
                     <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
                     <ng-template #showAllErrorsMessages> 
@@ -732,61 +765,50 @@
                     </ng-template>
                     <!-- /show errors  -->
 
-                    <p class="text-left font-weight-bold " style="background-color: darkSeaGreen">Open LIT to setup Site?</p>
-                    <div class="full-width">
-                    <mat-card>
-                        <mat-card-content>
-                            <div class="form-group row full-width">
-                                <mat-form-field class="col-md-5 form-check-label">
-                                    <textarea matInput class="form-control "  formControlName="authUser" placeholder="Enter your User Name here"></textarea>
-                                </mat-form-field>  
-                            </div>
-                        </mat-card-content>
-                        <mat-card-actions>
-                            <div class="col-md-2 col-sm-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
-                            </div>
-                        </mat-card-actions>
-                    </mat-card>
-                    </div>
 
-  
-                    <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Process Record</p>
+                    <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Actions on Incident</p>
             
-                    <div class="form-group row full-width">
+                    <!-- <div class="form-group row full-width">
                         <label class="col-md-1 form-check-label">
                             <mat-checkbox formControlName="bypassLit" > ByPass LIT </mat-checkbox>
                         </label>                      
-                    </div>
-                    
-                    <div class="form-group row">
-            
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
-                        </div>
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Hold</button>
-                        </div>
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" >Decline</button>
-                        </div>
-                        <div class="col-md-2 col-sm-3">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
-                        </div>
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
-                        </div>
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="sendEmail()" >Email</button>
-                        </div>
-                        <div class="col-md-1 col-sm-2">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="pdfGenerate()" >PDF</button>
-                        </div>
-                        
-                    </div>
-            
-                    
-                 
+                    </div> -->
+
+                    <ng-container *ngIf="showStatusButtons">
+                        <div class="form-group row">
+                            <div class="col-md-1 col-sm-2">
+                                <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
+                            </div>
+                            <div class="col-md-1 col-sm-2">
+                                <button mat-raised-button color="primary" type="submit" class="btn btn-default btn-md btn-block" >Hold</button>
+                            </div>
+                            <div class="col-md-1 col-sm-2">
+                                <button mat-raised-button color="primary" type="submit" class="btn btn-default btn-md btn-block" >Decline</button>
+                            </div>
+                            <div class="col-md-2 col-sm-3">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
+                            </div>
+                        </div>                        
+                    </ng-container>
+                    <ng-container *ngIf="!showStatusButtons">
+                        <div class="form-group row">   
+                            <div class="col-md-1 col-sm-2">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
+                            </div>
+                            <div class="col-md-1 col-sm-2">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="sendEmail()" >Email</button>
+                            </div>
+                            <div class="col-md-1 col-sm-2">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="pdfGenerate()" >PDF</button>
+                            </div>
+                            <div class="col-md-2 col-sm-3">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
+                            </div>                        
+                        </div>                        
+                    </ng-container>
+
+
+
             
                     <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->
                 </form>
