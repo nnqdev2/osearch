@@ -17,8 +17,9 @@ export const environment = {
   olprrapi_region: 'http://deqwebdev/olprrapi/olprr/region',
   olprrapi_city: 'http://deqwebdev/olprrapi/olprr/city',
   olprrapi_zipcode: 'http://deqwebdev/olprrapi/olprr/zipcode',
+  olprrapi_datecompare: 'http://deqwebdev/olprrapi/olprr/datecompare',
   olprrapi_cleanupsitetype: 'http://deqwebdev/olprrapi/olprr/cleanupsitetype',
-  olprrapi_programmanager: 'http://deqwebdev/olprrapi/olprr/programmanager',
+  olprrapi_projectmanager: 'http://deqwebdev/olprrapi/olprr/projectmanager',
   olprrapi_incident: 'http://deqwebdev/olprrapi/olprr/incident',
   olprrapi_lust_search: 'http://deqwebdev/olprrapi/review/lustsite',
   olprrapi_ust_search: 'http://deqwebdev/olprrapi/review/ustsite',
@@ -26,6 +27,7 @@ export const environment = {
   olprrapi_review_incidentdatabyid: 'http://deqwebdev/olprrapi/review/incidentdatabyid/',
   address_correction: 'https://personator.melissadata.net/v3/WEB/ContactVerify/doContactVerify',
   olprrapi_review_postalcounty: 'http://deqwebdev/olprrapi/review/postalcounty',
+  lit_site_setup: 'http://deqapp1/website/lit/?appid=',
   contractor_uid: 'INGRID',
-  contractor_pwd: 'GAFFNEY'
+  contractor_pwd: 'GAFFNEY',
 };
