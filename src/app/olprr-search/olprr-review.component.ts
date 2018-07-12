@@ -1,11 +1,11 @@
-import { Component, OnInit, SimpleChanges} from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, ParamMap, CanDeactivate } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
-import { Observable, of, Subject, forkJoin, combineLatest, BehaviorSubject} from 'rxjs';
-import { map, catchError, tap, retry, finalize, flatMap, mergeMap, delay} from 'rxjs/operators';
+import { Observable, Subject, BehaviorSubject} from 'rxjs';
+import { map, flatMap, mergeMap} from 'rxjs/operators';
 
 import { LustDataService } from '../services/lust-data.service';
 import { SiteType } from '../models/site-type';
@@ -17,8 +17,6 @@ import { ReleaseCauseType } from '../models/release-cause-type';
 import { SourceType } from '../models/source-type';
 import { State } from '../models/state';
 import { StreetType } from '../models/street-type';
-import { Incident } from '../models/incident';
-import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../common/config.service';
 import { IncidentIdToNameService } from './incident-id-to-name.service';
 import { IncidentData } from '../models/incident-data';
@@ -28,11 +26,8 @@ import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrect } from '../models/address-correct';
 import { AcceptDialogComponent } from './accept-dialog.component';
 import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ShowErrorsComponent } from '../show-errors/show-errors.component';
-import { DialogService } from '../common/dialogs/dialog.service';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
-import { UstSearchFilterComponent } from '../ust-search/ust-search-filter.component';
 import { SearchDialogComponent } from './search-dialog.component';
 import { PdfService } from '../common/pdf.service';
 
@@ -90,13 +85,15 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   authRequired = false;
   showStatusButtons = false;
   actionStatusArray: Array<string> = ['NEW', 'HOLD'];
-
+  showSaAddressCorrect = false;
+  showRpAddressCorrect = false;
+  showIcAddressCorrect = false;
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
-    , private configService: ConfigService, private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
+    , private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog
     , private pdfService: PdfService
@@ -123,61 +120,75 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           console.log('ngOnInit....incidentData..');
           console.log(this.incidentData);
         }),
-        mergeMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
-              (this.incidentData.siteAddress, this.incidentData.siteCity, 'OR')
-              .pipe(
-                map(addressCorrect => {
-                  this.saAddressCorrectStat = addressCorrect;
-                  this.countyFips = addressCorrect.Records[0].CountyFIPS.substring(2);
-                  if (this.countyFips == null) {
-                    this.countyFips = '000';
-                  }
-                }),
-              ) // pipe end
+        mergeMap(() => this.addressCorrectDataService
+        .getAddressCorrectStat(this.incidentData.siteAddress, this.incidentData.siteCity, 'OR')
+          .pipe(map(addressCorrect => {
+            this.saAddressCorrectStat = addressCorrect;
+            this.countyFips = addressCorrect.Records[0].CountyFIPS.substring(2);
+            if (this.countyFips == null) {
+              this.countyFips = '000';
+            }
+          })) // pipe end
         ),  // flatmap end
 
-        mergeMap(countyCheck => this.lustDataService.getPostalCountyVerification
-              (+this.incidentData.siteCounty, this.countyFips)
-              .pipe(
-                map(countyCheckData => {
-                  this.postalCountyVerification = countyCheckData;
-                })
-              ) // pipe end
+        mergeMap(() => this.lustDataService
+        .getPostalCountyVerification(+this.incidentData.siteCounty, this.countyFips)
+          .pipe(map(countyCheckData => {
+            this.postalCountyVerification = countyCheckData;
+          })) // pipe end
         ), // flatmap end
 
-        mergeMap(saCheck => this.addressCorrectDataService.getAddressCorrectStat
-          (this.incidentData.rpAddress, this.incidentData.rpCity, this.incidentData.rpState)
-          .pipe(
-            map(addressCorrect => {
-              this.rpAddressCorrectStat = addressCorrect;
-            }),
-          ) // pipe end
+        mergeMap(() => this.addressCorrectDataService
+        .getAddressCorrectStat(this.incidentData.rpAddress, this.incidentData.rpCity, this.incidentData.rpState)
+          .pipe(map(addressCorrect => {
+            this.rpAddressCorrectStat = addressCorrect;
+          })) // pipe end
         ),  // flatmap end
 
-        mergeMap(icCheck => this.addressCorrectDataService.getAddressCorrectStat
-          (this.incidentData.icAddress, this.incidentData.icCity, this.incidentData.icState)
-          .pipe(
-            map(addressCorrect => {
-              this.icAddressCorrectStat = addressCorrect;
-              console.log(this.icAddressCorrectStat);
-            }
-            )
-          ) // pipe end
+        mergeMap(() => this.addressCorrectDataService
+        .getAddressCorrectStat(this.incidentData.icAddress, this.incidentData.icCity, this.incidentData.icState)
+          .pipe(map(addressCorrect => {
+            this.icAddressCorrectStat = addressCorrect;
+            console.log(this.icAddressCorrectStat);
+          })) // pipe end
         ),  // flatmap end
 
       )  // pipe end
       .subscribe(
-        (data => {
-          this.loadingSubject.next(false);
-          this.setShowActionButtons();
-          this.setShowContactInvoice();
-          this.createForm();
-        } )
+        (() => {
+        this.loadingSubject.next(false);
+        this.setShowStatusButtons();
+        this.setShowContactInvoice();
+        this.createForm();
+      } )
       );
 
   }
 
-  private setShowActionButtons()  {
+  // private setShowSaAddressCorrect()  {
+  //   if (this.showStatusButtons && this.showSaAddressCorrect) {
+  //     this.showSaAddressCorrect = true;
+  //   } else {
+  //     this.showSaAddressCorrect = false;
+  //   }
+  // }
+
+  // private setShowRpAddressCorrect()  {
+  //   if (this.showStatusButtons && this.showRpAddressCorrect) {
+  //     this.showRpAddressCorrect = true;
+  //   } else {
+  //     this.showRpAddressCorrect = false;
+  //   }
+  // }
+  // private setShowIcAddressCorrect()  {
+  //   if (this.showStatusButtons && this.showIcAddressCorrect) {
+  //     this.showIcAddressCorrect = true;
+  //   } else {
+  //     this.showIcAddressCorrect = false;
+  //   }
+  // }
+
+  private setShowStatusButtons()  {
     if (this.actionStatusArray.indexOf(this.incidentData.siteStatus) > -1) {
       this.showStatusButtons = true;
     } else {
@@ -185,13 +196,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     }
   }
 
-  private print(): void {
-    window.print();
-  }
 
-  private pdfGenerate(): void {
-    this.pdfService.createOlprrPdfIncident(this.incidentData);
-  }
 
   createForm() {
     this.incidentForm = this.formBuilder.group({
@@ -322,10 +327,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.incidentForm.controls.siteCity.disable();
     this.incidentForm.controls.siteZipcode.disable();
     this.incidentForm.controls.sitePhone.disable();
-
   }
-
-
 }
 
   addressCorrectNotFound(addressType: string): boolean {
@@ -344,27 +346,32 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     return false;
   }
 
-  private showAddressCorrect(addressType: string): boolean {
-    if ((addressType === 'sa')
-    && (this.incidentData.siteAddress === this.saAddressCorrectStat.Records[0].AddressLine1
-    && this.incidentData.siteZipcode.toString() === this.saAddressCorrectStat.Records[0].PostalCode
-    && this.incidentData.siteCounty === this.countyFips)) {
-      return false;
-    }
-    if ((addressType === 'rp')
-    && (this.incidentData.siteAddress === this.rpAddressCorrectStat.Records[0].AddressLine1
-    && this.incidentData.siteCity === this.rpAddressCorrectStat.Records[0].City
-    && this.incidentData.siteZipcode.toString() === this.rpAddressCorrectStat.Records[0].PostalCode) ) {
-        return false;
-    }
-    if ((addressType === 'ic')
-    && (this.incidentData.siteAddress === this.icAddressCorrectStat.Records[0].AddressLine1
-    && this.incidentData.siteCity === this.icAddressCorrectStat.Records[0].City
-    && this.incidentData.siteZipcode.toString() === this.icAddressCorrectStat.Records[0].PostalCode)) {
-        return false;
-    }
-    return true;
-  }
+  // private setShowAddressCorrect(addressType: string) {
+  //   if ((addressType === 'sa')
+  //   && (this.incidentData.siteAddress === this.saAddressCorrectStat.Records[0].AddressLine1
+  //   && this.incidentData.siteZipcode.toString() === this.saAddressCorrectStat.Records[0].PostalCode
+  //   && this.incidentData.siteCounty === this.countyFips)) {
+  //     this.showSaAddressCorrect = false;
+  //   } else {
+  //     this.showSaAddressCorrect = true;
+  //   }
+  //   if ((addressType === 'rp')
+  //   && (this.incidentData.siteAddress === this.rpAddressCorrectStat.Records[0].AddressLine1
+  //   && this.incidentData.siteCity === this.rpAddressCorrectStat.Records[0].City
+  //   && this.incidentData.siteZipcode.toString() === this.rpAddressCorrectStat.Records[0].PostalCode) ) {
+  //     this.showRpAddressCorrect = false;
+  //   } else {
+  //     this.showRpAddressCorrect = true;
+  //   }
+  //   if ((addressType === 'ic')
+  //   && (this.incidentData.siteAddress === this.icAddressCorrectStat.Records[0].AddressLine1
+  //   && this.incidentData.siteCity === this.icAddressCorrectStat.Records[0].City
+  //   && this.incidentData.siteZipcode.toString() === this.icAddressCorrectStat.Records[0].PostalCode)) {
+  //     this.showIcAddressCorrect = false;
+  //   } else {
+  //     this.showIcAddressCorrect = true;
+  //   }
+  // }
 
   setShowContactInvoice() {
     if (typeof this.incidentData.releaseTypeCode !== 'undefined'
@@ -386,24 +393,12 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
-        this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty, 'OR');
+        // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty, 'OR');
         this.createIncident();
     } else if (this.incidentForm.invalid) {
         console.log('not ok-invalid form');
         this.errors = this.findInvalidControls();
         console.log(this.errors);
-        this.contaminantErrorMessage = this.getContaminantErrorMessage();
-        if (this.contaminantErrorMessage != null) {
-          this.contaminantErrorMessages = [this.contaminantErrorMessage];
-          this.errors.push(this.contaminantErrorMessage);
-          this.showContaminantErrorMessage = true;
-        }
-        this.mediaErrorMessage = this.getMediaErrorMessage();
-        if (this.mediaErrorMessage != null) {
-          this.mediaErrorMessages = [this.mediaErrorMessage];
-          this.errors.push(this.mediaErrorMessage);
-          this.showMediaErrorMessage = true;
-        }
         this.showAllErrorsMessages = true;
         this.isClosed = false;
         this.isContaminantClosed = false;
@@ -415,7 +410,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     }
   }
   createIncident(): void {
-    this.updateBooleanToNumber();
     this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
     this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
     this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
@@ -519,199 +513,14 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   private findInvalidControls() {
     const invalid = [];
-    const controls = this.incidentForm.controls;
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
     }
-
-    const contaminantErrorMessage = this.getContaminantErrorMessage();
-    if (contaminantErrorMessage != null) {
-      invalid.push(contaminantErrorMessage);
-    }
-
-    const mediaErrorMessage = this.getMediaErrorMessage();
-    if (mediaErrorMessage != null) {
-      invalid.push(mediaErrorMessage);
-    }
-
     return invalid;
   }
-
-  private getMediaErrorMessage(): string {
-    if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
-      this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
-      this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value
-    ) { return null; } else {
-      this.showMediaErrorMessage = true;
-      return('Must select at least one Media.');
-    }
-  }
-  private getContaminantErrorMessage(): string {
-    if (this.incidentForm.controls.heatingOil.value || this.incidentForm.controls.unleadedGas.value ||
-      this.incidentForm.controls.leadedGas.value || this.incidentForm.controls.misGas.value ||
-      this.incidentForm.controls.diesel.value || this.incidentForm.controls.wasteOil.value ||
-      this.incidentForm.controls.lubricant.value || this.incidentForm.controls.solvent.value ||
-      this.incidentForm.controls.otherPet.value || this.incidentForm.controls.chemical.value ||
-      this.incidentForm.controls.unknown.value || this.incidentForm.controls.mtbe.value
-    ) { return null; } else {
-      this.showContaminantErrorMessage = true;
-      return('Must select at least one Contaminant.');
-    }
-  }
-
-  private findInvalidControlsOrig() {
-    const invalid = [];
-    const controls = this.incidentForm.controls;
-    for (const name in controls) {
-        if (controls[name].invalid) {
-            console.error('###################********** offending element ===>' + name);
-            console.error(name);
-            invalid.push(name + ' is required and must be valid.');
-        }
-    }
-    return invalid;
-  }
-
-
-  private updateBooleanToNumber() {
-    // for (const field of Object.keys(this.incidentForm.controls)) {
-    //   if ( typeof this.incidentForm.controls[field].value === 'boolean') {
-    //     console.log('************updateBooleanToNumber() boolean boolean');
-    //     console.log(field);
-    //     const xx = this.incidentForm.controls[field].value;
-    //     if (xx) {
-    //       this.incidentForm.controls[field].setValue(1);
-    //     } else {
-    //       this.incidentForm.controls[field].setValue(0);
-    //     }
-    //   }
-    // )
-    if (this.incidentForm.controls.groundWater.value === false) {
-      this.incidentForm.controls.groundWater.setValue(0);
-    }
-    if (this.incidentForm.controls.groundWater.value === true) {
-      this.incidentForm.controls.groundWater.setValue(1);
-    }
-    if (this.incidentForm.controls.surfaceWater.value === false) {
-      this.incidentForm.controls.surfaceWater.setValue(0);
-    }
-    if (this.incidentForm.controls.surfaceWater.value === true) {
-      this.incidentForm.controls.surfaceWater.setValue(1);
-    }
-    if (this.incidentForm.controls.drinkingWater.value === false) {
-      this.incidentForm.controls.drinkingWater.setValue(0);
-    }
-    if (this.incidentForm.controls.drinkingWater.value === true) {
-      this.incidentForm.controls.drinkingWater.setValue(1);
-    }
-    if (this.incidentForm.controls.soil.value === false) {
-      this.incidentForm.controls.soil.setValue(0);
-    }
-    if (this.incidentForm.controls.soil.value === true) {
-      this.incidentForm.controls.soil.setValue(1);
-    }
-    if (this.incidentForm.controls.vapor.value === false) {
-      this.incidentForm.controls.vapor.setValue(0);
-    }
-    if (this.incidentForm.controls.vapor.value === true) {
-      this.incidentForm.controls.vapor.setValue(1);
-    }
-    if (this.incidentForm.controls.freeProduct.value === false) {
-      this.incidentForm.controls.freeProduct.setValue(0);
-    }
-    if (this.incidentForm.controls.freeProduct.value === true) {
-      this.incidentForm.controls.freeProduct.setValue(1);
-    }
-
-    if (this.incidentForm.controls.unleadedGas.value === false) {
-      this.incidentForm.controls.unleadedGas.setValue(0);
-    }
-    if (this.incidentForm.controls.unleadedGas.value === true) {
-      this.incidentForm.controls.unleadedGas.setValue(1);
-    }
-    if (this.incidentForm.controls.leadedGas.value === false) {
-      this.incidentForm.controls.leadedGas.setValue(0);
-    }
-    if (this.incidentForm.controls.leadedGas.value === true) {
-      this.incidentForm.controls.leadedGas.setValue(1);
-    }
-
-
-    if (this.incidentForm.controls.misGas.value === false) {
-      this.incidentForm.controls.misGas.setValue(0);
-    }
-    if (this.incidentForm.controls.misGas.value === true) {
-      this.incidentForm.controls.misGas.setValue(1);
-    }
-    if (this.incidentForm.controls.diesel.value === false) {
-      this.incidentForm.controls.diesel.setValue(0);
-    }
-    if (this.incidentForm.controls.diesel.value === true) {
-      this.incidentForm.controls.diesel.setValue(1);
-    }
-
-
-    if (this.incidentForm.controls.wasteOil.value === false) {
-      this.incidentForm.controls.wasteOil.setValue(0);
-    }
-    if (this.incidentForm.controls.wasteOil.value === true) {
-      this.incidentForm.controls.wasteOil.setValue(1);
-    }
-    if (this.incidentForm.controls.heatingOil.value === false) {
-      this.incidentForm.controls.heatingOil.setValue(0);
-    }
-    if (this.incidentForm.controls.heatingOil.value === true) {
-      this.incidentForm.controls.heatingOil.setValue(1);
-    }
-
-
-    if (this.incidentForm.controls.lubricant.value === false) {
-      this.incidentForm.controls.lubricant.setValue(0);
-    }
-    if (this.incidentForm.controls.lubricant.value === true) {
-      this.incidentForm.controls.lubricant.setValue(1);
-    }
-    if (this.incidentForm.controls.solvent.value === false) {
-      this.incidentForm.controls.solvent.setValue(0);
-    }
-    if (this.incidentForm.controls.solvent.value === true) {
-      this.incidentForm.controls.solvent.setValue(1);
-    }
-
-
-    if (this.incidentForm.controls.otherPet.value === false) {
-      this.incidentForm.controls.otherPet.setValue(0);
-    }
-    if (this.incidentForm.controls.otherPet.value === true) {
-      this.incidentForm.controls.otherPet.setValue(1);
-    }
-    if (this.incidentForm.controls.chemical.value === false) {
-      this.incidentForm.controls.chemical.setValue(0);
-    }
-    if (this.incidentForm.controls.chemical.value === true) {
-      this.incidentForm.controls.chemical.setValue(1);
-    }
-
-
-    if (this.incidentForm.controls.unknown.value === false) {
-      this.incidentForm.controls.unknown.setValue(0);
-    }
-    if (this.incidentForm.controls.unknown.value === true) {
-      this.incidentForm.controls.unknown.setValue(1);
-    }
-    if (this.incidentForm.controls.mtbe.value === false) {
-      this.incidentForm.controls.mtbe.setValue(0);
-    }
-    if (this.incidentForm.controls.mtbe.value === true) {
-      this.incidentForm.controls.mtbe.setValue(1);
-    }
-
-  }
-
-
 
 
   openLit() {
@@ -755,13 +564,14 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
         }),
         // delay(7000000000000000000000000000000000000),
-        flatMap(countyCheck => this.lustDataService.getPostalCountyVerification
-          (+this.incidentForm.controls.countyCode.value, this.countyFips)
+        flatMap(() => this.lustDataService.getPostalCountyVerification(+this.incidentForm.controls.countyCode.value, this.countyFips)
         ),
     )
     .subscribe(
       (data => {
         this.postalCountyVerification = data;
+        // this.setShowAddressCorrect('sa');
+        // this.setShowSaAddressCorrect();
       } )
     );
   }
@@ -796,7 +606,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           this.addressCorrectStat = melissaData,
           this.countyFips = melissaData.Records[0].CountyFIPS.substring(2);
         }),
-        flatMap(countyCheck => this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyFips)
+        flatMap(() => this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyFips)
         )
     )
     .subscribe(

@@ -1,8 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from '../../environments/environment';
-import { Observable} from 'rxjs';
 
 import { LustDataService } from '../services/lust-data.service';
 import { LustSearchFilter } from '../models/lust-search-filter';
@@ -37,11 +35,11 @@ export class LustSearchFilterComponent implements OnInit {
   siteTypes: SiteType[] = [];
   counties: County[] = [];
 
-  constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
-    , private route: ActivatedRoute, private router: Router) {}
+  constructor(private formBuilder: FormBuilder
+    , private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
+    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => { this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
     this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
     this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
@@ -55,9 +53,9 @@ export class LustSearchFilterComponent implements OnInit {
   }
   private createSearchFilterForm() {
     this.lustSearchFilterForm = this.formBuilder.group({
-      logCounty:  ['', Validators.compose([Validators.maxLength(2),Validators.pattern("[0-9][0-9]")])],
-      logYear:  ['', Validators.compose([Validators.maxLength(2),Validators.pattern("[0-9][0-9]")])],
-      logSeqNbr: ['', Validators.compose([Validators.maxLength(4),Validators.pattern("[0-9][0-9][0-9][0-9]")])],
+      logCounty:  ['', Validators.compose([Validators.maxLength(2), Validators.pattern('[0-9][0-9]')])],
+      logYear:  ['', Validators.compose([Validators.maxLength(2), Validators.pattern('[0-9][0-9]')])],
+      logSeqNbr: ['', Validators.compose([Validators.maxLength(4), Validators.pattern('[0-9][0-9][0-9][0-9]')])],
       facilityId: [''],
       siteName:  [''],
       siteAddress:  [''],

@@ -9,8 +9,6 @@ export interface CanComponentDeactivate {
 @Injectable()
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
   canDeactivate(component: CanComponentDeactivate) {
-    console.log(' CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate>');
-    console.log(component.canDeactivate);
     return component.canDeactivate ? component.canDeactivate() : true;
   }
 }
