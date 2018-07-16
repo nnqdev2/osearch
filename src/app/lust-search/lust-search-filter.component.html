@@ -19,32 +19,32 @@
             <mat-card-content id="2nd">      
         <div class="form-row full-width">  
           <div class="form-group col-md-1">
-              <mat-form-field appearance="outline">
+              <mat-form-field>
                 <mat-label>Log County</mat-label>
                 <input matInput formControlName="logCounty">
               </mat-form-field>
           </div>
 
           <div class="form-group col-md-1">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Log Year</mat-label>
               <input matInput formControlName="logYear">
             </mat-form-field>
           </div>
           <div class="form-group col-md-2">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Log Seq Nbr</mat-label>
               <input matInput formControlName="logSeqNbr">
             </mat-form-field>
           </div> 
           <div class="form-group col-md-2">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Facility Id</mat-label>
               <input matInput  formControlName="facilityId">
             </mat-form-field>
           </div> 
           <div class="form-group col-md-2">
-            <mat-form-field  appearance="outline">  
+            <mat-form-field>  
               <mat-label>Project Manager</mat-label>  
               <mat-select placeholder="Project Manager"  formControlName="projectManagerCode">    
                   <mat-option value=""> </mat-option>    
@@ -53,7 +53,7 @@
             </mat-form-field>    
           </div>
           <div class="form-group col-md-2 ">
-            <mat-form-field  appearance="outline">  
+            <mat-form-field>  
               <mat-label>Region</mat-label>  
               <mat-select placeholder="Region"  formControlName="regionCode">    
                   <mat-option value=""> </mat-option>    
@@ -62,7 +62,7 @@
             </mat-form-field>    
           </div>
           <div class="form-group col-md-2 ">
-            <mat-form-field  appearance="outline">  
+            <mat-form-field>  
               <mat-label>Zipcode</mat-label>  
               <mat-select placeholder="Zipcode"  formControlName="siteZipcode">    
                   <mat-option value=""> </mat-option>    
@@ -75,14 +75,14 @@
       <!-- Site Name / County-->
         <div class="form-row full-width">
           <div class="form-group col-md-8">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Site Name</mat-label>
               <input matInput formControlName="siteName">
             </mat-form-field>
           </div>
 
           <div class="form-group col-md-4">
-              <mat-form-field  appearance="outline">  
+              <mat-form-field>  
                 <mat-label>County</mat-label>  
                 <mat-select placeholder="County"  formControlName="siteCounty">    
                     <mat-option value=""> </mat-option>    
@@ -96,13 +96,13 @@
 
         <div class="form-row full-width">
           <div class="form-group col-md-8">
-            <mat-form-field appearance="outline" >
+            <mat-form-field>
               <mat-label>Address</mat-label>
               <input matInput formControlName="siteAddress">
             </mat-form-field>
           </div>
           <div class="form-group col-md-4">
-              <mat-form-field  appearance="outline">  
+              <mat-form-field>  
                 <mat-label>City</mat-label>  
                 <mat-select placeholder="City"  formControlName="siteCity">    
                   <mat-option value=""> </mat-option>    
@@ -116,7 +116,7 @@
         <!-- release type / site type / file status -->
         <div class="form-row full-width">
           <div class="form-group col-md-4 ">
-            <mat-form-field  appearance="outline">  
+            <mat-form-field>  
               <mat-label>Release Type</mat-label>  
               <mat-select placeholder="Release Type"  formControlName="releaseSiteTypeCode">    
                 <mat-option value=""> </mat-option>    
@@ -125,7 +125,7 @@
             </mat-form-field>    
           </div>
           <div class="form-group col-md-4 ">
-            <mat-form-field  appearance="outline">  
+            <mat-form-field>  
               <mat-label>Site Type</mat-label>  
               <mat-select placeholder="Site Type"  formControlName="cleanupSiteTypeId">    
                 <mat-option value=""> </mat-option>    
@@ -134,7 +134,7 @@
             </mat-form-field>    
           </div>
           <div class="form-group col-md-4 ">
-            <mat-form-field  appearance="outline">  
+            <mat-form-field>  
               <mat-label>File Status</mat-label>  
               <mat-select placeholder="File Status"  formControlName="fileStatusId">    
                 <mat-option value=""> </mat-option>    
@@ -147,19 +147,19 @@
         <!-- Contacts First Name / Last Name / Organization-->
         <div class="form-row full-width">
           <div class="form-group col-md-4">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Contact First Name</mat-label>
               <input matInput formControlName="contactFirstName">
             </mat-form-field>
           </div>
           <div class="form-group col-md-4">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Contact Last Name</mat-label>
               <input matInput formControlName="contactLastName">
             </mat-form-field>
           </div>
           <div class="form-group col-md-4">
-            <mat-form-field appearance="outline">
+            <mat-form-field>
               <mat-label>Organization</mat-label>
               <input matInput formControlName="contactOrganization">
             </mat-form-field>
@@ -171,7 +171,7 @@
           <mat-card class="col-md-6">
             <div class="form-row full-width">
               <div class="form-group col-md-4">
-                <mat-form-field  appearance="outline">  
+                <mat-form-field>  
                   <mat-label>Date Comparison 1</mat-label>  
                   <mat-select placeholder="Date Comparison 1"  formControlName="compareDate1Id">    
                     <mat-option value=""> </mat-option>    
@@ -180,7 +180,7 @@
                 </mat-form-field>    
               </div>
               <div class="form-group col-md-4">
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                   <mat-label>From Date</mat-label> 
                   <input matInput [matDatepicker]="compareDate1IdFromDate" formControlName="compareDate1IdFromDate" placeholder="From date">
                   <mat-datepicker-toggle matSuffix [for]="compareDate1IdFromDate"></mat-datepicker-toggle>
@@ -188,7 +188,7 @@
                 </mat-form-field>
               </div>
               <div class="form-group col-md-4">
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                   <mat-label>To Date</mat-label> 
                   <input matInput [matDatepicker]="compareDate1IdToDate" formControlName="compareDate1IdToDate" placeholder="From date">
                   <mat-datepicker-toggle matSuffix [for]="compareDate1IdToDate"></mat-datepicker-toggle>
@@ -200,7 +200,7 @@
           <mat-card class="col-md-6">
             <div class="form-row full-width">
               <div class="form-group col-md-4 ">
-                <mat-form-field  appearance="outline">  
+                <mat-form-field>  
                     <mat-label>Date Comparison 2</mat-label>  
                     <mat-select placeholder="Date Comparison 2"  formControlName="compareDate2Id">    
                       <mat-option value=""> </mat-option>    
@@ -209,7 +209,7 @@
                   </mat-form-field>    
               </div>
               <div class="form-group col-md-4">
-                  <mat-form-field appearance="outline">
+                  <mat-form-field>
                     <mat-label>From Date</mat-label> 
                     <input matInput [matDatepicker]="compareDate2IdFromDate" formControlName="compareDate2IdFromDate" placeholder="From date">
                     <mat-datepicker-toggle matSuffix [for]="compareDate2IdFromDate"></mat-datepicker-toggle>
@@ -217,7 +217,7 @@
                   </mat-form-field>
               </div>
               <div class="form-group col-md-4">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                       <mat-label>To Date</mat-label> 
                       <input matInput [matDatepicker]="compareDate2IdToDate" formControlName="compareDate2IdToDate" placeholder="From date">
                       <mat-datepicker-toggle matSuffix [for]="compareDate2IdToDate"></mat-datepicker-toggle>
@@ -234,7 +234,7 @@
 
     <div class="form-row full-width">  
       <div class="form-group col-md-6">
-        <mat-form-field  appearance="outline">  
+        <mat-form-field>  
           <mat-label>Tank Status</mat-label>  
           <mat-select placeholder="Tank Status"  formControlName="tankStatusId">    
             <mat-option value=""> </mat-option>    

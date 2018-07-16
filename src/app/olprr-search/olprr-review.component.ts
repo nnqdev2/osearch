@@ -165,29 +165,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   }
 
-  // private setShowSaAddressCorrect()  {
-  //   if (this.showStatusButtons && this.showSaAddressCorrect) {
-  //     this.showSaAddressCorrect = true;
-  //   } else {
-  //     this.showSaAddressCorrect = false;
-  //   }
-  // }
-
-  // private setShowRpAddressCorrect()  {
-  //   if (this.showStatusButtons && this.showRpAddressCorrect) {
-  //     this.showRpAddressCorrect = true;
-  //   } else {
-  //     this.showRpAddressCorrect = false;
-  //   }
-  // }
-  // private setShowIcAddressCorrect()  {
-  //   if (this.showStatusButtons && this.showIcAddressCorrect) {
-  //     this.showIcAddressCorrect = true;
-  //   } else {
-  //     this.showIcAddressCorrect = false;
-  //   }
-  // }
-
   private setShowStatusButtons()  {
     if (this.actionStatusArray.indexOf(this.incidentData.siteStatus) > -1) {
       this.showStatusButtons = true;
@@ -195,7 +172,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.showStatusButtons = false;
     }
   }
-
 
 
   createForm() {
@@ -278,13 +254,13 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       updateSaWithAddressCorrect: [0],
       updateRpWithAddressCorrect: [0],
       updateIcWithAddressCorrect: [0],
-      bypassLit: [0],
       authUser: ['']
     }
   );
 
   if (this.showStatusButtons) {
     if (this.incidentData.releaseTypeCode !== 'H') {
+      this.incidentForm.controls.facilityId.setValidators([Validators.required]);
       this.incidentForm.controls.icAddress.setValidators([Validators.required]);
       this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
       this.incidentForm.controls.icFirstName.setValidators([Validators.required]);

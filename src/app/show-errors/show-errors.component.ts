@@ -10,7 +10,7 @@ export class ShowErrorsComponent {
 
   private static readonly errorMessages = {
     'required': () => 'Required.',
-    'email': () => 'Valid email required.',
+    'email': () => 'Valid Email required.',
     'minlength': (params) => 'The min number of characters is ' + params.requiredLength,
     'maxlength': (params) => 'The max allowed number of characters is ' + params.requiredLength,
     'pattern': (params) => 'The required pattern is: ' + params.requiredPattern,

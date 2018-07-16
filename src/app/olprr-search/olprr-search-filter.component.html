@@ -17,7 +17,7 @@
           <form [formGroup]="olprrSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitOlprrSearchFilterForm()">    
                 <div class="form-row full-width">
                     <div class="form-group col-md-3">
-                        <mat-form-field appearance="outline">   
+                        <mat-form-field >   
                             <mat-label>DEQ Office</mat-label>  
                             <mat-select placeholder="DEQ Office"  formControlName="deqOffice">    
                                 <mat-option value=""> </mat-option>    
@@ -26,7 +26,7 @@
                         </mat-form-field>    
                     </div>  
                     <div class="form-group col-md-3">   
-                        <mat-form-field appearance="outline"> 
+                        <mat-form-field > 
                             <mat-label>Site Type</mat-label>    
                             <mat-select placeholder="Site Type"  formControlName="siteTypeCode">    
                                 <mat-option value=""> </mat-option>    
@@ -35,7 +35,7 @@
                         </mat-form-field>    
                     </div>  
                     <div class="form-group col-md-3">      
-                        <mat-form-field appearance="outline"> 
+                        <mat-form-field > 
                             <mat-label>Status</mat-label>       
                             <mat-select placeholder="Status"  formControlName="incidentStatus">    
                                     <mat-option value=""> </mat-option>    
@@ -44,9 +44,9 @@
                         </mat-form-field>    
                     </div>  
                     <div class="form-group col-md-3">    
-                        <mat-form-field appearance="outline"> 
+                        <mat-form-field > 
                             <mat-label>OlprrId</mat-label> 
-                            <input matInput placeholder="OlprrId" class="form-control" formControlName="olprrId">
+                            <input matInput placeholder="OlprrId" formControlName="olprrId">
                         </mat-form-field>  
                     </div>   
                     

@@ -38,7 +38,9 @@ md-card{
   
   mat-form-field {
     width:100%;
+    
   }
+
 
   
 mat-card-title { 
@@ -51,7 +53,10 @@ mat-card-content {
 
 .mat-input-container {
   margin-bottom: .5em;
+  padding: -1em ;
 }     
+
+
 
 .example-container {
   display: flex;
@@ -96,4 +101,9 @@ background-color: darkSeaGreen !important;
 
 mat-card-content {
 padding-bottom: 0%;
+}
+
+@media print
+{
+    * {-webkit-print-color-adjust:exact;}
 }

@@ -43,6 +43,9 @@ export class OlprrIncidentComponent implements OnInit {
   streetTypes: StreetType[] = [];
 
   currentDate: Date;
+  
+  
+  maxDate: Date;
   showInvoiceContact = false;
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
@@ -76,6 +79,10 @@ export class OlprrIncidentComponent implements OnInit {
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
     this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
     this.createForm();
+    
+    this.maxDate = new Date();
+    this.maxDate.setDate( this.maxDate.getDate());
+    
   }
 
 
@@ -83,49 +90,49 @@ export class OlprrIncidentComponent implements OnInit {
     this.incidentForm = this.formBuilder.group({
         contractorUid:  [''],
         contractorPwd:  [''],
-        reportedBy:  ['', Validators.required],
-        reportedByPhone:  ['', Validators.required],
-        reportedByEmail: ['', [Validators.required, Validators.email]],
+        reportedBy:  ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
+        reportedByPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        reportedByEmail: ['',  Validators.compose([Validators.required, Validators.email, Validators.maxLength(75)])],
         releaseType:  ['', Validators.required],
         dateReceived:  [{value: '', disabled: true},  Validators.required],
         facilityId: [''],
-        siteName:  ['', Validators.required],
+        siteName:  [{value:'', disabled: false}, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCounty:  ['', Validators.required],
-        streetNbr: ['', Validators.required],
-        streetQuad:  ['', Validators.required],
-        streetName:  ['', Validators.required],
-        streetType: ['', Validators.required],
-        siteAddress:  [''],
-        siteCity:  ['', Validators.required],
-        siteZipcode: ['', Validators.required],
-        sitePhone:  [''],
+        streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
+        streetQuad:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
+        streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        streetType: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
+        siteAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+        sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
         company:  ['', Validators.required],
         initialComment:  ['', Validators.maxLength(710)],
-        discoveryDate: ['', Validators.required],
+        discoveryDate: [{value: '', disabled: false}, Validators.compose([Validators.required])],
         confirmationCode:  ['', Validators.required],
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
         sourceId:  ['', Validators.required],
-        rpFirstName:  ['', Validators.required],
-        rpLastName: ['', Validators.required],
-        rpOrganization:  ['', Validators.required],
-        rpAddress:  ['', Validators.required],
-        rpAddress2: [''],
-        rpCity:  ['', Validators.required],
-        rpState:  ['', Validators.required],
-        rpZipcode: ['', Validators.required],
-        rpPhone:  ['', Validators.required],
-        rpEmail:  ['', [Validators.email]],
-        icFirstName:  ['', Validators.required],
-        icLastName: ['', Validators.required],
-        icOrganization:  ['', Validators.required],
-        icAddress:  [''],
-        icAddress2: [''],
-        icCity:  ['', Validators.required],
-        icState:  ['', Validators.required],
-        icZipcode: ['', Validators.required],
-        icPhone:  ['', Validators.required],
-        icEmail:  ['', [Validators.email]],
+        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        rpAddress2: ['',Validators.compose([Validators.maxLength(40)])],
+        rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
+        rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
+        rpPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
+        icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        icAddress2: ['', Validators.compose([Validators.maxLength(40)])],
+        icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
+        icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
+        icPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
         groundWater: [0],
         surfaceWater: [0],
         drinkingWater: [0],
@@ -572,5 +579,8 @@ export class OlprrIncidentComponent implements OnInit {
 
     }
 
+    DateValidator() {
+
+    }
 
 }
