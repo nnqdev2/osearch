@@ -38,6 +38,8 @@ import { UstSearchFilter } from '../models/ust-search-filter';
 import { UstSearchResultStat } from '../models/ust-search-result-stat';
 import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrectStat } from '../models/address-correct-stat';
+import { LustIncident } from '../models/lust-incident';
+import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 
 @Injectable({
   providedIn: 'root'
@@ -60,14 +62,6 @@ export class LustDataService {
     });
     return this.http.get<OlprrSearchResultStat[]>(environment.olprrapi_review_search, { params: params });
   }
-
-  // getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter): Observable<OlprrSearchResultWithStats> {
-  //   const params = new HttpParams({
-  //       fromString: `deqo=${olprrSearchFilter.deqOffice}&stat=${olprrSearchFilter.incidentStatus}`
-  //       + `&st=${olprrSearchFilter.siteTypeCode}&olprrid=${olprrSearchFilter.olprrId}&sc=1&so=1&pn=1&rpp=40`
-  //   });
-  //   return this.http.get<OlprrSearchResultWithStats>(environment.olprrapi_review_search, { params: params });
-  // }
 
   getSiteTypes(): Observable<SiteType[]> {
     return this.http.get<SiteType[]>(environment.olprrapi_sitetype);
@@ -167,6 +161,10 @@ export class LustDataService {
         fromString: `reported=${reportedCountyCode}&usPostal=${usPostalCountyCodeFips}`
     });
     return this.http.get<PostalCountyVerification>(environment.olprrapi_review_postalcounty, { params: params });
+  }
+
+  createLustIncident(incident: LustIncident): Observable<LustIncidentInsertResult> {
+    return this.http.post<LustIncidentInsertResult>(environment.olprrapi_insert_lust, incident);
   }
 
 }

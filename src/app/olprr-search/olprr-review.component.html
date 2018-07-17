@@ -1,6 +1,6 @@
 
  
-    <div class="loading-indicator"   *ngIf="loading$  | async; else showForm">
+    <div class="loading-indicator" *ngIf="loading$  | async; else showForm">
         <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
     </div>
 
@@ -26,7 +26,7 @@
                         
             
                         <!-- Form incidentForm begins -->
-                        <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
+                        <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="accept()">
                         <div class="form-row full-width">
                             <div class="form-group col-md-4"> 
                                 <mat-form-field >
@@ -696,8 +696,6 @@
                             </div>
                         </div>
             
-          
-            
                         <!-- Site Comments -->                                        
                         <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
                         <div class="form-row full-width example-container">
@@ -768,10 +766,10 @@
                                 <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
                             </div>
                             <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="submit" class="btn btn-default btn-md btn-block" >Hold</button>
+                                <button mat-raised-button color="primary" type="submit" class="btn btn-default btn-md btn-block" (click)="hold()" >Hold</button>
                             </div>
                             <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="submit" class="btn btn-default btn-md btn-block" >Decline</button>
+                                <button mat-raised-button color="primary" type="submit" class="btn btn-default btn-md btn-block" (click)="decline()" >Decline</button>
                             </div>
                             <div class="col-md-2 col-sm-3">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
@@ -800,19 +798,9 @@
             
                     <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->
                 </form>
-                                 <!-- Form incidentForm ends --> 
-                            
-                        <!-- </div> -->
-            
-                    </mat-card-content>    
+           
+                </mat-card-content>    
                 </mat-card>   
             </div>
-            <!-- 
-            <div>
-                <mat-form-field>
-                    <input matInput [(ngModel)]="Incident" placeholder="Address Issues">
-                </mat-form-field>
-            </div> -->
 
-
-            </ng-template>
+    </ng-template>

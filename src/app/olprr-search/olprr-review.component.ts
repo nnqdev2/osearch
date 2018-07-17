@@ -30,6 +30,7 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 import { SearchDialogComponent } from './search-dialog.component';
 import { PdfService } from '../common/pdf.service';
+import { LustIncident } from '../models/lust-incident';
 
 @Component({
   selector: 'app-olprr-review',
@@ -69,7 +70,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   showInvoiceContact = false;
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  submitClicked = false;
+  acceptClicked = false;
   isClosed = true;
   isContaminantClosed = true;
   isMediaClosed = true;
@@ -88,6 +89,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   showSaAddressCorrect = false;
   showRpAddressCorrect = false;
   showIcAddressCorrect = false;
+
+  lustIncident = new LustIncident();
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
@@ -174,7 +177,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
 
-  createForm() {
+  private createForm() {
     this.incidentForm = this.formBuilder.group({
       rpFirstName:      [this.incidentData.rpFirstName, Validators.required],
       rpLastName:       [this.incidentData.rpLastName, Validators.required],
@@ -260,9 +263,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   if (this.showStatusButtons) {
     if (this.incidentData.releaseTypeCode !== 'H') {
-      this.incidentForm.controls.facilityId.setValidators([Validators.required]);
+      this.incidentForm.controls.facilityId.enable();
       this.incidentForm.controls.icAddress.setValidators([Validators.required]);
-      this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
+      // this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
       this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
       this.incidentForm.controls.icLastName.setValidators([Validators.required]);
       this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
@@ -270,7 +273,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.incidentForm.controls.icState.setValidators([Validators.required]);
       this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
       this.incidentForm.controls.icPhone.setValidators([Validators.required]);
-      this.incidentForm.controls.icEmail.setValidators([Validators.required]);
+      // this.incidentForm.controls.icEmail.setValidators([Validators.required]);
     }
   } else {
     this.incidentForm.controls.icAddress.disable();
@@ -322,33 +325,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     return false;
   }
 
-  // private setShowAddressCorrect(addressType: string) {
-  //   if ((addressType === 'sa')
-  //   && (this.incidentData.siteAddress === this.saAddressCorrectStat.Records[0].AddressLine1
-  //   && this.incidentData.siteZipcode.toString() === this.saAddressCorrectStat.Records[0].PostalCode
-  //   && this.incidentData.siteCounty === this.countyFips)) {
-  //     this.showSaAddressCorrect = false;
-  //   } else {
-  //     this.showSaAddressCorrect = true;
-  //   }
-  //   if ((addressType === 'rp')
-  //   && (this.incidentData.siteAddress === this.rpAddressCorrectStat.Records[0].AddressLine1
-  //   && this.incidentData.siteCity === this.rpAddressCorrectStat.Records[0].City
-  //   && this.incidentData.siteZipcode.toString() === this.rpAddressCorrectStat.Records[0].PostalCode) ) {
-  //     this.showRpAddressCorrect = false;
-  //   } else {
-  //     this.showRpAddressCorrect = true;
-  //   }
-  //   if ((addressType === 'ic')
-  //   && (this.incidentData.siteAddress === this.icAddressCorrectStat.Records[0].AddressLine1
-  //   && this.incidentData.siteCity === this.icAddressCorrectStat.Records[0].City
-  //   && this.incidentData.siteZipcode.toString() === this.icAddressCorrectStat.Records[0].PostalCode)) {
-  //     this.showIcAddressCorrect = false;
-  //   } else {
-  //     this.showIcAddressCorrect = true;
-  //   }
-  // }
-
   setShowContactInvoice() {
     if (typeof this.incidentData.releaseTypeCode !== 'undefined'
     && (this.incidentData.releaseTypeCode === 'R' || this.incidentData.releaseTypeCode === 'U')) {
@@ -358,18 +334,15 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     }
   }
 
-  submitIncident(): void {
-    console.log('submitIncident()');
+  accept(): void {
+    console.log('accept()');
     console.log(this.incidentForm.invalid);
     console.log(this.incidentForm.valid);
     console.log(this.incidentForm.dirty);
     console.log(this.incidentForm.pristine);
-    this.submitClicked = true;
-    // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty)
-
+    this.acceptClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
-        // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty, 'OR');
         this.createIncident();
     } else if (this.incidentForm.invalid) {
         console.log('not ok-invalid form');
@@ -377,44 +350,152 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         console.log(this.errors);
         this.showAllErrorsMessages = true;
         this.isClosed = false;
-        this.isContaminantClosed = false;
-        this.isMediaClosed = false;
+        // this.isContaminantClosed = false;
+        // this.isMediaClosed = false;
         console.log('ok why the errors not showing?????');
     } else if (!this.incidentForm.dirty && this.incidentForm.pristine) {
         // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
         this.onCreateComplete();
     }
   }
+
+  buildLustIncident(newSiteStatus: string) {
+    if (this.incidentForm.controls.updateSaWithAddressCorrect.value) {
+      this.lustIncident.siteAddress = this.saAddressCorrectStat.Records[0].AddressLine1;
+      this.lustIncident.siteCity = this.saAddressCorrectStat.Records[0].City;
+      this.lustIncident.siteZipcode = this.saAddressCorrectStat.Records[0].PostalCode;
+      this.lustIncident.countyId = +this.postalCountyVerification.countyCode;
+    } else {
+      this.lustIncident.siteAddress = this.incidentData.siteAddress;
+      this.lustIncident.siteCity = this.incidentData.siteCity;
+      this.lustIncident.siteZipcode = this.incidentData.siteZipcode.toString();
+      this.lustIncident.countyId = +this.incidentData.countyCode;
+    }
+    if (this.incidentForm.controls.updateRpWithAddressCorrect.value) {
+      this.lustIncident.rpAddress = this.rpAddressCorrectStat.Records[0].AddressLine1;
+      this.lustIncident.rpCity = this.rpAddressCorrectStat.Records[0].City;
+      this.lustIncident.rpZipcode = this.rpAddressCorrectStat.Records[0].PostalCode;
+      this.lustIncident.rpState = this.rpAddressCorrectStat.Records[0].State;
+    } else {
+      this.lustIncident.rpAddress = this.incidentData.rpAddress;
+      this.lustIncident.rpCity = this.incidentData.rpCity;
+      this.lustIncident.rpZipcode = this.incidentData.rpZipcode.toString();
+      this.lustIncident.rpState = this.incidentData.rpState;
+    }
+    if (this.showInvoiceContact && this.incidentForm.controls.updateIcWithAddressCorrect.value) {
+      this.lustIncident.icAddress = this.icAddressCorrectStat.Records[0].AddressLine1;
+      this.lustIncident.icCity = this.icAddressCorrectStat.Records[0].City;
+      this.lustIncident.icZipcode = this.icAddressCorrectStat.Records[0].PostalCode;
+      this.lustIncident.icState = this.rpAddressCorrectStat.Records[0].State;
+    } else {
+      this.lustIncident.icAddress = this.incidentData.icAddress;
+      this.lustIncident.icCity = this.incidentData.icCity;
+      this.lustIncident.icZipcode = this.incidentData.icZipcode.toString();
+      this.lustIncident.icState = this.incidentData.icState;
+    }
+
+    this.lustIncident.icCountry = 'USA';
+    this.lustIncident.rpCountry = 'USA';
+    this.lustIncident.rpAffilComments = '';
+    this.lustIncident.icAffilComments = '';
+    this.lustIncident.lustIdIn = 0;
+
+
+    if (typeof this.incidentForm.controls.facilityId.value !== 'undefined'
+    && this.incidentForm.controls.facilityId.value
+    && this.incidentForm.controls.facilityId.value.length > 0) {
+      this.lustIncident.facilityId = +this.incidentForm.controls.facilityId.value;
+    } else {
+      this.lustIncident.facilityId = 0;
+    }
+    this.lustIncident.dateReceived = this.incidentData.dateReceived;
+    this.lustIncident.siteName = this.incidentForm.controls.siteName.value;
+    this.lustIncident.sitePhone = this.incidentForm.controls.sitePhone.value;
+    this.lustIncident.noValidAddress = 0;
+
+    this.lustIncident.hotInd = 0;
+    this.lustIncident.regTankInd = 0;
+    this.lustIncident.nonRegTankInd = 0;
+    if (this.incidentData.releaseTypeCode === 'H')  {
+      this.lustIncident.hotInd = 1;
+    } else if (this.incidentData.releaseTypeCode === 'U')  {
+        this.lustIncident.nonRegTankInd = 1;
+    } else {
+      this.lustIncident.regTankInd = 1;
+    }
+
+    if (this.incidentData.siteComment === undefined) {
+      this.lustIncident.initialComment = '';
+    } else {
+      this.lustIncident.initialComment = this.incidentData.siteComment;
+    }
+    this.lustIncident.olprrId = this.incidentForm.controls.olprrId.value;
+
+    this.lustIncident.discoveryDate = this.incidentData.discoveryDate;
+    this.lustIncident.confirmationCode = this.incidentData.confirmationCode;
+    this.lustIncident.discoveryCode = this.incidentData.discoveryCode;
+    this.lustIncident.causeCode = this.incidentData.causeCode;
+    this.lustIncident.sourceId = +this.incidentData.sourceId;
+
+    this.lustIncident.soil = this.incidentData.soil;
+    this.lustIncident.groundWater = this.incidentData.groundWater;
+    this.lustIncident.surfaceWater = this.incidentData.surfaceWater;
+    this.lustIncident.drinkingWater = this.incidentData.drinkingWater;
+    this.lustIncident.vapor = this.incidentData.vapor;
+    this.lustIncident.freeProduct = this.incidentData.freeProduct;
+
+    this.lustIncident.heatingOil = this.incidentData.heatingOil;
+    this.lustIncident.unleadedGas = this.incidentData.unleadedGas;
+    this.lustIncident.leadedGas = this.incidentData.leadedGas;
+    this.lustIncident.misGas = this.incidentData.misGas;
+    this.lustIncident.diesel = this.incidentData.diesel;
+    this.lustIncident.wasteOil = this.incidentData.wasteOil;
+    this.lustIncident.lubricant = this.incidentData.lubricant;
+
+    this.lustIncident.solvent = this.incidentData.solvent;
+    this.lustIncident.otherPet = this.incidentData.otherPet;
+    this.lustIncident.chemical = this.incidentData.chemical;
+    this.lustIncident.mtbe = this.incidentData.mtbe;
+    this.lustIncident.unknown = this.incidentData.unknown;
+
+    this.lustIncident.appId = 'LUST' + (this.incidentForm.controls.authUser.value);
+    this.lustIncident.newSiteStatus = newSiteStatus;
+
+    this.lustIncident.rpOrganization = this.incidentForm.controls.rpOrganization.value;
+    this.lustIncident.rpFirstName = this.incidentForm.controls.rpFirstName.value;
+    this.lustIncident.rpLastName = this.incidentForm.controls.rpLastName.value;
+    this.lustIncident.rpPhone = this.incidentForm.controls.rpPhone.value;
+    this.lustIncident.rpEmail = this.incidentForm.controls.rpEmail.value;
+
+    this.lustIncident.icOrganization = this.incidentForm.controls.icOrganization.value;
+    this.lustIncident.icFirstName = this.incidentForm.controls.icFirstName.value;
+    this.lustIncident.icLastName = this.incidentForm.controls.icLastName.value;
+    this.lustIncident.icPhone = this.incidentForm.controls.icPhone.value;
+    this.lustIncident.icEmail = this.incidentForm.controls.icEmail.value;
+
+    console.log('*********this.lustIncident ' );
+    console.log(this.lustIncident);
+    console.log( JSON.stringify(this.lustIncident));
+  }
+
   createIncident(): void {
-    this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
-    this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
-    this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
-    this.incidentForm.controls.siteAddress.setValue(`${this.incidentForm.controls.streetNbr.value} `
-      + `${this.incidentForm.controls.streetQuad.value} `
-      + `${this.incidentForm.controls.streetName.value} `
-      + `${this.incidentForm.controls.streetType.value} `);
-    const ngbDate = this.incidentForm.controls['discoveryDate'].value;
-    const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-    this.incidentForm.controls['discoveryDate'].setValue(myDate);
-    this.incidentForm.controls['submitDateTime'].setValue(myDate);
-    this.incidentData.dateReceived = (this.incidentForm.controls.dateReceived.value);
+    this.buildLustIncident('Accept');
 
     console.log('*********this.incidentForm is ');
     console.log(this.incidentForm.value);
     console.log('*********this.incident is ' );
-    console.log( JSON.stringify(this.incidentData));
+    console.log( JSON.stringify(this.lustIncident));
 
-    // Copy the form values over the product object values
-    const p = Object.assign({}, this.incidentData, this.incidentForm.value);
-
-    console.log('*********p is ' + JSON.stringify(p));
-
-    this.lustDataService.createIncident(p)
+    this.lustDataService.createLustIncident(this.lustIncident)
         .subscribe(
             () => this.onCreateComplete(),
-            (error: any) => this.errorMessage = <any>error
+            (error: any) => {this.errorMessage = <any>error;
+              console.log('***************insert incident error message');
+              console.log(error);
+            }
         );
   }
+
 
   onCreateComplete(): void {
     console.log('ok did it hip hip hoorayyy!!!!');
@@ -429,7 +510,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   resetFlags() {
     this.showAllErrorsMessages = false;
-    this.submitClicked = false;
+    this.acceptClicked = false;
     this.showContaminantErrorMessage = false;
     this.showMediaErrorMessage = false;
     this.isClosed = true;
@@ -460,37 +541,12 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     return this.datePipe.transform(inDate, 'MM/dd/yyyy');
   }
 
-  private getDeqOffice(): string {
-    let deqOffice = 'NWR';
-    if (this.incidentForm.controls.releaseType.value === 'H') {
-       return deqOffice = 'NWR';
-    }
-    switch (this.incidentForm.controls.siteCounty.value) {
-      case'1':  case'7':   case'9':    case'11':   case'12':  case'13':
-      case'14': case'16':  case'18':   case'19':   case'23':  case'25':
-      case'28': case'30':  case'31':   case'32':   case'33':  case'35':
-      deqOffice = 'DAL';
-      break;
-    case'20':
-      deqOffice = 'EUG';
-      break;
-    case'6':  case'8':  case'10':   case'15':  case'17':
-      deqOffice = 'MDF';
-      break;
-    case'2':  case'21':  case'22':  case'24':  case'27':   case'36':
-      deqOffice = 'SLM';
-      break;
-    default:
-      deqOffice = 'NWR';
-      break;
-    }
-    return deqOffice;
-  }
-
   private findInvalidControls() {
     const invalid = [];
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
+            console.log('******findInvalidControls()*******');
+            console.log(field);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
