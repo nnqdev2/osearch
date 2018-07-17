@@ -588,6 +588,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   runSaAddressCorrect() {
+    console.log('******************** address correction  saaaa  11111');
+    console.log(this.incidentForm.controls.siteAddress.value);
+    console.log(this.incidentForm.controls.siteCity.value);
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
       , this.incidentForm.controls.siteCity.value, 'OR')
       .pipe(
@@ -595,13 +598,16 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           this.saAddressCorrectStat = addressCorrectData,
           this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
         }),
-        // delay(7000000000000000000000000000000000000),
         flatMap(() => this.lustDataService.getPostalCountyVerification(+this.incidentForm.controls.countyCode.value, this.countyFips)
         ),
     )
     .subscribe(
       (data => {
         this.postalCountyVerification = data;
+        this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
+        this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
+        this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
+        this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
         // this.setShowAddressCorrect('sa');
         // this.setShowSaAddressCorrect();
       } )
@@ -612,8 +618,11 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.rpAddress.value
       , this.incidentForm.controls.rpCity.value, this.incidentForm.controls.rpState.value)
       .pipe(
-        map(addressCorrect => {
-          this.rpAddressCorrectStat = addressCorrect;
+        map(addressCorrectData => {
+          this.rpAddressCorrectStat = addressCorrectData;
+          this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
+          this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
+          this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
       }),
     )
     .subscribe();
@@ -623,8 +632,11 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.icAddress.value
       , this.incidentForm.controls.icCity.value, this.incidentForm.controls.icState.value)
       .pipe(
-        map(addressCorrect => {
-          this.icAddressCorrectStat = addressCorrect;
+        map(addressCorrectData => {
+          this.icAddressCorrectStat = addressCorrectData;
+          this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
+          this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
+          this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
       }),
     )
     .subscribe();
