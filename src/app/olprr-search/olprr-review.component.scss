@@ -31,22 +31,27 @@
 md-card{
   width: 20em;
 }
+
+
+mat-card {
+  /*
+    Tried to move to Styles.css but won't adjust content properly
+  */
+  padding: 10px;
+}
+
   // .example-container > * {
   //   width: 100%;
   //   height: auto;
   // }
   
-  mat-form-field {
-    width:100%;
+  // mat-form-field {
+  //   width:100%;
     
-  }
+  // }
 
 
   
-mat-card-title { 
-  background-color: darkSeaGreen !important; 
-}
-
 mat-card-content {
   padding-bottom: 0%;
 }
@@ -78,13 +83,18 @@ content:"*";
 color:red;
 }
 
+
+.mat-card-address-data {
+  padding: 0px; 
+  margin-bottom: -20px;
+}
+
+
 .full-width {
   width: 100%;
 }
 
-md-card{
-width: 20em;
-}
+
 .example-container > * {
   width: 100%;
   height: auto;
@@ -94,16 +104,16 @@ mat-form-field {
   width:100%;
 }
 
-
-mat-card-title { 
-background-color: darkSeaGreen !important; 
-}
-
 mat-card-content {
 padding-bottom: 0%;
 }
+
+
+
+
 
 @media print
 {
     * {-webkit-print-color-adjust:exact;}
 }
+

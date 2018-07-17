@@ -94,6 +94,12 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
+  public LastSARefresh: string;
+  public LastRPRefresh: string;
+  public LastICRefresh: string;
+
+
+
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
@@ -554,8 +560,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     return invalid;
   }
 
-
-  openLit() {
+  private openLit() {
     // todo: temp for now
     let address: string;
     let city: string;
@@ -612,6 +617,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         // this.setShowSaAddressCorrect();
       } )
     );
+    this.LastSARefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+
   }
 
   runRpAddressCorrect() {
@@ -626,6 +633,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       }),
     )
     .subscribe();
+    this.LastRPRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+
   }
 
   runIcAddressCorrect() {
@@ -640,6 +649,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       }),
     )
     .subscribe();
+    this.LastICRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+
   }
 
   getAddressCorrection(address: string, city: string, reportedCountyCode: string, state: string) {
@@ -717,7 +728,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
-  cancel() {
+  private cancel() {
     this.router.navigate(['osearch']);
   }
 

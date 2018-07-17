@@ -31,7 +31,7 @@ export const environment = {
   olprrapi_review_incidentdatabyid: 'http://deqwebdev/olprrapi/review/incidentdatabyid/',
   address_correction: 'https://personator.melissadata.net/v3/WEB/ContactVerify/doContactVerify',
   olprrapi_review_postalcounty: 'http://deqwebdev/olprrapi/review/postalcounty',
-  lit_site_setup: 'http://deqapp1/website/lit/?appid=',
+  lit_site_setup: 'http://deqwebdev/lit_maint/?appid=',
   olprrapi_insert_lust: 'http://deqwebdev/olprrapi/review/lustincident',
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY',

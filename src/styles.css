@@ -8,11 +8,16 @@
     display: inline-block !important;
     width: 100%;
 }
+
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+    color: black !important;
+}
+
 .mat-tab-link-active,
 .mat-tab-label-active {
     background-color: #5EADB0;
     color: rgb(223, 22, 102);
-    border: 1px solid #6B7F7F;
+    border: 1px solid white;
     font-weight: bold;
 }
 
@@ -23,6 +28,8 @@
     min-width: 100px !important;
     border: 1px solid #7e7e7e;
     font-weight: bold;
+    background-color: rgb(245, 13, 90);
+
 }
 
 .tabContentContainer {
@@ -32,6 +39,9 @@
 
 .mat-form-field {
     height: 40px;
+    background-color:white;
+    padding: 0em 0 0 1em;
+    width: 100%;
 }
 
 /* Absolute Center Spinner */
@@ -66,6 +76,7 @@
     background-color: rgb(247, 245, 245);
     font-size: 16px;
     
+    
 }
 .mat-checkbox-content {
     background-color: rgb(247, 245, 245);
@@ -74,3 +85,33 @@
 
 
 
+mat-card-title { 
+/* this affects mat-card-title 
+  OLPRR Incident Review
+*/
+    background-color: darkSeaGreen;
+}
+
+    
+mat-card-header {
+    background-color: white;
+    margin-top: -10px; 
+    margin-bottom: -10px;
+    margin-left: -10px;
+  }
+
+
+
+
+/*
+US Postal Address Check
+*/
+.mat-card-title-background {
+    background-color: yellow;
+  }
+/*   
+
+.mat-card-address-data {
+    padding: 0px; 
+    margin-bottom: -20px;
+} */
