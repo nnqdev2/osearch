@@ -385,7 +385,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     } else {
       this.lustIncident.rpAddress = this.incidentData.rpAddress;
       this.lustIncident.rpCity = this.incidentData.rpCity;
-      this.lustIncident.rpZipcode = this.incidentData.rpZipcode.toString();
+      this.lustIncident.rpZipcode = this.incidentData.rpZipcode;
       this.lustIncident.rpState = this.incidentData.rpState;
     }
     if (this.showInvoiceContact && this.incidentForm.controls.updateIcWithAddressCorrect.value) {
@@ -396,7 +396,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     } else {
       this.lustIncident.icAddress = this.incidentData.icAddress;
       this.lustIncident.icCity = this.incidentData.icCity;
-      this.lustIncident.icZipcode = this.incidentData.icZipcode.toString();
+      this.lustIncident.icZipcode = this.incidentData.icZipcode;
       this.lustIncident.icState = this.incidentData.icState;
     }
 
@@ -505,6 +505,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   onCreateComplete(): void {
     console.log('ok did it hip hip hoorayyy!!!!');
+
+    
     // this.resetForm();
     // this.incidentForm.reset();
     // this.resetFlags();
@@ -517,13 +519,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   resetFlags() {
     this.showAllErrorsMessages = false;
     this.acceptClicked = false;
-    this.showContaminantErrorMessage = false;
-    this.showMediaErrorMessage = false;
-    this.isClosed = true;
-    this.isContaminantClosed = true;
-    this.isMediaClosed = true;
-    this.contaminantErrorMessage = null;
-    this.mediaErrorMessage = null;
   }
 
   resetDate(): void {
@@ -533,11 +528,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   resetForm(): void {
-    // this.incidentForm.reset();
-    // this.resetFlags();
-    // this.incidentForm.patchValue({
-    //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
-    // });
     this.incidentForm.reset();
     this.resetFlags();
     this.resetDate();
@@ -561,7 +551,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   private openLit() {
-    // todo: temp for now
     let address: string;
     let city: string;
     let zipcode: string;
@@ -593,9 +582,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   runSaAddressCorrect() {
-    console.log('******************** address correction  saaaa  11111');
-    console.log(this.incidentForm.controls.siteAddress.value);
-    console.log(this.incidentForm.controls.siteCity.value);
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
       , this.incidentForm.controls.siteCity.value, 'OR')
       .pipe(
@@ -618,7 +604,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       } )
     );
     this.LastSARefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
-
   }
 
   runRpAddressCorrect() {
@@ -634,7 +619,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     )
     .subscribe();
     this.LastRPRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
-
   }
 
   runIcAddressCorrect() {
@@ -650,32 +634,31 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     )
     .subscribe();
     this.LastICRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
-
   }
 
-  getAddressCorrection(address: string, city: string, reportedCountyCode: string, state: string) {
-    console.log('getAddressCorrection');
-    this.addressCorrectDataService.getAddressCorrectStat(address, city, state)
-      .pipe(
-        map(melissaData => {
-          this.addressCorrectStat = melissaData,
-          this.countyFips = melissaData.Records[0].CountyFIPS.substring(2);
-        }),
-        flatMap(() => this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyFips)
-        )
-    )
-    .subscribe(
-      (data => {
-        this.postalCountyVerification = data;
-        console.log('this.postalCountyVerification is .....');
-        console.log(this.postalCountyVerification);
-        console.log('this.addressCorrectStat is .....');
-        console.log(this.addressCorrectStat);
-        this.openAcceptDialog();
-      } )
-    );
-     console.log('getAddressCorrection done');
-  }
+  // getAddressCorrection(address: string, city: string, reportedCountyCode: string, state: string) {
+  //   console.log('getAddressCorrection');
+  //   this.addressCorrectDataService.getAddressCorrectStat(address, city, state)
+  //     .pipe(
+  //       map(melissaData => {
+  //         this.addressCorrectStat = melissaData,
+  //         this.countyFips = melissaData.Records[0].CountyFIPS.substring(2);
+  //       }),
+  //       flatMap(() => this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyFips)
+  //       )
+  //   )
+  //   .subscribe(
+  //     (data => {
+  //       this.postalCountyVerification = data;
+  //       console.log('this.postalCountyVerification is .....');
+  //       console.log(this.postalCountyVerification);
+  //       console.log('this.addressCorrectStat is .....');
+  //       console.log(this.addressCorrectStat);
+  //       this.openAcceptDialog();
+  //     } )
+  //   );
+  //    console.log('getAddressCorrection done');
+  // }
 
   openAcceptDialog() {
     const dialogConfig = new MatDialogConfig();
@@ -699,7 +682,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       title: 'Discard changes?',
-      message1: 'The form has not been submitted yet, do you really want to leave page?',
+      message1: 'The form has not been Accepted/Held/Declined yet, do you really want to leave page?',
       button1: 'Leave',
       button2: 'Stay'
     };
