@@ -17,7 +17,7 @@ import { SourceTypesResolver } from '../resolvers/source-types-resolver.service'
 import { StatesResolver } from '../resolvers/states-resolver.service';
 import { StreetTypesResolver } from '../resolvers/street-types-resolver.service';
 import { IncidentDataResolver } from '../resolvers/incident-resolver.service';
-import { AcceptDialogComponent } from './accept-dialog.component';
+import { AcceptedDialogComponent } from './accepted-dialog.component';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 
 const routes: Routes = [
@@ -52,6 +52,6 @@ const routes: Routes = [
 })
 export class OlprrSearchRoutingModule { }
 export const olprrSearchRoutingComponents = [OlprrSearchFilterComponent
-  , OlprrSearchResultComponent, OlprrReviewComponent, AcceptDialogComponent];
+  , OlprrSearchResultComponent, OlprrReviewComponent, AcceptedDialogComponent];
 
 

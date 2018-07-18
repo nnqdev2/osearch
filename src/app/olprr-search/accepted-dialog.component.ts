@@ -6,20 +6,14 @@ import { IncidentData } from '../models/incident-data';
 import { AddressCorrect } from '../models/address-correct';
 import { PostalCountyVerification } from '../models/postal-county-verification';
 
-
 @Component({
-  selector: 'app-accept-dialog',
-  templateUrl: './accept-dialog.component.html',
-  styleUrls: ['./accept-dialog.component.css']
+  selector: 'app-accepted-dialog',
+  templateUrl: './accepted-dialog.component.html',
+  styleUrls: ['./accepted-dialog.component.css']
 })
-export class AcceptDialogComponent implements OnInit {
+export class AcceptedDialogComponent implements OnInit {
 
   form: FormGroup;
-  // olprrId: number;
-  // siteAddress: string;
-  // siteCity: string;
-  // siteZipcode: number;
-  // countyFips: string;
   incidentData: IncidentData;
   addressCorrect: AddressCorrect;
   postalCountyVerification: PostalCountyVerification;
@@ -27,7 +21,7 @@ export class AcceptDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AcceptDialogComponent>,
+    private dialogRef: MatDialogRef<AcceptedDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data ) {}
     // @Inject(MAT_DIALOG_DATA) incidentData: IncidentData, addressCorrect: AddressCorrect
     // , postalCountyVerification: PostalCountyVerification) {

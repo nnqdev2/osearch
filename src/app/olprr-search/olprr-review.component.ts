@@ -24,7 +24,7 @@ import { AddressCorrectDataService } from '../services/address-correct-data.serv
 import { AddressCorrectStat } from '../models/address-correct-stat';
 import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrect } from '../models/address-correct';
-import { AcceptDialogComponent } from './accept-dialog.component';
+import { AcceptedDialogComponent } from './accepted-dialog.component';
 import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
@@ -400,10 +400,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.lustIncident.icState = this.incidentData.icState;
     }
 
-    this.lustIncident.icCountry = 'USA';
-    this.lustIncident.rpCountry = 'USA';
-    this.lustIncident.rpAffilComments = '';
-    this.lustIncident.icAffilComments = '';
+    // this.lustIncident.icCountry = 'USA';
+    // this.lustIncident.rpCountry = 'USA';
+    // this.lustIncident.rpAffilComments = '';
+    // this.lustIncident.icAffilComments = '';
     this.lustIncident.lustIdIn = 0;
 
 
@@ -599,6 +599,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
         this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
         this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
+        this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
         // this.setShowAddressCorrect('sa');
         // this.setShowSaAddressCorrect();
       } )
@@ -615,6 +616,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
           this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
           this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
+          this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
       }),
     )
     .subscribe();
@@ -630,37 +632,14 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
           this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
           this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
+          this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
       }),
     )
     .subscribe();
     this.LastICRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
-  // getAddressCorrection(address: string, city: string, reportedCountyCode: string, state: string) {
-  //   console.log('getAddressCorrection');
-  //   this.addressCorrectDataService.getAddressCorrectStat(address, city, state)
-  //     .pipe(
-  //       map(melissaData => {
-  //         this.addressCorrectStat = melissaData,
-  //         this.countyFips = melissaData.Records[0].CountyFIPS.substring(2);
-  //       }),
-  //       flatMap(() => this.lustDataService.getPostalCountyVerification(+reportedCountyCode, this.countyFips)
-  //       )
-  //   )
-  //   .subscribe(
-  //     (data => {
-  //       this.postalCountyVerification = data;
-  //       console.log('this.postalCountyVerification is .....');
-  //       console.log(this.postalCountyVerification);
-  //       console.log('this.addressCorrectStat is .....');
-  //       console.log(this.addressCorrectStat);
-  //       this.openAcceptDialog();
-  //     } )
-  //   );
-  //    console.log('getAddressCorrection done');
-  // }
-
-  openAcceptDialog() {
+  private showAcceptedDialog() {
     const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = false;
     // dialogConfig.height = '500px';
@@ -670,8 +649,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       addressCorrect: this.addressCorrect,
       postalCountyVerification: this.postalCountyVerification
     };
-    this.canDeactivateDialog.open(AcceptDialogComponent, dialogConfig);
-}
+    this.canDeactivateDialog.open(AcceptedDialogComponent, dialogConfig);
+  }
 
   canDeactivate(): Observable<boolean> | boolean {
     if (this.incidentForm.pristine) {
