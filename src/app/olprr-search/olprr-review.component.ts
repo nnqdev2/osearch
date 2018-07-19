@@ -31,6 +31,7 @@ import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 import { SearchDialogComponent } from './search-dialog.component';
 import { PdfService } from '../common/pdf.service';
 import { LustIncident } from '../models/lust-incident';
+import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 
 @Component({
   selector: 'app-olprr-review',
@@ -41,6 +42,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
+  acceptedDialogRef: MatDialogRef<AcceptedDialogComponent, any>;
   olprrId: number;
   incidentData: IncidentData|null;
   incidentForm: FormGroup;
@@ -71,6 +73,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   acceptClicked = false;
+  holdClicked = false;
+  declineClicked = false;
+  searchClicked = false;
   isClosed = true;
   isContaminantClosed = true;
   isMediaClosed = true;
@@ -94,9 +99,11 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
-  public LastSARefresh: string;
-  public LastRPRefresh: string;
-  public LastICRefresh: string;
+  private lastSaRefresh: string;
+  private lastRpRefresh: string;
+  private lastIcRefresh: string;
+  private lustIncidentInsertResult: LustIncidentInsertResult;
+
 
 
 
@@ -105,7 +112,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     , private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog
-    , private pdfService: PdfService
+    , private acceptedDialog: MatDialog, private pdfService: PdfService
   ) {}
 
   ngOnInit() {
@@ -264,58 +271,57 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       updateRpWithAddressCorrect: [0],
       updateIcWithAddressCorrect: [0],
       authUser: ['']
+    });
+
+    if (this.showStatusButtons) {
+      if (this.incidentData.releaseTypeCode !== 'H') {
+        this.incidentForm.controls.facilityId.enable();
+        this.incidentForm.controls.icAddress.setValidators([Validators.required]);
+        // this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
+        this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
+        this.incidentForm.controls.icLastName.setValidators([Validators.required]);
+        this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
+        this.incidentForm.controls.icCity.setValidators([Validators.required]);
+        this.incidentForm.controls.icState.setValidators([Validators.required]);
+        this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
+        this.incidentForm.controls.icPhone.setValidators([Validators.required]);
+        // this.incidentForm.controls.icEmail.setValidators([Validators.required]);
+      }
+    } else {
+      this.incidentForm.controls.icAddress.disable();
+      this.incidentForm.controls.icAddress2.disable();
+      this.incidentForm.controls.icFirstName.disable();
+      this.incidentForm.controls.icLastName.disable();
+      this.incidentForm.controls.icOrganization.disable();
+      this.incidentForm.controls.icCity.disable();
+      this.incidentForm.controls.icState.disable();
+      this.incidentForm.controls.icZipcode.disable();
+      this.incidentForm.controls.icPhone.disable();
+      this.incidentForm.controls.icEmail.disable();
+
+      this.incidentForm.controls.rpAddress.disable();
+      this.incidentForm.controls.rpAddress2.disable();
+      this.incidentForm.controls.rpFirstName.disable();
+      this.incidentForm.controls.rpLastName.disable();
+      this.incidentForm.controls.rpOrganization.disable();
+      this.incidentForm.controls.rpCity.disable();
+      this.incidentForm.controls.rpState.disable();
+      this.incidentForm.controls.rpZipcode.disable();
+      this.incidentForm.controls.rpPhone.disable();
+      this.incidentForm.controls.rpEmail.disable();
+
+      this.incidentForm.controls.reportedByEmail.disable();
+      this.incidentForm.controls.siteName.disable();
+      this.incidentForm.controls.siteCounty.disable();
+      this.incidentForm.controls.countyCode.disable();
+      this.incidentForm.controls.siteAddress.disable();
+      this.incidentForm.controls.siteCity.disable();
+      this.incidentForm.controls.siteZipcode.disable();
+      this.incidentForm.controls.sitePhone.disable();
     }
-  );
-
-  if (this.showStatusButtons) {
-    if (this.incidentData.releaseTypeCode !== 'H') {
-      this.incidentForm.controls.facilityId.enable();
-      this.incidentForm.controls.icAddress.setValidators([Validators.required]);
-      // this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
-      this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
-      this.incidentForm.controls.icLastName.setValidators([Validators.required]);
-      this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
-      this.incidentForm.controls.icCity.setValidators([Validators.required]);
-      this.incidentForm.controls.icState.setValidators([Validators.required]);
-      this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
-      this.incidentForm.controls.icPhone.setValidators([Validators.required]);
-      // this.incidentForm.controls.icEmail.setValidators([Validators.required]);
-    }
-  } else {
-    this.incidentForm.controls.icAddress.disable();
-    this.incidentForm.controls.icAddress2.disable();
-    this.incidentForm.controls.icFirstName.disable();
-    this.incidentForm.controls.icLastName.disable();
-    this.incidentForm.controls.icOrganization.disable();
-    this.incidentForm.controls.icCity.disable();
-    this.incidentForm.controls.icState.disable();
-    this.incidentForm.controls.icZipcode.disable();
-    this.incidentForm.controls.icPhone.disable();
-    this.incidentForm.controls.icEmail.disable();
-
-    this.incidentForm.controls.rpAddress.disable();
-    this.incidentForm.controls.rpAddress2.disable();
-    this.incidentForm.controls.rpFirstName.disable();
-    this.incidentForm.controls.rpLastName.disable();
-    this.incidentForm.controls.rpOrganization.disable();
-    this.incidentForm.controls.rpCity.disable();
-    this.incidentForm.controls.rpState.disable();
-    this.incidentForm.controls.rpZipcode.disable();
-    this.incidentForm.controls.rpPhone.disable();
-    this.incidentForm.controls.rpEmail.disable();
-
-    this.incidentForm.controls.reportedByEmail.disable();
-    this.incidentForm.controls.siteName.disable();
-    this.incidentForm.controls.siteCounty.disable();
-    this.incidentForm.controls.countyCode.disable();
-    this.incidentForm.controls.siteAddress.disable();
-    this.incidentForm.controls.siteCity.disable();
-    this.incidentForm.controls.siteZipcode.disable();
-    this.incidentForm.controls.sitePhone.disable();
   }
-}
 
-  addressCorrectNotFound(addressType: string): boolean {
+  private addressCorrectNotFound(addressType: string): boolean {
     if ((addressType === 'sa')
     && (this.saAddressCorrectStat.Records[0].PostalCode.length < 5)) {
       return true;
@@ -331,7 +337,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     return false;
   }
 
-  setShowContactInvoice() {
+  private setShowContactInvoice() {
     if (typeof this.incidentData.releaseTypeCode !== 'undefined'
     && (this.incidentData.releaseTypeCode === 'R' || this.incidentData.releaseTypeCode === 'U')) {
       this.showInvoiceContact = true;
@@ -349,23 +355,50 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.acceptClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
-        this.createIncident();
+        this.createLustIncident();
     } else if (this.incidentForm.invalid) {
         console.log('not ok-invalid form');
         this.errors = this.findInvalidControls();
         console.log(this.errors);
         this.showAllErrorsMessages = true;
         this.isClosed = false;
-        // this.isContaminantClosed = false;
-        // this.isMediaClosed = false;
         console.log('ok why the errors not showing?????');
-    } else if (!this.incidentForm.dirty && this.incidentForm.pristine) {
-        // this.getAddressCorrection(this.incidentData.siteAddress, this.incidentData.siteCity, this.incidentData.siteCounty);
-        this.onCreateComplete();
     }
   }
 
-  buildLustIncident(newSiteStatus: string) {
+  processAction(action: string) {
+
+  }
+
+  private getNewSiteStatus(): string {
+    if (this.acceptClicked) {
+      return 'Accept';
+    } else if (this.holdClicked) {
+      return 'Hold';
+    } else if (this.declineClicked) {
+      return 'Decline';
+    } else {
+      return '';
+    }
+  }
+
+  private isActionSelected(): boolean {
+    if  (this.acceptClicked) {
+      return true;
+    }
+    if  (this.holdClicked) {
+      return true;
+    }
+    if  (this.declineClicked) {
+      return true;
+    }
+    if  (this.searchClicked) {
+      return true;
+    }
+    return false;
+  }
+
+  private buildLustIncident() {
     if (this.incidentForm.controls.updateSaWithAddressCorrect.value) {
       this.lustIncident.siteAddress = this.saAddressCorrectStat.Records[0].AddressLine1;
       this.lustIncident.siteCity = this.saAddressCorrectStat.Records[0].City;
@@ -465,7 +498,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.lustIncident.unknown = this.incidentData.unknown;
 
     this.lustIncident.appId = 'LUST' + (this.incidentForm.controls.authUser.value);
-    this.lustIncident.newSiteStatus = newSiteStatus;
+    this.lustIncident.newSiteStatus = this.getNewSiteStatus();
 
     this.lustIncident.rpOrganization = this.incidentForm.controls.rpOrganization.value;
     this.lustIncident.rpFirstName = this.incidentForm.controls.rpFirstName.value;
@@ -484,41 +517,69 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     console.log( JSON.stringify(this.lustIncident));
   }
 
-  createIncident(): void {
-    this.buildLustIncident('Accept');
-
+  createLustIncident(): void {
+    this.buildLustIncident();
     console.log('*********this.incidentForm is ');
     console.log(this.incidentForm.value);
     console.log('*********this.incident is ' );
     console.log( JSON.stringify(this.lustIncident));
 
     this.lustDataService.createLustIncident(this.lustIncident)
-        .subscribe(
-            () => this.onCreateComplete(),
-            (error: any) => {this.errorMessage = <any>error;
-              console.log('***************insert incident error message');
-              console.log(error);
-            }
-        );
+      .subscribe(
+          (data ) => (this.lustIncidentInsertResult = data
+            , console.log('*****DEBUG DEBUG DEBUG*************this.lustIncidentInsertResult')
+            , console.log(data)
+            , console.log(this.lustIncidentInsertResult)
+                      , this.onCreateLustIncidentComplete()),
+          (error: any) => {this.errorMessage = <any>error;
+            console.log('***************insert incident error message');
+            console.log(error);
+          }
+      );
   }
 
 
-  onCreateComplete(): void {
+  onCreateLustIncidentComplete(): void {
     console.log('ok did it hip hip hoorayyy!!!!');
+    console.log('******************this.lustIncidentInsertResult');
+    console.log(this.lustIncidentInsertResult);
+    this.showMovingOnDialog();
+  }
 
-    
-    // this.resetForm();
-    // this.incidentForm.reset();
-    // this.resetFlags();
-    // this.incidentForm.patchValue({
-    //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
-    // });
+  private showMovingOnDialog() {
+    let message1 = '';
+    let title = '';
+    if (this.lustIncidentInsertResult.errorMessage.length === 0 && this.lustIncidentInsertResult.logNumberTemp.length > 0) {
+      title = 'LUST log number: ' + this.lustIncidentInsertResult.logNumberTemp;
+      message1 = 'Accepted OlprrId ' + this.lustIncidentInsertResult.olprrId
+        + ' into LUST.  The new Log Number is ' + this.lustIncidentInsertResult.logNumberTemp;
+    } else {
+      title = 'Failed to insert OlprrId ' + this.lustIncidentInsertResult.olprrId + ' into LUST due to: ';
+      message1 = this.lustIncidentInsertResult.errorMessage;
+    }
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: title,
+      message1: message1,
+    };
+    dialogConfig.disableClose =  true;
+    this.acceptedDialogRef = this.acceptedDialog.open(AcceptedDialogComponent, dialogConfig);
+    this.acceptedDialogRef.afterClosed().subscribe(result => {
+      this.movingOn(result);
+    });
+  }
 
+  private movingOn(choice: string) {
+    console.log('movingOn  WHERE AM I????????????????');
+    this.router.navigate([choice]);
   }
 
   resetFlags() {
     this.showAllErrorsMessages = false;
     this.acceptClicked = false;
+    this.holdClicked = false;
+    this.declineClicked = false;
   }
 
   resetDate(): void {
@@ -604,7 +665,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         // this.setShowSaAddressCorrect();
       } )
     );
-    this.LastSARefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+    this.lastSaRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
   runRpAddressCorrect() {
@@ -620,7 +681,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       }),
     )
     .subscribe();
-    this.LastRPRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+    this.lastRpRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
   runIcAddressCorrect() {
@@ -636,24 +697,11 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       }),
     )
     .subscribe();
-    this.LastICRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
-  }
-
-  private showAcceptedDialog() {
-    const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = false;
-    // dialogConfig.height = '500px';
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      incidentData: this.incidentData,
-      addressCorrect: this.addressCorrect,
-      postalCountyVerification: this.postalCountyVerification
-    };
-    this.canDeactivateDialog.open(AcceptedDialogComponent, dialogConfig);
+    this.lastIcRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
   canDeactivate(): Observable<boolean> | boolean {
-    if (this.incidentForm.pristine) {
+    if (this.incidentForm.pristine  || this.isActionSelected() ) {
       return true;
     }
     const choice: Subject<boolean> = new Subject<boolean>();

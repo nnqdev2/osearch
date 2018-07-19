@@ -1,10 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IncidentData } from '../models/incident-data';
-
-import { AddressCorrect } from '../models/address-correct';
-import { PostalCountyVerification } from '../models/postal-county-verification';
+import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 
 @Component({
   selector: 'app-accepted-dialog',
@@ -12,49 +9,21 @@ import { PostalCountyVerification } from '../models/postal-county-verification';
   styleUrls: ['./accepted-dialog.component.css']
 })
 export class AcceptedDialogComponent implements OnInit {
-
-  form: FormGroup;
-  incidentData: IncidentData;
-  addressCorrect: AddressCorrect;
-  postalCountyVerification: PostalCountyVerification;
-
-
+  showErrorMessage = false;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AcceptedDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data ) {}
-    // @Inject(MAT_DIALOG_DATA) incidentData: IncidentData, addressCorrect: AddressCorrect
-    // , postalCountyVerification: PostalCountyVerification) {
-    //   this.incidentData = incidentData;
-    //   this.addressCorrect = addressCorrect;
-    //   this.postalCountyVerification = postalCountyVerification;
-    // }
 
   ngOnInit() {
-
-  //   this.form = this.fb.group({
-  //     siteAddress:  [{value: 'test', disabled: true}],
-  //     siteCity:  [{value: 'testcity', disabled: true}],
-  //     siteZipcode: [{value: 1234, disabled: true}],
-  //     countyFips: [{value: 96999, disabled: true}],
-  // });
-
-    this.form = this.fb.group({
-      siteAddress:  [{value: this.data.incidentData.siteAddress, disabled: true}],
-      siteCity:  [{value: this.data.incidentData.siteCity, disabled: true}],
-      siteState:  [{value: 'OR', disabled: true}],
-      siteZipcode: [{value: this.data.incidentData.siteZipcode, disabled: true}],
-      countyFips: [{value: this.data.postalCountyVerification.countyCode, disabled: true}],
-    });
   }
 
-
-  save() {
-      this.dialogRef.close(this.form.value);
+  openOlprrSearch() {
+      this.dialogRef.close('osearch');
   }
 
-  close() {
-      this.dialogRef.close();
+  openLust() {
+      this.dialogRef.close('lsearch');
   }
 
 }

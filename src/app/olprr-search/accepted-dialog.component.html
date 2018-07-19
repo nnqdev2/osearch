@@ -1,54 +1,10 @@
-
-<h2 mat-dialog-title></h2>
-
-
-<mat-dialog-content [formGroup]="form">
-
-
-    <div class="form-row mt-4">
-        <div class="form-group required col-xs-12 pb-3">
-            <mat-form-field appearance="outline"> 
-                <mat-label class="control-label" for="siteAddress">Site Address</mat-label>
-                <input matInput type="text" class="form-control" id="siteAddress" formControlName="siteAddress"/>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="form-row mt-4">
-        <div class="form-group required col-xs-12 pb-3">
-            <mat-form-field appearance="outline"> 
-                <mat-label class="control-label" for="siteCity">Site City</mat-label>
-                <input matInput type="text" class="form-control" id="siteCity" formControlName="siteCity"/>
-            </mat-form-field>
-        </div>
-        <div class="form-group required col-xs-12 pb-3">
-            <mat-form-field appearance="outline"> 
-                <mat-label class="control-label" for="siteState">Site State</mat-label>
-                <input matInput type="text" class="form-control" id="siteState" formControlName="siteState"/>
-            </mat-form-field>
-        </div>
-        <div class="form-group required col-xs-12 pb-3">
-            <mat-form-field appearance="outline"> 
-                <mat-label class="control-label" for="siteZipcode">Site Zip</mat-label>
-                <input matInput type="text" class="form-control" id="siteZipcode" formControlName="siteZipcode"/>
-            </mat-form-field>
-        </div>
-    </div>
-
-
+<h1 mat-dialog-title>{{data.title}}</h1>
+<mat-dialog-content>
+    <p>{{data.message1}}</p>
 </mat-dialog-content>
-
 <mat-dialog-actions>
-
-    <button class="mat-raised-button"
-            (click)="close()">
-        Close
-    </button>
-
-    <button class="mat-raised-button mat-primary"
-            (click)="save()">
-        Save
-    </button>
-
+    <button class="mat-raised-button"  cdkFocusInitial  (click)="openOlprrSearch()"> Return to OLPRR Search</button>
+    <button class="mat-raised-button"  (click)="openLust()">Open Incident in LUST</button>
 </mat-dialog-actions>
 
 

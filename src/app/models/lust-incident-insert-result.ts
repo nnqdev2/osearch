@@ -1,6 +1,6 @@
 export class LustIncidentInsertResult {
     olprrId: number;
     errorMessage: string;
-    logNuberTemp: number;
+    logNumberTemp: string;
     lustIdTemp: number;
 }

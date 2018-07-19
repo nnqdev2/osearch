@@ -142,7 +142,7 @@
                                 <div class="form-group col-md-10">
                                     <mat-card>   <!--  Moved to css style="padding: 10px" -->
                                         <mat-card-header>   <!-- style="margin-top: -10px; margin-bottom: -10px; margin-left: -10px;" -->
-                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{LastSARefresh}}</mat-card-title>
+                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastSaRefresh}}</mat-card-title>
                                         </mat-card-header>
                                         <mat-card-content>
                                             <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
@@ -301,7 +301,7 @@
                                 <div class="form-group col-md-10">
                                     <mat-card>
                                         <mat-card-header>
-                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{LastRPRefresh}}</mat-card-title>
+                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastRpRefresh}}</mat-card-title>
                                         </mat-card-header>
                                         <mat-card-content>
                                             <div *ngIf="addressCorrectNotFound('rp'); then rpAddressCorrectNotFound else rpAddressCorrectFound"></div>
@@ -439,7 +439,7 @@
                                     <div class="form-group col-md-10">
                                         <mat-card>
                                             <mat-card-header>
-                                                <mat-card-title class="mat-card-title-background">US Postal Address Check {{LastICRefresh}}</mat-card-title>
+                                                <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastIcRefresh}}</mat-card-title>
                                             </mat-card-header>
                                             <mat-card-content>
                                                 <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
