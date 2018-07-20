@@ -785,9 +785,11 @@
                             <div class="col-md-1 col-sm-2">
                                 <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
                             </div>
+                            <ng-container *ngIf="incidentData.siteStatus !== 'HOLD'">
                             <div class="col-md-1 col-sm-2">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="hold()" >Hold</button>
                             </div>
+                            </ng-container>
                             <div class="col-md-1 col-sm-2">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="decline()" >Decline</button>
                             </div>
@@ -798,7 +800,7 @@
                     </ng-container>
                     <ng-container *ngIf="!showStatusButtons">
                         <div class="form-group row">   
-                            <div class="col-md-1 col-sm-2">
+                            <!-- <div class="col-md-1 col-sm-2">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
                             </div>
                             <div class="col-md-1 col-sm-2">
@@ -806,7 +808,7 @@
                             </div>
                             <div class="col-md-1 col-sm-2">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="pdfGenerate()" >PDF</button>
-                            </div>
+                            </div> -->
                             <div class="col-md-2 col-sm-3">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
                             </div>                        

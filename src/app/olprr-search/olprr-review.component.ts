@@ -563,17 +563,17 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   private showMovingOnDialog() {
     let message1 = '';
     let title = '';
-    let suppressLustButton = true;
+    let showLustButton = false;
     if (this.lustIncidentInsertResult.errorMessage.length > 0 ) {
       title = 'Failed to update OlprrId ' + this.lustIncidentInsertResult.olprrId + ' to ' +  this.getNewSiteStatus() + ' status.';
       message1 = this.lustIncidentInsertResult.errorMessage;
     }
     if (this.lustIncidentInsertResult.errorMessage.length === 0 ) {
-      title = 'Successfully update OlprrId ' + this.lustIncidentInsertResult.olprrId + ' to '
+      title = 'Successfully updated OlprrId ' + this.lustIncidentInsertResult.olprrId + ' to '
       +  this.getNewSiteStatusVerbiage() + ' status.';
       if (this.acceptClicked) {
         message1  = 'LUST Log Number: ' + this.lustIncidentInsertResult.logNumberTemp;
-        suppressLustButton = false;
+        showLustButton = true;
       }
     }
     const dialogConfig = new MatDialogConfig();
@@ -581,7 +581,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     dialogConfig.data = {
       title: title,
       message1: message1,
-      suppressLustButton: suppressLustButton,
+      suppressLustButton: showLustButton,
     };
     dialogConfig.disableClose =  true;
     this.acceptedDialogRef = this.acceptedDialog.open(AcceptedDialogComponent, dialogConfig);
