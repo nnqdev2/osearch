@@ -346,16 +346,24 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     }
   }
 
+  hold(): void {
+    console.log('*************hold()');
+    this.holdClicked = true;
+    this.submitLustIncident();
+  }
+
+  decline(): void {
+    console.log('decline()');
+    this.declineClicked = true;
+    this.submitLustIncident();
+  }
+
   accept(): void {
     console.log('accept()');
-    console.log(this.incidentForm.invalid);
-    console.log(this.incidentForm.valid);
-    console.log(this.incidentForm.dirty);
-    console.log(this.incidentForm.pristine);
     this.acceptClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
-        this.createLustIncident();
+        this.submitLustIncident();
     } else if (this.incidentForm.invalid) {
         console.log('not ok-invalid form');
         this.errors = this.findInvalidControls();
@@ -366,20 +374,29 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     }
   }
 
-  processAction(action: string) {
-
-  }
-
   private getNewSiteStatus(): string {
     if (this.acceptClicked) {
       return 'Accept';
-    } else if (this.holdClicked) {
-      return 'Hold';
-    } else if (this.declineClicked) {
-      return 'Decline';
-    } else {
-      return '';
     }
+    if (this.holdClicked) {
+      return 'Hold';
+    }
+    if (this.declineClicked) {
+      return 'Decline';
+    }
+    return '';
+  }
+  private getNewSiteStatusVerbiage(): string {
+    if (this.acceptClicked) {
+      return 'Accepted';
+    }
+    if (this.holdClicked) {
+      return 'Held';
+    }
+    if (this.declineClicked) {
+      return 'Declined';
+    }
+    return '';
   }
 
   private isActionSelected(): boolean {
@@ -399,7 +416,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   private buildLustIncident() {
-    if (this.incidentForm.controls.updateSaWithAddressCorrect.value) {
+
+    if (this.acceptClicked && this.incidentForm.controls.updateSaWithAddressCorrect.value) {
       this.lustIncident.siteAddress = this.saAddressCorrectStat.Records[0].AddressLine1;
       this.lustIncident.siteCity = this.saAddressCorrectStat.Records[0].City;
       this.lustIncident.siteZipcode = this.saAddressCorrectStat.Records[0].PostalCode;
@@ -410,7 +428,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.lustIncident.siteZipcode = this.incidentData.siteZipcode.toString();
       this.lustIncident.countyId = +this.incidentData.countyCode;
     }
-    if (this.incidentForm.controls.updateRpWithAddressCorrect.value) {
+    if (this.acceptClicked && this.incidentForm.controls.updateRpWithAddressCorrect.value) {
       this.lustIncident.rpAddress = this.rpAddressCorrectStat.Records[0].AddressLine1;
       this.lustIncident.rpCity = this.rpAddressCorrectStat.Records[0].City;
       this.lustIncident.rpZipcode = this.rpAddressCorrectStat.Records[0].PostalCode;
@@ -421,7 +439,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.lustIncident.rpZipcode = this.incidentData.rpZipcode;
       this.lustIncident.rpState = this.incidentData.rpState;
     }
-    if (this.showInvoiceContact && this.incidentForm.controls.updateIcWithAddressCorrect.value) {
+    if (this.acceptClicked && this.showInvoiceContact && this.incidentForm.controls.updateIcWithAddressCorrect.value) {
       this.lustIncident.icAddress = this.icAddressCorrectStat.Records[0].AddressLine1;
       this.lustIncident.icCity = this.icAddressCorrectStat.Records[0].City;
       this.lustIncident.icZipcode = this.icAddressCorrectStat.Records[0].PostalCode;
@@ -517,51 +535,53 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     console.log( JSON.stringify(this.lustIncident));
   }
 
-  createLustIncident(): void {
+  submitLustIncident(): void {
     this.buildLustIncident();
-    console.log('*********this.incidentForm is ');
-    console.log(this.incidentForm.value);
-    console.log('*********this.incident is ' );
-    console.log( JSON.stringify(this.lustIncident));
-
     this.lustDataService.createLustIncident(this.lustIncident)
       .subscribe(
           (data ) => (this.lustIncidentInsertResult = data
-            , console.log('*****DEBUG DEBUG DEBUG*************this.lustIncidentInsertResult')
-            , console.log(data)
-            , console.log(this.lustIncidentInsertResult)
                       , this.onCreateLustIncidentComplete()),
           (error: any) => {this.errorMessage = <any>error;
-            console.log('***************insert incident error message');
+            console.log('*****submitLustIncident() error message');
             console.log(error);
           }
       );
   }
 
-
   onCreateLustIncidentComplete(): void {
     console.log('ok did it hip hip hoorayyy!!!!');
     console.log('******************this.lustIncidentInsertResult');
     console.log(this.lustIncidentInsertResult);
+
+    // print and pdf here
+    // print and pdf here
+    // print and pdf here
+
     this.showMovingOnDialog();
   }
 
   private showMovingOnDialog() {
     let message1 = '';
     let title = '';
-    if (this.lustIncidentInsertResult.errorMessage.length === 0 && this.lustIncidentInsertResult.logNumberTemp.length > 0) {
-      title = 'LUST log number: ' + this.lustIncidentInsertResult.logNumberTemp;
-      message1 = 'Accepted OlprrId ' + this.lustIncidentInsertResult.olprrId
-        + ' into LUST.  The new Log Number is ' + this.lustIncidentInsertResult.logNumberTemp;
-    } else {
-      title = 'Failed to insert OlprrId ' + this.lustIncidentInsertResult.olprrId + ' into LUST due to: ';
+    let suppressLustButton = true;
+    if (this.lustIncidentInsertResult.errorMessage.length > 0 ) {
+      title = 'Failed to update OlprrId ' + this.lustIncidentInsertResult.olprrId + ' to ' +  this.getNewSiteStatus() + ' status.';
       message1 = this.lustIncidentInsertResult.errorMessage;
+    }
+    if (this.lustIncidentInsertResult.errorMessage.length === 0 ) {
+      title = 'Successfully update OlprrId ' + this.lustIncidentInsertResult.olprrId + ' to '
+      +  this.getNewSiteStatusVerbiage() + ' status.';
+      if (this.acceptClicked) {
+        message1  = 'LUST Log Number: ' + this.lustIncidentInsertResult.logNumberTemp;
+        suppressLustButton = false;
+      }
     }
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       title: title,
       message1: message1,
+      suppressLustButton: suppressLustButton,
     };
     dialogConfig.disableClose =  true;
     this.acceptedDialogRef = this.acceptedDialog.open(AcceptedDialogComponent, dialogConfig);
@@ -571,7 +591,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   private movingOn(choice: string) {
-    console.log('movingOn  WHERE AM I????????????????');
     this.router.navigate([choice]);
   }
 

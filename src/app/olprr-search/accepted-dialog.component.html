@@ -4,7 +4,10 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button class="mat-raised-button"  cdkFocusInitial  (click)="openOlprrSearch()"> Return to OLPRR Search</button>
-    <button class="mat-raised-button"  (click)="openLust()">Open Incident in LUST</button>
+        <div *ngIf="data.suppressLustButton === true; then showLustButton"></div>  
+    <ng-template #showLustButton>
+        <button class="mat-raised-button"  (click)="openLust()">Open Incident in LUST</button>
+    </ng-template>
 </mat-dialog-actions>
 
 
