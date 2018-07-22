@@ -136,9 +136,9 @@
           <div class="form-group col-md-4 ">
             <mat-form-field>  
               <mat-label>File Status</mat-label>  
-              <mat-select placeholder="File Status"  formControlName="fileStatusId">    
+              <mat-select placeholder="File Status"  formControlName="fileStatusTypeId">    
                 <mat-option value=""> </mat-option>    
-                <mat-option *ngFor="let fileStatus of fileStatuses" [value]="fileStatus?.fileStatusTypeId" > {{fileStatus?.fileStatusTypeDescription}}</mat-option>  
+                <mat-option *ngFor="let fileStatus of fileStatuses" [value]="fileStatus?.fileStatusTypeID" > {{fileStatus?.fileStatusTypeDescription}}</mat-option>  
               </mat-select>    
             </mat-form-field>    
           </div>

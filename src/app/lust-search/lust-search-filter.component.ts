@@ -40,8 +40,6 @@ export class LustSearchFilterComponent implements OnInit {
     , private lustDataService: LustDataService) {}
 
   ngOnInit() {
-    console.log('********LUST SEARCH');
-    console.log(this.route.snapshot.url);
     if (this.route.snapshot.url.length > 0) {
       this.route.data.subscribe((data: {siteTypes: SiteType[]}) => { this.siteTypes = data.siteTypes; });
       this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
@@ -84,7 +82,7 @@ export class LustSearchFilterComponent implements OnInit {
       regionCode: [''],
       releaseSiteTypeCode:  [''],
       cleanupSiteTypeId:  [''],
-      fileStatusId: [''],
+      fileStatusTypeId: [''],
       projectManagerCode: [''],
       contactFirstName:  [''],
       contactLastName:  [''],
