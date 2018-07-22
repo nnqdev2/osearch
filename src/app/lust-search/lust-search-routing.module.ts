@@ -29,21 +29,6 @@ const routes: Routes = [
       counties: CountiesResolver,
     },
   },
-  // { path: 'lust/:olprrid', component: OlprrReviewComponent,
-  //     resolve: {
-  //       incidentData: IncidentDataResolver,
-  //       incidentStatuses: IncidentStatusesResolver,
-  //       siteTypes: SiteTypesResolver,
-  //       confirmationTypes: ConfirmationTypesResolver,
-  //       counties: CountiesResolver,
-  //       discoveryTypes: DiscoveryTypesResolver,
-  //       quadrants: QuadrantsResolver,
-  //       releaseCauseTypes: ReleaseCauseTypesResolver,
-  //       sourceTypes: SourceTypesResolver,
-  //       states: StatesResolver,
-  //       streetTypes: StreetTypesResolver,
-  //     }
-  // },
 ];
 
 @NgModule({

@@ -36,20 +36,39 @@ export class LustSearchFilterComponent implements OnInit {
   counties: County[] = [];
 
   constructor(private formBuilder: FormBuilder
-    , private route: ActivatedRoute) {}
+    , private route: ActivatedRoute
+    , private lustDataService: LustDataService) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => { this.siteTypes = data.siteTypes; });
-    this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
-    this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
-    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
-    this.route.data.subscribe((data: {regions: Region[]}) => {this.regions = data.regions; });
-    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
-    this.route.data.subscribe((data: {dateCompares: DateCompare[]}) => {this.dateCompares = data.dateCompares; });
-    this.route.data.subscribe((data: {tankStatuses: TankStatus[]}) => {this.tankStatuses = data.tankStatuses; });
-    this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
-    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    console.log('********LUST SEARCH');
+    console.log(this.route.snapshot.url);
+    if (this.route.snapshot.url.length > 0) {
+      this.route.data.subscribe((data: {siteTypes: SiteType[]}) => { this.siteTypes = data.siteTypes; });
+      this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
+      this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
+      this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
+      this.route.data.subscribe((data: {regions: Region[]}) => {this.regions = data.regions; });
+      this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
+      this.route.data.subscribe((data: {dateCompares: DateCompare[]}) => {this.dateCompares = data.dateCompares; });
+      this.route.data.subscribe((data: {tankStatuses: TankStatus[]}) => {this.tankStatuses = data.tankStatuses; });
+      this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
+      this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    } else {
+      this.lustDataService.getSiteTypes().subscribe(data => { this.siteTypes = data; });
+      this.lustDataService.getCleanupSiteTypes().subscribe(data => { this.cleanupSiteTypes = data; });
+      this.lustDataService.getFileStatuses().subscribe(data => { this.fileStatuses = data; });
+      this.lustDataService.getZipCodes().subscribe(data => { this.zipCodes = data; });
+      this.lustDataService.getRegions().subscribe(data => { this.regions = data; });
+      this.lustDataService.getCities().subscribe(data => { this.cities = data; });
+      this.lustDataService.getDateCompares().subscribe(data => { this.dateCompares = data; });
+      this.lustDataService.getTankStatuses().subscribe(data => { this.tankStatuses = data; });
+      this.lustDataService.getProjectManagers().subscribe(data => { this.projectManagers = data; });
+      this.lustDataService.getCounties().subscribe(data => { this.counties = data; });
+    }
+
+
     this.createSearchFilterForm();
+
   }
   private createSearchFilterForm() {
     this.lustSearchFilterForm = this.formBuilder.group({
