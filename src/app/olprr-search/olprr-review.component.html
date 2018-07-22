@@ -11,14 +11,16 @@
                     <mat-card-title >    
                         OLPRR Incident Review   
                     </mat-card-title>  
-                    <div class="form-row full-width text-center">
-                        <div class="col-md-6 col-sm-2 text-center">
-                                <button mat-raised-button  color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openLustSearch()" >LUST Search</button>
+                    <ng-container *ngIf="showStatusButtons">
+                        <div class="form-row full-width text-center">
+                            <div class="col-md-6 col-sm-2 text-center">
+                                    <button mat-raised-button  color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openLustSearch()" >LUST Search</button>
+                            </div>
+                            <div class="col-md-6 col-sm-2 text-center">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openUstSearch()" >UST Search</button>
+                            </div>            
                         </div>
-                        <div class="col-md-6 col-sm-2 text-center">
-                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openUstSearch()" >UST Search</button>
-                        </div>            
-                    </div>
+                    </ng-container>
                     <mat-card-content> 
             
             
