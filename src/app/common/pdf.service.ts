@@ -37,6 +37,7 @@ export class PdfService {
 
       const doc = new jsPDF('landscape');
       doc.setFontSize(10);
+      doc.setFont("Courier");
       doc.text([todaysDate], 85, 10);
       doc.text([incidentData.rpFirstName] + ' ' + [incidentData.rpLastName], 20, 25);
       doc.text([incidentData.rpAddress], 20, 30);

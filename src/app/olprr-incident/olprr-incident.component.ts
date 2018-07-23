@@ -105,7 +105,7 @@ export class OlprrIncidentComponent implements OnInit {
         siteAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
-          , Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+          , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
         company:  ['', Validators.required],
         initialComment:  ['', Validators.maxLength(710)],
