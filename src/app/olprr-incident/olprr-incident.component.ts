@@ -99,14 +99,14 @@ export class OlprrIncidentComponent implements OnInit {
         streetQuad:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
         streetType: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        siteAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        siteAddress:  ['', Validators.compose([Validators.maxLength(40)])],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
         company:  ['', Validators.required],
         initialComment:  ['', Validators.maxLength(710)],
-        discoveryDate: [{value: '', disabled: false}, Validators.compose([Validators.required])],
+        discoveryDate: [{value: ''}, Validators.compose([Validators.required])],
         confirmationCode:  ['', Validators.required],
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
@@ -167,15 +167,6 @@ export class OlprrIncidentComponent implements OnInit {
     } );
   }
 
-
-  // setShowContactInvoiceAndFacilityId(data: string) {
-  //   if (data === 'R' || data === 'U') {
-  //     this.showInvoiceContact = true;
-  //   } else {
-  //     this.showInvoiceContact = false;
-  //   }
-  // }
-
   copyResponsibleToInvoice() {
     this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
     this.incidentForm.controls.icLastName.setValue(this.incidentForm.controls.rpLastName.value);
@@ -221,16 +212,19 @@ export class OlprrIncidentComponent implements OnInit {
   }
   createIncident(): void {
     this.updateBooleanToNumber();
+    console.log('*********createIncident() 1111   ');
     this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
+    console.log('*********createIncident() 2222   ');
     this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
     this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
+    console.log('*********createIncident() 3333   ');
     this.incidentForm.controls.siteAddress.setValue(`${this.incidentForm.controls.streetNbr.value} `
       + `${this.incidentForm.controls.streetQuad.value} `
       + `${this.incidentForm.controls.streetName.value} `
       + `${this.incidentForm.controls.streetType.value} `);
     const ngbDate = this.incidentForm.controls['discoveryDate'].value;
     const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-    this.incidentForm.controls['discoveryDate'].setValue(myDate);
+    // this.incidentForm.controls['discoveryDate'].setValue(myDate);
     this.incidentForm.controls['submitDateTime'].setValue(myDate);
     this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
 
@@ -399,6 +393,8 @@ export class OlprrIncidentComponent implements OnInit {
     const controls = this.incidentForm.controls;
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
+            console.log('**********HELLLOOOO????');
+            console.log(field);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }

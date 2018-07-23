@@ -38,7 +38,7 @@
                         <div class="form-group required col-md-4">
                             <mat-form-field >
                                 <mat-label class="control-label" for="discoveryDate">Date Release Discovered</mat-label>
-                                    <input matInput [max]="maxDate" [matDatepicker]="discoveryDate" disabled>
+                                    <input matInput [max]="maxDate" [matDatepicker]="discoveryDate"  formControlName="discoveryDate">
                                     <mat-datepicker-toggle matSuffix [for]="discoveryDate"></mat-datepicker-toggle>
                                     <mat-datepicker #discoveryDate [startAt]="maxDate" disabled="false"></mat-datepicker>
                             </mat-form-field>
