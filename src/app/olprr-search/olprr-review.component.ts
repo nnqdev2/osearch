@@ -676,17 +676,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     .subscribe(
       (data => {
         this.refreshSaAddressCorrect(data);
-        // this.postalCountyVerification = data;
-        // this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
-        // this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
-        // this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
-        // this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
-        // this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
-        // this.setShowAddressCorrect('sa');
-        // this.setShowSaAddressCorrect();
       } )
     );
-    // this.lastSaRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
   private refreshSaAddressCorrect(postalCountyVerification: PostalCountyVerification) {
@@ -705,15 +696,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       .pipe(
         map(addressCorrectData => {
           this.refreshRpAddressCorrect(addressCorrectData);
-          // this.rpAddressCorrectStat = addressCorrectData;
-          // this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
-          // this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
-          // this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
-          // this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
       }),
     )
     .subscribe();
-    // this.lastRpRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
   private refreshRpAddressCorrect(addressCorrectData: AddressCorrectStat) {
@@ -731,15 +716,9 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       .pipe(
         map(addressCorrectData => {
           this.refreshIcAddressCorrect(addressCorrectData);
-          // this.icAddressCorrectStat = addressCorrectData;
-          // this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
-          // this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
-          // this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
-          // this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
       }),
     )
     .subscribe();
-    // this.lastIcRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
   private refreshIcAddressCorrect(addressCorrectData: AddressCorrectStat) {
