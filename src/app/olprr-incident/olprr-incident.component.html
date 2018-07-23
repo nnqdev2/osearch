@@ -51,7 +51,7 @@
                         <div class="form-group required col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="releaseType">Site Type</mat-label>
-                                    <mat-select formControlName="releaseType" (click)="setShowContactInvoice()" >
+                                    <mat-select formControlName="releaseType" (click)="setShowContactInvoiceAndFacilityId();" >
                                         <mat-option value=""></mat-option>
                                         <mat-option *ngFor="let siteType of siteTypes" 
                                                 [value]="siteType?.siteTypeCode" >

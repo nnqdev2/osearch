@@ -41,10 +41,7 @@ export class OlprrIncidentComponent implements OnInit {
   sourceTypes: SourceType[] = [];
   states: State[] = [];
   streetTypes: StreetType[] = [];
-
   currentDate: Date;
-  
-  
   maxDate: Date;
   showInvoiceContact = false;
   errorMessage: string;
@@ -160,14 +157,24 @@ export class OlprrIncidentComponent implements OnInit {
     this.resetDate();
   }
 
-  setShowContactInvoice() {
-    if (typeof this.incidentForm.controls.releaseType.value !== 'undefined'
-    && (this.incidentForm.controls.releaseType.value === 'R' || this.incidentForm.controls.releaseType.value === 'U')) {
-      this.showInvoiceContact = true;
-    } else {
-      this.showInvoiceContact = false;
-    }
+  setShowContactInvoiceAndFacilityId() {
+    this.incidentForm.controls.releaseType.valueChanges.subscribe(data => {
+      if (data === 'R' || data === 'U') {
+        this.showInvoiceContact = true;
+      } else {
+        this.showInvoiceContact = false;
+      }
+    } );
   }
+
+
+  // setShowContactInvoiceAndFacilityId(data: string) {
+  //   if (data === 'R' || data === 'U') {
+  //     this.showInvoiceContact = true;
+  //   } else {
+  //     this.showInvoiceContact = false;
+  //   }
+  // }
 
   copyResponsibleToInvoice() {
     this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
