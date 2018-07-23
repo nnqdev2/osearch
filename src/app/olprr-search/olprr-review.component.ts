@@ -361,7 +361,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   accept(): void {
     console.log('accept()');
     this.acceptClicked = true;
-    if (this.incidentForm.dirty && this.incidentForm.valid) {
+    // if (this.incidentForm.dirty && this.incidentForm.valid) {
+    if (this.incidentForm.valid) {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
         this.submitLustIncident();
     } else if (this.incidentForm.invalid) {
@@ -457,17 +458,23 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     // this.lustIncident.icAffilComments = '';
     this.lustIncident.lustIdIn = 0;
 
-
     if (typeof this.incidentForm.controls.facilityId.value !== 'undefined'
     && this.incidentForm.controls.facilityId.value
-    && this.incidentForm.controls.facilityId.value.length > 0) {
+    && this.incidentForm.controls.facilityId.value.length > 0
+    && this.acceptClicked) {
       this.lustIncident.facilityId = +this.incidentForm.controls.facilityId.value;
     } else {
-      this.lustIncident.facilityId = 0;
+      this.lustIncident.facilityId = this.incidentData.facilityId;
     }
-    this.lustIncident.dateReceived = this.incidentData.dateReceived;
-    this.lustIncident.siteName = this.incidentForm.controls.siteName.value;
-    this.lustIncident.sitePhone = this.incidentForm.controls.sitePhone.value;
+
+    if (this.acceptClicked) {
+      this.lustIncident.siteName = this.incidentForm.controls.siteName.value;
+      this.lustIncident.sitePhone = this.incidentForm.controls.sitePhone.value;
+    } else {
+      this.lustIncident.siteName = this.incidentData.siteName;
+      this.lustIncident.sitePhone = this.incidentData.sitePhone;
+    }
+
     this.lustIncident.noValidAddress = 0;
 
     this.lustIncident.hotInd = 0;
@@ -486,21 +493,19 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     } else {
       this.lustIncident.initialComment = this.incidentData.siteComment;
     }
-    this.lustIncident.olprrId = this.incidentForm.controls.olprrId.value;
-
+    this.lustIncident.olprrId = this.incidentForm.controls.olprrId.value;    
+    this.lustIncident.dateReceived = this.incidentData.dateReceived;
     this.lustIncident.discoveryDate = this.incidentData.discoveryDate;
     this.lustIncident.confirmationCode = this.incidentData.confirmationCode;
     this.lustIncident.discoveryCode = this.incidentData.discoveryCode;
     this.lustIncident.causeCode = this.incidentData.causeCode;
     this.lustIncident.sourceId = +this.incidentData.sourceId;
-
     this.lustIncident.soil = this.incidentData.soil;
     this.lustIncident.groundWater = this.incidentData.groundWater;
     this.lustIncident.surfaceWater = this.incidentData.surfaceWater;
     this.lustIncident.drinkingWater = this.incidentData.drinkingWater;
     this.lustIncident.vapor = this.incidentData.vapor;
     this.lustIncident.freeProduct = this.incidentData.freeProduct;
-
     this.lustIncident.heatingOil = this.incidentData.heatingOil;
     this.lustIncident.unleadedGas = this.incidentData.unleadedGas;
     this.lustIncident.leadedGas = this.incidentData.leadedGas;
@@ -508,22 +513,18 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.lustIncident.diesel = this.incidentData.diesel;
     this.lustIncident.wasteOil = this.incidentData.wasteOil;
     this.lustIncident.lubricant = this.incidentData.lubricant;
-
     this.lustIncident.solvent = this.incidentData.solvent;
     this.lustIncident.otherPet = this.incidentData.otherPet;
     this.lustIncident.chemical = this.incidentData.chemical;
     this.lustIncident.mtbe = this.incidentData.mtbe;
     this.lustIncident.unknown = this.incidentData.unknown;
-
     this.lustIncident.appId = 'LUST' + (this.incidentForm.controls.authUser.value);
     this.lustIncident.newSiteStatus = this.getNewSiteStatus();
-
     this.lustIncident.rpOrganization = this.incidentForm.controls.rpOrganization.value;
     this.lustIncident.rpFirstName = this.incidentForm.controls.rpFirstName.value;
     this.lustIncident.rpLastName = this.incidentForm.controls.rpLastName.value;
     this.lustIncident.rpPhone = this.incidentForm.controls.rpPhone.value;
     this.lustIncident.rpEmail = this.incidentForm.controls.rpEmail.value;
-
     this.lustIncident.icOrganization = this.incidentForm.controls.icOrganization.value;
     this.lustIncident.icFirstName = this.incidentForm.controls.icFirstName.value;
     this.lustIncident.icLastName = this.incidentForm.controls.icLastName.value;
@@ -674,16 +675,27 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     )
     .subscribe(
       (data => {
-        this.postalCountyVerification = data;
-        this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
-        this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
-        this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
-        this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
-        this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
+        this.refreshSaAddressCorrect(data);
+        // this.postalCountyVerification = data;
+        // this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
+        // this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
+        // this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
+        // this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
+        // this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
         // this.setShowAddressCorrect('sa');
         // this.setShowSaAddressCorrect();
       } )
     );
+    // this.lastSaRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+  }
+
+  private refreshSaAddressCorrect(postalCountyVerification: PostalCountyVerification) {
+    this.postalCountyVerification = postalCountyVerification;
+    this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
+    this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
+    this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
+    this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
+    this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
     this.lastSaRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
@@ -692,14 +704,24 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       , this.incidentForm.controls.rpCity.value, this.incidentForm.controls.rpState.value)
       .pipe(
         map(addressCorrectData => {
-          this.rpAddressCorrectStat = addressCorrectData;
-          this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
-          this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
-          this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
-          this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
+          this.refreshRpAddressCorrect(addressCorrectData);
+          // this.rpAddressCorrectStat = addressCorrectData;
+          // this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
+          // this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
+          // this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
+          // this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
       }),
     )
     .subscribe();
+    // this.lastRpRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+  }
+
+  private refreshRpAddressCorrect(addressCorrectData: AddressCorrectStat) {
+    this.rpAddressCorrectStat = addressCorrectData;
+    this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
+    this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
+    this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
+    this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
     this.lastRpRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
@@ -708,14 +730,24 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       , this.incidentForm.controls.icCity.value, this.incidentForm.controls.icState.value)
       .pipe(
         map(addressCorrectData => {
-          this.icAddressCorrectStat = addressCorrectData;
-          this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
-          this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
-          this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
-          this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
+          this.refreshIcAddressCorrect(addressCorrectData);
+          // this.icAddressCorrectStat = addressCorrectData;
+          // this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
+          // this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
+          // this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
+          // this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
       }),
     )
     .subscribe();
+    // this.lastIcRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+  }
+
+  private refreshIcAddressCorrect(addressCorrectData: AddressCorrectStat) {
+    this.icAddressCorrectStat = addressCorrectData;
+    this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
+    this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
+    this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
+    this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
     this.lastIcRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
