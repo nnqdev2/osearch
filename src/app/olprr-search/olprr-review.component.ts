@@ -464,7 +464,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     && this.acceptClicked) {
       this.lustIncident.facilityId = +this.incidentForm.controls.facilityId.value;
     } else {
-      this.lustIncident.facilityId = this.incidentData.facilityId;
+      this.lustIncident.facilityId = +this.incidentData.facilityId;
     }
 
     if (this.acceptClicked) {
