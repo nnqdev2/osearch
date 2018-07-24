@@ -212,7 +212,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       icZipcode:        [this.incidentData.icZipcode],
       icPhone:          [this.incidentData.icPhone],
       icEmail:          [this.incidentData.icEmail],
-      reportedByEmail:  ['', [Validators.email]],
+      // reportedByEmail:  ['', [Validators.email]],
       // reportedByEmail:  ['', [Validators.required, Validators.email]],
       siteName:         [this.incidentData.siteName, Validators.required],
       siteCounty:       [+this.incidentData.siteCounty, Validators.required],
@@ -310,7 +310,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.incidentForm.controls.rpPhone.disable();
       this.incidentForm.controls.rpEmail.disable();
 
-      this.incidentForm.controls.reportedByEmail.disable();
+      // this.incidentForm.controls.reportedByEmail.disable();
       this.incidentForm.controls.siteName.disable();
       this.incidentForm.controls.siteCounty.disable();
       this.incidentForm.controls.countyCode.disable();

@@ -256,11 +256,6 @@ export class OlprrIncidentComponent implements OnInit {
     console.log('ok did it hip hip hoorayyy!!!!');
     this.showSubmitStatusDialog();
     this.resetForm();
-    // this.incidentForm.reset();
-    // this.resetFlags();
-    // this.incidentForm.patchValue({
-    //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
-    // });
   }
 
   resetFlags() {
