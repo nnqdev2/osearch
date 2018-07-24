@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
-import { Observable} from 'rxjs';
+import { Observable, Subject} from 'rxjs';
 import { map, catchError, tap, retry} from 'rxjs/operators';
 
 import { LustDataService } from '../services/lust-data.service';
@@ -20,6 +20,9 @@ import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../common/config.service';
 import { IdToNameService } from './id-to-name.service';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
+import { SubmitStatusDialogComponent } from '../common/dialogs/submit-status-dialog.component';
 
 
 @Component({
@@ -29,6 +32,9 @@ import { IdToNameService } from './id-to-name.service';
   providers: [ DatePipe, LustDataService, IdToNameService ]
 })
 export class OlprrIncidentComponent implements OnInit {
+
+  guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
+  submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
 
   incident: Incident = new Incident();
   incidentForm: FormGroup;
@@ -62,7 +68,8 @@ export class OlprrIncidentComponent implements OnInit {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService, private idToNameService: IdToNameService, private route: ActivatedRoute
-    , private router: Router) {}
+    , private router: Router
+    , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog) {}
 
 
   ngOnInit() {
@@ -225,7 +232,7 @@ export class OlprrIncidentComponent implements OnInit {
     const ngbDate = this.incidentForm.controls['discoveryDate'].value;
     const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     // this.incidentForm.controls['discoveryDate'].setValue(myDate);
-    this.incidentForm.controls['submitDateTime'].setValue(myDate);
+    // this.incidentForm.controls['submitDateTime'].setValue(myDate);
     this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
 
     console.log('*********this.incidentForm is ');
@@ -247,6 +254,7 @@ export class OlprrIncidentComponent implements OnInit {
 
   onCreateComplete(): void {
     console.log('ok did it hip hip hoorayyy!!!!');
+    this.showSubmitStatusDialog();
     this.resetForm();
     // this.incidentForm.reset();
     // this.resetFlags();
@@ -583,8 +591,47 @@ export class OlprrIncidentComponent implements OnInit {
 
     }
 
-    DateValidator() {
 
+    private canDeactivate(): Observable<boolean> | boolean {
+      if (this.incidentForm.pristine ) {
+        return true;
+      }
+      const choice: Subject<boolean> = new Subject<boolean>();
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        title: 'Discard changes?',
+        message1: 'The form has not been Submitted yet, do you really want to leave page?',
+        button1: 'Leave',
+        button2: 'Stay'
+      };
+      this.guardDialogRef = this.canDeactivateDialog.open(GuardDialogComponent, dialogConfig);
+      this.guardDialogRef.afterClosed().subscribe(result => {
+        choice.next(result);
+      });
+      return choice;
     }
+    private showSubmitStatusDialog() {
+      const message1 = 'Successfully create the incident ....';
+      const title = 'Submission status';
+      const button1 = 'Close';
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        title: title,
+        message1: message1,
+        button1: button1,
+      };
+      dialogConfig.disableClose =  true;
+      this.submitStatusDialogRef = this.submitStatusDialog.open(SubmitStatusDialogComponent, dialogConfig);
+      // this.submitStatusDialogRef.afterClosed().subscribe(result => {
+      //   this.movingOn(result);
+      // });
+    }
+    // private movingOn(choice: string) {
+    //   this.router.navigate([choice]);
+    // }
+  
 
 }

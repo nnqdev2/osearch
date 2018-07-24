@@ -31,6 +31,7 @@ import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolve
 import { LustSearchResultComponent } from './lust-search/lust-search-result.component';
 import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
 import { UstSearchResultComponent } from './ust-search/ust-search-result.component';
+import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -71,6 +72,7 @@ const routes: Routes = [
         states: StatesResolver,
         streetTypes: StreetTypesResolver,
       },
+      canDeactivate: [CanDeactivateGuard]
   },
 
 ];

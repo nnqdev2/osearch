@@ -28,6 +28,7 @@ import { ShowAllMessagesModule } from './show-all-messages/show-all-messages.mod
 import { ShowErrorsModule } from './show-errors/show-errors.module';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
+import { SubmitStatusDialogComponent } from './common/dialogs/submit-status-dialog.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
     AppNavComponent,
     OlprrIncidentComponent,
     GuardDialogComponent,
+    SubmitStatusDialogComponent,
   ],
   providers: [
     LogService,
@@ -61,7 +63,7 @@ import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
     CanDeactivateGuard,
   ],
   // exports: [AcceptDialogComponent],
-  entryComponents: [GuardDialogComponent],
+  entryComponents: [GuardDialogComponent, SubmitStatusDialogComponent, ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
