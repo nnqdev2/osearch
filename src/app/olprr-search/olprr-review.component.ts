@@ -493,7 +493,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     } else {
       this.lustIncident.initialComment = this.incidentData.siteComment;
     }
-    this.lustIncident.olprrId = this.incidentForm.controls.olprrId.value;    
+    this.lustIncident.olprrId = this.incidentForm.controls.olprrId.value;
     this.lustIncident.dateReceived = this.incidentData.dateReceived;
     this.lustIncident.discoveryDate = this.incidentData.discoveryDate;
     this.lustIncident.confirmationCode = this.incidentData.confirmationCode;
@@ -554,9 +554,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     console.log('******************this.lustIncidentInsertResult');
     console.log(this.lustIncidentInsertResult);
 
-    // print and pdf here
-    // print and pdf here
-    // print and pdf here
+    if (this.acceptClicked === true) {
+      this.pdfGenerate();
+      this.print();
+    }
 
     this.showMovingOnDialog();
   }
@@ -772,5 +773,13 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.router.navigate(['osearch']);
   }
 
+  private print(): void {
+    window.print();
+  }
+
+
+  public pdfGenerate(): void {
+    this.pdfService.createOlprrPdfIncident(this.lustIncident, this.lustIncidentInsertResult);
+  }
 
 }

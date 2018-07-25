@@ -13,7 +13,7 @@ export class AcceptedDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AcceptedDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any ) {}
 
   ngOnInit() {
   }

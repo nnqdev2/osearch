@@ -12,7 +12,7 @@ export class SubmitStatusDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<SubmitStatusDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any ) {}
 
   ngOnInit() {
   }

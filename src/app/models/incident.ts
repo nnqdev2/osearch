@@ -55,8 +55,8 @@ export class Incident {
     diesel: number;
     wasteOil: number;
     heatingOil: number;
-    Lubricant: number;
-    Solvent: number;
+    lubricant: number;
+    solvent: number;
     otherPet: number;
     chemical: number;
     unknown: number;

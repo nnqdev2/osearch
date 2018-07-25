@@ -106,14 +106,14 @@ export class OlprrIncidentComponent implements OnInit {
         streetQuad:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
         streetType: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        siteAddress:  ['', Validators.compose([Validators.maxLength(40)])],
+        siteAddress:   [{value: '', disabled: true}],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
         company:  ['', Validators.required],
         initialComment:  ['', Validators.maxLength(710)],
-        discoveryDate: [{value: ''}, Validators.compose([Validators.required])],
+        discoveryDate: [{value: '', disabled: true}, Validators.compose([Validators.required])],
         confirmationCode:  ['', Validators.required],
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
@@ -187,6 +187,30 @@ export class OlprrIncidentComponent implements OnInit {
   }
 
   submitIncident(): void {
+    // console.log('***************HELPMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
+    // this.incident.freeProduct = (this.incidentForm.controls.freeProduct.value ? 1 : 0);
+    // console.log(this.incident.freeProduct);
+
+
+    // console.log('***************HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOO');
+    // console.log(this.incidentForm.controls.freeProduct.value);
+
+    // if (this.incidentForm.controls.freeProduct.value ) {
+    //   console.log('*************1111111**HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOO');
+    // console.log(this.incidentForm.controls.freeProduct.value);
+    //   this.incident.freeProduct = 1;
+    //   console.log(this.incident.freeProduct);
+    // } else {
+    //   this.incident.freeProduct = 0;
+    // }
+
+    // if (this.incidentForm.controls.freeProduct.value ) {
+    //   this.incident.freeProduct = 1;
+    // } else {
+    //   this.incident.freeProduct = 0;
+    // }
+
+
 
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
@@ -219,29 +243,7 @@ export class OlprrIncidentComponent implements OnInit {
   }
   createIncident(): void {
     this.updateBooleanToNumber();
-    console.log('*********createIncident() 1111   ');
-    this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
-    console.log('*********createIncident() 2222   ');
-    this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
-    this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
-    console.log('*********createIncident() 3333   ');
-    this.incidentForm.controls.siteAddress.setValue(`${this.incidentForm.controls.streetNbr.value} `
-      + `${this.incidentForm.controls.streetQuad.value} `
-      + `${this.incidentForm.controls.streetName.value} `
-      + `${this.incidentForm.controls.streetType.value} `);
-    const ngbDate = this.incidentForm.controls['discoveryDate'].value;
-    const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-    // this.incidentForm.controls['discoveryDate'].setValue(myDate);
-    // this.incidentForm.controls['submitDateTime'].setValue(myDate);
-    this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
-
-    console.log('*********this.incidentForm is ');
-    console.log(this.incidentForm.value);
-    console.log('*********this.incident is ' );
-    console.log( JSON.stringify(this.incident));
-
-    // Copy the form values over the product object values
-    const p = Object.assign({}, this.incident, this.incidentForm.value);
+    const p = Object.assign({},  this.incidentForm.value, this.incident);
 
     console.log('*********p is ' + JSON.stringify(p));
 
@@ -255,7 +257,7 @@ export class OlprrIncidentComponent implements OnInit {
   onCreateComplete(): void {
     console.log('ok did it hip hip hoorayyy!!!!');
     this.showSubmitStatusDialog();
-    this.resetForm();
+
   }
 
   resetFlags() {
@@ -272,7 +274,7 @@ export class OlprrIncidentComponent implements OnInit {
 
   resetDate(): void {
     this.incidentForm.patchValue({
-      dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
+      dateReceived: this.datePipe.transform(new Date(), 'MM/dd/yyyy')
     });
   }
 
@@ -289,12 +291,12 @@ export class OlprrIncidentComponent implements OnInit {
 
   populateTestData(): void {
     this.incidentForm.patchValue({
-        dateReported: this.datePipe.transform(new Date(), 'MM-dd-yyyy'),
+        dateReported: this.datePipe.transform(new Date(), 'MM/dd/yyyy'),
     reportedBy:  'donald duck',
     reportedByPhone:  '5039999999',
     reportedByEmail: 'a@b.com',
-    releaseType:  'R',
-    dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy'),
+    releaseType:  'U',
+    dateReceived: this.datePipe.transform(new Date(), 'MM/dd/yyyy'),
     facilityId: 2,
     siteName:  'Disneyland',
     siteCounty:  '12',
@@ -308,7 +310,7 @@ export class OlprrIncidentComponent implements OnInit {
     sitePhone: '1231234444',
     company:  'disney',
     initialComment:  'quack quack quack',
-    discoveryDate: this.datePipe.transform(new Date(), 'MM-dd-yyyy'),
+    discoveryDate: this.datePipe.transform(new Date(), 'MM/dd/yyyy'),
     confirmationCode: 'CN',
     discoveryCode:  'OT',
     causeCode: 'OT',
@@ -355,13 +357,13 @@ export class OlprrIncidentComponent implements OnInit {
   });
 
   this.incidentForm.patchValue({
-    dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
+    dateReceived: this.datePipe.transform(new Date(), 'MM/dd/yyyy')
   });
     // end of populate test data
   }
 
   transformDate(date) {
-    this.datePipe.transform(date, 'yyyy-MM-dd');
+    this.datePipe.transform(date, 'yyyy/MM/dd');
   }
 
   private getDeqOffice(): string {
@@ -450,142 +452,48 @@ export class OlprrIncidentComponent implements OnInit {
     return invalid;
     }
 
-
     private updateBooleanToNumber() {
-      // for (const field of Object.keys(this.incidentForm.controls)) {
-      //   if ( typeof this.incidentForm.controls[field].value === 'boolean') {
-      //     console.log('************updateBooleanToNumber() boolean boolean');
-      //     console.log(field);
-      //     const xx = this.incidentForm.controls[field].value;
-      //     if (xx) {
-      //       this.incidentForm.controls[field].setValue(1);
-      //     } else {
-      //       this.incidentForm.controls[field].setValue(0);
-      //     }
-      //   }
-      // )
-      if (this.incidentForm.controls.groundWater.value === false) {
-        this.incidentForm.controls.groundWater.setValue(0);
-      }
-      if (this.incidentForm.controls.groundWater.value === true) {
-        this.incidentForm.controls.groundWater.setValue(1);
-      }
-      if (this.incidentForm.controls.surfaceWater.value === false) {
-        this.incidentForm.controls.surfaceWater.setValue(0);
-      }
-      if (this.incidentForm.controls.surfaceWater.value === true) {
-        this.incidentForm.controls.surfaceWater.setValue(1);
-      }
-      if (this.incidentForm.controls.drinkingWater.value === false) {
-        this.incidentForm.controls.drinkingWater.setValue(0);
-      }
-      if (this.incidentForm.controls.drinkingWater.value === true) {
-        this.incidentForm.controls.drinkingWater.setValue(1);
-      }
-      if (this.incidentForm.controls.soil.value === false) {
-        this.incidentForm.controls.soil.setValue(0);
-      }
-      if (this.incidentForm.controls.soil.value === true) {
-        this.incidentForm.controls.soil.setValue(1);
-      }
-      if (this.incidentForm.controls.vapor.value === false) {
-        this.incidentForm.controls.vapor.setValue(0);
-      }
-      if (this.incidentForm.controls.vapor.value === true) {
-        this.incidentForm.controls.vapor.setValue(1);
-      }
-      if (this.incidentForm.controls.freeProduct.value === false) {
-        this.incidentForm.controls.freeProduct.setValue(0);
-      }
-      if (this.incidentForm.controls.freeProduct.value === true) {
-        this.incidentForm.controls.freeProduct.setValue(1);
-      }
+      this.incident.groundWater = (this.incidentForm.controls.groundWater.value ? 1 : 0);
+      this.incident.surfaceWater = (this.incidentForm.controls.surfaceWater.value ? 1 : 0);
+      this.incident.drinkingWater = (this.incidentForm.controls.drinkingWater.value ? 1 : 0);
+      this.incident.soil = (this.incidentForm.controls.soil.value ? 1 : 0);
+      this.incident.vapor = (this.incidentForm.controls.vapor.value ? 1 : 0);
+      this.incident.freeProduct = (this.incidentForm.controls.freeProduct.value ? 1 : 0);
+      this.incident.unleadedGas = (this.incidentForm.controls.unleadedGas.value ? 1 : 0);
+      this.incident.leadedGas = (this.incidentForm.controls.leadedGas.value  ? 1 : 0);
+      this.incident.misGas = (this.incidentForm.controls.misGas.value  ? 1 : 0);
+      this.incident.diesel = (this.incidentForm.controls.diesel.value  ? 1 : 0);
+      this.incident.wasteOil = (this.incidentForm.controls.wasteOil.value  ? 1 : 0);
+      this.incident.heatingOil = (this.incidentForm.controls.heatingOil.value ? 1 : 0);
+      this.incident.lubricant = (this.incidentForm.controls.lubricant.value ? 1 : 0);
+      this.incident.solvent = (this.incidentForm.controls.solvent.value  ? 1 : 0);
+      this.incident.otherPet = (this.incidentForm.controls.otherPet.value  ? 1 : 0);
+      this.incident.chemical = (this.incidentForm.controls.chemical.value  ? 1 : 0);
+      this.incident.unknown = (this.incidentForm.controls.unknown.value  ? 1 : 0);
+      this.incident.mtbe = (this.incidentForm.controls.mtbe.value ? 1 : 0);
+      this.incident.deqOffice = this.getDeqOffice();
+      this.incident.contractorPwd = environment.contractor_pwd;
+      this.incident.contractorUid = environment.contractor_uid;
+      this.incident.siteAddress = this.incidentForm.controls.streetNbr.value + ' '
+              + this.incidentForm.controls.streetQuad.value + ' '
+              + this.incidentForm.controls.streetName.value + ' '
+              + this.incidentForm.controls.streetType.value;
 
-      if (this.incidentForm.controls.unleadedGas.value === false) {
-        this.incidentForm.controls.unleadedGas.setValue(0);
-      }
-      if (this.incidentForm.controls.unleadedGas.value === true) {
-        this.incidentForm.controls.unleadedGas.setValue(1);
-      }
-      if (this.incidentForm.controls.leadedGas.value === false) {
-        this.incidentForm.controls.leadedGas.setValue(0);
-      }
-      if (this.incidentForm.controls.leadedGas.value === true) {
-        this.incidentForm.controls.leadedGas.setValue(1);
-      }
+      // const ngbDate = this.incidentForm.controls['discoveryDate'].value;
+      // const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+      // this.incidentForm.controls['discoveryDate'].setValue(myDate);
+      // this.incidentForm.controls['submitDateTime'].setValue(myDate);
 
+      this.incident.discoveryDate = this.incidentForm.controls['discoveryDate'].value;
+      this.incident.dateReceived = this.incidentForm.controls.dateReceived.value;
+      this.incident.submitDateTime = this.incidentForm.controls.dateReceived.value;
 
-      if (this.incidentForm.controls.misGas.value === false) {
-        this.incidentForm.controls.misGas.setValue(0);
-      }
-      if (this.incidentForm.controls.misGas.value === true) {
-        this.incidentForm.controls.misGas.setValue(1);
-      }
-      if (this.incidentForm.controls.diesel.value === false) {
-        this.incidentForm.controls.diesel.setValue(0);
-      }
-      if (this.incidentForm.controls.diesel.value === true) {
-        this.incidentForm.controls.diesel.setValue(1);
-      }
-
-
-      if (this.incidentForm.controls.wasteOil.value === false) {
-        this.incidentForm.controls.wasteOil.setValue(0);
-      }
-      if (this.incidentForm.controls.wasteOil.value === true) {
-        this.incidentForm.controls.wasteOil.setValue(1);
-      }
-      if (this.incidentForm.controls.heatingOil.value === false) {
-        this.incidentForm.controls.heatingOil.setValue(0);
-      }
-      if (this.incidentForm.controls.heatingOil.value === true) {
-        this.incidentForm.controls.heatingOil.setValue(1);
-      }
-
-
-      if (this.incidentForm.controls.lubricant.value === false) {
-        this.incidentForm.controls.lubricant.setValue(0);
-      }
-      if (this.incidentForm.controls.lubricant.value === true) {
-        this.incidentForm.controls.lubricant.setValue(1);
-      }
-      if (this.incidentForm.controls.solvent.value === false) {
-        this.incidentForm.controls.solvent.setValue(0);
-      }
-      if (this.incidentForm.controls.solvent.value === true) {
-        this.incidentForm.controls.solvent.setValue(1);
-      }
-
-
-      if (this.incidentForm.controls.otherPet.value === false) {
-        this.incidentForm.controls.otherPet.setValue(0);
-      }
-      if (this.incidentForm.controls.otherPet.value === true) {
-        this.incidentForm.controls.otherPet.setValue(1);
-      }
-      if (this.incidentForm.controls.chemical.value === false) {
-        this.incidentForm.controls.chemical.setValue(0);
-      }
-      if (this.incidentForm.controls.chemical.value === true) {
-        this.incidentForm.controls.chemical.setValue(1);
-      }
-
-
-      if (this.incidentForm.controls.unknown.value === false) {
-        this.incidentForm.controls.unknown.setValue(0);
-      }
-      if (this.incidentForm.controls.unknown.value === true) {
-        this.incidentForm.controls.unknown.setValue(1);
-      }
-      if (this.incidentForm.controls.mtbe.value === false) {
-        this.incidentForm.controls.mtbe.setValue(0);
-      }
-      if (this.incidentForm.controls.mtbe.value === true) {
-        this.incidentForm.controls.mtbe.setValue(1);
-      }
+      console.log('*********this.incidentForm is ');
+      console.log(this.incidentForm.value);
+      console.log('*********this.incident is ' );
+      console.log( JSON.stringify(this.incident));
 
     }
-
 
     private canDeactivate(): Observable<boolean> | boolean {
       if (this.incidentForm.pristine ) {
@@ -620,13 +528,8 @@ export class OlprrIncidentComponent implements OnInit {
       };
       dialogConfig.disableClose =  true;
       this.submitStatusDialogRef = this.submitStatusDialog.open(SubmitStatusDialogComponent, dialogConfig);
-      // this.submitStatusDialogRef.afterClosed().subscribe(result => {
-      //   this.movingOn(result);
-      // });
+      this.submitStatusDialogRef.afterClosed().subscribe(result => {
+        this.resetForm();
+      });
     }
-    // private movingOn(choice: string) {
-    //   this.router.navigate([choice]);
-    // }
-  
-
 }
