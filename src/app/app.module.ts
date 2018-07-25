@@ -29,6 +29,7 @@ import { ShowErrorsModule } from './show-errors/show-errors.module';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
 import { SubmitStatusDialogComponent } from './common/dialogs/submit-status-dialog.component';
+import { httpInterceptorProviders } from './http-interceptors';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { SubmitStatusDialogComponent } from './common/dialogs/submit-status-dial
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: RequestCache, useClass: RequestCacheWithMap },
     CanDeactivateGuard,
+    httpInterceptorProviders,
   ],
   // exports: [AcceptDialogComponent],
   entryComponents: [GuardDialogComponent, SubmitStatusDialogComponent, ],

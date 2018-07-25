@@ -31,7 +31,7 @@ export class LustSearchResultDataSourceService implements DataSource<LustSearchR
     }
 
     loadResults(lustSearchFilter: LustSearchFilter) {
-        // console.log( JSON.stringify(lustSearchFilter));
+        console.log( JSON.stringify(lustSearchFilter));
         this.loadingSubject.next(true);
         this.lustDataService.getLustSearch(lustSearchFilter)
             .pipe(

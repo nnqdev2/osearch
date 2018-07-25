@@ -118,7 +118,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   ngOnInit() {
     this.olprrId = +this.route.snapshot.params['olprrid'];
     this.loadingSubject.next(true);
-    // this.route.data.subscribe((data: {incidentData: IncidentData}) => {this.incidentData = data.incidentData; } );
+    this.route.data.subscribe((data: {incidentData: IncidentData}) => {this.incidentData = data.incidentData; } );
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
     this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });

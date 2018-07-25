@@ -450,7 +450,7 @@ export class OlprrIncidentComponent implements OnInit {
         }
     }
     return invalid;
-    }
+  }
 
     private updateBooleanToNumber() {
       this.incident.groundWater = (this.incidentForm.controls.groundWater.value ? 1 : 0);

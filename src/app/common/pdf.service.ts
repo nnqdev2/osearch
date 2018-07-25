@@ -39,13 +39,13 @@ export class PdfService {
 
       const doc = new jsPDF('landscape');
       doc.setFontSize(10);
-      doc.setFont("Courier");
+      doc.setFont('Courier');
       doc.text([todaysDate], 85, 10);
       doc.text([lustIncident.rpFirstName] + ' ' + [lustIncident.rpLastName], 20, 25);
       doc.text([lustIncident.rpAddress], 20, 30);
       doc.text([lustIncident.rpCity] + ' ' + [lustIncident.rpState] + ', ' + [lustIncident.rpZipcode] , 20, 35);
       doc.text('RE: ' + [lustIncident.siteName], 120, 40);
-      //doc.text('File No: ' + LogNumber + '-' + LogYearStr.toString() + '-' + LogOlprrId, 120, 45);
+      // doc.text('File No: ' + LogNumber + '-' + LogYearStr.toString() + '-' + LogOlprrId, 120, 45);
       doc.text('File No: ' + lustIncidentResult.logNumberTemp, 120, 45);
       doc.text('A release was reported from an underground heating oil tank (HOT) system located at ' 
               + [lustIncident.rpAddress] + ', in', 20, 55);
