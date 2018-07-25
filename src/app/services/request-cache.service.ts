@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 // import { MessageService } from './message.service';
 
@@ -14,7 +15,7 @@ export abstract class RequestCache {
   abstract put(req: HttpRequest<any>, response: HttpResponse<any>): void;
 }
 
-const maxAge = 300000000000000000; // maximum cache age (ms)
+const maxAge = +environment.cache_expiry_in_ms; // maximum cache age (ms)
 
 @Injectable()
 export class RequestCacheWithMap implements RequestCache {
@@ -43,8 +44,6 @@ export class RequestCacheWithMap implements RequestCache {
     const url = req.urlWithParams;
     // this.messenger.add(`Caching response from "${url}".`);
 
-    console.log(`*****in da cache put *** Caching response from "${url}".`);
-    console.log(response);
     const entry = { url, response, lastRead: Date.now() };
     this.cache.set(url, entry);
 
@@ -57,7 +56,6 @@ export class RequestCacheWithMap implements RequestCache {
       }
     });
 
-    console.log(`Request cache size: ${this.cache.size}.`);
     // this.messenger.add(`Request cache size: ${this.cache.size}.`);
   }
 }

@@ -27,13 +27,9 @@ export class CachingInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // continue if not cachable.
     if (!isCachable(req)) {
-      console.log('OK THIS URL IS NOT CACHEABLE .... MOVING ON....');
-      console.log(req);
       return next.handle(req);
     }
-    console.log('******req.url is cacheable');
     const cachedResponse = this.cache.get(req);
-    console.log(cachedResponse);
     // cache-then-refresh
     if (req.headers.get('x-refresh')) {
       const results$ = sendRequest(req, next, this.cache);
@@ -50,44 +46,14 @@ export class CachingInterceptor implements HttpInterceptor {
 
 /** Is this request cachable? */
 function isCachable(req: HttpRequest<any>) {
-  console.log('******IS cacheable req.url');
-  console.log(req.method);
-  console.log(req.url);
-
   if ((req.method === 'GET') && cacheableUrls (req.url)) {
-    console.log('******IS cacheable req.url found a match');
     return true;
-  } 
-
-  console.log('******IS cacheable req.url no match');
+  }
   return false;
 }
 
-  // return (req.method === 'GET') &&
-  // (-1 < req.url.indexOf(environment.olprrapi_confirmationtype)
-  // || -1 < req.url.indexOf(environment.olprrapi_sitetype)
-  // || -1 < req.url.indexOf(environment.olprrapi_discoverytype)
-  // || -1 < req.url.indexOf(environment.olprrapi_streettype)
-  // || -1 < req.url.indexOf(environment.olprrapi_county)
-  // || -1 < req.url.indexOf(environment.olprrapi_state)
-  // || -1 < req.url.indexOf(environment.olprrapi_sourcetype)
-  // || -1 < req.url.indexOf(environment.olprrapi_releasecausetype)
-  // || -1 < req.url.indexOf(environment.olprrapi_deqoffice)
-  // || -1 < req.url.indexOf(environment.olprrapi_incidentstatus)
-  // || -1 < req.url.indexOf(environment.olprrapi_datecompare)
-  // || -1 < req.url.indexOf(environment.olprrapi_region)
-  // || -1 < req.url.indexOf(environment.olprrapi_cleanupsitetype)
-  // || -1 < req.url.indexOf(environment.olprrapi_filestatus)
-  // || -1 < req.url.indexOf(environment.olprrapi_tankstatus)
-  // || -1 < req.url.indexOf(environment.olprrapi_city)
-  // || -1 < req.url.indexOf(environment.olprrapi_projectmanager)
-  // || -1 < req.url.indexOf(environment.olprrapi_zipcode)
-  // );
-}
 
 function cacheableUrls(url: string): boolean {
-  console.log('cacheableUrls(url: string)');
-  console.log(url);
   return  (-1 < url.indexOf(environment.olprrapi_confirmationtype)
   || -1 < url.indexOf(environment.olprrapi_sitetype)
   || -1 < url.indexOf(environment.olprrapi_discoverytype)
@@ -126,16 +92,9 @@ function sendRequest(
 
   return next.handle(req).pipe(
     tap(event => {
-      console.log('****in tap');
-      console.log(req.url);
-      console.log(event);
       // There may be other events besides the response.
       if (event instanceof HttpResponse) {
-        console.log('****in tap about to update cache');
-        console.log(req.url);
-        console.log(event);
         cache.put(req, event); // Update the cache.
-        console.log(cache);
       }
     })
   );

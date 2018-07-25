@@ -35,6 +35,7 @@ export const environment = {
   olprrapi_insert_lust: 'http://deqwebdev/olprrapi/review/lustincident',
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY',
+  cache_expiry_in_ms: '43200000',
 };
 
 /*
