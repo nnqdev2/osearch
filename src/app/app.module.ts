@@ -30,6 +30,7 @@ import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
 import { SubmitStatusDialogComponent } from './common/dialogs/submit-status-dialog.component';
 import { httpInterceptorProviders } from './http-interceptors';
+import { ErrorsComponent } from './common/errors/errors.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { httpInterceptorProviders } from './http-interceptors';
     OlprrIncidentComponent,
     GuardDialogComponent,
     SubmitStatusDialogComponent,
+    ErrorsComponent,
   ],
   providers: [
     LogService,

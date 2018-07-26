@@ -73,6 +73,8 @@ function cacheableUrls(url: string): boolean {
   || -1 < url.indexOf(environment.olprrapi_projectmanager)
   || -1 < url.indexOf(environment.olprrapi_zipcode)
   || -1 < url.indexOf(environment.olprrapi_quadrant)
+  || -1 < url.indexOf(environment.address_correction)
+  || -1 < url.indexOf(environment.olprrapi_review_postalcounty)
   );
 }
 

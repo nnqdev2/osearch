@@ -11,17 +11,29 @@ export class AppErrorHandler implements ErrorHandler {
     constructor(@Inject(forwardRef(() => LogService)) private logService: LogService
                 , @Inject(forwardRef(() => LocationStrategy)) private location: LocationStrategy
               ) { }
-    handleError(error: HttpErrorResponse) {
+    handleError(error: Error | HttpErrorResponse) {
         console.log('*******AppErrorHandler handleError error  ==> ');
         console.log(error);
-        console.log('*******AppErrorHandler handleError error done  ==> ' );
+        console.log('*******AppErrorHandler handleError error   ==> ' );
 
         // const logService = this.injector.get(LogService);
         // const location = this.injector.get(LocationStrategy);
         const message = error.message ? error.message : error.toString();
-        const theError = error.error ? error.error : error.toString();
+        // let theError: string;
 
-
+      //   if (error instanceof HttpErrorResponse) {
+      //     theError = error.error ? error.error : error.toString();
+      //     // Server or connection error happened
+      //     if (!navigator.onLine) {
+      //       // Handle offline error
+      //       return notificationService.notify('No Internet Connection');
+      //     } else {
+      //       // Handle Http Error (error.status === 403, 404...)
+      //       return notificationService.notify(`${error.status} - ${error.message}`);
+      //     }
+      //  } else {
+      //    // Handle Client Error (Angular Error, ReferenceError...)     
+      //  }
 
         const url = this.location instanceof PathLocationStrategy ? this.location.path() : '';
         console.log('**** offending message =====> ');
