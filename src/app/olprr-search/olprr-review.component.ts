@@ -542,10 +542,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       .subscribe(
           (data ) => (this.lustIncidentInsertResult = data
                       , this.onCreateLustIncidentComplete()),
-          (error: any) => {this.errorMessage = <any>error;
-            console.log('*****submitLustIncident() error message');
-            console.log(error);
-          }
+          // (error: any) => {this.errorMessage = <any>error;
+          //   console.log('*****submitLustIncident() error message');
+          //   console.log(error);
+          // }
       );
   }
 

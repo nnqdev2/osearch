@@ -18,5 +18,8 @@ export class ErrorsComponent implements OnInit {
   ngOnInit() {
     this.routeParams = this.activatedRoute.snapshot.queryParams;
     this.data = this.activatedRoute.snapshot.data;
+    console.log('ErrorsComponent ngOnInit().....');
+    console.log(this.routeParams);
+    console.log(this.data);
   }
 }

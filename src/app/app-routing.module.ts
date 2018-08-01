@@ -35,8 +35,7 @@ import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
-  { path: 'app', component: AppNavComponent
-  },
+  { path: 'app', component: AppNavComponent  },
   { path: 'osearch', component: OlprrSearchFilterComponent,
     resolve: {
       deqOffices: DeqOfficesResolver,

@@ -31,6 +31,8 @@ import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
 import { SubmitStatusDialogComponent } from './common/dialogs/submit-status-dialog.component';
 import { httpInterceptorProviders } from './http-interceptors';
 import { ErrorsComponent } from './common/errors/errors.component';
+import { ErrorsModule } from './common/errors/errors.module';
+import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
 
 
 @NgModule({
@@ -50,6 +52,8 @@ import { ErrorsComponent } from './common/errors/errors.component';
     UstSearchRoutingModule,
     ShowAllMessagesModule,
     ShowErrorsModule,
+    ErrorsModule,
+    ErrorsRoutingModule,
   ],
   declarations: [
     AppComponent,
@@ -57,7 +61,7 @@ import { ErrorsComponent } from './common/errors/errors.component';
     OlprrIncidentComponent,
     GuardDialogComponent,
     SubmitStatusDialogComponent,
-    ErrorsComponent,
+    // ErrorsComponent,
   ],
   providers: [
     LogService,
