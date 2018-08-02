@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, of} from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { OlprrSearchResult } from '../models/olprr-search-result';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { DeqOffice } from '../models/deq-office';
@@ -110,7 +110,7 @@ export class LustDataService {
     return this.http.post<Incident>(environment.olprrapi_incident, incident);
   }
 
-  getIncidentData(olprrId: string): Observable<IncidentData> {
+  getIncidentData(olprrId: string): Observable<IncidentData | null> {
     return this.http.get<IncidentData>(environment.olprrapi_review_incidentdatabyid + olprrId);
   }
 

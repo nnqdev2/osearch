@@ -86,7 +86,6 @@ export class OlprrIncidentComponent implements OnInit {
     
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
-    
   }
 
 

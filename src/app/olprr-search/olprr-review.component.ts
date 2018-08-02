@@ -538,6 +538,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   submitLustIncident(): void {
     this.buildLustIncident();
+    console.log('submitLustIncident()');
+    console.log(this.lustIncident);
     this.lustDataService.createLustIncident(this.lustIncident)
       .subscribe(
           (data ) => (this.lustIncidentInsertResult = data
@@ -550,8 +552,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   onCreateLustIncidentComplete(): void {
-    console.log('ok did it hip hip hoorayyy!!!!');
-    console.log('******************this.lustIncidentInsertResult');
+    console.log('onCreateLustIncidentComplete() this.lustIncidentInsertResult');
     console.log(this.lustIncidentInsertResult);
 
     if (this.acceptClicked === true) {

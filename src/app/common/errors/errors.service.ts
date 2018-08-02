@@ -12,16 +12,17 @@ import { UiError } from './errors';
 export class ErrorsService {
 
   constructor(private router: Router)  {
-    this.router
-      .events
-      .subscribe(event => {
-        if (event instanceof NavigationError) {
-          this.log(event.error)
-            .subscribe((errorWithContext) => {
-              this.router.navigate(['/error'], { queryParams: errorWithContext });
-            });
-      }
-    });
+    // this.router
+    //   .events
+    //   .subscribe(event => {
+    //     if (event instanceof NavigationError) {
+    //       this.log(event.error)
+    //         .subscribe((errorWithContext) => {
+    //           console.log('in ErrorService constructor event instanceof NavigationError ');
+    //           this.router.navigate(['/error'], { queryParams: errorWithContext });
+    //         });
+    //   }
+    // });
   }
 
 log(error: any): Observable<any> {
@@ -43,8 +44,6 @@ log(error: any): Observable<any> {
     }
     const errorWithContext = {errname: uiError.errorType, uiurl: uiError.uiUrl
         , apiurl: uiError.uiUrl, status: uiError.statusCode , message: uiError.errorMessage};
-    
-
     return fakeHttpService.post(uiError);
   }
 
