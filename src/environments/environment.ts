@@ -36,6 +36,7 @@ export const environment = {
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY',
   cache_expiry_in_ms: '43200000',
+  olprr_PDF_output_location: '\\DEQGRS1\LUSTDocs\\'
 };
 
 /*

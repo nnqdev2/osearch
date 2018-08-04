@@ -9,6 +9,7 @@ import { convertToParamMap } from '@angular/router';
 import { INT_TYPE } from '@angular/compiler/src/output/output_ast';
 import { LustIncident } from '../models/lust-incident';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class PdfService {
 
   createOlprrPdfIncident(lustIncident: LustIncident, lustIncidentResult: LustIncidentInsertResult) {
 
+      const SaveFileName: string = lustIncidentResult.logNumberTemp;
       let LogNumber: string;
       LogNumber = lustIncident.countyId.toString();
       while (LogNumber.length < 2) { LogNumber = '0' + LogNumber; }
@@ -35,13 +37,16 @@ export class PdfService {
       const todaysDate = this.pipe.transform(Date.now(), 'mediumDate');
       topTemplate.src = './assets/images/NWRTemplateTop.JPG';
       bottomTemplate.src = './assets/images/NWRTemplateBottom.JPG';
+      
+      
 
 
       const doc = new jsPDF('landscape');
       doc.setFontSize(10);
+      doc.setDrawColor('Black');
       doc.setFont('Courier');
-      doc.text([todaysDate], 85, 10);
-      doc.text([lustIncident.rpFirstName] + ' ' + [lustIncident.rpLastName], 20, 25);
+      doc.text([todaysDate], 105, 10);
+      doc.text([lustIncident.rpFirstName.toUpperCase()] + ' ' + [lustIncident.rpLastName.toUpperCase()], 20, 25);
       doc.text([lustIncident.rpAddress], 20, 30);
       doc.text([lustIncident.rpCity] + ' ' + [lustIncident.rpState] + ', ' + [lustIncident.rpZipcode] , 20, 35);
       doc.text('RE: ' + [lustIncident.siteName], 120, 40);
@@ -49,7 +54,7 @@ export class PdfService {
       doc.text('File No: ' + lustIncidentResult.logNumberTemp, 120, 45);
       doc.text('A release was reported from an underground heating oil tank (HOT) system located at ' 
               + [lustIncident.rpAddress] + ', in', 20, 55);
-      doc.text([lustIncident.rpCity] + ', '
+      doc.text([lustIncident.rpCity.toUpperCase()] + ', '
               + [lustIncident.rpState] + '.  As the responsible party for the property, you are required to clean', 20, 60);
       doc.text('up the heating oil release according to Oregon Administration Rules (OAR) OAR 340-177-0001', 20, 65);
       doc.text('through OAR 340-177-0095.  These rules require cleaning up the soil, groundwater, surface', 20, 75);
@@ -58,7 +63,8 @@ export class PdfService {
       doc.addImage(topTemplate.src, 'JPEG', 15, 90, 250, 120);
       doc.addPage();
       doc.addImage(bottomTemplate.src, 'JPEG', 15, 10, 250, 120);
-      doc.save('test2.pdf');
+      doc.save(SaveFileName + '-NWR.PDF');
+      // doc.output(environment.olprr_PDF_output_location);
 
   }
 
