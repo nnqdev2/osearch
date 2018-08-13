@@ -40,6 +40,8 @@ import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrectStat } from '../models/address-correct-stat';
 import { LustIncident } from '../models/lust-incident';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
+import { SiteAlias } from '../models/site-alias';
+import { SiteAliasPost } from '../models/site-alias-post';
 
 @Injectable({
   providedIn: 'root'
@@ -165,6 +167,14 @@ export class LustDataService {
 
   createLustIncident(incident: LustIncident): Observable<LustIncidentInsertResult> {
     return this.http.post<LustIncidentInsertResult>(environment.olprrapi_insert_lust, incident);
+  }
+
+  getSiteAlias(lustId: number): Observable<SiteAlias[]> {
+    return this.http.get<SiteAlias[]>(environment.olprrapi_sitealias + '/' +  lustId);
+  }
+
+  insUpdSiteAlias(siteAliasPost: SiteAliasPost): Observable<SiteAliasPost> {
+    return this.http.post<SiteAliasPost>(environment.olprrapi_sitealias , siteAliasPost);
   }
 
 }

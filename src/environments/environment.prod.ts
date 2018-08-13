@@ -29,6 +29,7 @@ export const environment = {
   olprrapi_review_postalcounty: 'http://deqwebdev/olprrapi/review/postalcounty',
   lit_site_setup: 'http://deqwebdev/lit_maint/?appid=',
   olprrapi_insert_lust: 'http://deqwebdev/olprrapi/review/lustincident',
+  olprrapi_sitealias: 'http://deqwebdev/olprrapi/review/sitealias',
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY',
   cache_expiry_in_ms: '43200000',
