@@ -39,13 +39,13 @@ export class AppComponent implements OnInit {
             link: '/lsearch',
             index: 2
         }, {
-            label: 'LUST Incident',
-            link: '/lincident',
-            index: 3
-        }, {
+        //     label: 'LUST Incident',
+        //     link: '/lincident',
+        //     index: 3
+        // }, {
             label: 'UST Search',
             link: '/usearch',
-            index: 4
+            index: 3
         }
     ];
 }

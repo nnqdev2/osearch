@@ -109,9 +109,11 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
     this.subscription.unsubscribe();
   }
 
-  // onRowClicked(lustId: string) {
-  //   this.router.navigate(['review/', +lustId]);
-  // }
+  onRowClicked(lustId: string) {
+    console.log('ONROWCLICKED LUST  lustId');
+    console.log(lustId);
+  // //   this.router.navigate(['review/', +lustId]);
+  }
 }
 
 

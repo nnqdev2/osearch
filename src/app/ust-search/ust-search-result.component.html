@@ -31,6 +31,7 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
 
+        <!-- <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row> -->
         <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.facilityId)"></mat-row>
 
     </mat-table>

@@ -99,7 +99,9 @@ export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDes
     this.subscription.unsubscribe();
   }
 
-  // onRowClicked(lustId: string) {
-  //   this.router.navigate(['review/', +lustId]);
-  // }
+  onRowClicked(facilityId: number) {
+    console.log('ONROWCLICKED UST  facilityId');
+    console.log(facilityId);
+    // //   this.router.navigate(['review/', +lustId]);
+    }
 }
