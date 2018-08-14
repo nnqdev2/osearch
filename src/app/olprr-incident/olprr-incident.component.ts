@@ -102,9 +102,9 @@ export class OlprrIncidentComponent implements OnInit {
         siteName:  [{value: '', disabled: false}, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCounty:  ['', Validators.required],
         streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
-        streetQuad:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
+        streetQuad:  ['', Validators.compose([Validators.maxLength(2)])],
         streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
-        streetType: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
+        streetType: ['', Validators.compose([Validators.maxLength(10)])],
         siteAddress:   [{value: '', disabled: true}],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)

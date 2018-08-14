@@ -33,6 +33,8 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { ErrorsComponent } from './common/errors/errors.component';
 import { ErrorsModule } from './common/errors/errors.module';
 import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
+import { LustIncidentModule } from './lust-incident/lust-incident.module';
+import { LustIncidentRoutingModule } from './lust-incident/lust-incident-routing.module';
 
 
 @NgModule({
@@ -47,9 +49,11 @@ import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
     OlprrSearchModule,
     LustSearchModule,
     UstSearchModule,
+    LustIncidentModule,
     OlprrSearchRoutingModule,
     LustSearchRoutingModule,
     UstSearchRoutingModule,
+    LustIncidentRoutingModule,
     ShowAllMessagesModule,
     ShowErrorsModule,
     ErrorsModule,

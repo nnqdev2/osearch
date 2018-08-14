@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SiteAliasComponent } from './site-alias/site-alias.component';
 
 const routes: Routes = [
-  { path: 'sitealias/:lustid', component: SiteAliasComponent
+  { path: 'sitealias/37067', component: SiteAliasComponent
   }
 ];
 

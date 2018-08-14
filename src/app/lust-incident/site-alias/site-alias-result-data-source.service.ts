@@ -14,13 +14,13 @@ export class SiteAliasResultDataSourceService implements DataSource<SiteAlias> {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private siteAliases: SiteAlias[];
 
-  public searchResultReturned$ = this.resultsSubject.asObservable();
-  public loading$ = this.loadingSubject.asObservable();
+  public siteAliasResultReturned$ = this.resultsSubject.asObservable();
+  public siteAliasLoading$ = this.loadingSubject.asObservable();
 
   constructor(private lustDataService: LustDataService) {}
 
   connect(collectionViewer: CollectionViewer): Observable<SiteAlias[]> {
-      return this.searchResultReturned$;
+      return this.siteAliasResultReturned$;
       // return this.resultsSubject.asObservable();
   }
 

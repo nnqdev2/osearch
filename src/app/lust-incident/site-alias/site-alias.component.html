@@ -1,3 +1,22 @@
-<p>
-  site-alias works!
-</p>
+<div class="lustsearch">
+
+  <div class="loading-indicator" *ngIf="siteAliasDataSource.siteAliasLoading$ | async">
+      <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+  </div>
+
+  <mat-table class="child-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="siteAliasDataSource">
+
+      <ng-container matColumnDef="siteAliasName">
+          <mat-header-cell *matHeaderCellDef >Site Alias</mat-header-cell>
+          <mat-cell *matCellDef="let siteAlias">{{siteAlias.siteAliasName}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+
+      <!-- <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row> -->
+      <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.lustId)"></mat-row>
+
+  </mat-table>
+
+
+</div>

@@ -38,7 +38,7 @@
                         <div class="form-group required col-md-4">
                             <mat-form-field >
                                 <mat-label class="control-label" for="discoveryDate">Date Release Discovered</mat-label>
-                                    <input matInput [max]="maxDate" [matDatepicker]="discoveryDate"  formControlName="discoveryDate">
+                                <input matInput [max]="maxDate" [matDatepicker]="discoveryDate"  formControlName="discoveryDate">
                                     <mat-datepicker-toggle matSuffix [for]="discoveryDate"></mat-datepicker-toggle>
                                     <mat-datepicker #discoveryDate [startAt]="maxDate" disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -108,7 +108,7 @@
                             </mat-form-field>
                             <app-show-errors [control]="incidentForm.controls.streetNbr"  [submitClicked]="submitClicked"></app-show-errors>
                         </div>
-                        <div class="form-group required col-md-3">
+                        <div class="form-group col-md-3">
                             <mat-form-field>
                                 <mat-label class="control-label" for="streetQuad">Quadrant</mat-label>
                                 <mat-select formControlName="streetQuad">
@@ -129,7 +129,7 @@
                             <app-show-errors [control]="incidentForm.controls.streetName"  [submitClicked]="submitClicked"></app-show-errors>
                         </div>
                     
-                        <div class="form-group required col-md-3">
+                        <div class="form-group col-md-3">
                             <mat-form-field >
                                 <mat-label class="control-label" for="streetType">Site Street Type</mat-label>
                                     <mat-select formControlName="streetType">

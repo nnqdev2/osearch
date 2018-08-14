@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
             index: 2
         }, {
         //     label: 'LUST Incident',
-        //     link: '/lincident',
+        //     link: '/sitealias/37067',
         //     index: 3
         // }, {
             label: 'UST Search',

@@ -12,12 +12,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
-  @Input() lustId: number;
+  lustId: number;
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
 
 
-  dataSource: SiteAliasResultDataSourceService;
+  siteAliasDataSource: SiteAliasResultDataSourceService;
   displayedColumns = ['logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
                     , 'facilityId', 'siteScore'];
 
@@ -26,9 +26,14 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
   totalRows = 0;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
-    this.dataSource = new SiteAliasResultDataSourceService(this.lustDataService);
+    this.siteAliasDataSource = new SiteAliasResultDataSourceService(this.lustDataService);
   }
   ngOnInit() {
+    console.log('on init .....');
+    // this.lustId = +this.route.snapshot.params['lustid'];
+    this.lustId = 37067;
+    this.loadResultPage();
+    this.getSearchResults();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -46,50 +51,19 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   loadResultPage() {
+    console.log('loadResultPage() .....' + this.lustId);
+    console.log(this.siteAliasDataSource);
     // this.lustSearchFilter.pageNumber = this.paginator.pageIndex + 1;
     // this.lustSearchFilter.rowsPerPage = ((this.paginator.pageSize === 0 || this.paginator.pageSize === undefined)
     //       ? 40 : this.paginator.pageSize);
     // this.lustSearchFilter.sortColumn = (this.sort.active === undefined ? 1 : this.getSortCol(this.sort.active));
     // this.lustSearchFilter.sortOrder = this.getSortOrder(this.sort.direction);
-    this.dataSource.loadResults(this.lustId);
+    this.siteAliasDataSource.loadResults(this.lustId);
   }
 
-  private getSortCol(colName: string): number {
-    switch (colName) {
-      case 'lustId':
-        return 1;
-      case 'logNumber':
-        return 2;
-      case 'siteName':
-        return 3;
-      case 'siteAddress':
-        return 4;
-      case 'firDt':
-        return 5;
-      case 'closedDt':
-        return 6;
-      case 'facilityId':
-        return 7;
-      case 'siteScore':
-        return 8;
-      default:
-        return 1;
-    }
-  }
-
-  private getSortOrder(sortDirection: string): number {
-    switch (sortDirection) {
-      case 'asc':
-        return 1;
-      case 'desc':
-        return -1;
-      default:
-        return 1;
-    }
-  }
 
   getSearchResults() {
-    this.subscription = this.dataSource.searchResultReturned$.subscribe(
+    this.subscription = this.siteAliasDataSource.siteAliasResultReturned$.subscribe(
       siteAliases => {
         this.siteAliases = siteAliases;
         if (this.siteAliases !== undefined &&
