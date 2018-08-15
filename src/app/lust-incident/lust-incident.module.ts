@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../shared/material.module';
+import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-delete-dialog.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { MaterialModule } from '../shared/material.module';
     LustIncidentRoutingModule
 
   ],
-  declarations: [SiteAliasComponent]
+  declarations: [SiteAliasComponent, ConfirmDeleteDialogComponent],
+  entryComponents: [ConfirmDeleteDialogComponent],
 })
 export class LustIncidentModule { }

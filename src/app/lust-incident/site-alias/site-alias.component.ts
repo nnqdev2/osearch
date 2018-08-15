@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { SiteAlias } from '../../models/site-alias';
 import { LustDataService } from '../../services/lust-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-site-alias',
@@ -19,12 +21,14 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   siteAliasDataSource: SiteAliasResultDataSourceService;
   displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
-
   subscription: Subscription;
   siteAliases: SiteAlias[];
   totalRows = 0;
 
-  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
+  confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
+
+  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
+              , private confirmDeleteDialog: MatDialog) {
     this.siteAliasDataSource = new SiteAliasResultDataSourceService(this.lustDataService);
   }
   ngOnInit() {
@@ -87,6 +91,24 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
   onDelete(siteAlias: SiteAlias) {
     console.log('onDelete');
     console.log(siteAlias);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Confirm Delete',
+      message1: 'Are you sure you want to delete site alias ' + siteAlias.siteNameAlias + ' ?' ,
+    };
+    dialogConfig.disableClose =  true;
+    this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
+    this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
+      console.log('after confirm delete');
+      console.log(result);
+      if (result === 'confirm') {
+        console.log('siteAlias.siteNameAliasId ====>' + siteAlias.siteNameAliasId);
+        this.lustDataService.delSiteAlias(siteAlias.siteNameAliasId).subscribe();
+        this.loadResultPage();
+        this.getSearchResults();
+      }
+    });
   }
 }
 
