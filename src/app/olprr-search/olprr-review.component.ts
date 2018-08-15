@@ -555,7 +555,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     console.log('onCreateLustIncidentComplete() this.lustIncidentInsertResult');
     console.log(this.lustIncidentInsertResult);
 
-    if (this.acceptClicked === true) {
+    if (this.acceptClicked === true && this.lustIncidentInsertResult.errorMessage.length < 1) {
       this.pdfGenerate();
       this.print();
     }

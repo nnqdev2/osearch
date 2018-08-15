@@ -124,6 +124,12 @@ export class LustSearchFilterComponent implements OnInit {
     // console.log(JSON.stringify(this.lustSearchFilter));
     this.showLustSearchResultsFlag = true;
   }
+
+
+  createIncident(){
+    console.log('createIncident');
+  }
+
 }
 
 
