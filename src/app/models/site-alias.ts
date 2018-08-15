@@ -3,4 +3,5 @@ export interface SiteAlias {
     siteNameAlias: string;
     lastChangeBy: string;
     lastChangeDate?: Date;
+    lustId: number;
 }

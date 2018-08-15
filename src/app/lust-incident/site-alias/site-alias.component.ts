@@ -18,8 +18,7 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
 
   siteAliasDataSource: SiteAliasResultDataSourceService;
-  displayedColumns = ['logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
-                    , 'facilityId', 'siteScore'];
+  displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
 
   subscription: Subscription;
   siteAliases: SiteAlias[];
@@ -80,8 +79,14 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
     this.subscription.unsubscribe();
   }
 
-  onRowClicked(lustId: string) {
-  // //   this.router.navigate(['review/', +lustId]);
+  onEdit(siteAlias: SiteAlias) {
+    console.log('onEdit');
+    console.log(siteAlias);
+  }
+
+  onDelete(siteAlias: SiteAlias) {
+    console.log('onDelete');
+    console.log(siteAlias);
   }
 }
 

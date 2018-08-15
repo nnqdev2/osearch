@@ -32,6 +32,7 @@ import { LustSearchResultComponent } from './lust-search/lust-search-result.comp
 import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
 import { UstSearchResultComponent } from './ust-search/ust-search-result.component';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
+import { SiteAliasComponent } from './lust-incident/site-alias/site-alias.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -73,6 +74,7 @@ const routes: Routes = [
       },
       canDeactivate: [CanDeactivateGuard]
   },
+  { path: 'sitealias/37067', component: SiteAliasComponent, }
 
 ];
 

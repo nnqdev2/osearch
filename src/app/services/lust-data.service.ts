@@ -177,5 +177,9 @@ export class LustDataService {
     return this.http.post<SiteAliasPost>(environment.olprrapi_sitealias , siteAliasPost);
   }
 
+  delSiteAlias(siteNameAliasId: number): Observable<any|null> {
+    return this.http.delete(environment.olprrapi_sitealias + '/' +  siteNameAliasId);
+  }
+
 }
 
