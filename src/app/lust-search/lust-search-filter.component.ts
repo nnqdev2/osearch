@@ -35,12 +35,15 @@ export class LustSearchFilterComponent implements OnInit {
   siteTypes: SiteType[] = [];
   counties: County[] = [];
 
+  isSearchOnly = false;
+
   constructor(private formBuilder: FormBuilder
     , private route: ActivatedRoute
     , private lustDataService: LustDataService) {}
 
   ngOnInit() {
     if (this.route.snapshot.url.length > 0) {
+      this.isSearchOnly = false;
       this.route.data.subscribe((data: {siteTypes: SiteType[]}) => { this.siteTypes = data.siteTypes; });
       this.route.data.subscribe((data: {cleanupSiteTypes: CleanupSiteType[]}) => {this.cleanupSiteTypes = data.cleanupSiteTypes; });
       this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
@@ -52,6 +55,7 @@ export class LustSearchFilterComponent implements OnInit {
       this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
       this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
     } else {
+      this.isSearchOnly = true;
       this.lustDataService.getSiteTypes().subscribe(data => { this.siteTypes = data; });
       this.lustDataService.getCleanupSiteTypes().subscribe(data => { this.cleanupSiteTypes = data; });
       this.lustDataService.getFileStatuses().subscribe(data => { this.fileStatuses = data; });

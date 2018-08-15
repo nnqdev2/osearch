@@ -8,6 +8,7 @@ import { LustSearchResultDataSourceService } from './lust-search-result-data-sou
 import { LustSearchFilter } from '../models/lust-search-filter';
 import { LustSearchResultStat } from '../models/lust-search-result-stat';
 import { LustDataService } from '../services/lust-data.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-lust-search-result',
@@ -17,12 +18,13 @@ import { LustDataService } from '../services/lust-data.service';
 export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() lustSearchFilter: LustSearchFilter;
+  @Input() isSearchOnly: boolean;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
 
   dataSource: LustSearchResultDataSourceService;
-  displayedColumns = ['logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
+  displayedColumns = [ 'logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
                     , 'facilityId', 'siteScore'];
 
   subscription: Subscription;
@@ -112,6 +114,7 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
   onRowClicked(lustId: string) {
     console.log('ONROWCLICKED LUST  lustId');
     console.log(lustId);
+    console.log(this.isSearchOnly);
   // //   this.router.navigate(['review/', +lustId]);
   }
 }
