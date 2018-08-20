@@ -10,6 +10,10 @@ import { MaterialModule } from '../shared/material.module';
 import { LustSearchRoutingModule, lustSearchRoutingComponents } from './lust-search-routing.module';
 import { LustSearchFilterComponent } from './lust-search-filter.component';
 import { LustSearchResultComponent } from './lust-search-result.component';
+import { LustIncidentCreateComponent } from './lust-incident-create/lust-incident-create.component';
+import { LustIncidentEditComponent } from './lust-incident-edit/lust-incident-edit.component';
+import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
+import { ShowErrorsModule } from '../show-errors/show-errors.module';
 
 @NgModule({
   imports: [
@@ -18,9 +22,12 @@ import { LustSearchResultComponent } from './lust-search-result.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
+    NgbModule.forRoot(),
+    ShowErrorsModule,
+    ShowAllMessagesModule,
     LustSearchRoutingModule
   ],
-  declarations: [lustSearchRoutingComponents],
+  declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent],
   exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }

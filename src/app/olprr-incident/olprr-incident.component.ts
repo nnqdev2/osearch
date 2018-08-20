@@ -83,7 +83,6 @@ export class OlprrIncidentComponent implements OnInit {
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
     this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
     this.createForm();
-    
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
   }

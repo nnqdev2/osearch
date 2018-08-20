@@ -63,4 +63,5 @@ export class Incident {
     mtbe: number;
     submitDateTime: Date;
     deqOffice: string;
+
 }

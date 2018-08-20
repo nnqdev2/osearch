@@ -38,7 +38,7 @@ export class LustSearchFilterComponent implements OnInit {
   isSearchOnly = false;
 
   constructor(private formBuilder: FormBuilder
-    , private route: ActivatedRoute
+    , private route: ActivatedRoute , private router: Router
     , private lustDataService: LustDataService) {}
 
   ngOnInit() {
@@ -128,6 +128,7 @@ export class LustSearchFilterComponent implements OnInit {
 
   createIncident(){
     console.log('createIncident');
+    this.router.navigate(['lust/new']);
   }
 
 }
