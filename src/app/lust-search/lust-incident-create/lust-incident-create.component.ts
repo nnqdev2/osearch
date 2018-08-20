@@ -87,6 +87,7 @@ export class LustIncidentCreateComponent implements OnInit {
   showSaAddressCorrect = false;
   showRpAddressCorrect = false;
   showIcAddressCorrect = false;
+  private showSaAddressCheck = false;
 
   lustIncident = new LustIncident();
 
@@ -97,7 +98,7 @@ export class LustIncidentCreateComponent implements OnInit {
   private lastIcRefresh: string;
   private lustIncidentInsertResult: LustIncidentInsertResult;
   maxDate: Date;
-  private showSaAddressCheck = false;
+
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
@@ -223,10 +224,8 @@ export class LustIncidentCreateComponent implements OnInit {
 
   
   runSaAddressCorrect() {
-    console.log('WHERE AM I????');
     if (this.incidentForm.controls.siteAddress.value.length > 0 ) {
-      console.log(' entered soemthing');
-      this.showSaAddressCheck = true;
+      this.showSaAddressCorrect = true;
     }
 
     // this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
