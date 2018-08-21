@@ -28,7 +28,7 @@ import { LustIncidentInsertResult } from '../../models/lust-incident-insert-resu
 import { City } from '../../models/city';
 import { ZipCode } from '../../models/zipcode';
 import { County } from '../../models/county';
-import { SearchDialogComponent } from '../../lust-incident/search-dialog/search-dialog.component';
+import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
 
 @Component({
   selector: 'app-lust-incident-create',
@@ -222,9 +222,6 @@ export class LustIncidentCreateComponent implements OnInit {
     return true;
   }
 
-
-
-  
   runSaAddressCorrect() {
     if (this.incidentForm.controls.siteAddress.value.length > 0 ) {
       this.showSaAddressCorrect = true;

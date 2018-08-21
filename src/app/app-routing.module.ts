@@ -19,7 +19,6 @@ import { ReleaseCauseTypesResolver } from './resolvers/release-cause-types-resol
 import { SourceTypesResolver } from './resolvers/source-types-resolver.service';
 import { StatesResolver } from './resolvers/states-resolver.service';
 import { StreetTypesResolver } from './resolvers/street-types-resolver.service';
-import { IncidentDataResolver } from './resolvers/incident-resolver.service';
 import { TankStatusesResolver } from './resolvers/tank-statuses-resolver.service';
 import { FileStatusesResolver } from './resolvers/file-statuses-resolver.service';
 import { ZipCodesResolver } from './resolvers/zipcodes-resolver.service';
@@ -28,11 +27,9 @@ import { CitiesResolver } from './resolvers/cities-resolver.service';
 import { DateComparesResolver } from './resolvers/date-compares-resolver.service';
 import { ProjectManagersResolver } from './resolvers/project-managers-resolver.service';
 import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolver.service';
-import { LustSearchResultComponent } from './lust-search/lust-search-result.component';
 import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
-import { UstSearchResultComponent } from './ust-search/ust-search-result.component';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
-import { SiteAliasComponent } from './lust-incident/site-alias/site-alias.component';
+import { SiteAliasComponent } from './lust-search/site-alias/site-alias.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },

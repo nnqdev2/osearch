@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SiteAliasComponent } from './site-alias/site-alias.component';
 
 const routes: Routes = [
-  { path: 'sitealias/37067', component: SiteAliasComponent
-  }
+  // { path: 'sitealias/37067', component: SiteAliasComponent
+  // }
 ];
 
 @NgModule({
@@ -12,6 +11,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class LustIncidentRoutingModule { }
-export const lustIncidentRoutingComponents = [SiteAliasComponent];
+export const lustIncidentRoutingComponents = [];
 
 

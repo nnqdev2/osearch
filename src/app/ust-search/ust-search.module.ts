@@ -21,7 +21,7 @@ import { UstSearchRoutingModule, ustSearchRoutingComponents } from './ust-search
   ],
   declarations: [ustSearchRoutingComponents],
   exports: [ustSearchRoutingComponents],
-  entryComponents: [ ustSearchRoutingComponents]
+  entryComponents: [ ]
 })
 export class UstSearchModule { }
 

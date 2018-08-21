@@ -35,6 +35,8 @@ import { ErrorsModule } from './common/errors/errors.module';
 import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
 import { LustIncidentModule } from './lust-incident/lust-incident.module';
 import { LustIncidentRoutingModule } from './lust-incident/lust-incident-routing.module';
+import { ContactSearchModule } from './contact-search/contact-search.module';
+import { ContactSearchRoutingModule } from './contact-search/contact-search-routing.module';
 
 
 @NgModule({
@@ -49,11 +51,11 @@ import { LustIncidentRoutingModule } from './lust-incident/lust-incident-routing
     OlprrSearchModule,
     LustSearchModule,
     UstSearchModule,
-    LustIncidentModule,
+    ContactSearchModule,
     OlprrSearchRoutingModule,
     LustSearchRoutingModule,
     UstSearchRoutingModule,
-    LustIncidentRoutingModule,
+    ContactSearchRoutingModule,
     ShowAllMessagesModule,
     ShowErrorsModule,
     ErrorsModule,
