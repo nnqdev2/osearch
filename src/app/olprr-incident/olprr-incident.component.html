@@ -143,6 +143,12 @@
                             <app-show-errors [control]="incidentForm.controls.streetType" [submitClicked]="submitClicked"></app-show-errors>
                         </div>                        
                     </div>
+                    <div class="form-row full-width">
+                        <div class="form-group  col-md-3"></div>
+                        <div class="form-group  col-md-3">
+                            <mat-label class="control-label">If the street quadrant falls after the street name, please leave the quadrant field in this form blank and include the quadrant as part of the Street Name field.</mat-label>
+                        </div>
+                    </div>
                     <!-- /Street number, quadrant, street name, street type  -->
                     <!-- city, zip, phone -->
                     <div class="form-row full-width">
@@ -311,14 +317,14 @@
                 
                 
                         <div class="form-row full-width">
-                            <div class="form-group required col-md-6">
+                            <div class="form-group col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icFirstName">First Name</mat-label>
                                     <input matInput formControlName="icFirstName" />
                                 </mat-form-field>
                                 <app-show-errors [control]="incidentForm.controls.icFirstName"  [submitClicked]="submitClicked"></app-show-errors>
                             </div>
-                            <div class="form-group required col-md-6">
+                            <div class="form-group col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icLastName">Last Name</mat-label>
                                     <input matInput formControlName="icLastName" />
@@ -327,7 +333,7 @@
                             </div>
                         </div>
                         <div class="form-row full-width">
-                            <div class="form-group required col-md-12">
+                            <div class="form-group col-md-12">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icOrganization">Organization</mat-label>
                                     <input matInput formControlName="icOrganization" />
@@ -336,23 +342,23 @@
                             </div>
                         </div>
                         <div class="form-row full-width">
-                            <div class="form-group required col-md-6">
+                            <div class="form-group col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icAddress">Address</mat-label>
                                     <input matInput formControlName="icAddress"  />
                                 </mat-form-field>   
-                                <app-show-errors [control]="incidentForm.controls.rpAddress"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-6">
-                                <mat-form-field>
-                                    <mat-label class="control-label" for="rpPhone">Phone</mat-label>
-                                    <input matInput formControlName="rpPhone" />
-                                </mat-form-field>
                                 <app-show-errors [control]="incidentForm.controls.icAddress"  [submitClicked]="submitClicked"></app-show-errors>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <mat-form-field>
+                                    <mat-label class="control-label" for="icPhone">Phone</mat-label>
+                                    <input matInput formControlName="icPhone" />
+                                </mat-form-field>
+                                <app-show-errors [control]="incidentForm.controls.icPhone"  [submitClicked]="submitClicked"></app-show-errors>
                             </div>
                         </div>
                         <div class="form-row full-width">
-                            <div class="form-group required col-md-6">
+                            <div class="form-group col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icCity">City</mat-label>
                                     <input matInput formControlName="icCity"  />
@@ -368,7 +374,7 @@
                             </div>
                         </div>
                         <div class="form-row full-width">
-                            <div class="form-group required col-md-6">
+                            <div class="form-group col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icState">State</mat-label>
                                 
@@ -382,7 +388,7 @@
                                 </mat-form-field>
                                 <app-show-errors [control]="incidentForm.controls.icState"  [submitClicked]="submitClicked"></app-show-errors>
                             </div> 
-                            <div class="form-group required col-md-6">
+                            <div class="form-group col-md-6">
                                 <mat-form-field>
                                     <mat-label class="control-label" for="icZipcode">Zip Code</mat-label>
                                     <input matInput formControlName="icZipcode"/>
@@ -652,9 +658,9 @@
                         <div class="col-sm-3">
                             <button type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()">Reset</button>
                         </div>
-                        <div class="col-sm-3">
+                        <!-- <div class="col-sm-3">
                             <button type="button" class="btn btn-default btn-md btn-block" (click)="populateTestData()">Populate Test Data</button>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->
                 </form>

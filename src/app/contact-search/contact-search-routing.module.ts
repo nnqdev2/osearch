@@ -16,5 +16,5 @@ const routes: Routes = [
   declarations: []
 })
 export class ContactSearchRoutingModule { }
-export const lustSearchRoutingComponents = [ContactSearchFilterComponent, ContactSearchResultComponent];
+export const contactSearchRoutingComponents = [ContactSearchFilterComponent, ContactSearchResultComponent];
 

@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContactSearchRoutingModule } from './/contact-search-routing.module';
+import { ContactSearchRoutingModule, contactSearchRoutingComponents } from './/contact-search-routing.module';
 import { ContactSearchFilterComponent } from './contact-search-filter.component';
 import { ContactSearchResultComponent } from './contact-search-result.component';
 import { MaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShowErrorsModule } from '../show-errors/show-errors.module';
+import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -15,8 +18,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
+    NgbModule.forRoot(),
+    ShowErrorsModule,
+    ShowAllMessagesModule,
     ContactSearchRoutingModule
   ],
-  declarations: [ContactSearchFilterComponent, ContactSearchResultComponent]
+  declarations: [ContactSearchFilterComponent, ContactSearchResultComponent],
+  exports: [contactSearchRoutingComponents]
 })
 export class ContactSearchModule { }

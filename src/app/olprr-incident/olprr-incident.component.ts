@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
@@ -83,6 +83,7 @@ export class OlprrIncidentComponent implements OnInit {
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
     this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
     this.createForm();
+    
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
   }
@@ -105,7 +106,7 @@ export class OlprrIncidentComponent implements OnInit {
         streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
         streetType: ['', Validators.compose([Validators.maxLength(10)])],
         siteAddress:   [{value: '', disabled: true}],
-        siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
@@ -116,26 +117,26 @@ export class OlprrIncidentComponent implements OnInit {
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
         sourceId:  ['', Validators.required],
-        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
         rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpAddress2: ['',Validators.compose([Validators.maxLength(40)])],
         rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-        rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        rpPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
-        rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
-        icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icAddress2: ['', Validators.compose([Validators.maxLength(40)])],
-        icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
-        icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-        icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        icPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
-        icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
+        rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+        rpPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(25), Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
+        rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(40)])],
+        icFirstName:  ['', Validators.compose([Validators.maxLength(30)])],
+        icLastName: ['', Validators.compose([Validators.maxLength(30)])],
+        icOrganization:  ['', Validators.compose([Validators.maxLength(40)])],
+        icAddress:  ['', Validators.compose([Validators.maxLength(40)])],
+        //icAddress2: ['', Validators.compose([Validators.maxLength(40)])],
+        icCity:  ['', Validators.compose([Validators.maxLength(25)])],
+        icState:  ['', Validators.compose([Validators.maxLength(2)])],
+        icZipcode: ['', Validators.compose([Validators.maxLength(10),Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+        icPhone:  ['', Validators.compose([Validators.maxLength(25), Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
+        icEmail:  ['', Validators.compose([Validators.maxLength(40)])],
         groundWater: [0],
         surfaceWater: [0],
         drinkingWater: [0],
@@ -170,7 +171,71 @@ export class OlprrIncidentComponent implements OnInit {
         this.showInvoiceContact = false;
       }
     } );
+
+    if (this.showInvoiceContact == true) {
+      if (this.incidentForm.controls.facilityId != undefined) {
+          this.incidentForm.controls.facilityId.enable();
+        }
+
+        this.incidentForm.controls.icAddress.enable();
+        //this.incidentForm.controls.icAddress2.enable();
+        this.incidentForm.controls.icFirstName.enable();
+        this.incidentForm.controls.icLastName.enable();
+        this.incidentForm.controls.icOrganization.enable();
+        this.incidentForm.controls.icCity.enable();
+        this.incidentForm.controls.icState.enable();
+        this.incidentForm.controls.icZipcode.enable();
+        this.incidentForm.controls.icPhone.enable();
+        this.incidentForm.controls.icEmail.enable();
+        this.incidentForm.controls.icAddress.setValidators([Validators.required]);
+        //this.incidentForm.controls.icAddress2.setValidators([Validators.required]);
+        //this.incidentForm.controls.icAddress2.setValue("");
+        this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
+        this.incidentForm.controls.icLastName.setValidators([Validators.required]);
+        this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
+        this.incidentForm.controls.icCity.setValidators([Validators.required]);
+        this.incidentForm.controls.icState.setValidators([Validators.required]);
+        this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
+        this.incidentForm.controls.icPhone.setValidators([Validators.required]);
+        this.incidentForm.controls.icEmail.setValidators([Validators.required]);
+    }
+    else {
+      this.incidentForm.controls.facilityId.setValue(0);
+      if (this.incidentForm.controls.facilityId != undefined) {
+        this.incidentForm.controls.facilityId.disable();
+        this.incidentForm.controls.facilityId.setValidators(null);
+      }
+      this.incidentForm.controls.icAddress.disable();
+      this.incidentForm.controls.icAddress.setValidators(null);
+      //this.incidentForm.controls.icAddress2.disable();
+      this.incidentForm.controls.icFirstName.disable();
+      this.incidentForm.controls.icFirstName.setValidators(null);
+      this.incidentForm.controls.icLastName.disable();
+      this.incidentForm.controls.icLastName.setValidators(null);
+      this.incidentForm.controls.icOrganization.disable();
+      this.incidentForm.controls.icOrganization.setValidators(null);
+      this.incidentForm.controls.icCity.disable();
+      this.incidentForm.controls.icCity.setValidators(null);
+      this.incidentForm.controls.icState.disable();
+      this.incidentForm.controls.icState.setValidators(null);
+      this.incidentForm.controls.icZipcode.disable();
+      this.incidentForm.controls.icZipcode.setValidators(null);
+      this.incidentForm.controls.icPhone.disable();
+      this.incidentForm.controls.icPhone.setValidators(null);
+      this.incidentForm.controls.icEmail.disable();
+      this.incidentForm.controls.icEmail.setValidators(null);
+      this.incidentForm.controls.rpAddress2.setValue("");
+      
+
+      }
+
+
   }
+
+
+
+
+
 
   copyResponsibleToInvoice() {
     this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
@@ -282,9 +347,14 @@ export class OlprrIncidentComponent implements OnInit {
     // this.incidentForm.patchValue({
     //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
     // });
+
     this.incidentForm.reset();
     this.resetFlags();
     this.resetDate();
+    this.controlsResetForm(this.incidentForm);
+
+
+
   }
 
   populateTestData(): void {
@@ -323,16 +393,16 @@ export class OlprrIncidentComponent implements OnInit {
     rpZipcode: '97008',
     rpPhone:  '9999999999',
     rpEmail: 'b@c.com',
-    icFirstName:  'icFirstName',
-    icLastName: 'iclname',
-    icOrganization:  'icOrg',
-    icAddress:  'icAddress',
-    icAddress2: 'icAddress2',
-    icCity:  'Salem',
-    icState:  'OR',
-    icZipcode: '97224',
-    icPhone:  '9098087777',
-    icEmail:  'r@v.y',
+    // icFirstName:  'icFirstName',
+    // icLastName: 'iclname',
+    // icOrganization:  'icOrg',
+    // icAddress:  'icAddress',
+    // icAddress2: 'icAddress2',
+    // icCity:  'Salem',
+    // icState:  'OR',
+    // icZipcode: '97224',
+    // icPhone:  '9098087777',
+    // icEmail:  'r@v.y',
     // groundWater: 1,
     // surfaceWater: 1,
     // drinkingWater: 1,
@@ -486,6 +556,8 @@ export class OlprrIncidentComponent implements OnInit {
       this.incident.dateReceived = this.incidentForm.controls.dateReceived.value;
       this.incident.submitDateTime = this.incidentForm.controls.dateReceived.value;
 
+      console.log(this.incidentForm.invalid);
+
       console.log('*********this.incidentForm is ');
       console.log(this.incidentForm.value);
       console.log('*********this.incident is ' );
@@ -530,4 +602,18 @@ export class OlprrIncidentComponent implements OnInit {
         this.resetForm();
       });
     }
+
+    private controlsResetForm(formGroup: FormGroup) {
+      let control: AbstractControl = null;
+      //formGroup.reset();
+      formGroup.markAsUntouched();
+      Object.keys(formGroup.controls).forEach((name) => {
+        if (name != "dateReceived") {
+          control = formGroup.controls[name];
+          control.setErrors(null);
+        }
+      });
+    }
+
+
 }

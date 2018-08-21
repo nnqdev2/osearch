@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { OlprrSearchFilterComponent } from './olprr-search/olprr-search-filter.component';
-import { OlprrSearchResultComponent } from './olprr-search/olprr-search-result.component';
 import { OlprrIncidentComponent } from './olprr-incident/olprr-incident.component';
-import { OlprrReviewComponent } from './olprr-search/olprr-review.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
 import { LustSearchFilterComponent } from './lust-search/lust-search-filter.component';
-
 import { SiteTypesResolver } from './resolvers/site-types-resolver.service';
 import { DeqOfficesResolver } from './resolvers/deq-offices-resolver.service';
 import { IncidentStatusesResolver } from './resolvers/incident-statuses-resolver.service';
@@ -30,6 +26,7 @@ import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolve
 import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { SiteAliasComponent } from './lust-search/site-alias/site-alias.component';
+import { ContactSearchFilterComponent } from './lust-incident/contact-search/contact-search-filter.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
@@ -56,6 +53,8 @@ const routes: Routes = [
     },
   },
   { path: 'usearch', component: UstSearchFilterComponent,
+  },
+  { path: 'csearch', component: ContactSearchFilterComponent,
   },
   { path: 'incident', component: OlprrIncidentComponent,
       resolve: {
