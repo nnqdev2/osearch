@@ -169,7 +169,8 @@
                                 </mat-card>
                             </div>
                             </ng-container>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-11"></div>
+                            <div class="form-group col-md-1">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runSaAddressCorrect()" >Run US Postal Check</button>
                             </div>
                         </div>                          
@@ -187,7 +188,7 @@
                             <mat-card-content>  
                                 <!-- Responsible Party -->
                                 <div class="form-row full-width">
-                                    <div class="form-group required col-md-4 ">
+                                    <div class="form-group required col-md-3 ">
                                         <mat-form-field > 
                                             <mat-label>First Name</mat-label>
                                             <input matInput formControlName="rpFirstName" />     
@@ -207,6 +208,9 @@
                                             <input matInput formControlName="rpOrganization" />
                                         </mat-form-field>
                                         <app-show-errors [control]="incidentForm.controls.rpOrganization" [submitClicked]="submitClicked"></app-show-errors>
+                                    </div>
+                                    <div class="form-group col-md-1 text-center"> 
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openIcSearch()" >Contact Search</button>
                                     </div>
                                 </div>
                                 <div class="form-row full-width">
@@ -319,17 +323,18 @@
                                         </mat-card>
                                     </div>
                                     </ng-container>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-11"></div>
+                                    <div class="form-group col-md-1">
                                         <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runRpAddressCorrect()" >Run US Postal Check</button>
                                     </div>
                                 </div>  
                             </mat-card-content>
                         </mat-card>                   
                         <mat-card>    
-                            <mat-card-title >  Invoice Contact  </mat-card-title>  
+                            <mat-card-title >  Invoice Contact  </mat-card-title>                             
                             <mat-card-content>  
                                 <div class="form-row full-width">
-                                    <div class="form-group required col-md-4 ">
+                                    <div class="form-group required col-md-3 ">
                                         <mat-form-field > 
                                             <mat-label>First Name</mat-label>
                                             <input matInput formControlName="icFirstName" />     
@@ -349,6 +354,9 @@
                                             <input matInput formControlName="icOrganization" />
                                         </mat-form-field>
                                         <app-show-errors [control]="incidentForm.controls.icOrganization" [submitClicked]="submitClicked"></app-show-errors>
+                                    </div>
+                                    <div class="form-group col-md-1 text-center"> 
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openIcSearch()" >Contact Search</button>
                                     </div>
                                 </div>
                                 <div class="form-row full-width">
@@ -459,7 +467,8 @@
                                         </mat-card>
                                     </div>
                                     </ng-container>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-11"></div>
+                                    <div class="form-group col-md-1">
                                         <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runIcAddressCorrect()" >Run US Postal Check</button>
                                     </div>
                                 </div>  
@@ -703,6 +712,10 @@
                         </mat-card>
                         <!-- /Contaminants -->
                     </mat-card-content>
+                </mat-card>
+                <mat-card>    
+                    <mat-card-title > Lit Setup </mat-card-title>  
+                    <mat-card-content></mat-card-content>
                 </mat-card>
             </mat-card-content>
             <mat-card>

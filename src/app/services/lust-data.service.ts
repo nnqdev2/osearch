@@ -42,6 +42,8 @@ import { LustIncident } from '../models/lust-incident';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 import { SiteAlias } from '../models/site-alias';
 import { SiteAliasPost } from '../models/site-alias-post';
+import { ContactSearchFilter } from '../models/contact-search-filter';
+import { ContactSearchResultStat } from '../models/contact-search-result-stat';
 
 @Injectable({
   providedIn: 'root'
@@ -179,6 +181,18 @@ export class LustDataService {
 
   delSiteAlias(siteNameAliasId: number): Observable<any|null> {
     return this.http.delete(environment.olprrapi_sitealias + '/' +  siteNameAliasId);
+  }
+
+  getContacts(contactSearchFilter: ContactSearchFilter): Observable<ContactSearchResultStat[]> {
+    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
+    // console.log(olprrSearchFilter);
+    const params = new HttpParams({
+        fromString: `fname=${contactSearchFilter.firstName}&lname=${contactSearchFilter.lastName}`
+        + `&org=${contactSearchFilter.organization}`
+        + `&sc=${contactSearchFilter.sortColumn}&so=${contactSearchFilter.sortOrder}`
+        + `&pn=${contactSearchFilter.pageNumber}&rpp=${contactSearchFilter.rowsPerPage}`
+    });
+    return this.http.get<ContactSearchResultStat[]>(environment.olprrapi_contact, { params: params });
   }
 
 }

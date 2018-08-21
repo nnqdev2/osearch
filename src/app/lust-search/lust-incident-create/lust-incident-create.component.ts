@@ -28,6 +28,7 @@ import { LustIncidentInsertResult } from '../../models/lust-incident-insert-resu
 import { City } from '../../models/city';
 import { ZipCode } from '../../models/zipcode';
 import { County } from '../../models/county';
+import { SearchDialogComponent } from '../../lust-incident/search-dialog/search-dialog.component';
 
 @Component({
   selector: 'app-lust-incident-create',
@@ -36,6 +37,7 @@ import { County } from '../../models/county';
 })
 export class LustIncidentCreateComponent implements OnInit {
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
+  searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
 
   olprrId: number;
   incidentData: IncidentData|null;
@@ -102,7 +104,7 @@ export class LustIncidentCreateComponent implements OnInit {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
-    , private canDeactivateDialog: MatDialog
+    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -293,5 +295,15 @@ export class LustIncidentCreateComponent implements OnInit {
     this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
     this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
     this.lastIcRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
+  }
+
+
+  private openUstSearch() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      searchType: 'UST'
+    };
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 }

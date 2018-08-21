@@ -30,6 +30,7 @@ export const environment = {
   lit_site_setup: 'http://deqwebdev/lit_maint/?appid=',
   olprrapi_insert_lust: 'http://deqwebdev/olprrapi/review/lustincident',
   olprrapi_sitealias: 'http://deqwebdev/olprrapi/lust/sitealias',
+  olprrapi_contact: 'http://deqwebdev/olprrapi/lust/contact',
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY',
   cache_expiry_in_ms: '43200000',

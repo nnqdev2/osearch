@@ -14,6 +14,10 @@ import { LustIncidentCreateComponent } from './lust-incident-create/lust-inciden
 import { LustIncidentEditComponent } from './lust-incident-edit/lust-incident-edit.component';
 import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
 import { ShowErrorsModule } from '../show-errors/show-errors.module';
+import { SearchDialogComponent } from './search-dialog/search-dialog.component';
+import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-delete-dialog.component';
+import { UstSearchModule } from '../ust-search/ust-search.module';
+import { SiteAliasComponent } from './site-alias/site-alias.component';
 
 @NgModule({
   imports: [
@@ -25,9 +29,12 @@ import { ShowErrorsModule } from '../show-errors/show-errors.module';
     NgbModule.forRoot(),
     ShowErrorsModule,
     ShowAllMessagesModule,
-    LustSearchRoutingModule
+    LustSearchRoutingModule,
+    UstSearchModule,
   ],
-  declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent],
+  declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
+                , ConfirmDeleteDialogComponent, SiteAliasComponent],
+  entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent],
   exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }
