@@ -26,7 +26,7 @@ import { CleanupSiteTypesResolver } from './resolvers/cleanup-site-types-resolve
 import { UstSearchFilterComponent } from './ust-search/ust-search-filter.component';
 import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { SiteAliasComponent } from './lust-search/site-alias/site-alias.component';
-import { ContactSearchFilterComponent } from './lust-incident/contact-search/contact-search-filter.component';
+import { ContactSearchFilterComponent } from './contact-search/contact-search-filter.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'osearch', pathMatch: 'full' },
