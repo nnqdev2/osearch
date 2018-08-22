@@ -34,16 +34,18 @@ export class ContactSearchFilterComponent implements OnInit {
     });
   }
 
-  resetUstSearchFilterForm() {
+  resetSearchFilterForm() {
+    console.log('resetSearchFilterForm()');
     this.contactSearchFilterForm.reset();
-    this.contactSearchFilterForm = Object.assign({}, this.contactSearchFilterForm.value);
+    this.contactSearchFilter = Object.assign({}, this.contactSearchFilterForm.value);
     this.showSearchResultsFlag = false;
   }
 
-  submitUstSearchFilterForm() {
+  submitSearchFilterForm() {
+    console.log('submitSearchFilterForm()');
     this.showSearchResultsFlag = false;
-    this.contactSearchFilterForm = Object.assign({}, this.contactSearchFilterForm.value);
-    console.log(JSON.stringify(this.contactSearchFilterForm));
+    this.contactSearchFilter = Object.assign({}, this.contactSearchFilterForm.value);
+    console.log(JSON.stringify(this.contactSearchFilter));
     this.showSearchResultsFlag = true;
   }
 }

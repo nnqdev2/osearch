@@ -33,8 +33,6 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { ErrorsComponent } from './common/errors/errors.component';
 import { ErrorsModule } from './common/errors/errors.module';
 import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
-import { LustIncidentModule } from './lust-incident/lust-incident.module';
-import { LustIncidentRoutingModule } from './lust-incident/lust-incident-routing.module';
 import { ContactSearchModule } from './contact-search/contact-search.module';
 import { ContactSearchRoutingModule } from './contact-search/contact-search-routing.module';
 

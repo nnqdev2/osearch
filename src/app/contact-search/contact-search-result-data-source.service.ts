@@ -32,6 +32,7 @@ export class ContactSearchResultDataSourceService  implements DataSource<Contact
   }
 
   loadResults(contactSearchFilter: ContactSearchFilter) {
+      console.log('loadResults....');
       this.loadingSubject.next(true);
       this.lustDataService.getContacts(contactSearchFilter)
           .pipe(

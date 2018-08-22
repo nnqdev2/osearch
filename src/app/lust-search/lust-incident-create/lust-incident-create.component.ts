@@ -49,7 +49,7 @@ export class LustIncidentCreateComponent implements OnInit {
   sourceTypes: SourceType[] = [];
   cities: City[] = [];
   states: State[] = [];
-  zipCodes: ZipCode[] = [];
+  zipcodes: ZipCode[] = [];
   counties: County[] = [];
   addressCorrectStat: AddressCorrectStat;
   addressCorrects: AddressCorrect[];
@@ -83,6 +83,8 @@ export class LustIncidentCreateComponent implements OnInit {
   contaminantErrorMessages: [string];
   mediaErrorMessages: [string];
 
+  submitClicked = false;
+
   errors: any[];
   authRequired = false;
   showStatusButtons = false;
@@ -115,7 +117,7 @@ export class LustIncidentCreateComponent implements OnInit {
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
     this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
+    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes; });
     this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
     this.createForm();
     this.maxDate = new Date();
@@ -299,7 +301,18 @@ export class LustIncidentCreateComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      searchType: 'UST'
+      searchType: 'UST',
+    };
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
+  }
+
+  private openContactSearch(contactType: string) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    // dialogConfig.disableClose =  true;
+    dialogConfig.data = {
+      searchType: 'Contact',
+      contactType: contactType,
     };
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
