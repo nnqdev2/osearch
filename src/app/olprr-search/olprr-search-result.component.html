@@ -1,64 +1,66 @@
-<div class="incident">
+<mat-card>
+    <mat-card-content>
+        <div class="incident">
+            <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
+                <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+            </div>
+            <mat-table class="incidents-table mat-elevation-z8 table-hover " [dataSource]="dataSource"
+                        matSort  matSortActive="olprrId" matSortDirection="asc" matSortDisableClear >
 
-    <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
-        <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-    </div>
+                <ng-container matColumnDef="olprrId">
+                    <mat-header-cell *matHeaderCellDef >OlprrId</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.olprrId}}</mat-cell>
+                </ng-container>
 
-    <mat-table class="incidents-table mat-elevation-z8 table-hover " [dataSource]="dataSource"
-                matSort  matSortActive="olprrId" matSortDirection="asc" matSortDisableClear >
+                <ng-container matColumnDef="siteStatus">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Status</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteStatus}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="olprrId">
-            <mat-header-cell *matHeaderCellDef >OlprrId</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.olprrId}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="releaseType">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header >Release Type</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.releaseTypeName}}</mat-cell>
+                </ng-container>
+                        
+                <ng-container matColumnDef="receiveDate">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Received Date</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.receiveDate | date:'MM/dd/yyyy'}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="siteStatus">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Status</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteStatus}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="siteName">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Name</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteName}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="releaseType">
-            <mat-header-cell *matHeaderCellDef mat-sort-header >Release Type</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.releaseTypeName}}</mat-cell>
-        </ng-container>
-                
-        <ng-container matColumnDef="receiveDate">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Received Date</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.receiveDate | date:'MM/dd/yyyy'}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="siteAddress">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Address</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteAddress}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="siteName">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Name</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteName}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="siteCounty">
+                    <mat-header-cell *matHeaderCellDef>Site County</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.countyName}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="siteAddress">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Address</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteAddress}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="reportedBy">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Reported By</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.reportedBy}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="siteCounty">
-            <mat-header-cell *matHeaderCellDef>Site County</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.countyName}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="siteComment">
+                    <mat-header-cell *matHeaderCellDef  >Site Comment</mat-header-cell>
+                    <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteComment}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="reportedBy">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Reported By</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.reportedBy}}</mat-cell>
-        </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
 
-        <ng-container matColumnDef="siteComment">
-            <mat-header-cell *matHeaderCellDef  >Site Comment</mat-header-cell>
-            <mat-cell *matCellDef="let olprrSearchResultStats">{{olprrSearchResultStats.siteComment}}</mat-cell>
-        </ng-container>
+                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.olprrId)"></mat-row>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+            </mat-table>
 
-        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.olprrId)"></mat-row>
+            <mat-paginator [length]="totalRows" [pageSize]="40"
+            [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
 
-    </mat-table>
-
-    <mat-paginator [length]="totalRows" [pageSize]="40"
-    [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
-
-</div>
+        </div>
+    </mat-card-content>
+</mat-card>

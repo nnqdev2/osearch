@@ -1,42 +1,45 @@
-<div class="ustsearch">
+<mat-card>
+    <mat-card-content>
+        <div class="ustsearch">
+            <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
+                <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+            </div>
 
-    <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
-        <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-    </div>
+            <mat-table class="incidents-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="dataSource"
+                        matSort  matSortActive="facilityId" matSortDirection="asc" matSortDisableClear >
 
-    <mat-table class="incidents-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="dataSource"
-                matSort  matSortActive="facilityId" matSortDirection="asc" matSortDisableClear >
+                <ng-container matColumnDef="facilityId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Facility Id</mat-header-cell>
+                    <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityId}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="facilityId">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Facility Id</mat-header-cell>
-            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityId}}</mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="facilityName">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Name</mat-header-cell>
+                    <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="facilityAddress">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Address</mat-header-cell>
+                    <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityAddress}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="facilityCity">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility City</mat-header-cell>
+                    <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityCity}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="facilityZip">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Zip</mat-header-cell>
+                    <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityZip}}</mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="facilityName">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Name</mat-header-cell>
-            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityName}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="facilityAddress">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Address</mat-header-cell>
-            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityAddress}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="facilityCity">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility City</mat-header-cell>
-            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityCity}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="facilityZip">
-            <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Zip</mat-header-cell>
-            <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityZip}}</mat-cell>
-        </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+                <!-- <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row> -->
+                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.facilityId)"></mat-row>
 
-        <!-- <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row> -->
-        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.facilityId)"></mat-row>
+            </mat-table>
 
-    </mat-table>
+            <mat-paginator [length]="totalRows" [pageSize]="40"
+            [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
 
-    <mat-paginator [length]="totalRows" [pageSize]="40"
-    [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
-
-</div>
+        </div>
+    </mat-card-content>
+</mat-card>
