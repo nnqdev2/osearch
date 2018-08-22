@@ -10,4 +10,5 @@ export interface UstSearchResultStat {
     facilityAddress: string;
     facilityCity: string;
     facilityZip: string;
+    countyName: string;
 }

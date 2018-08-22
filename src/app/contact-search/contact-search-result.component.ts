@@ -7,6 +7,7 @@ import { ContactSearchFilter } from '../models/contact-search-filter';
 import { ContactSearchResultDataSourceService } from './contact-search-result-data-source.service';
 import { ContactSearchResultStat } from '../models/contact-search-result-stat';
 import { LustDataService } from '../services/lust-data.service';
+import { SelectedDataService } from '../lust-search/services/selected-data.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   contactSearchResultStats: ContactSearchResultStat[];
   totalRows = 0;
 
-  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
+  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
+              , private selectedDataService: SelectedDataService) {
     this.dataSource = new ContactSearchResultDataSourceService(this.lustDataService);
   }
 
@@ -103,9 +105,9 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
     this.subscription.unsubscribe();
   }
 
-  onRowClicked(facilityId: number) {
-    console.log('ONROWCLICKED UST  facilityId');
-    console.log(facilityId);
-    // //   this.router.navigate(['review/', +lustId]);
-    }
+  onRowClicked(contactSearchResultStat: ContactSearchResultStat) {
+    console.log('****onRowClicked(contactSearchResultStat: ContactSearchResultStat) ');
+    console.log(contactSearchResultStat);
+    this.selectedDataService.selectedContactData(contactSearchResultStat);
+  }
 }

@@ -29,11 +29,15 @@
                     <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Zip</mat-header-cell>
                     <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.facilityZip}}</mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="countyName">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >County</mat-header-cell>
+                    <mat-cell *matCellDef="let ustSearchResultStat">{{ustSearchResultStat.countyName}}</mat-cell>
+                </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
 
                 <!-- <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row> -->
-                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.facilityId)"></mat-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
 
             </mat-table>
 

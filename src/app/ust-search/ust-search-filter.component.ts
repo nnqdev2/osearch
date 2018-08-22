@@ -32,6 +32,7 @@ export class UstSearchFilterComponent implements OnInit {
       facilityAddress:  [''],
       facilityCity: [''],
       facilityZip: [''],
+      facilityCounty: [''],
       sortColumn: [1],
       sortOrder: [1],
       pageNumber: [1],

@@ -21,7 +21,7 @@ export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDes
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: UstSearchResultDataSourceService;
-  displayedColumns = ['facilityId', 'facilityName', 'facilityAddress', 'facilityCity', 'facilityZip'];
+  displayedColumns = ['facilityId', 'facilityName', 'facilityAddress', 'facilityCity', 'facilityZip', 'countyName'];
 
   subscription: Subscription;
   ustSearchResultStats: UstSearchResultStat[];
@@ -66,6 +66,8 @@ export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDes
         return 3;
       case 'facilityZip':
         return 4;
+      case 'countyName':
+        return 5;
       default:
         return 0;
     }
