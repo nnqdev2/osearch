@@ -1,12 +1,14 @@
 <mat-dialog-content>
     <div *ngIf="data.searchType==='Contact'; then showContactSearch; else showUstSearch"></div>
     <ng-template #showContactSearch> 
-        <app-contact-search-filter></app-contact-search-filter>
+        <app-contact-search-filter (outputOnSelected)="onSelected($event)"></app-contact-search-filter>
     </ng-template>
     <ng-template #showUstSearch> 
         <app-ust-search-filter></app-ust-search-filter>
     </ng-template>
+
+    <!-- <ng-container *ngComponentOutlet="data.component"></ng-container>  -->
 </mat-dialog-content>
 <div mat-dialog-actions>  
-    <button mat-raised-button color="primary" type="button"class="btn btn-default btn-md " [mat-dialog-close]="true">Close </button>
+    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md " [mat-dialog-close]="true">Close </button>
 </div>

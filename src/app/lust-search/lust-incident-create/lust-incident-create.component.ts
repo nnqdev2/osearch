@@ -1,10 +1,10 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
-import { Observable, Subject, BehaviorSubject} from 'rxjs';
+import { Observable, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { map, flatMap, mergeMap} from 'rxjs/operators';
 
 import { LustDataService } from '../../services/lust-data.service';
@@ -29,13 +29,17 @@ import { City } from '../../models/city';
 import { ZipCode } from '../../models/zipcode';
 import { County } from '../../models/county';
 import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
+import { ContactSearchFilterComponent } from '../../contact-search/contact-search-filter.component';
+import { SelectedDataService } from '../services/selected-data.service';
+import { ContactSearchResultStat } from '../../models/contact-search-result-stat';
+import { UstSearchResultStat } from '../../models/ust-search-result-stat';
 
 @Component({
   selector: 'app-lust-incident-create',
   templateUrl: './lust-incident-create.component.html',
   styleUrls: ['./lust-incident-create.component.scss']
 })
-export class LustIncidentCreateComponent implements OnInit {
+export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
 
@@ -104,9 +108,16 @@ export class LustIncidentCreateComponent implements OnInit {
   maxDate: Date;
 
 
+  private contactSubscription: Subscription;
+  private ustSubscription: Subscription;
+  private selectedContact: ContactSearchResultStat;
+  private selectedUst: UstSearchResultStat;
+  private dialogResult: any;
+
+
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
-    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog
+    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog, private selectedDataService: SelectedDataService
   ) {}
 
   ngOnInit() {
@@ -313,7 +324,40 @@ export class LustIncidentCreateComponent implements OnInit {
     dialogConfig.data = {
       searchType: 'Contact',
       contactType: contactType,
+      component: {component: ContactSearchFilterComponent}
     };
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
+
+    this.searchDialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.dialogResult = result;
+
+      this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
+        this.selectedContact = selectedData;
+        console.log(`this.selectedContact: ${this.selectedContact}`);
+        if ( this.dialogResult === undefined && this.selectedContact === null) {
+          console.log(`user didn't do anything....`);
+        } else {
+          if (contactType === 'RP') {
+            console.log('UPDATE RP info');
+          } else {
+            console.log('UPDATE IC info');
+          }
+        }
+
+
+
+      });
+
+    });
+
+
+
   }
+
+
+  ngOnDestroy() {
+    this.contactSubscription.unsubscribe();
+  }
+
 }

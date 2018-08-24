@@ -198,8 +198,7 @@ export class OlprrIncidentComponent implements OnInit {
         this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
         this.incidentForm.controls.icPhone.setValidators([Validators.required]);
         this.incidentForm.controls.icEmail.setValidators([Validators.required]);
-    }
-    else {
+    } else {
       this.incidentForm.controls.facilityId.setValue(0);
       if (this.incidentForm.controls.facilityId != undefined) {
         this.incidentForm.controls.facilityId.disable();
@@ -605,10 +604,10 @@ export class OlprrIncidentComponent implements OnInit {
 
     private controlsResetForm(formGroup: FormGroup) {
       let control: AbstractControl = null;
-      //formGroup.reset();
+      // formGroup.reset();
       formGroup.markAsUntouched();
       Object.keys(formGroup.controls).forEach((name) => {
-        if (name != "dateReceived") {
+        if (name !== 'dateReceived') {
           control = formGroup.controls[name];
           control.setErrors(null);
         }

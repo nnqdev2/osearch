@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -27,6 +27,9 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   subscription: Subscription;
   contactSearchResultStats: ContactSearchResultStat[];
   totalRows = 0;
+
+
+  @Output() outputOnSelected = new EventEmitter<ContactSearchResultStat>();
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
               , private selectedDataService: SelectedDataService) {
@@ -106,8 +109,11 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   }
 
   onRowClicked(contactSearchResultStat: ContactSearchResultStat) {
+    console.log('emitting this event.....');
+    this.outputOnSelected.emit(contactSearchResultStat);
     console.log('****onRowClicked(contactSearchResultStat: ContactSearchResultStat) ');
     console.log(contactSearchResultStat);
     this.selectedDataService.selectedContactData(contactSearchResultStat);
+
   }
 }

@@ -20,6 +20,8 @@ import { UstSearchModule } from '../ust-search/ust-search.module';
 import { SiteAliasComponent } from './site-alias/site-alias.component';
 import { ContactSearchRoutingModule } from '../contact-search/contact-search-routing.module';
 import { ContactSearchModule } from '../contact-search/contact-search.module';
+import { ContactSearchFilterComponent } from '../contact-search/contact-search-filter.component';
+import { ContactSearchResultComponent } from '../contact-search/contact-search-result.component';
 
 @NgModule({
   imports: [
@@ -33,11 +35,11 @@ import { ContactSearchModule } from '../contact-search/contact-search.module';
     ShowAllMessagesModule,
     LustSearchRoutingModule,
     UstSearchModule,
-    ContactSearchModule
+    ContactSearchModule,
   ],
   declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
                 , ConfirmDeleteDialogComponent, SiteAliasComponent],
-  entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent],
+  entryComponents: [ContactSearchFilterComponent, ContactSearchResultComponent, SearchDialogComponent, ConfirmDeleteDialogComponent, ],
   exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }

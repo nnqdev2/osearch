@@ -35,6 +35,8 @@ import { ErrorsModule } from './common/errors/errors.module';
 import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
 import { ContactSearchModule } from './contact-search/contact-search.module';
 import { ContactSearchRoutingModule } from './contact-search/contact-search-routing.module';
+import { ContactSearchFilterComponent } from './contact-search/contact-search-filter.component';
+import { ContactSearchResultComponent } from './contact-search/contact-search-result.component';
 
 
 @NgModule({
