@@ -39,7 +39,7 @@ import { UstSearchResultStat } from '../../models/ust-search-result-stat';
   templateUrl: './lust-incident-create.component.html',
   styleUrls: ['./lust-incident-create.component.scss']
 })
-export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
+export class LustIncidentCreateComponent implements OnInit  {
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
 
@@ -107,12 +107,8 @@ export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
   private lustIncidentInsertResult: LustIncidentInsertResult;
   maxDate: Date;
 
-
-  private contactSubscription: Subscription;
-  private ustSubscription: Subscription;
   private selectedContact: ContactSearchResultStat;
   private selectedUst: UstSearchResultStat;
-  private dialogResult: any;
 
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
@@ -327,37 +323,11 @@ export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
       component: {component: ContactSearchFilterComponent}
     };
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
-
     this.searchDialogRef.afterClosed().subscribe(result => {
-      console.log('dialog closed returned:.......');
-      console.log(result);
-      this.selectedContact = result;
-      console.log(`Dialog after closed: ${this.selectedContact}`);
-      this.updateContact(contactType, result);
-
-
-      // this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
-      // this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
-      //   this.selectedContact = selectedData;
-      //   console.log(`this.selectedContact: ${this.selectedContact}`);
-      //   if ( this.dialogResult === undefined && this.selectedContact === null) {
-      //     console.log(`user didn't do anything....`);
-      //   } else {
-      //     if (contactType === 'RP') {
-      //       console.log('UPDATE RP info');
-      //     } else {
-      //       console.log('UPDATE IC info');
-      //     }
-      //   }
-
-
-
-      // });
-
+      if (result !== undefined) {
+        this.updateContact(contactType, result);
+      }
     });
-
-
-
   }
 
   private updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat) {
@@ -366,50 +336,4 @@ export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
     console.log(contactSearchResultStat);
   }
 
-  private openContactSearchORIG(contactType: string) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    // dialogConfig.disableClose =  true;
-    dialogConfig.data = {
-      searchType: 'Contact',
-      contactType: contactType,
-    };
-
-    console.log('HELLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPP');
-    console.log(dialogConfig.data);
-    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
-
-    this.searchDialogRef.afterClosed().subscribe(result => {
-      console.log(`***** HELP!!!! selected row is ....: ${result}`);
-      this.dialogResult = result;
-
-      // this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
-      //   this.selectedContact = selectedData;
-      //   console.log(`this.selectedContact: ${this.selectedContact}`);
-      //   if ( this.dialogResult === undefined && this.selectedContact === null) {
-      //     console.log(`user didn't do anything....`);
-      //   } else {
-      //     if (contactType === 'RP') {
-      //       console.log('UPDATE RP info');
-      //     } else {
-      //       console.log('UPDATE IC info');
-      //     }
-      //   }
-
-
-
-      // });
-
-    });
-
-
-
-  }
-
-
-  ngOnDestroy() {
-    // this.contactSubscription.unsubscribe();
-  }
-
 }
-
