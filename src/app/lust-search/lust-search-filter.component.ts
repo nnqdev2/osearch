@@ -67,10 +67,7 @@ export class LustSearchFilterComponent implements OnInit {
       this.lustDataService.getProjectManagers().subscribe(data => { this.projectManagers = data; });
       this.lustDataService.getCounties().subscribe(data => { this.counties = data; });
     }
-
-
     this.createSearchFilterForm();
-
   }
   private createSearchFilterForm() {
     this.lustSearchFilterForm = this.formBuilder.group({

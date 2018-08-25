@@ -12,38 +12,49 @@
     <mat-card-content>    
       <form [formGroup]="ustSearchFilterForm" class="form-group"  role="form" autocomplete="off" method="POST"  (ngSubmit)="submitUstSearchFilterForm()">    
         <div class="form-row full-width" style="margin-top:10px">
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <mat-form-field >
               <mat-label>Facility Name</mat-label>
               <input matInput formControlName="facilityName">
             </mat-form-field>
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <mat-form-field >
               <mat-label>Facility Address</mat-label>
               <input matInput formControlName="facilityAddress">
             </mat-form-field>
           </div>
-          <div class="form-group col-md-3">
+        </div>
+        <div class="form-row full-width" style="margin-top:10px">
+          <div class="form-group col-md-4">
             <mat-form-field >
               <mat-label>Facility City</mat-label>
-              <input matInput formControlName="facilityCity">
+              <mat-select placeholder="City"  formControlName="facilityCity">    
+                <mat-option value=""> </mat-option>    
+                <mat-option *ngFor="let city of cities" [value]="city?.placeName2" > {{city?.placeName}}</mat-option>  
+              </mat-select>    
             </mat-form-field>
           </div> 
-          <div class="form-group col-md-1">
+          <div class="form-group col-md-4">
             <mat-form-field >
               <mat-label>Facility Zip</mat-label>
-              <input matInput  formControlName="facilityZip">
+              <mat-select placeholder="Zipcode"  formControlName="facilityZip">    
+                <mat-option value=""> </mat-option>    
+                <mat-option *ngFor="let zipCode of zipCodes" [value]="zipCode?.zipCode1" > {{zipCode?.zipCode2}}</mat-option>  
+              </mat-select>    
             </mat-form-field>
           </div> 
-          <div class="form-group col-md-2">
-              <mat-form-field >
-                <mat-label>Facility County</mat-label>
-                <input matInput  formControlName="facilityCounty">
-              </mat-form-field>
-            </div> 
+          <div class="form-group col-md-4">
+            <mat-form-field >
+              <mat-label>Facility County</mat-label>
+              <mat-select placeholder="County"  formControlName="facilityCounty">    
+                <mat-option value=""> </mat-option>    
+                <mat-option *ngFor="let county of counties" [value]="county?.countyCode" > {{county?.countyName}}</mat-option>  
+              </mat-select>  
+            </mat-form-field>
+          </div> 
         </div>    
-        <div class="form-group row">  
+        <div class="form-row full-width" style="margin-top:10px">  
           <div class="col-sm-2 col-md-2 col-lg-2"> 
               <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block">Search</button>    
           </div>

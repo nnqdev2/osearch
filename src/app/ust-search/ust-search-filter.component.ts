@@ -7,6 +7,9 @@ import { Observable} from 'rxjs';
 import { LustDataService } from '../services/lust-data.service';
 import { UstSearchFilter } from '../models/ust-search-filter';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ZipCode } from '../models/zipcode';
+import { City } from '../models/city';
+import { County } from '../models/county';
 
 @Component({
   selector: 'app-ust-search-filter',
@@ -18,12 +21,27 @@ export class UstSearchFilterComponent implements OnInit {
   ustSearchFilter: UstSearchFilter;
   showUstSearchResultsFlag = false;
 
+  zipCodes: ZipCode[] = [];
+  cities: City[] = [];
+  counties: County[] = [];
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
     , private route: ActivatedRoute, private router: Router
   ) {}
 
   ngOnInit() {
+    if (this.route.snapshot.url.length > 0) {
+      console.log('*****HELLO');
+      this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes;
+      console.log(this.zipCodes); });
+      this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
+      this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    } else {
+      console.log('*****HELLO222');
+      this.lustDataService.getZipCodes().subscribe(data => { this.zipCodes = data; console.log(this.zipCodes); });
+      this.lustDataService.getCities().subscribe(data => { this.cities = data; });
+      this.lustDataService.getCounties().subscribe(data => { this.counties = data; });
+    }
     this.createSearchFilterForm();
   }
   private createSearchFilterForm() {

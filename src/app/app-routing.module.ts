@@ -53,6 +53,11 @@ const routes: Routes = [
     },
   },
   { path: 'usearch', component: UstSearchFilterComponent,
+    resolve: {
+      counties: CountiesResolver,
+      cities: CitiesResolver,
+      zipCodes: ZipCodesResolver,
+    }
   },
   { path: 'csearch', component: ContactSearchFilterComponent,
   },
