@@ -24,6 +24,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ContactSearchRoutingModule
   ],
   declarations: [ContactSearchFilterComponent, ContactSearchResultComponent],
-  exports: [ContactSearchFilterComponent, ContactSearchResultComponent]
+  exports: [ContactSearchFilterComponent, ContactSearchResultComponent],
+  entryComponents: [ContactSearchFilterComponent, ContactSearchResultComponent ],
 })
 export class ContactSearchModule { }

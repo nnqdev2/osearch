@@ -118,7 +118,7 @@ export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog, private selectedDataService: SelectedDataService
-  ) {}
+  ) {  }
 
   ngOnInit() {
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
@@ -329,25 +329,76 @@ export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
 
     this.searchDialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log('dialog closed returned:.......');
+      console.log(result);
+      this.selectedContact = result;
+      console.log(`Dialog after closed: ${this.selectedContact}`);
+      this.updateContact(contactType, result);
+
+
+      // this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
+      // this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
+      //   this.selectedContact = selectedData;
+      //   console.log(`this.selectedContact: ${this.selectedContact}`);
+      //   if ( this.dialogResult === undefined && this.selectedContact === null) {
+      //     console.log(`user didn't do anything....`);
+      //   } else {
+      //     if (contactType === 'RP') {
+      //       console.log('UPDATE RP info');
+      //     } else {
+      //       console.log('UPDATE IC info');
+      //     }
+      //   }
+
+
+
+      // });
+
+    });
+
+
+
+  }
+
+  private updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat) {
+    console.log('updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat)');
+    console.log(contactType);
+    console.log(contactSearchResultStat);
+  }
+
+  private openContactSearchORIG(contactType: string) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    // dialogConfig.disableClose =  true;
+    dialogConfig.data = {
+      searchType: 'Contact',
+      contactType: contactType,
+    };
+
+    console.log('HELLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPP');
+    console.log(dialogConfig.data);
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
+
+    this.searchDialogRef.afterClosed().subscribe(result => {
+      console.log(`***** HELP!!!! selected row is ....: ${result}`);
       this.dialogResult = result;
 
-      this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
-        this.selectedContact = selectedData;
-        console.log(`this.selectedContact: ${this.selectedContact}`);
-        if ( this.dialogResult === undefined && this.selectedContact === null) {
-          console.log(`user didn't do anything....`);
-        } else {
-          if (contactType === 'RP') {
-            console.log('UPDATE RP info');
-          } else {
-            console.log('UPDATE IC info');
-          }
-        }
+      // this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
+      //   this.selectedContact = selectedData;
+      //   console.log(`this.selectedContact: ${this.selectedContact}`);
+      //   if ( this.dialogResult === undefined && this.selectedContact === null) {
+      //     console.log(`user didn't do anything....`);
+      //   } else {
+      //     if (contactType === 'RP') {
+      //       console.log('UPDATE RP info');
+      //     } else {
+      //       console.log('UPDATE IC info');
+      //     }
+      //   }
 
 
 
-      });
+      // });
 
     });
 
@@ -357,7 +408,8 @@ export class LustIncidentCreateComponent implements OnInit, OnDestroy  {
 
 
   ngOnDestroy() {
-    this.contactSubscription.unsubscribe();
+    // this.contactSubscription.unsubscribe();
   }
 
 }
+

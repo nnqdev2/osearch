@@ -39,7 +39,8 @@ import { ContactSearchResultComponent } from '../contact-search/contact-search-r
   ],
   declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
                 , ConfirmDeleteDialogComponent, SiteAliasComponent],
-  entryComponents: [ContactSearchFilterComponent, ContactSearchResultComponent, SearchDialogComponent, ConfirmDeleteDialogComponent, ],
+  entryComponents: [ContactSearchFilterComponent, ContactSearchResultComponent
+    , SearchDialogComponent, ConfirmDeleteDialogComponent ],
   exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }

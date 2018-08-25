@@ -30,13 +30,10 @@ import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from './common/dialogs/guard-dialog.component';
 import { SubmitStatusDialogComponent } from './common/dialogs/submit-status-dialog.component';
 import { httpInterceptorProviders } from './http-interceptors';
-import { ErrorsComponent } from './common/errors/errors.component';
 import { ErrorsModule } from './common/errors/errors.module';
 import { ErrorsRoutingModule } from './common/errors/errors-routing.module';
 import { ContactSearchModule } from './contact-search/contact-search.module';
 import { ContactSearchRoutingModule } from './contact-search/contact-search-routing.module';
-import { ContactSearchFilterComponent } from './contact-search/contact-search-filter.component';
-import { ContactSearchResultComponent } from './contact-search/contact-search-result.component';
 
 
 @NgModule({
@@ -77,7 +74,8 @@ import { ContactSearchResultComponent } from './contact-search/contact-search-re
     httpInterceptorProviders,
   ],
   // exports: [AcceptDialogComponent],
-  entryComponents: [GuardDialogComponent, SubmitStatusDialogComponent, ],
+  entryComponents: [GuardDialogComponent, SubmitStatusDialogComponent
+ ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

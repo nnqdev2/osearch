@@ -29,7 +29,7 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   totalRows = 0;
 
 
-  @Output() outputOnSelected = new EventEmitter<ContactSearchResultStat>();
+  @Output() contactSelected = new EventEmitter<ContactSearchResultStat>();
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
               , private selectedDataService: SelectedDataService) {
@@ -109,9 +109,9 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   }
 
   onRowClicked(contactSearchResultStat: ContactSearchResultStat) {
-    console.log('emitting this event.....');
-    this.outputOnSelected.emit(contactSearchResultStat);
-    console.log('****onRowClicked(contactSearchResultStat: ContactSearchResultStat) ');
+    console.log('*****contactSearchResult emitting event.....');
+    this.contactSelected.emit(contactSearchResultStat);
+    console.log('*****contactSearchResult onRowClicked(contactSearchResultStat: ContactSearchResultStat) ');
     console.log(contactSearchResultStat);
     this.selectedDataService.selectedContactData(contactSearchResultStat);
 
