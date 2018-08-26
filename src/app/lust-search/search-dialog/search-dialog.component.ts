@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SelectedDataService } from '../services/selected-data.service';
 import { ContactSearchResultStat } from '../../models/contact-search-result-stat';
 import { Subscription } from 'rxjs';
+import { UstSearchResultStat } from '../../models/ust-search-result-stat';
 
 @Component({
   selector: 'app-search-dialog',
@@ -47,16 +48,24 @@ export class SearchDialogComponent implements OnInit, OnDestroy  {
   //   console.log('********** search dialog ');
   //   console.log(data);
   //   // console.log('*****searchDialog emitting event.....');
-  //   // this.contactSelected.emit(data);
+  //   // this.rowSelected.emit(data);
   //   this.dialogRef.close(data);
   // }
 
-  onSelected(contactSearchResultStat: ContactSearchResultStat) {
+  onContactSelected(contactSearchResultStat: ContactSearchResultStat) {
     console.log('***** search dialog onSelected(contactSearchResultStat: ContactSearchResultStat)');
     console.log(contactSearchResultStat);
     // console.log('*****searchDialog emitting event.....');
-    // this.contactSelected.emit(contactSearchResultStat);
+    // this.rowSelected.emit(contactSearchResultStat);
     this.dialogRef.close(contactSearchResultStat);
+  }
+
+  onUstSelected(ustSearchResultStat: UstSearchResultStat) {
+    console.log('***** search dialog onUstSelected(ustSearchResultStat: UstSearchResultStat)');
+    console.log(ustSearchResultStat);
+    // console.log('*****searchDialog emitting event.....');
+    // this.rowSelected.emit(contactSearchResultStat);
+    this.dialogRef.close(ustSearchResultStat);
   }
 
 }

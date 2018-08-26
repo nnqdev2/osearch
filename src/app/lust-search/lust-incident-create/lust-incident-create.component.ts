@@ -311,16 +311,18 @@ export class LustIncidentCreateComponent implements OnInit  {
       searchType: 'UST',
     };
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
+    this.searchDialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.updateSiteAddress(result);
+      }
+    });
   }
-
   private openContactSearch(contactType: string) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     // dialogConfig.disableClose =  true;
     dialogConfig.data = {
       searchType: 'Contact',
-      contactType: contactType,
-      component: {component: ContactSearchFilterComponent}
     };
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
     this.searchDialogRef.afterClosed().subscribe(result => {
@@ -335,5 +337,8 @@ export class LustIncidentCreateComponent implements OnInit  {
     console.log(contactType);
     console.log(contactSearchResultStat);
   }
-
+  private updateSiteAddress(ustSearchResultStat: UstSearchResultStat) {
+    console.log('updateSiteAddress(ustSearchResultStat: UstSearchResultStat)');
+    console.log(ustSearchResultStat);
+  }
 }

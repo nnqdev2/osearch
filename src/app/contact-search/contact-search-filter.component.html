@@ -38,7 +38,7 @@
   </mat-card>  
   <div *ngIf="showSearchResultsFlag==true; then showResultComp ">  </div> 
   <ng-template #showResultComp>
-    <app-contact-search-result [contactSearchFilter]="contactSearchFilter" (contactSelected)="onSelected($event)"  ></app-contact-search-result>
+    <app-contact-search-result [contactSearchFilter]="contactSearchFilter" (rowSelected)="onSelected($event)"  ></app-contact-search-result>
   </ng-template>
   
 </div>

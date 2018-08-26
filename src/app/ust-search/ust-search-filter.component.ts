@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -10,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ZipCode } from '../models/zipcode';
 import { City } from '../models/city';
 import { County } from '../models/county';
+import { UstSearchResultStat } from '../models/ust-search-result-stat';
 
 @Component({
   selector: 'app-ust-search-filter',
@@ -25,20 +26,18 @@ export class UstSearchFilterComponent implements OnInit {
   cities: City[] = [];
   counties: County[] = [];
 
+  @Output() rowSelected = new EventEmitter<UstSearchResultStat>();
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
     , private route: ActivatedRoute, private router: Router
   ) {}
 
   ngOnInit() {
     if (this.route.snapshot.url.length > 0) {
-      console.log('*****HELLO');
-      this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes;
-      console.log(this.zipCodes); });
+      this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipCodes = data.zipCodes; });
       this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
       this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
     } else {
-      console.log('*****HELLO222');
-      this.lustDataService.getZipCodes().subscribe(data => { this.zipCodes = data; console.log(this.zipCodes); });
+      this.lustDataService.getZipCodes().subscribe(data => { this.zipCodes = data; });
       this.lustDataService.getCities().subscribe(data => { this.cities = data; });
       this.lustDataService.getCounties().subscribe(data => { this.counties = data; });
     }
@@ -69,6 +68,20 @@ export class UstSearchFilterComponent implements OnInit {
     this.ustSearchFilter = Object.assign({}, this.ustSearchFilterForm.value);
     // console.log(JSON.stringify(this.ustSearchFilter));
     this.showUstSearchResultsFlag = true;
+  }
+
+  onRowClicked(ustSearchResultStat: UstSearchResultStat) {
+    console.log('*****ustSearchResult emitting event.....');
+    console.log('*****ustSearchResult onRowClicked(ustSearchResultStat: ustSearchResultStat) ');
+    console.log(ustSearchResultStat);
+    this.rowSelected.emit(ustSearchResultStat);
+  }
+
+  onSelected(ustSearchResultStat: UstSearchResultStat) {
+    console.log('********************onSelected(ustSearchResultStat: UstSearchResultStat)');
+    console.log(ustSearchResultStat);
+    console.log('*****ustSearchFilter emitting event.....');
+    this.rowSelected.emit(ustSearchResultStat);
   }
 }
 

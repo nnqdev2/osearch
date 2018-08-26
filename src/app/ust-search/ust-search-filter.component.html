@@ -68,7 +68,7 @@
   
   <div *ngIf="showUstSearchResultsFlag==true; then showResultComp ">  </div> 
   <ng-template #showResultComp>
-    <app-ust-search-result [ustSearchFilter]="ustSearchFilter"></app-ust-search-result>
+    <app-ust-search-result [ustSearchFilter]="ustSearchFilter" (rowSelected)="onSelected($event)" ></app-ust-search-result>
   </ng-template>
   
 </div>

@@ -15,7 +15,7 @@ export class ContactSearchFilterComponent implements OnInit {
   contactSearchFilter: ContactSearchFilter;
   showSearchResultsFlag = false;
 
-  @Output() contactSelected = new EventEmitter<ContactSearchResultStat>();
+  @Output() rowSelected = new EventEmitter<ContactSearchResultStat>();
 
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
@@ -57,6 +57,6 @@ export class ContactSearchFilterComponent implements OnInit {
     console.log('********************onSelected(contactSearchResultStat: ContactSearchResultStat)');
     console.log(contactSearchResultStat);
     console.log('*****contactSearchFilter emitting event.....');
-    this.contactSelected.emit(contactSearchResultStat);
+    this.rowSelected.emit(contactSearchResultStat);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -26,6 +26,8 @@ export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDes
   subscription: Subscription;
   ustSearchResultStats: UstSearchResultStat[];
   totalRows = 0;
+
+  @Output() rowSelected = new EventEmitter<UstSearchResultStat>();
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new UstSearchResultDataSourceService(this.lustDataService);
@@ -101,9 +103,10 @@ export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDes
     this.subscription.unsubscribe();
   }
 
-  onRowClicked(facilityId: number) {
-    console.log('ONROWCLICKED UST  facilityId');
-    console.log(facilityId);
-    // //   this.router.navigate(['review/', +lustId]);
-    }
+  onRowClicked(ustSearchResultStat: UstSearchResultStat) {
+    console.log('*****ustSearchResult emitting event.....');
+    console.log('*****ustSearchResult onRowClicked(ustSearchResultStat: ustSearchResultStat) ');
+    console.log(ustSearchResultStat);
+    this.rowSelected.emit(ustSearchResultStat);
+  }
 }
