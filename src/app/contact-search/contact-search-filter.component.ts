@@ -52,11 +52,7 @@ export class ContactSearchFilterComponent implements OnInit {
     this.showSearchResultsFlag = true;
   }
 
-
   onSelected(contactSearchResultStat: ContactSearchResultStat) {
-    console.log('********************onSelected(contactSearchResultStat: ContactSearchResultStat)');
-    console.log(contactSearchResultStat);
-    console.log('*****contactSearchFilter emitting event.....');
     this.rowSelected.emit(contactSearchResultStat);
   }
 }

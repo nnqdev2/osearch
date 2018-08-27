@@ -22,8 +22,8 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: ContactSearchResultDataSourceService;
-  displayedColumns = ['partyId', 'organization', 'personName', 'phone', 'address', 'email'];
-
+  displayedColumns =['reqPageNumber', 'partyId', 'organization', 'personName', 'phone', 'address', 'email'];
+ 
   subscription: Subscription;
   contactSearchResultStats: ContactSearchResultStat[];
   totalRows = 0;
@@ -111,9 +111,5 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   onRowClicked(contactSearchResultStat: ContactSearchResultStat) {
     console.log('*****contactSearchResult emitting event.....');
     this.rowSelected.emit(contactSearchResultStat);
-    console.log('*****contactSearchResult onRowClicked(contactSearchResultStat: ContactSearchResultStat) ');
-    console.log(contactSearchResultStat);
-    this.selectedDataService.selectedContactData(contactSearchResultStat);
-
   }
 }

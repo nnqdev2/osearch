@@ -14,21 +14,20 @@ import { LustDataService } from '../services/lust-data.service';
   templateUrl: './ust-search-result.component.html',
   styleUrls: ['./ust-search-result.component.scss']
 })
+
 export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() ustSearchFilter: UstSearchFilter;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource: UstSearchResultDataSourceService;
-  displayedColumns = ['facilityId', 'facilityName', 'facilityAddress', 'facilityCity', 'facilityZip', 'countyName'];
+  @Output() rowSelected = new EventEmitter<UstSearchResultStat>();
 
+  dataSource: UstSearchResultDataSourceService;
+  displayedColumns = ['reqPageNumber', 'facilityId', 'facilityName', 'facilityAddress', 'facilityCity', 'facilityZip', 'countyName'];
   subscription: Subscription;
   ustSearchResultStats: UstSearchResultStat[];
   totalRows = 0;
-
-  @Output() rowSelected = new EventEmitter<UstSearchResultStat>();
-
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
     this.dataSource = new UstSearchResultDataSourceService(this.lustDataService);
   }

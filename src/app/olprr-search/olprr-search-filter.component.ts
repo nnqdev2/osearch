@@ -35,7 +35,7 @@ export class OlprrSearchFilterComponent implements OnInit {
     , private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; console.log(data.siteTypes); });
+    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {deqOffices: DeqOffice[]}) => {this.deqOffices = data.deqOffices; });
     this.route.data.subscribe((data: {incidentStatuses: IncidentStatus[]}) => {this.incidentStatuses = data.incidentStatuses; });
     this.createOlprrSearchFilterForm();
