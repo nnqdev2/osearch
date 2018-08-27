@@ -103,9 +103,6 @@ export class UstSearchResultComponent implements AfterViewInit, OnChanges, OnDes
   }
 
   onRowClicked(ustSearchResultStat: UstSearchResultStat) {
-    console.log('*****ustSearchResult emitting event.....');
-    console.log('*****ustSearchResult onRowClicked(ustSearchResultStat: ustSearchResultStat) ');
-    console.log(ustSearchResultStat);
     this.rowSelected.emit(ustSearchResultStat);
   }
 }

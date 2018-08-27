@@ -336,9 +336,35 @@ export class LustIncidentCreateComponent implements OnInit  {
     console.log('updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat)');
     console.log(contactType);
     console.log(contactSearchResultStat);
+    if (contactType === 'RP') {
+      this.incidentForm.controls.rpAddress.setValue(contactSearchResultStat.address);
+      this.incidentForm.controls.rpCity.setValue(contactSearchResultStat.city);
+      this.incidentForm.controls.rpState.setValue(contactSearchResultStat.state);
+      this.incidentForm.controls.rpFirstName.setValue(contactSearchResultStat.firstName);
+      this.incidentForm.controls.rpLastName.setValue(contactSearchResultStat.lastName);
+      this.incidentForm.controls.rpOrganization.setValue(contactSearchResultStat.organization);
+      this.incidentForm.controls.rpCountry.setValue(contactSearchResultStat.country);
+      this.incidentForm.controls.rpPhone.setValue(contactSearchResultStat.phone);
+      // this.incidentForm.controls.rpEmail.setValue(contactSearchResultStat.);
+    }
+    if (contactType === 'IC') {
+      this.incidentForm.controls.icAddress.setValue(contactSearchResultStat.address);
+      this.incidentForm.controls.icCity.setValue(contactSearchResultStat.city);
+      this.incidentForm.controls.icState.setValue(contactSearchResultStat.state);
+      this.incidentForm.controls.icFirstName.setValue(contactSearchResultStat.firstName);
+      this.incidentForm.controls.icLastName.setValue(contactSearchResultStat.lastName);
+      this.incidentForm.controls.icOrganization.setValue(contactSearchResultStat.organization);
+      this.incidentForm.controls.icCountry.setValue(contactSearchResultStat.country);
+      this.incidentForm.controls.icPhone.setValue(contactSearchResultStat.phone);
+      // this.incidentForm.controls.icEmail.setValue(contactSearchResultStat.);
+    }
   }
   private updateSiteAddress(ustSearchResultStat: UstSearchResultStat) {
-    console.log('updateSiteAddress(ustSearchResultStat: UstSearchResultStat)');
-    console.log(ustSearchResultStat);
+    this.incidentForm.controls.facilityId.setValue(ustSearchResultStat.facilityId);
+    this.incidentForm.controls.siteName.setValue(ustSearchResultStat.facilityName);
+    this.incidentForm.controls.siteAddress.setValue(ustSearchResultStat.facilityAddress);
+    this.incidentForm.controls.siteCity.setValue(ustSearchResultStat.facilityCity);
+    this.incidentForm.controls.siteCounty.setValue(ustSearchResultStat.countyName);
+    this.incidentForm.controls.siteZipcode.setValue(ustSearchResultStat.facilityZip);
   }
 }

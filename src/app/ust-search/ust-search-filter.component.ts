@@ -71,16 +71,10 @@ export class UstSearchFilterComponent implements OnInit {
   }
 
   onRowClicked(ustSearchResultStat: UstSearchResultStat) {
-    console.log('*****ustSearchResult emitting event.....');
-    console.log('*****ustSearchResult onRowClicked(ustSearchResultStat: ustSearchResultStat) ');
-    console.log(ustSearchResultStat);
     this.rowSelected.emit(ustSearchResultStat);
   }
 
   onSelected(ustSearchResultStat: UstSearchResultStat) {
-    console.log('********************onSelected(ustSearchResultStat: UstSearchResultStat)');
-    console.log(ustSearchResultStat);
-    console.log('*****ustSearchFilter emitting event.....');
     this.rowSelected.emit(ustSearchResultStat);
   }
 }

@@ -53,62 +53,13 @@ export class SearchDialogComponent implements OnInit, OnDestroy  {
   // }
 
   onContactSelected(contactSearchResultStat: ContactSearchResultStat) {
-    console.log('***** search dialog onSelected(contactSearchResultStat: ContactSearchResultStat)');
-    console.log(contactSearchResultStat);
-    // console.log('*****searchDialog emitting event.....');
-    // this.rowSelected.emit(contactSearchResultStat);
     this.dialogRef.close(contactSearchResultStat);
   }
 
   onUstSelected(ustSearchResultStat: UstSearchResultStat) {
-    console.log('***** search dialog onUstSelected(ustSearchResultStat: UstSearchResultStat)');
-    console.log(ustSearchResultStat);
-    // console.log('*****searchDialog emitting event.....');
-    // this.rowSelected.emit(contactSearchResultStat);
     this.dialogRef.close(ustSearchResultStat);
   }
 
 }
-
-
-
-
-
-
-// export class SearchDialogComponent implements OnChanges, OnDestroy  {
-//   contactSubscription: Subscription;
-//   selectedContact: ContactSearchResultStat;
-//   ngOnChanges(): void {
-//     console.log(`*************this.selectedContact:`);
-//     this.contactSubscription = this.selectedDataService.contactDataSelected$.subscribe(selectedData => {
-//       this.selectedContact = selectedData;
-//       console.log(`this.selectedContact: ${this.selectedContact}`);
-
-
-//     });
-//   }
-
-
-
-//   constructor(
-//     private dialogRef: MatDialogRef<SearchDialogComponent>,  private selectedDataService: SelectedDataService
-//     , @Inject(MAT_DIALOG_DATA) public data: any) {}
-
-//   onNoClick(): void {
-//     console.log('****onNoClick()');
-//     this.dialogRef.close();
-//   }
-
-//   public onSelected(contact: ContactSearchResultStat) {
-//     console.log('HELLO?????????????????');
-//     console.log(`onSelected(event: Event) ${contact}`);
-
-//   }
-
-//   ngOnDestroy() {
-//     this.contactSubscription.unsubscribe();
-//   }
-
-// }
 
 
