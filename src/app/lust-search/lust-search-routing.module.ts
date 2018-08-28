@@ -42,6 +42,7 @@ const routes: Routes = [
       siteTypes: SiteTypesResolver,
       confirmationTypes: ConfirmationTypesResolver,
       counties: CountiesResolver,
+      cities: CitiesResolver,
       discoveryTypes: DiscoveryTypesResolver,
       releaseCauseTypes: ReleaseCauseTypesResolver,
       sourceTypes: SourceTypesResolver,

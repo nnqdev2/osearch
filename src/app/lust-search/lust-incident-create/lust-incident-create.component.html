@@ -85,7 +85,10 @@
                                 <div class="form-group required col-md-5 ">
                                     <mat-form-field > 
                                         <mat-label class="control-label">Site City</mat-label>
-                                        <input matInput formControlName="siteCity" />                              
+                                        <mat-select formControlName="siteCity" >
+                                            <mat-option selected="selected" value=""></mat-option>
+                                            <mat-option *ngFor="let city of cities" [value]="city?.placeName" >{{city?.placeName2}}</mat-option>                                               
+                                        </mat-select>                          
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.siteCity"></app-show-errors>
                                 </div>
@@ -93,8 +96,11 @@
                             <div class="form-row full-width">  
                                 <div class="form-group required col-md-3 ">
                                     <mat-form-field > 
-                                        <mat-label class="control-label">Site Zip Code</mat-label>
-                                        <input matInput formControlName="siteZipcode" />                           
+                                        <mat-label class="control-label" for="siteZipcode">Site Zip Code</mat-label>                                            
+                                        <mat-select placeholder="Site Zip Code" id="siteZipcode" formControlName="siteZipcode" >
+                                            <mat-option selected="selected" value=""></mat-option>
+                                            <mat-option *ngFor="let zipcode of zipcodes" [value]="zipcode?.zipCode1" >{{zipcode?.zipCode2}}</mat-option>     
+                                        </mat-select>
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.siteZipcode"></app-show-errors>
                                 </div>
@@ -225,20 +231,14 @@
                                         <div class="form-group required col-md-3">   
                                             <mat-form-field > 
                                                 <mat-label class="control-label" for="rpCity">City</mat-label>
-                                                <mat-select formControlName="rpCity" >
-                                                    <mat-option selected="selected" value=""></mat-option>
-                                                    <mat-option *ngFor="let city of cities" [value]="city?.placeName" >{{city?.placeName2}}</mat-option>                                               
-                                                </mat-select>
+                                                <input matInput formControlName="rpCity"  />
                                             </mat-form-field>
                                             <app-show-errors [control]="incidentForm.controls.rpCity"  [submitClicked]="submitClicked"></app-show-errors>
                                         </div>
                                         <div class="form-group required col-md-2">     
                                             <mat-form-field > 
                                                 <mat-label class="control-label" for="rpZipcode">Zip Code</mat-label>
-                                                <mat-select formControlName="rpZipcode" >
-                                                    <mat-option selected="selected" value=""></mat-option>
-                                                    <mat-option *ngFor="let zipcode of zipcodes" [value]="zipcode?.zipcode1" >{{zipcode?.zipcode2}}</mat-option>                                               
-                                                </mat-select>
+                                                <input matInput formControlName="rpZipcode" />  
                                             </mat-form-field>
                                             <app-show-errors [control]="incidentForm.controls.rpZipcode"  [submitClicked]="submitClicked"></app-show-errors>
                                         </div>
@@ -371,20 +371,14 @@
                                         <div class="form-group required col-md-3">   
                                             <mat-form-field > 
                                                 <mat-label class="control-label" for="icCity">City</mat-label>
-                                                <mat-select formControlName="icCity" >
-                                                    <mat-option selected="selected" value=""></mat-option>
-                                                    <mat-option *ngFor="let city of cities" [value]="city?.placeName" >{{city?.placeName2}}</mat-option>                                               
-                                                </mat-select>
+                                                <input matInput formControlName="icCity" />
                                             </mat-form-field>
                                             <app-show-errors [control]="incidentForm.controls.icCity"  [submitClicked]="submitClicked"></app-show-errors>
                                         </div>
                                         <div class="form-group required col-md-2">     
                                             <mat-form-field > 
                                                 <mat-label class="control-label" for="icZipcode">Zip Code</mat-label>
-                                                <mat-select formControlName="icZipcode" >
-                                                    <mat-option selected="selected" value=""></mat-option>
-                                                    <mat-option *ngFor="let zipcode of zipcodes" [value]="zipcode?.zipcode1" >{{zipcode?.zipcode2}}</mat-option>                                               
-                                                </mat-select>
+                                                <input matInput formControlName="icZipcode" />
                                             </mat-form-field>
                                             <app-show-errors [control]="incidentForm.controls.icZipcode"  [submitClicked]="submitClicked"></app-show-errors>
                                         </div>

@@ -11,4 +11,5 @@ export interface Contact {
     zipcode: string;
     address: number;
     country: string;
+    email: string;
 }

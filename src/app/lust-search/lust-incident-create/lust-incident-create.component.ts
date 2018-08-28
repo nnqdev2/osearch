@@ -122,10 +122,10 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
     this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
-    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
+    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities;});
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes; });
-    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes;});
+    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties;});
     this.createForm();
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
@@ -147,10 +147,10 @@ export class LustIncidentCreateComponent implements OnInit  {
         siteName:  [{value: '', disabled: false}, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCounty:  ['', Validators.required],
         streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
-        streetQuad:  ['', Validators.compose([Validators.maxLength(2)])],
-        streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
-        streetType: ['', Validators.compose([Validators.maxLength(10)])],
-        siteAddress:   [{value: '', disabled: true}],
+        // streetQuad:  ['', Validators.compose([Validators.maxLength(2)])],
+        // streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        // streetType: ['', Validators.compose([Validators.maxLength(10)])],
+        siteAddress:    ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
@@ -166,22 +166,24 @@ export class LustIncidentCreateComponent implements OnInit  {
         rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        rpAddress2: ['',Validators.compose([Validators.maxLength(40)])],
+        // rpAddress2: ['', Validators.compose([Validators.maxLength(40)])],
         rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
         rpPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
         rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
+        rpCountry:  ['', Validators.compose([Validators.maxLength(30)])],
         icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icAddress2: ['', Validators.compose([Validators.maxLength(40)])],
+        // icAddress2: ['', Validators.compose([Validators.maxLength(40)])],
         icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
         icPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
         icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
+        icCountry:  ['', Validators.compose([Validators.maxLength(30)])],
         groundWater: [0],
         surfaceWater: [0],
         drinkingWater: [0],
@@ -327,17 +329,17 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
     this.searchDialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        this.updateContact(contactType, result);
+        this.updateContact(result, contactType);
       }
     });
   }
 
-  private updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat) {
+  private updateContact(contactSearchResultStat: ContactSearchResultStat, contactType: string) {
     console.log('updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat)');
     console.log(contactType);
     console.log(contactSearchResultStat);
     if (contactType === 'RP') {
-      this.incidentForm.controls.rpAddress.setValue(contactSearchResultStat.address);
+      this.incidentForm.controls.rpAddress.setValue(contactSearchResultStat.street);
       this.incidentForm.controls.rpCity.setValue(contactSearchResultStat.city);
       this.incidentForm.controls.rpState.setValue(contactSearchResultStat.state);
       this.incidentForm.controls.rpFirstName.setValue(contactSearchResultStat.firstName);
@@ -345,10 +347,11 @@ export class LustIncidentCreateComponent implements OnInit  {
       this.incidentForm.controls.rpOrganization.setValue(contactSearchResultStat.organization);
       this.incidentForm.controls.rpCountry.setValue(contactSearchResultStat.country);
       this.incidentForm.controls.rpPhone.setValue(contactSearchResultStat.phone);
-      // this.incidentForm.controls.rpEmail.setValue(contactSearchResultStat.);
+      this.incidentForm.controls.rpEmail.setValue(contactSearchResultStat.email);
+      this.incidentForm.controls.rpZipcode.setValue(contactSearchResultStat.zipcode);
     }
     if (contactType === 'IC') {
-      this.incidentForm.controls.icAddress.setValue(contactSearchResultStat.address);
+      this.incidentForm.controls.icAddress.setValue(contactSearchResultStat.street);
       this.incidentForm.controls.icCity.setValue(contactSearchResultStat.city);
       this.incidentForm.controls.icState.setValue(contactSearchResultStat.state);
       this.incidentForm.controls.icFirstName.setValue(contactSearchResultStat.firstName);
@@ -356,7 +359,8 @@ export class LustIncidentCreateComponent implements OnInit  {
       this.incidentForm.controls.icOrganization.setValue(contactSearchResultStat.organization);
       this.incidentForm.controls.icCountry.setValue(contactSearchResultStat.country);
       this.incidentForm.controls.icPhone.setValue(contactSearchResultStat.phone);
-      // this.incidentForm.controls.icEmail.setValue(contactSearchResultStat.);
+      this.incidentForm.controls.icEmail.setValue(contactSearchResultStat.email);
+      this.incidentForm.controls.icZipcode.setValue(contactSearchResultStat.zipcode);
     }
   }
   private updateSiteAddress(ustSearchResultStat: UstSearchResultStat) {

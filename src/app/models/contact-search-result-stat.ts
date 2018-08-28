@@ -20,4 +20,5 @@ export interface ContactSearchResultStat {
     zipcode: string;
     address: number;
     country: string;
+    email: string;
 }
