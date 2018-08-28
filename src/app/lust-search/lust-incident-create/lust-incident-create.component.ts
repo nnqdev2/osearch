@@ -313,6 +313,10 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   runIcAddressCorrect() {
+    if (this.incidentForm.controls.icAddress !== undefined
+      && this.incidentForm.controls.icAddress.value.length > 0 ) {
+      this.showIcAddressCorrect = true;
+    }
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.icAddress.value
       , this.incidentForm.controls.icCity.value, this.incidentForm.controls.icState.value)
       .pipe(
