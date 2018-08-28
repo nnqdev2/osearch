@@ -199,8 +199,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       rpAddress2:       [this.incidentData.rpAddress2],
       rpCity:           [this.incidentData.rpCity, Validators.compose([Validators.required, Validators.maxLength(25)])],
       rpState:          [this.incidentData.rpState, Validators.compose([Validators.required, Validators.maxLength(2)])],
-      rpZipcode:        [this.incidentData.rpZipcode, Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
-      rpPhone:          [this.incidentData.rpPhone, Validators.compose([Validators.required, Validators.maxLength(25), Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
+      rpZipcode:        [this.incidentData.rpZipcode, Validators.compose([Validators.required, Validators.maxLength(10)
+          , Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+      rpPhone:          [this.incidentData.rpPhone, Validators.compose([Validators.required, Validators.maxLength(25)
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
       rpEmail:          [this.incidentData.rpEmail, Validators.compose([Validators.email, Validators.maxLength(40)])],
       icFirstName:      [this.incidentData.icFirstName, Validators.compose([Validators.required, Validators.maxLength(30)])],
       icLastName:       [this.incidentData.icLastName, Validators.compose([Validators.required, Validators.maxLength(30)])],
@@ -209,8 +211,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       icAddress2:       [this.incidentData.icAddress2],
       icCity:           [this.incidentData.icCity, Validators.compose([Validators.required, Validators.maxLength(25)])],
       icState:          [this.incidentData.icState, Validators.compose([Validators.required, Validators.maxLength(2)])],
-      icZipcode:        [this.incidentData.icZipcode, Validators.compose([Validators.required, Validators.maxLength(10),Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
-      icPhone:          [this.incidentData.icPhone, Validators.compose([Validators.required, Validators.maxLength(25), Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
+      icZipcode:        [this.incidentData.icZipcode, Validators.compose([Validators.required, Validators.maxLength(10)
+          , Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+      icPhone:          [this.incidentData.icPhone, Validators.compose([Validators.required, Validators.maxLength(25)
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
       icEmail:          [this.incidentData.icEmail, Validators.compose([Validators.email, Validators.maxLength(40)])],
       // reportedByEmail:  ['', [Validators.email]],
       // reportedByEmail:  ['', [Validators.required, Validators.email]],
@@ -219,7 +223,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       countyCode:       [+this.incidentData.countyCode, Validators.required],
       siteAddress:      [this.incidentData.siteAddress, Validators.compose([Validators.required, Validators.maxLength(80)])],
       siteCity:         [this.incidentData.siteCity, Validators.compose([Validators.required, Validators.maxLength(40)])],
-      siteZipcode:      [this.incidentData.siteZipcode, Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+      siteZipcode:      [this.incidentData.siteZipcode, Validators.compose([Validators.required, Validators.maxLength(10)
+        , Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
       sitePhone:        [this.incidentData.sitePhone, Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')],
 
       olprrId:          [{value: this.incidentData.olprrId, disabled: true}],
@@ -228,7 +233,8 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       reportedByPhone:  [{value: this.incidentData.reportedByPhone, disabled: true}, Validators.required],
       releaseType:      [{value: this.incidentData.releaseTypeCode, disabled: true}],
       dateReceived:     [{value: this.transformDate(this.incidentData.dateReceived), disabled: true}],
-      facilityId:       [{value: this.incidentData.facilityId, disabled: true}, Validators.compose([Validators.pattern('^[0-9]*$'), Validators.maxLength(10)])],
+      facilityId:       [{value: this.incidentData.facilityId, disabled: true}, Validators.compose([Validators.pattern('^[0-9]*$')
+        , Validators.maxLength(10)])],
       company:          [{value: this.incidentData.contractorName, disabled: true}],
       initialComment:   [{value: this.incidentData.siteComment, disabled: true}],
       discoveryDate:    [{value: this.transformDate(this.incidentData.discoveryDate), disabled: true}],
@@ -286,9 +292,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
         this.incidentForm.controls.icPhone.setValidators([Validators.required]);
         // this.incidentForm.controls.icEmail.setValidators([Validators.required]);
-        }
-      else 
-        {
+        } else {
           this.incidentForm.controls.icAddress.disable();
           this.incidentForm.controls.icAddress.setValidators(null);
           this.incidentForm.controls.icAddress2.disable();
@@ -310,7 +314,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
           this.incidentForm.controls.icEmail.disable();
           this.incidentForm.controls.icEmail.setValidators(null);
         }
-      
     } else {
       this.incidentForm.controls.icAddress.disable();
       this.incidentForm.controls.icAddress.setValidators(null);
@@ -356,14 +359,17 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
 
   private addressCorrectNotFound(addressType: string): boolean {
     if ((addressType === 'sa')
+    && (this.saAddressCorrectStat !== undefined)
     && (this.saAddressCorrectStat.Records[0].PostalCode.length < 5)) {
       return true;
     }
     if ((addressType === 'rp')
+    && (this.rpAddressCorrectStat !== undefined)
     && (this.rpAddressCorrectStat.Records[0].PostalCode.length < 5)) {
       return true;
     }
     if ((addressType === 'ic')
+    && (this.icAddressCorrectStat !== undefined)
     && (this.icAddressCorrectStat.Records[0].PostalCode.length < 5)) {
       return true;
     }

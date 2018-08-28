@@ -117,6 +117,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   ) {  }
 
   ngOnInit() {
+    this.loadingSubject.next(true);
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
     this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
@@ -129,6 +130,7 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.createForm();
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
+    this.loadingSubject.next(false);
   }
 
 
@@ -203,7 +205,23 @@ export class LustIncidentCreateComponent implements OnInit  {
         unknown: [0],
         mtbe: [0],
         submitDateTime: [''],
-        deqOffice: ['']
+        deqOffice: [''],
+        saAddressCorrectAddress: [{value: '', disabled: true}],
+        saAddressCorrectCounty:  [{value: '', disabled: true}],
+        saAddressCorrectCity:    [{value: '', disabled: true}],
+        saAddressCorrectZipcode: [{value: '', disabled: true}],
+        saAddressCorrectState:   [{value: '', disabled: true}],
+        rpAddressCorrectAddress: [{value: '', disabled: true}],
+        rpAddressCorrectCity:    [{value: '', disabled: true}],
+        rpAddressCorrectZipcode: [{value: '', disabled: true}],
+        rpAddressCorrectState:   [{value: '', disabled: true}],
+        icAddressCorrectAddress: [{value: '', disabled: true}],
+        icAddressCorrectCity:    [{value: '', disabled: true}],
+        icAddressCorrectZipcode: [{value: '', disabled: true}],
+        icAddressCorrectState:   [{value: '', disabled: true}],
+        updateSaWithAddressCorrect:   [{value: ''}],
+        updateRpWithAddressCorrect:   [{value: ''}],
+        updateIcWithAddressCorrect:   [{value: ''}],
       },
       {validator: [] }
     );
@@ -218,43 +236,45 @@ export class LustIncidentCreateComponent implements OnInit  {
 
 
   private addressCorrectNotFound(addressType: string): boolean {
-    // if ((addressType === 'sa')
-    // && (this.saAddressCorrectStat.Records[0].PostalCode.length < 5)) {
-    //   return true;
-    // }
-    // if ((addressType === 'rp')
-    // && (this.rpAddressCorrectStat.Records[0].PostalCode.length < 5)) {
-    //   return true;
-    // }
-    // if ((addressType === 'ic')
-    // && (this.icAddressCorrectStat.Records[0].PostalCode.length < 5)) {
-    //   return true;
-    // }
-    return true;
+    if ((addressType === 'sa')
+    && (this.saAddressCorrectStat !== undefined)
+    && (this.saAddressCorrectStat.Records[0].PostalCode.length < 5)) {
+      return true;
+    }
+    if ((addressType === 'rp')
+    && (this.rpAddressCorrectStat !== undefined)
+    && (this.rpAddressCorrectStat.Records[0].PostalCode.length < 5)) {
+      return true;
+    }
+    if ((addressType === 'ic')
+    && (this.icAddressCorrectStat !== undefined)
+    && (this.icAddressCorrectStat.Records[0].PostalCode.length < 5)) {
+      return true;
+    }
+    return false;
   }
 
   runSaAddressCorrect() {
-    if (this.incidentForm.controls.siteAddress.value.length > 0 ) {
+    if (this.incidentForm.controls.siteAddress !== undefined
+      && this.incidentForm.controls.siteAddress.value.length > 0 ) {
       this.showSaAddressCorrect = true;
     }
-
-    // this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
-    //   , this.incidentForm.controls.siteCity.value, 'OR')
-    //   .pipe(
-    //     map(addressCorrectData => {
-    //       this.saAddressCorrectStat = addressCorrectData,
-    //       this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
-    //     }),
-    //     flatMap(() => this.lustDataService.getPostalCountyVerification(+this.incidentForm.controls.countyCode.value, this.countyFips)
-    //     ),
-    // )
-    // .subscribe(
-    //   (data => {
-    //     this.refreshSaAddressCorrect(data);
-    //   } )
-    // );
+    this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
+      , this.incidentForm.controls.siteCity.value, 'OR')
+      .pipe(
+        map(addressCorrectData => {
+          this.saAddressCorrectStat = addressCorrectData;
+          this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
+        }),
+        flatMap(() => this.lustDataService.getPostalCountyVerification(+this.incidentForm.controls.siteCounty.value, this.countyFips)
+        ),
+    )
+    .subscribe(
+      (data => {
+        this.refreshSaAddressCorrect(data);
+      } )
+    );
   }
-
   private refreshSaAddressCorrect(postalCountyVerification: PostalCountyVerification) {
     this.postalCountyVerification = postalCountyVerification;
     this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
@@ -266,10 +286,17 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   runRpAddressCorrect() {
+    if (this.incidentForm.controls.rpAddress !== undefined
+      && this.incidentForm.controls.rpAddress.value.length > 0 ) {
+      this.showRpAddressCorrect = true;
+    }
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.rpAddress.value
       , this.incidentForm.controls.rpCity.value, this.incidentForm.controls.rpState.value)
       .pipe(
         map(addressCorrectData => {
+          console.log('runRpAddressCorrect  this.rpAddressCorrectStat');
+          this.rpAddressCorrectStat = addressCorrectData;
+          console.log(this.rpAddressCorrectStat);
           this.refreshRpAddressCorrect(addressCorrectData);
       }),
     )
@@ -368,7 +395,45 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.incidentForm.controls.siteName.setValue(ustSearchResultStat.facilityName);
     this.incidentForm.controls.siteAddress.setValue(ustSearchResultStat.facilityAddress);
     this.incidentForm.controls.siteCity.setValue(ustSearchResultStat.facilityCity);
-    this.incidentForm.controls.siteCounty.setValue(ustSearchResultStat.countyName);
+    this.incidentForm.controls.siteCounty.setValue(ustSearchResultStat.countyCode);
     this.incidentForm.controls.siteZipcode.setValue(ustSearchResultStat.facilityZip);
   }
+
+
+  canDeactivate(): Observable<boolean> | boolean {
+    if (this.incidentForm.pristine  || this.isActionSelected() ) {
+      return true;
+    }
+    const choice: Subject<boolean> = new Subject<boolean>();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Discard changes?',
+      message1: 'The form has not been Submitted yet, do you really want to leave page?',
+      button1: 'Leave',
+      button2: 'Stay'
+    };
+    this.guardDialogRef = this.canDeactivateDialog.open(GuardDialogComponent, dialogConfig);
+    this.guardDialogRef.afterClosed().subscribe(result => {
+      choice.next(result);
+    });
+    return choice;
+  }
+
+  private isActionSelected(): boolean {
+    // if  (this.acceptClicked) {
+    //   return true;
+    // }
+    // if  (this.holdClicked) {
+    //   return true;
+    // }
+    // if  (this.declineClicked) {
+    //   return true;
+    // }
+    // if  (this.searchClicked) {
+    //   return true;
+    // }
+    return false;
+  }
+
 }
