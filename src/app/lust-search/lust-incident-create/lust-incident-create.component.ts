@@ -33,6 +33,7 @@ import { ContactSearchFilterComponent } from '../../contact-search/contact-searc
 import { SelectedDataService } from '../services/selected-data.service';
 import { ContactSearchResultStat } from '../../models/contact-search-result-stat';
 import { UstSearchResultStat } from '../../models/ust-search-result-stat';
+import { IncidentIdToNameService } from '../../olprr-search/incident-id-to-name.service';
 
 @Component({
   selector: 'app-lust-incident-create',
@@ -114,6 +115,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog, private selectedDataService: SelectedDataService
+    , private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
@@ -149,9 +151,6 @@ export class LustIncidentCreateComponent implements OnInit  {
         siteName:  [{value: '', disabled: false}, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCounty:  ['', Validators.required],
         streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
-        // streetQuad:  ['', Validators.compose([Validators.maxLength(2)])],
-        // streetName:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
-        // streetType: ['', Validators.compose([Validators.maxLength(10)])],
         siteAddress:    ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
@@ -168,7 +167,6 @@ export class LustIncidentCreateComponent implements OnInit  {
         rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        // rpAddress2: ['', Validators.compose([Validators.maxLength(40)])],
         rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
@@ -179,7 +177,6 @@ export class LustIncidentCreateComponent implements OnInit  {
         icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        // icAddress2: ['', Validators.compose([Validators.maxLength(40)])],
         icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
@@ -222,6 +219,7 @@ export class LustIncidentCreateComponent implements OnInit  {
         updateSaWithAddressCorrect:   [{value: ''}],
         updateRpWithAddressCorrect:   [{value: ''}],
         updateIcWithAddressCorrect:   [{value: ''}],
+        authUser: ['']
       },
       {validator: [] }
     );
@@ -438,6 +436,218 @@ export class LustIncidentCreateComponent implements OnInit  {
     //   return true;
     // }
     return false;
+  }
+
+  setShowContactInvoice() {
+    this.incidentForm.controls.releaseType.valueChanges.subscribe(data => {
+      if (data === 'R' || data === 'U') {
+        this.showInvoiceContact = true;
+        this.incidentForm.controls.icAddress.enable();
+        this.incidentForm.controls.icFirstName.enable();
+        this.incidentForm.controls.icLastName.enable();
+        this.incidentForm.controls.icOrganization.enable();
+        this.incidentForm.controls.icCity.enable();
+        this.incidentForm.controls.icState.enable();
+        this.incidentForm.controls.icZipcode.enable();
+        this.incidentForm.controls.icPhone.enable();
+        this.incidentForm.controls.icEmail.enable();
+        this.incidentForm.controls.icCountry.enable();
+        this.incidentForm.controls.icAddress.setValidators([Validators.required]);
+        this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
+        this.incidentForm.controls.icLastName.setValidators([Validators.required]);
+        this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
+        this.incidentForm.controls.icCity.setValidators([Validators.required]);
+        this.incidentForm.controls.icState.setValidators([Validators.required]);
+        this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
+        this.incidentForm.controls.icPhone.setValidators([Validators.required]);
+        this.incidentForm.controls.icEmail.setValidators([Validators.required]);
+      } else {
+        this.showInvoiceContact = false;
+        this.incidentForm.controls.icAddress.disable();
+        this.incidentForm.controls.icAddress.setValidators(null);
+        this.incidentForm.controls.icFirstName.disable();
+        this.incidentForm.controls.icFirstName.setValidators(null);
+        this.incidentForm.controls.icLastName.disable();
+        this.incidentForm.controls.icLastName.setValidators(null);
+        this.incidentForm.controls.icOrganization.disable();
+        this.incidentForm.controls.icOrganization.setValidators(null);
+        this.incidentForm.controls.icCity.disable();
+        this.incidentForm.controls.icCity.setValidators(null);
+        this.incidentForm.controls.icState.disable();
+        this.incidentForm.controls.icState.setValidators(null);
+        this.incidentForm.controls.icZipcode.disable();
+        this.incidentForm.controls.icZipcode.setValidators(null);
+        this.incidentForm.controls.icPhone.disable();
+        this.incidentForm.controls.icPhone.setValidators(null);
+        this.incidentForm.controls.icEmail.disable();
+        this.incidentForm.controls.icEmail.setValidators(null);
+        this.incidentForm.controls.icCountry.disable();
+        this.incidentForm.controls.icCountry.setValidators(null);
+      }
+    } );
+  }
+
+  copyResponsibleToInvoice() {
+    this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
+    this.incidentForm.controls.icLastName.setValue(this.incidentForm.controls.rpLastName.value);
+    this.incidentForm.controls.icOrganization.setValue(this.incidentForm.controls.rpOrganization.value);
+    this.incidentForm.controls.icAddress.setValue(this.incidentForm.controls.rpAddress.value);
+    this.incidentForm.controls.icPhone.setValue(this.incidentForm.controls.rpPhone.value);
+    this.incidentForm.controls.icCity.setValue(this.incidentForm.controls.rpCity.value);
+    this.incidentForm.controls.icEmail.setValue(this.incidentForm.controls.rpEmail.value);
+    this.incidentForm.controls.icState.setValue(this.incidentForm.controls.rpState.value);
+    this.incidentForm.controls.icZipcode.setValue(this.incidentForm.controls.rpZipcode.value);
+    this.incidentForm.controls.icCountry.setValue(this.incidentForm.controls.rpCountry.value);
+  }
+
+  submitIncident(): void {
+    this.submitClicked = true;
+    if (this.incidentForm.dirty && this.incidentForm.valid) {
+        console.log('ok-valid form');
+        this.createIncident();
+    } else if (this.incidentForm.invalid) {
+        console.log('not ok-invalid form');
+        this.errors = this.findInvalidControls();
+        console.log(this.errors);
+        this.contaminantErrorMessage = this.getContaminantErrorMessage();
+        if (this.contaminantErrorMessage != null) {
+          this.contaminantErrorMessages = [this.contaminantErrorMessage];
+          this.errors.push(this.contaminantErrorMessage);
+          this.showContaminantErrorMessage = true;
+        }
+        this.mediaErrorMessage = this.getMediaErrorMessage();
+        if (this.mediaErrorMessage != null) {
+          this.mediaErrorMessages = [this.mediaErrorMessage];
+          this.errors.push(this.mediaErrorMessage);
+          this.showMediaErrorMessage = true;
+        }
+        this.showAllErrorsMessages = true;
+        this.isClosed = false;
+        this.isContaminantClosed = false;
+        this.isMediaClosed = false;
+        console.log('ok why the errors not showing?????');
+    } else if (!this.incidentForm.dirty) {
+        this.onCreateComplete();
+    }
+  }
+  createIncident(): void {
+    this.updateBooleanToNumber();
+    const p = Object.assign({},  this.incidentForm.value, this.incident);
+
+    console.log('*********p is ' + JSON.stringify(p));
+
+    this.lustDataService.createIncident(p)
+        .subscribe(
+            () => this.onCreateComplete(),
+            (error: any) => this.errorMessage = <any>error
+        );
+  }
+
+  onCreateComplete(): void {
+    console.log('ok did it hip hip hoorayyy!!!!');
+    // this.showSubmitStatusDialog();
+
+  }
+
+  private findInvalidControls() {
+    const invalid = [];
+    const controls = this.incidentForm.controls;
+    for (const field of Object.keys(this.incidentForm.controls)) {
+        if (this.incidentForm.controls[field].invalid) {
+            console.log('****findInvalidControls');
+            console.log(field);
+            const name = this.idToNameService.getName(field);
+            invalid.push(name + ' is required and must be valid.');
+        }
+    }
+
+    const contaminantErrorMessage = this.getContaminantErrorMessage();
+    if (contaminantErrorMessage != null) {
+      invalid.push(contaminantErrorMessage);
+    }
+
+    const mediaErrorMessage = this.getMediaErrorMessage();
+    if (mediaErrorMessage != null) {
+      invalid.push(mediaErrorMessage);
+    }
+
+    return invalid;
+  }
+
+  private getMediaErrorMessage(): string {
+    if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
+      this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
+      this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value
+    ) { return null; } else {
+      this.showMediaErrorMessage = true;
+      return('Must select at least one Media.');
+    }
+  }
+  private getContaminantErrorMessage(): string {
+    if (this.incidentForm.controls.heatingOil.value || this.incidentForm.controls.unleadedGas.value ||
+      this.incidentForm.controls.leadedGas.value || this.incidentForm.controls.misGas.value ||
+      this.incidentForm.controls.diesel.value || this.incidentForm.controls.wasteOil.value ||
+      this.incidentForm.controls.lubricant.value || this.incidentForm.controls.solvent.value ||
+      this.incidentForm.controls.otherPet.value || this.incidentForm.controls.chemical.value ||
+      this.incidentForm.controls.unknown.value || this.incidentForm.controls.mtbe.value
+    ) { return null; } else {
+      this.showContaminantErrorMessage = true;
+      return('Must select at least one Contaminant.');
+    }
+  }
+
+  private updateBooleanToNumber() {
+    this.lustIncident.groundWater = (this.incidentForm.controls.groundWater.value ? 1 : 0);
+    this.lustIncident.surfaceWater = (this.incidentForm.controls.surfaceWater.value ? 1 : 0);
+    this.lustIncident.drinkingWater = (this.incidentForm.controls.drinkingWater.value ? 1 : 0);
+    this.lustIncident.soil = (this.incidentForm.controls.soil.value ? 1 : 0);
+    this.lustIncident.vapor = (this.incidentForm.controls.vapor.value ? 1 : 0);
+    this.lustIncident.freeProduct = (this.incidentForm.controls.freeProduct.value ? 1 : 0);
+    this.lustIncident.unleadedGas = (this.incidentForm.controls.unleadedGas.value ? 1 : 0);
+    this.lustIncident.leadedGas = (this.incidentForm.controls.leadedGas.value  ? 1 : 0);
+    this.lustIncident.misGas = (this.incidentForm.controls.misGas.value  ? 1 : 0);
+    this.lustIncident.diesel = (this.incidentForm.controls.diesel.value  ? 1 : 0);
+    this.lustIncident.wasteOil = (this.incidentForm.controls.wasteOil.value  ? 1 : 0);
+    this.lustIncident.heatingOil = (this.incidentForm.controls.heatingOil.value ? 1 : 0);
+    this.lustIncident.lubricant = (this.incidentForm.controls.lubricant.value ? 1 : 0);
+    this.lustIncident.solvent = (this.incidentForm.controls.solvent.value  ? 1 : 0);
+    this.lustIncident.otherPet = (this.incidentForm.controls.otherPet.value  ? 1 : 0);
+    this.lustIncident.chemical = (this.incidentForm.controls.chemical.value  ? 1 : 0);
+    this.lustIncident.unknown = (this.incidentForm.controls.unknown.value  ? 1 : 0);
+    this.lustIncident.mtbe = (this.incidentForm.controls.mtbe.value ? 1 : 0);
+    // this.lustIncident.siteAddress = this.incidentForm.controls.streetNbr.value + ' '
+    //         + this.incidentForm.controls.streetQuad.value + ' '
+    //         + this.incidentForm.controls.streetName.value + ' '
+    //         + this.incidentForm.controls.streetType.value;
+    // this.lustIncident.discoveryDate = this.incidentForm.controls['discoveryDate'].value;
+    // this.lustIncident.dateReceived = this.incidentForm.controls.dateReceived.value;
+
+    // console.log(this.incidentForm.invalid);
+
+    // console.log('*********this.incidentForm is ');
+    // console.log(this.incidentForm.value);
+    // console.log('*********this.incident is ' );
+    // console.log( JSON.stringify(this.lustIncident));
+
+  }
+
+  private openLit() {
+    if (typeof this.incidentForm.controls.authUser.value !== 'undefined'
+      && this.incidentForm.controls.authUser.value
+      && this.incidentForm.controls.authUser.value.length > 0) {
+      this.authRequired = false;
+      const params = encodeURI('LUST' + this.incidentForm.controls.authUser.value + '&address='
+                        + this.incidentForm.controls.siteAddress.value + '&city=' + this.incidentForm.controls.siteCity.value +  '&zip='
+                        + this.incidentForm.controls.siteZipcode.value + '&facname=' + this.incidentForm.controls.siteName.value);
+        const lit_url = environment.lit_site_setup + params;
+        window.open(lit_url, '_blank');
+    } else {
+      this.authRequired = true;
+    }
+  }
+
+  getAuthUserErrorMessage(): string {
+    return 'Auth User required for opening LIT.....';
   }
 
 }
