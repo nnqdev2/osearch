@@ -44,6 +44,7 @@ import { SiteAlias } from '../models/site-alias';
 import { SiteAliasPost } from '../models/site-alias-post';
 import { ContactSearchFilter } from '../models/contact-search-filter';
 import { ContactSearchResultStat } from '../models/contact-search-result-stat';
+import { PostalCountyLookup } from '../models/postal-county-lookup';
 
 @Injectable({
   providedIn: 'root'
@@ -193,6 +194,12 @@ export class LustDataService {
         + `&pn=${contactSearchFilter.pageNumber}&rpp=${contactSearchFilter.rowsPerPage}`
     });
     return this.http.get<ContactSearchResultStat[]>(environment.olprrapi_contact, { params: params });
+  }
+
+  getPostalCountyLookup(usPostalCountyCodeFips: number ): Observable<PostalCountyLookup> {
+    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
+    // console.log(olprrSearchFilter);
+    return this.http.get<PostalCountyLookup>(environment.olprrapi_postalcounty_lookup + '/' +  usPostalCountyCodeFips);
   }
 
 }

@@ -34,6 +34,7 @@ import { SelectedDataService } from '../services/selected-data.service';
 import { ContactSearchResultStat } from '../../models/contact-search-result-stat';
 import { UstSearchResultStat } from '../../models/ust-search-result-stat';
 import { IncidentIdToNameService } from '../../olprr-search/incident-id-to-name.service';
+import { PostalCountyLookup } from '../../models/postal-county-lookup';
 
 @Component({
   selector: 'app-lust-incident-create',
@@ -60,7 +61,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   addressCorrects: AddressCorrect[];
   addressCorrect: AddressCorrect;
   addressCorrectStatLoaded = false;
-  postalCountyVerification: PostalCountyVerification|null;
+  postalCountyLookup: PostalCountyLookup|null;
   countyFips: string;
   leavePage: boolean;
 
@@ -138,27 +139,20 @@ export class LustIncidentCreateComponent implements OnInit  {
 
   createForm() {
     this.incidentForm = this.formBuilder.group({
-        contractorUid:  [''],
-        contractorPwd:  [''],
-        reportedBy:  ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-        reportedByPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
-        reportedByEmail: ['',  Validators.compose([Validators.required, Validators.email, Validators.maxLength(75)])],
         releaseType:  ['', Validators.required],
         dateReceived:  [{value: '', disabled: false},  Validators.required],
         discoveryDate: [{value: '', disabled: false}, Validators.compose([Validators.required])],
-        noValidAddress: [{value: '', disabled: false}],
+        noValidAddress: [0],
         facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
         siteName:  [{value: '', disabled: false}, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCounty:  ['', Validators.required],
-        streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
+        // streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
         siteAddress:    ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
         siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
-        company:  ['', Validators.required],
-        initialComment:  ['', Validators.maxLength(710)],
-
+        // company:  ['', Validators.required],
         confirmationCode:  ['', Validators.required],
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
@@ -170,7 +164,7 @@ export class LustIncidentCreateComponent implements OnInit  {
         rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        rpPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        rpPhone:  ['', Validators.compose([Validators.maxLength(30)])],
         rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
         rpCountry:  ['', Validators.compose([Validators.maxLength(30)])],
         icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
@@ -180,7 +174,7 @@ export class LustIncidentCreateComponent implements OnInit  {
         icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        icPhone:  ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+        icPhone:  ['', Validators.compose([Validators.maxLength(30)])],
         icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
         icCountry:  ['', Validators.compose([Validators.maxLength(30)])],
         groundWater: [0],
@@ -202,7 +196,7 @@ export class LustIncidentCreateComponent implements OnInit  {
         unknown: [0],
         mtbe: [0],
         submitDateTime: [''],
-        deqOffice: [''],
+        // deqOffice: [''],
         saAddressCorrectAddress: [{value: '', disabled: true}],
         saAddressCorrectCounty:  [{value: '', disabled: true}],
         saAddressCorrectCity:    [{value: '', disabled: true}],
@@ -216,9 +210,9 @@ export class LustIncidentCreateComponent implements OnInit  {
         icAddressCorrectCity:    [{value: '', disabled: true}],
         icAddressCorrectZipcode: [{value: '', disabled: true}],
         icAddressCorrectState:   [{value: '', disabled: true}],
-        updateSaWithAddressCorrect:   [{value: ''}],
-        updateRpWithAddressCorrect:   [{value: ''}],
-        updateIcWithAddressCorrect:   [{value: ''}],
+        // updateSaWithAddressCorrect:   [{value: ''}],
+        // updateRpWithAddressCorrect:   [{value: ''}],
+        // updateIcWithAddressCorrect:   [{value: ''}],
         authUser: ['']
       },
       {validator: [] }
@@ -264,7 +258,7 @@ export class LustIncidentCreateComponent implements OnInit  {
           this.saAddressCorrectStat = addressCorrectData;
           this.countyFips = addressCorrectData.Records[0].CountyFIPS.substring(2);
         }),
-        flatMap(() => this.lustDataService.getPostalCountyVerification(+this.incidentForm.controls.siteCounty.value, this.countyFips)
+        flatMap(() => this.lustDataService.getPostalCountyLookup(+this.countyFips)
         ),
     )
     .subscribe(
@@ -273,13 +267,13 @@ export class LustIncidentCreateComponent implements OnInit  {
       } )
     );
   }
-  private refreshSaAddressCorrect(postalCountyVerification: PostalCountyVerification) {
-    this.postalCountyVerification = postalCountyVerification;
+  private refreshSaAddressCorrect(postalCountyLookup: PostalCountyLookup) {
+    this.postalCountyLookup = postalCountyLookup;
     this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
     this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
     this.incidentForm.controls.saAddressCorrectState.setValue(this.saAddressCorrectStat.Records[0].State);
-    this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyVerification.countyName);
-    this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
+    this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyLookup.countyCode);
+    // this.incidentForm.controls.updateSaWithAddressCorrect.setValue(false);
     this.lastSaRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
@@ -306,7 +300,7 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.incidentForm.controls.rpAddressCorrectAddress.setValue(this.rpAddressCorrectStat.Records[0].AddressLine1);
     this.incidentForm.controls.rpAddressCorrectCity.setValue(this.rpAddressCorrectStat.Records[0].City);
     this.incidentForm.controls.rpAddressCorrectState.setValue(this.rpAddressCorrectStat.Records[0].State);
-    this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
+    // this.incidentForm.controls.updateRpWithAddressCorrect.setValue(false);
     this.lastRpRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
@@ -330,7 +324,7 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.incidentForm.controls.icAddressCorrectAddress.setValue(this.icAddressCorrectStat.Records[0].AddressLine1);
     this.incidentForm.controls.icAddressCorrectCity.setValue(this.icAddressCorrectStat.Records[0].City);
     this.incidentForm.controls.icAddressCorrectState.setValue(this.icAddressCorrectStat.Records[0].State);
-    this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
+    // this.incidentForm.controls.updateIcWithAddressCorrect.setValue(false);
     this.lastIcRefresh = ' - Last Update [' + this.datePipe.transform(Date.now(), 'mediumTime') + ']';
   }
 
@@ -364,9 +358,6 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   private updateContact(contactSearchResultStat: ContactSearchResultStat, contactType: string) {
-    console.log('updateContact(contactType: string, contactSearchResultStat: ContactSearchResultStat)');
-    console.log(contactType);
-    console.log(contactSearchResultStat);
     if (contactType === 'RP') {
       this.incidentForm.controls.rpAddress.setValue(contactSearchResultStat.street);
       this.incidentForm.controls.rpCity.setValue(contactSearchResultStat.city);
@@ -455,12 +446,12 @@ export class LustIncidentCreateComponent implements OnInit  {
         this.incidentForm.controls.icAddress.setValidators([Validators.required]);
         this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
         this.incidentForm.controls.icLastName.setValidators([Validators.required]);
-        this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
+        // this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
         this.incidentForm.controls.icCity.setValidators([Validators.required]);
         this.incidentForm.controls.icState.setValidators([Validators.required]);
         this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
-        this.incidentForm.controls.icPhone.setValidators([Validators.required]);
-        this.incidentForm.controls.icEmail.setValidators([Validators.required]);
+        // this.incidentForm.controls.icPhone.setValidators([Validators.required]);
+        // this.incidentForm.controls.icEmail.setValidators([Validators.required]);
       } else {
         this.showInvoiceContact = false;
         this.incidentForm.controls.icAddress.disable();
@@ -503,10 +494,8 @@ export class LustIncidentCreateComponent implements OnInit  {
   submitIncident(): void {
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
-        console.log('ok-valid form');
         this.createIncident();
     } else if (this.incidentForm.invalid) {
-        console.log('not ok-invalid form');
         this.errors = this.findInvalidControls();
         console.log(this.errors);
         this.contaminantErrorMessage = this.getContaminantErrorMessage();
@@ -529,13 +518,11 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   createIncident(): void {
-    this.updateBooleanToNumber();
-    const p = Object.assign({},  this.incidentForm.value, this.lustIncident);
-
-    console.log('*********p is ' + JSON.stringify(p));
-
-    console.log('submitLustIncident()');
+    this.lustIncident = Object.assign({},  this.incidentForm.value);
+    console.log('createIncident()');
     console.log(this.lustIncident);
+    this.updateBooleanToNumber();
+
     this.lustDataService.createLustIncident(this.lustIncident)
       .subscribe(
           (data ) => (this.lustIncidentInsertResult = data
@@ -621,19 +608,35 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.lustIncident.chemical = (this.incidentForm.controls.chemical.value  ? 1 : 0);
     this.lustIncident.unknown = (this.incidentForm.controls.unknown.value  ? 1 : 0);
     this.lustIncident.mtbe = (this.incidentForm.controls.mtbe.value ? 1 : 0);
-    // this.lustIncident.siteAddress = this.incidentForm.controls.streetNbr.value + ' '
-    //         + this.incidentForm.controls.streetQuad.value + ' '
-    //         + this.incidentForm.controls.streetName.value + ' '
-    //         + this.incidentForm.controls.streetType.value;
-    // this.lustIncident.discoveryDate = this.incidentForm.controls['discoveryDate'].value;
-    // this.lustIncident.dateReceived = this.incidentForm.controls.dateReceived.value;
+    this.lustIncident.noValidAddress = (this.incidentForm.controls.noValidAddress.value ? 1 : 0);
+    this.lustIncident.newSiteStatus = 'LUST';
+    this.lustIncident.appId = 'LUST';
+    this.lustIncident.lustIdIn = 0;
+    this.lustIncident.hotInd = 0;
+    this.lustIncident.regTankInd = 0;
+    this.lustIncident.nonRegTankInd = 0;
+    if (this.incidentForm.controls.releaseType.value === 'H')  {
+      this.lustIncident.hotInd = 1;
+    } else if (this.incidentForm.controls.releaseType.value === 'U')  {
+        this.lustIncident.nonRegTankInd = 1;
+    } else {
+      this.lustIncident.regTankInd = 1;
+    }
 
-    // console.log(this.incidentForm.invalid);
+    this.lustIncident.initialComment = '';
 
-    // console.log('*********this.incidentForm is ');
-    // console.log(this.incidentForm.value);
-    // console.log('*********this.incident is ' );
-    // console.log( JSON.stringify(this.lustIncident));
+    this.lustIncident.olprrId = 0;
+    this.lustIncident.dateReceived = this.incidentForm.controls.dateReceived.value;
+    this.lustIncident.discoveryDate = this.incidentForm.controls.discoveryDate.value;
+    this.lustIncident.confirmationCode = this.incidentForm.controls.confirmationCode.value;
+    this.lustIncident.discoveryCode = this.incidentForm.controls.discoveryCode.value;
+    this.lustIncident.causeCode = this.incidentForm.controls.causeCode.value;
+    this.lustIncident.sourceId = +this.incidentForm.controls.sourceId.value;
+    this.lustIncident.appId = 'LUST' + (this.incidentForm.controls.authUser.value);
+
+    console.log('*********this.lustIncident ' );
+    console.log(this.lustIncident);
+    console.log( JSON.stringify(this.lustIncident));
 
   }
 
