@@ -16,22 +16,14 @@ import { UstSearchResultStat } from '../../models/ust-search-result-stat';
 })
 export class SearchDialogComponent implements OnInit, OnDestroy  {
 
-  // @ViewChild('target', { read: ViewContainerRef }) vcRef: ViewContainerRef;
-
-  // componentRef: ComponentRef<any>;
-
   @Output() contactSelected = new EventEmitter<ContactSearchResultStat>();
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
-    // private resolver: ComponentFactoryResolver,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    // console.log('HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPpppp');
-    // console.log(this.data.component);
-    // const factory = this.resolver.resolveComponentFactory(this.data.component);
-    // this.componentRef = this.vcRef.createComponent(factory);
+
   }
 
   onNoClick(): void {
@@ -39,18 +31,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
-    // if (this.componentRef) {
-    //   this.componentRef.destroy();
-    // }
   }
-
-  // onSelected(data: any) {
-  //   console.log('********** search dialog ');
-  //   console.log(data);
-  //   // console.log('*****searchDialog emitting event.....');
-  //   // this.rowSelected.emit(data);
-  //   this.dialogRef.close(data);
-  // }
 
   onContactSelected(contactSearchResultStat: ContactSearchResultStat) {
     this.dialogRef.close(contactSearchResultStat);

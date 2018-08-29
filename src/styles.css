@@ -9,8 +9,30 @@
     width: 100%;
 }
 
-.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+/* .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) { */
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(:focus) {
     color: black !important;
+    font-weight: bold;
+}
+
+.mat-label {
+    color: black !important;
+    font-weight: bold;
+}
+
+.mat-checkbox-disabled .mat-checkbox-label {
+    color: black;
+}
+
+
+
+
+button {
+    border-radius: 10px !important;
+  }
+  
+.text-left {
+    text-align: left !important
 }
 
 .mat-tab-link-active,
@@ -24,11 +46,15 @@
 .mat-tab-link,
 .mat-tab-label {
     line-height: 30px !important;
-    height: 30px !important;
+    height: 42px !important;
     min-width: 100px !important;
-    border: 1px solid #7e7e7e;
+    /* border: 1px solid #7e7e7e; */
+    border: 1px solid black;
     font-weight: bold;
-    background-color: rgb(245, 13, 90);
+    background-color:white;
+    color: black;
+    font-size: 24px;
+    /* background-color: rgb(245, 13, 90); */
 
 }
 
@@ -72,11 +98,10 @@
     padding: 0em 0 0 1em;
 }
 
+
 .mat-card-content {
     background-color: rgb(247, 245, 245);
     font-size: 16px;
-    
-    
 }
 .mat-checkbox-content {
     background-color: rgb(247, 245, 245);
@@ -101,17 +126,40 @@ mat-card-header {
   }
 
 
+.mat-card-headertitle-background {
+    background-color:#c0f0dd;
+    font-size: 24px;
+}
+
+
+.mat-card-subtitle-background {
+    background-color:#cbf0cb;
+    font-size: 18px;
+}
 
 
 /*
 US Postal Address Check
 */
 .mat-card-title-background {
-    background-color: yellow;
+    background-color: white;
+    font-size:18px !important;
+
   }
+
+
 /*   
+
+
 
 .mat-card-address-data {
     padding: 0px; 
     margin-bottom: -20px;
 } */
+
+.mat-tooltip {
+    font-size: 18px !Important;
+    background-color: red;
+    color: black;
+}
+

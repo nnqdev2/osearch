@@ -6,7 +6,7 @@
         <!-- Form incidentForm begins -->
         <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
             <mat-card>    
-                <mat-card-title > Create Lust Incident  </mat-card-title>  
+                <mat-card-title class="mat-card-headertitle-background"> Create Lust Incident  </mat-card-title> 
                 <mat-card-content> 
                     <mat-card>    
                         <mat-card-title > Site </mat-card-title>  
@@ -184,7 +184,7 @@
                         <mat-card-title > Contacts </mat-card-title>  
                         <mat-card-content> 
                             <mat-card>    
-                                <mat-card-title > Responsible Party </mat-card-title>  
+                                <mat-card-title class="mat-card-subtitle-background"> Responsible Party </mat-card-title>  
                                 <mat-card-content>  
                                     <!-- Responsible Party -->
                                     <div class="form-row full-width">
@@ -329,7 +329,7 @@
                             <div *ngIf="showInvoiceContact; then showContactInvoice"></div>
                             <ng-template #showContactInvoice> 
                                 <mat-card>    
-                                    <mat-card-title >  Invoice Contact  </mat-card-title>                             
+                                    <mat-card-title class="mat-card-subtitle-background">  Invoice Contact  </mat-card-title>     
                                     <mat-card-content>  
                                         <div class="form-row full-width">
                                             <div class="form-group col-md-3">
@@ -471,12 +471,6 @@
                                     </mat-card-content>
                                 </mat-card>
                             </ng-template>
-
-
-
-
-
-
                         </mat-card-content>
                     </mat-card>
                     <mat-card>    
@@ -545,7 +539,7 @@
                             <!-- /discovery, cause, source, confirmation -->
                             <!-- Impacted Medias -->
                             <mat-card>
-                                <mat-card-title > Impacted Medias </mat-card-title>  
+                                <mat-card-title class="mat-card-subtitle-background"> Impacted Medias </mat-card-title>  
                                 <mat-card-content> 
                                     <div class="form-group required row">
                                         <label class="control-label col-lg-12">Select One or More</label>
@@ -610,7 +604,7 @@
                             <!-- /Impacted Medias -->
                             <!-- Contaminants -->
                             <mat-card>
-                                <mat-card-title > Contaminants</mat-card-title>  
+                                 <mat-card-title class="mat-card-subtitle-background"> Contaminants</mat-card-title>  
                                 <mat-card-content> 
                                     <div class="form-group required row">
                                         <label class="control-label col-lg-12">Select One or More</label>

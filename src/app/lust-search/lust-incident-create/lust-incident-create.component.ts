@@ -423,9 +423,9 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   private isActionSelected(): boolean {
-    // if  (this.acceptClicked) {
-    //   return true;
-    // }
+    if  (this.submitClicked) {
+      return true;
+    }
     // if  (this.holdClicked) {
     //   return true;
     // }
@@ -525,28 +525,34 @@ export class LustIncidentCreateComponent implements OnInit  {
         this.isClosed = false;
         this.isContaminantClosed = false;
         this.isMediaClosed = false;
-        console.log('ok why the errors not showing?????');
-    } else if (!this.incidentForm.dirty) {
-        this.onCreateComplete();
     }
   }
+
   createIncident(): void {
     this.updateBooleanToNumber();
-    const p = Object.assign({},  this.incidentForm.value, this.incident);
+    const p = Object.assign({},  this.incidentForm.value, this.lustIncident);
 
     console.log('*********p is ' + JSON.stringify(p));
 
-    this.lustDataService.createIncident(p)
-        .subscribe(
-            () => this.onCreateComplete(),
-            (error: any) => this.errorMessage = <any>error
-        );
+    console.log('submitLustIncident()');
+    console.log(this.lustIncident);
+    this.lustDataService.createLustIncident(this.lustIncident)
+      .subscribe(
+          (data ) => (this.lustIncidentInsertResult = data
+                      , this.onCreateLustIncidentComplete()),
+      );
   }
 
-  onCreateComplete(): void {
-    console.log('ok did it hip hip hoorayyy!!!!');
-    // this.showSubmitStatusDialog();
+  onCreateLustIncidentComplete(): void {
+    console.log('onCreateLustIncidentComplete() this.lustIncidentInsertResult');
+    console.log(this.lustIncidentInsertResult);
 
+/*     if (this.acceptClicked === true && this.lustIncidentInsertResult.errorMessage.length < 1) {
+      this.pdfGenerate();
+      this.print();
+    }
+
+    this.showMovingOnDialog(); */
   }
 
   private findInvalidControls() {

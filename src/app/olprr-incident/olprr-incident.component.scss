@@ -20,6 +20,11 @@ form {
   
 }
 
+mat-card{
+  padding: 4px;
+  background-color: rgb(247, 245, 245);
+}
+
 md-card{
 width: 20em;
 }
@@ -28,9 +33,9 @@ width: 20em;
 //   height: auto;
 // }
 
-mat-form-field {
-  width:100%;
-}
+// mat-form-field {
+//   width:100%;
+// }
 
 
 mat-card-title { 
@@ -81,3 +86,5 @@ padding: 4px 2px;
 .btn-outline-secondary img {
 height: 30px;
 }
+
+

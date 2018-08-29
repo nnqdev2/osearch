@@ -1,223 +1,223 @@
-
- 
     <div class="loading-indicator" *ngIf="loading$  | async; else showForm">
         <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
     </div>
-
+    
     <ng-template #showForm>
-            <div class="container-fluid">
-                <mat-card>    
-                    <!-- Title of an Card -->    
-                    <mat-card-title >    
-                        OLPRR Incident Review   
-                    </mat-card-title>  
-                    <ng-container *ngIf="showStatusButtons">
-                        <div class="form-row full-width text-center">
-                            <div class="col-md-6 col-sm-2 text-center">
-                                    <button mat-raised-button  color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openLustSearch()" >LUST Search</button>
+        <div class="container-fluid">
+            <mat-card>    
+                <!-- Title of an Card -->    
+                <mat-card-title class="mat-card-headertitle-background">    
+                    OLPRR Incident Review   
+                </mat-card-title>  
+                <ng-container *ngIf="showStatusButtons">
+                    <div class="form-row full-width text-center">
+                        <div class="col-md-8 col-sm-2 text-center">
+                        </div>  
+                        <div class="col-md-2 col-sm-2 text-center">
+                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openLustSearch()" >LUST Search</button>
+                        </div>
+                        <div class="col-md-2 col-sm-2 text-center">
+                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openUstSearch()" >UST Search</button>
+                        </div>            
+                    </div>
+                </ng-container>
+                <mat-card-content> 
+    
+                    <!-- <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Information</p> -->
+                    <!-- Form incidentForm begins -->
+                    <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="accept()">
+                        <mat-card>
+                            <mat-card-title>Incident Information</mat-card-title>
+                            <div class="form-row full-width">
+                                <div class="form-group col-md-4"> 
+                                    <mat-form-field >
+                                        <mat-label>OlprrId</mat-label> 
+                                        <input matInput placeholder="OlprrId" formControlName="olprrId">
+                                    </mat-form-field>
+                                </div>  
+                                <!-- Date Reported -->
+                                <div class="form-group col-md-4"> 
+                                    <mat-form-field >
+                                        <mat-label >Received Date</mat-label> 
+                                        <input matInput placeholder="Received Date" formControlName="dateReceived">
+                                    </mat-form-field>
+                                </div>  
+                                <!-- /Date Reported -->
+                                <!-- Date Released Discovered -->
+                                <div class="form-group col-md-4"> 
+                                    <mat-form-field >
+                                        <mat-label >Discover Date</mat-label>
+                                        <input matInput placeholder="Discover Date" formControlName="discoveryDate">
+                                    </mat-form-field>
+                                </div> 
+                                <!-- /Date Released Discovered -->
                             </div>
-                            <div class="col-md-6 col-sm-2 text-center">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openUstSearch()" >UST Search</button>
-                            </div>            
-                        </div>
-                    </ng-container>
-                    <mat-card-content> 
-            
-            
-                        <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Information</p>
-                        
-            
-                        <!-- Form incidentForm begins -->
-                        <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="accept()">
-                        <div class="form-row full-width">
-                            <div class="form-group col-md-4"> 
-                                <mat-form-field >
-                                    <mat-label>OlprrId</mat-label> 
-                                    <input matInput placeholder="OlprrId" formControlName="olprrId">
-                                </mat-form-field>
-                            </div>  
-                            <!-- Date Reported -->
-                            <div class="form-group col-md-4"> 
-                                <mat-form-field >
-                                    <mat-label >Received Date</mat-label> 
-                                    <input matInput placeholder="Received Date" formControlName="dateReceived">
-                                </mat-form-field>
-                            </div>  
-                            <!-- /Date Reported -->
-                            <!-- Date Released Discovered -->
-                            <div class="form-group col-md-4"> 
-                                <mat-form-field >
-                                    <mat-label >Discover Date</mat-label>
-                                    <input matInput placeholder="Discover Date" formControlName="discoveryDate">
-                                </mat-form-field>
-                            </div> 
-                            <!-- /Date Released Discovered -->
-                        </div>
-                                    
-                        <!-- SiteType FacilityId -->
-                        <div class="form-row full-width"> 
-                            <!-- Release Site Type -->
-                            <div class="form-group required col-md-6">
-                                <mat-form-field >  
-                                    <mat-label for="releaseType" >Release Site Type</mat-label> 
-                                    <mat-select placeholder="Release Site Type" formControlName="releaseType">   
-                                        <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>    
-                            </div> 
-                            <!-- /Release Site Type -->
-                            <!-- DEQ UST Facility ID  -->
-                            <div *ngIf="showInvoiceContact; then showFacility"></div>
-                            <ng-template #showFacility> 
+                                        
+                            <!-- SiteType FacilityId -->
+                            <div class="form-row full-width"> 
+                                <!-- Release Site Type -->
+                                <div class="form-group required col-md-6">
+                                    <mat-form-field >  
+                                        <mat-label for="releaseType" >Release Site Type</mat-label> 
+                                        <mat-select placeholder="Release Site Type" formControlName="releaseType">   
+                                            <mat-option *ngFor="let siteType of siteTypes" [value]="siteType?.siteTypeCode" > {{siteType?.siteType}}</mat-option>  
+                                        </mat-select>    
+                                    </mat-form-field>    
+                                </div> 
+                                <!-- /Release Site Type -->
+                                <!-- DEQ UST Facility ID  -->
+                                <div *ngIf="showInvoiceContact; then showFacility"></div>
+                                <ng-template #showFacility> 
                                 <div class="form-group col-md-6"> 
                                     <mat-form-field >  
                                         <mat-label >Facility Id</mat-label> 
                                         <input matInput placeholder="Facility Id" formControlName="facilityId">
                                     </mat-form-field>
                                 </div> 
-                            </ng-template>
-                            <!-- /DEQ UST Facility ID -->
-                        </div>                    
-                        <!-- /SiteType FacilityId -->
-            
-                            
-                        <!-- Site Name, County -->
-                        <div class="form-row full-width">
-                            <div class="form-group required col-sm-8 input-mysize">
-                                <mat-form-field > 
-                                    <mat-label class="control-label" for="siteName">Site Name</mat-label>
-                                    <input matInput formControlName="siteName" />                                    
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.siteName"  [submitClicked]="submitClicked"></app-show-errors>
+                                </ng-template>
+                                <!-- /DEQ UST Facility ID -->
+                            </div>                    
+                            <!-- /SiteType FacilityId -->
+    
+                                
+                            <!-- Site Name, County -->
+                            <div class="form-row full-width">
+                                <div class="form-group required col-sm-8 input-mysize">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label" for="siteName">Site Name</mat-label>
+                                        <input matInput formControlName="siteName" />                                    
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.siteName"  [submitClicked]="submitClicked"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-sm-4">
+                                    <mat-form-field >  
+                                        <mat-label class="control-label" for="siteCounty">Site County</mat-label> 
+                                        <mat-select placeholder="Site County" id="siteCounty" formControlName="countyCode">     
+                                            <mat-option selected="selected" value=""> </mat-option> 
+                                            <mat-option *ngFor="let county of counties" [value]="county?.countyCode" > {{county?.countyName}}</mat-option>  
+                                        </mat-select>    
+                                    </mat-form-field>  
+                                    <app-show-errors [control]="incidentForm.controls.siteCounty"  [submitClicked]="submitClicked"></app-show-errors>
+                                </div>   
+                            </div>                        
+                            <!-- /Site Name, County -->
+    
+    
+                            <!-- city, zip, phone -->
+                            <div class="form-row full-width">
+    
+                                <div class="form-group required col-md-3 ">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label">Address</mat-label>
+                                        <input matInput formControlName="siteAddress"  />
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.siteAddress"  [submitClicked]="submitClicked"></app-show-errors>
+                                </div>
+                                        
+                                <div class="form-group required col-md-3 ">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label">Site City</mat-label>
+                                        <input matInput formControlName="siteCity" />                              
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.siteCity"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-3 ">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label">Site Zip Code</mat-label>
+                                        <input matInput formControlName="siteZipcode" />                           
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.siteZipcode"></app-show-errors>
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <mat-form-field > 
+                                        <mat-label>Site Phone</mat-label>
+                                        <input matInput formControlName="sitePhone"/>                         
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.sitePhone" [submitClicked]="submitClicked"></app-show-errors>
+                                </div>
                             </div>
-                            <div class="form-group required col-sm-4">
-                                <mat-form-field >  
-                                    <mat-label class="control-label" for="siteCounty">Site County</mat-label> 
-                                    <mat-select placeholder="Site County" id="siteCounty" formControlName="countyCode">     
-                                        <mat-option selected="selected" value=""> </mat-option> 
-                                        <mat-option *ngFor="let county of counties" [value]="county?.countyCode" > {{county?.countyName}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>  
-                                <app-show-errors [control]="incidentForm.controls.siteCounty"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>   
-                        </div>                        
-                        <!-- /Site Name, County -->
-            
-            
-                        <!-- city, zip, phone -->
-                        <div class="form-row full-width">
-            
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Address</mat-label>
-                                    <input matInput formControlName="siteAddress"  />
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.siteAddress"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                                  
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Site City</mat-label>
-                                    <input matInput formControlName="siteCity" />                              
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.siteCity"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Site Zip Code</mat-label>
-                                    <input matInput formControlName="siteZipcode" />                           
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.siteZipcode"></app-show-errors>
-                            </div>
-                            <div class="form-group col-md-3 ">
-                                <mat-form-field > 
-                                    <mat-label>Site Phone</mat-label>
-                                    <input matInput formControlName="sitePhone"/>                         
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.sitePhone" [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                        </div>
-                        <!-- /city, zip, phone  -->
-
-                        <ng-container *ngIf="showStatusButtons">
-                            <div class="form-row full-width">  
-                                <div class="form-group col-md-10">
-                                    <mat-card>   <!--  Moved to css style="padding: 10px" -->
-                                        <mat-card-header>   <!-- style="margin-top: -10px; margin-bottom: -10px; margin-left: -10px;" -->
-                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastSaRefresh}}</mat-card-title>
-                                        </mat-card-header>
-                                        <mat-card-content>
-                                            <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
-                                            <ng-template #saAddressCorrectNotFound>
-                                                <mat-panel-description>
-                                                    ** US Postal Addresss not found for this Site Address. **
-                                                </mat-panel-description>
-                                            </ng-template>
-                                            <ng-template #saAddressCorrectFound>
-                                                <div class="form-row full-width font-weight-bold " style="background-color: white">
-                                                    <div class="form-group col-md-4 col-sm-1 mat-card-address-data">  <!-- style="padding: 0px; margin-bottom: -20px;" -->   
-                                                        <input matInput formControlName="saAddressCorrectAddress"/>
-                                                    </div>
-                                                    <div class="form-group col-md-3 col-sm-1 mat-card-address-data">
-                                                        <input matInput formControlName="saAddressCorrectCity"/>
-                                                    </div>
-                                                    <div  class="form-group col-md-1 col-sm-1 mat-card-address-data">
-                                                        <input matInput formControlName="saAddressCorrectState"/>
-                                                    </div>
-                                                    <div class="form-group col-md-2 col-sm-1 mat-card-address-data">
-                                                        <input matInput formControlName="saAddressCorrectZipcode"/>
-                                                    </div>
-                                                    <div  class="form-group col-md-2 col-sm-1 mat-card-address-data">    
-                                                        <input matInput formControlName="saAddressCorrectCounty"/>
-                                                    </div>
-                                                </div>
-                                            </ng-template>                                          
-                                        </mat-card-content>
-                                        <mat-card-actions>
-                                            <div class="form-row full-width">
-                                                <div *ngIf="addressCorrectNotFound('sa'); else saKeepAddressCorrect"></div>
-                                                <ng-template #saKeepAddressCorrect>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label font-weight-bold">
-                                                            <mat-checkbox formControlName="updateSaWithAddressCorrect"> Update the Site Address with the US Postal Address upon Accept action.</mat-checkbox>
-                                                        </label>
-                                                    </div>
+                            <!-- /city, zip, phone  -->
+    
+                            <ng-container *ngIf="showStatusButtons">
+                                <div class="form-row full-width">  
+                                    <div class="form-group col-md-10">
+                                        <mat-card>   <!--  Moved to css style="padding: 10px" -->
+                                            <mat-card-header>   <!-- style="margin-top: -10px; margin-bottom: -10px; margin-left: -10px;" -->
+                                                <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastSaRefresh}}</mat-card-title>
+                                            </mat-card-header>
+                                            <mat-card-content>
+                                                <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
+                                                <ng-template #saAddressCorrectNotFound>
+                                                    <mat-panel-description>
+                                                        ** US Postal Addresss not found for this Site Address. **
+                                                    </mat-panel-description>
                                                 </ng-template>
-                                            </div>
-                                        </mat-card-actions>
-                                    </mat-card>
+                                                <ng-template #saAddressCorrectFound>
+                                                    <div class="form-row full-width font-weight-bold " style="background-color: white">
+                                                        <div class="form-group col-md-4 col-sm-1 mat-card-address-data">  <!-- style="padding: 0px; margin-bottom: -20px;" -->   
+                                                            <input matInput formControlName="saAddressCorrectAddress"/>
+                                                        </div>
+                                                        <div class="form-group col-md-3 col-sm-1 mat-card-address-data">
+                                                            <input matInput formControlName="saAddressCorrectCity"/>
+                                                        </div>
+                                                        <div  class="form-group col-md-1 col-sm-1 mat-card-address-data">
+                                                            <input matInput formControlName="saAddressCorrectState"/>
+                                                        </div>
+                                                        <div class="form-group col-md-2 col-sm-1 mat-card-address-data">
+                                                            <input matInput formControlName="saAddressCorrectZipcode"/>
+                                                        </div>
+                                                        <div  class="form-group col-md-2 col-sm-1 mat-card-address-data">    
+                                                            <input matInput formControlName="saAddressCorrectCounty"/>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>                                          
+                                            </mat-card-content>
+                                            <mat-card-actions>
+                                                <div class="form-row full-width">
+                                                    <div *ngIf="addressCorrectNotFound('sa'); else saKeepAddressCorrect"></div>
+                                                    <ng-template #saKeepAddressCorrect>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label font-weight-bold">
+                                                                <mat-checkbox formControlName="updateSaWithAddressCorrect"> Update the Site Address with the US Postal Address upon Accept action.</mat-checkbox>
+                                                            </label>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </mat-card-actions>
+                                        </mat-card>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runSaAddressCorrect()" >Run US Postal Check</button>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runSaAddressCorrect()" >Run US Postal Check</button>
+                            </ng-container>
+    
+                    
+                            <!-- Reported By, Phone, Company -->
+                            <div class="form-row full-width">
+                                <div class="form-group required col-md-4 ">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label">Reported By</mat-label>
+                                        <input matInput formControlName="reportedBy"/>                        
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.reportedBy"  [submitClicked]="submitClicked"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-4 ">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label">Reported By Phone</mat-label>
+                                        <input matInput formControlName="reportedByPhone" />                    
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.reportedByPhone"  [submitClicked]="submitClicked"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-4 ">
+                                    <mat-form-field > 
+                                        <mat-label>Company</mat-label>
+                                        <input matInput formControlName="company" />                  
+                                    </mat-form-field>
+                                    <app-show-errors [control]="incidentForm.controls.company"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
-                        </ng-container>
-            
-                
-                        <!-- Reported By, Phone, Company -->
-                        <div class="form-row full-width">
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Reported By</mat-label>
-                                    <input matInput formControlName="reportedBy"/>                        
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.reportedBy"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Reported By Phone</mat-label>
-                                    <input matInput formControlName="reportedByPhone" />                    
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.reportedByPhone"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label>Company</mat-label>
-                                    <input matInput formControlName="company" />                  
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.company"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                        </div>
+                        </mat-card>
                         <!-- /Reported By, Phone, Company  -->
                         <!-- Reported By Email -->
                         <!-- <div class="form-row full-width"> 
@@ -230,590 +230,629 @@
                             </div>
                         </div> -->
                         <!-- /Reported By Email -->
-            
-            
-            
+    
+    
+    
                         <!-- Responsible Party -->
-                        <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Responsible Party</p>                    
-                                    
-                        <div class="form-row full-width">
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label>Responsible Party First Name</mat-label>
-                                    <input matInput formControlName="rpFirstName" />     
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpFirstName" [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label>Responsible Party Last Name</mat-label>
-                                    <input matInput formControlName="rpLastName" />   
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpLastName" [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                        <!-- </div> -->
-            
-                        <!-- <div class="form-row full-width"> -->
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label>Organization</mat-label>
-                                    <input matInput formControlName="rpOrganization" />
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpOrganization" [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                        </div>
-            
-                        <div class="form-row full-width">
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Address</mat-label>
-                                    <input matInput formControlName="rpAddress"  />
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpAddress"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                          
-            
-                            <div class="form-group required col-md-4">      <!--pb-3 -->
-                                <mat-form-field > 
-                                    <mat-label class="control-label">City</mat-label>
-                                    <input matInput formControlName="rpCity"/>
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpCity"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group required col-md-4">      <!-- -->
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Zip Code</mat-label>
-                                    <input matInput formControlName="rpZipcode"/>
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpZipcode"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                        </div>
-
-
-
-
-
-                        <!-- Responsible Party Melissa Data Correction   -->
-                        <ng-container *ngIf="showStatusButtons">
-                            <div class="form-row full-width">  <!-- style="display:none -->
-                                <div class="form-group col-md-10">
-                                    <mat-card>
-                                        <mat-card-header>
-                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastRpRefresh}}</mat-card-title>
-                                        </mat-card-header>
-                                        <mat-card-content>
-                                            <div *ngIf="addressCorrectNotFound('rp'); then rpAddressCorrectNotFound else rpAddressCorrectFound"></div>
-                                            <ng-template #rpAddressCorrectNotFound>
-                                                <mat-panel-description>
-                                                    ** US Postal Addresss not found for this Responsible Party Address. **
-                                                </mat-panel-description>
-                                            </ng-template>
-                                            <ng-template #rpAddressCorrectFound>
-                                                <div class="form-row full-width font-weight-bold" style="background-color:white" >
-                                                    <div class="form-group col-md-4 col-sm-1 mat-card-address-data" >
-                                                        <input matInput formControlName="rpAddressCorrectAddress"/>
-                                                    </div>
-                                                    <div class="form-group col-md-3 col-sm-1 mat-card-address-data" >
-                                                        <input matInput formControlName="rpAddressCorrectCity"/>
-                                                    </div>
-                                                    <div class="form-group col-md-1 col-sm-1 mat-card-address-data" >
-                                                        <input matInput formControlName="rpAddressCorrectState"/>
-                                                    </div>
-                                                    <div class="form-group col-md-2 col-sm-1 mat-card-address-data" >
-                                                        <input matInput formControlName="rpAddressCorrectZipcode"/>
-                                                    </div>
-                                                </div>
-                                            </ng-template>                                          
-                                        </mat-card-content>
-                                        <mat-card-actions>
-                                            <div class="form-row full-width">
-                                                <div *ngIf="addressCorrectNotFound('rp'); else rpKeepAddressCorrect"></div>
-                                                <ng-template #rpKeepAddressCorrect>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label font-weight-bold">
-                                                                <mat-checkbox formControlName="updateRpWithAddressCorrect"> Update the Responsible Party Address with the US Postal Address upon Accept action.</mat-checkbox>
-                                                        </label>
-                                                    </div>
-                                                </ng-template>
+                        <!-- <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Responsible Party</p>                     -->
+                        <mat-card>
+                            <mat-card-content>
+                                <mat-card-title>Contacts</mat-card-title>
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-title class="mat-card-subtitle-background">Responsible Party</mat-card-title>
+                                        <div class="form-row full-width">
+                                            <div class="form-group required col-md-4 ">
+                                                <mat-form-field > 
+                                                    <mat-label>First Name</mat-label>
+                                                    <input matInput formControlName="rpFirstName" />     
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpFirstName" [submitClicked]="submitClicked"></app-show-errors>
                                             </div>
-                                        </mat-card-actions>
-                                    </mat-card>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runRpAddressCorrect()" >Run US Postal Check</button>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <!-- /Responsible Party Melissa Data Correction   -->
-
-                  
-            
-                        <!--    -->
-                        
-                        <div class="form-row full-width">
-                            <div class="form-group required col-md-4">     <!--pb-3 -->
-                                <mat-form-field >  
-                                    <mat-label class="control-label">State</mat-label> 
-                                    <mat-select placeholder="State" formControlName="rpState" >  
-                                        <mat-option selected="selected"  value=""> </mat-option> 
-                                        <mat-option *ngFor="let state of states" [value]="state?.stateCode" > {{state?.stateCode}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>  
-                                <app-show-errors [control]="incidentForm.controls.rpState"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div> 
-                            <div class="form-group required col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label class="control-label">Phone</mat-label>
-                                    <input matInput formControlName="rpPhone" />
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpPhone"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                            <div class="form-group col-md-4 ">
-                                <mat-form-field > 
-                                    <mat-label>Email</mat-label>
-                                    <input matInput formControlName="rpEmail"/>
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.rpEmail"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>
-                        </div>
-                       
-                        <!-- Invoice Contact -->
-                        <div *ngIf="showInvoiceContact; then showContactInvoice"></div>
-                        <ng-template #showContactInvoice> 
-                            <p class=" text-left font-weight-bold pl-1" style="background-color: darkSeaGreen"  >Invoice Contact</p>                     
-                            
-                        
-                            <div class="form-row full-width">
-                                <div class="form-group required col-md-4 ">
-                                    <mat-form-field > 
-                                        <mat-label>First Name</mat-label>
-                                        <input matInput formControlName="icFirstName" />
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icFirstName"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                                <div class="form-group required col-md-4 ">
-                                    <mat-form-field > 
-                                        <mat-label>Last Name</mat-label>
-                                        <input matInput formControlName="icLastName" />
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icLastName"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                                <div class="form-group required col-md-4 ">
-                                        <mat-form-field > 
-                                            <mat-label>Organization</mat-label>
-                                            <input matInput formControlName="icOrganization" />
-                                        </mat-form-field>
-                                        <app-show-errors [control]="incidentForm.controls.icOrganization"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                            </div>
-            
-                            <div class="form-row full-width">
-                                <div class="form-group required col-md-4 ">
-                                    <mat-form-field > 
-                                        <mat-label class="control-label">Address</mat-label>
-                                        <input matInput formControlName="icAddress"  />
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icpAddress"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                                <div class="form-group required col-md-4 ">
-                                    <mat-form-field > 
-                                        <mat-label class="control-label">City</mat-label>
-                                        <input matInput formControlName="icCity"  />
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icCity"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                                <div class="form-group required col-md-4 ">
-                                    <mat-form-field > 
-                                        <mat-label class="control-label">Zip Code</mat-label>
-                                        <input matInput formControlName="icZipcode"/>
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icZipcode"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                            </div>
-
-                            <!-- Invoice Contact Address Correct  --> 
-                            <ng-container *ngIf="showStatusButtons">
-                                <div class="form-row full-width">  <!-- style="display:none -->
-                                    <div class="form-group col-md-10">
-                                        <mat-card>
-                                            <mat-card-header>
-                                                <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastIcRefresh}}</mat-card-title>
-                                            </mat-card-header>
-                                            <mat-card-content>
-                                                <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
-                                                <ng-template #icAddressCorrectNotFound>
-                                                    <mat-panel-description>
-                                                        ** US Postal Addresss not found for this Invoice Contact Address. **
-                                                    </mat-panel-description>
-                                                </ng-template>
-                                                <ng-template #icAddressCorrectFound>
-                                                    <div class="form-row full-width font-weight-bold" style="background-color:white">
-                                                        <div class="form-group col-md-4 col-sm-1 mat-card-address-data">
-                                                            <input matInput formControlName="icAddressCorrectAddress"/>
-                                                        </div>
-                                                        <div class="form-group col-md-3 col-sm-1 mat-card-address-data">
-                                                            <input matInput formControlName="icAddressCorrectCity"/>
-                                                        </div>  
-                                                        <div class="form-group col-md-1 col-sm-1 mat-card-address-data">
-                                                            <input matInput formControlName="icAddressCorrectState"/>
-                                                        </div>
-                                                        <div class="form-group col-md-4 col-sm-2 mat-card-address-data">    
-                                                            <input matInput formControlName="icAddressCorrectZipcode"/>
-                                                        </div>
-                                                    </div>
-                                                </ng-template>                                          
-                                            </mat-card-content>
-                                            <mat-card-actions>
-                                                <div class="form-row full-width">
-                                                    <div *ngIf="addressCorrectNotFound('ic'); else icKeepAddressCorrect"></div>
-                                                    <ng-template #icKeepAddressCorrect>
-                                                        <div class="form-check">
-                                                            <label class="form-check-label font-weight-bold">
-                                                                <mat-checkbox formControlName="updateIcWithAddressCorrect"> Update the Invoice Contact Address with the US Postal Address upon Accept action.</mat-checkbox>
-                                                            </label>
-                                                        </div>
-                                                    </ng-template>
+                                            <div class="form-group required col-md-4 ">
+                                                <mat-form-field > 
+                                                    <mat-label>Last Name</mat-label>
+                                                    <input matInput formControlName="rpLastName" />   
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpLastName" [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
+                                        <!-- </div> -->
+    
+                                        <!-- <div class="form-row full-width"> -->
+                                            <div class="form-group required col-md-4 ">
+                                                <mat-form-field > 
+                                                    <mat-label>Organization</mat-label>
+                                                    <input matInput formControlName="rpOrganization" />
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpOrganization" [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
+                                        </div>
+    
+                                        <div class="form-row full-width">
+                                            <div class="form-group required col-md-4 ">
+                                                <mat-form-field > 
+                                                    <mat-label class="control-label">Address</mat-label>
+                                                    <input matInput formControlName="rpAddress"  />
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpAddress"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
+                                            
+    
+                                            <div class="form-group required col-md-4">      <!--pb-3 -->
+                                                <mat-form-field > 
+                                                    <mat-label class="control-label">City</mat-label>
+                                                    <input matInput formControlName="rpCity"/>
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpCity"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
+                                            <div class="form-group required col-md-4">      <!-- -->
+                                                <mat-form-field > 
+                                                    <mat-label class="control-label">Zip Code</mat-label>
+                                                    <input matInput formControlName="rpZipcode"/>
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpZipcode"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
+                                        </div>
+    
+                                        <!-- Responsible Party Melissa Data Correction   -->
+                                        <ng-container *ngIf="showStatusButtons">
+                                            <div class="form-row full-width">  <!-- style="display:none -->
+                                                <div class="form-group col-md-10">
+                                                    <mat-card>
+                                                        <mat-card-header>
+                                                            <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastRpRefresh}}</mat-card-title>
+                                                        </mat-card-header>
+                                                        <mat-card-content>
+                                                            <div *ngIf="addressCorrectNotFound('rp'); then rpAddressCorrectNotFound else rpAddressCorrectFound"></div>
+                                                            <ng-template #rpAddressCorrectNotFound>
+                                                                <mat-panel-description>
+                                                                    ** US Postal Addresss not found for this Responsible Party Address. **
+                                                                </mat-panel-description>
+                                                            </ng-template>
+                                                            <ng-template #rpAddressCorrectFound>
+                                                                <div class="form-row full-width font-weight-bold" style="background-color:white" >
+                                                                    <div class="form-group col-md-4 col-sm-1 mat-card-address-data" >
+                                                                        <input matInput formControlName="rpAddressCorrectAddress"/>
+                                                                    </div>
+                                                                    <div class="form-group col-md-3 col-sm-1 mat-card-address-data" >
+                                                                        <input matInput formControlName="rpAddressCorrectCity"/>
+                                                                    </div>
+                                                                    <div class="form-group col-md-1 col-sm-1 mat-card-address-data" >
+                                                                        <input matInput formControlName="rpAddressCorrectState"/>
+                                                                    </div>
+                                                                    <div class="form-group col-md-2 col-sm-1 mat-card-address-data" >
+                                                                        <input matInput formControlName="rpAddressCorrectZipcode"/>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-template>                                          
+                                                        </mat-card-content>
+                                                        <mat-card-actions>
+                                                            <div class="form-row full-width">
+                                                                <div *ngIf="addressCorrectNotFound('rp'); else rpKeepAddressCorrect"></div>
+                                                                <ng-template #rpKeepAddressCorrect>
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label font-weight-bold">
+                                                                            <mat-checkbox formControlName="updateRpWithAddressCorrect"> Update the Responsible Party Address with the US Postal Address upon Accept action.</mat-checkbox>
+                                                                        </label>
+                                                                    </div>
+                                                                </ng-template>
+                                                            </div>
+                                                        </mat-card-actions>
+                                                    </mat-card>
                                                 </div>
-                                            </mat-card-actions>
-                                        </mat-card>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runIcAddressCorrect()" >Run US Postal Check</button>
-                                    </div>
-                                </div>
-                            </ng-container>
-                            <!-- /Invoice Contact Address Correct  -->  
-
-
-
-                            <div class="form-row full-width">
-                                <div class="form-group required col-md-4 ">
-                                    <mat-form-field >  
-                                        <mat-label>State</mat-label> 
-                                        <mat-select placeholder="State" formControlName="icState" >  
-                                            <mat-option selected="selected"  value=""> </mat-option> 
-                                            <mat-option *ngFor="let state of states" [value]="state?.stateCode" > {{state?.stateCode}}</mat-option>  
-                                        </mat-select>    
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icState"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div> 
-                
-                                <div class="form-group required col-md-4 ">
-                                        <mat-form-field > 
-                                            <mat-label>Phone</mat-label>
-                                            <input matInput formControlName="icPhone" />
-                                        </mat-form-field>
-                                        <app-show-errors [control]="incidentForm.controls.icPhone"  [submitClicked]="submitClicked"></app-show-errors>
-                                    </div>
-            
-                                <div class="form-group col-md-4 ">
-                                    <mat-form-field > 
-                                        <mat-label>Email</mat-label>
-                                        <input matInput formControlName="icEmail"  />
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.icEmail"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div>
-                            </div>
-                        </ng-template>
-                        <!-- /Invoice Contact  -->
-            
-                        <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Assessment</p>
-                        <!-- site assessment -->
-                        <div class="form-row mt-4">
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field >  
-                                    <mat-label class="control-label" for="discoveryCode">Discovery</mat-label> 
-                                    <mat-select placeholder="Discovery" id="discoveryCode" formControlName="discoveryCode" >
-                                        <mat-option selected="selected"  value=""> </mat-option> 
-                                        <mat-option *ngFor="let discoveryType of discoveryTypes" [value]="discoveryType?.discoveryCode" > {{discoveryType?.discoveryDescription}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.discoveryCode"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>   
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field >  
-                                    <mat-label class="control-label" for="releaseCauseCode">Cause</mat-label> 
-                                    <mat-select placeholder="Cause" id="releaseCauseCode" formControlName="causeCode">
-                                        <mat-option selected="selected"  value=""> </mat-option> 
-                                        <mat-option *ngFor="let releaseCauseType of releaseCauseTypes" [value]="releaseCauseType?.releaseCauseCode" > {{releaseCauseType?.releaseCauseDescription}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.causeCode"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>    
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field >  
-                                    <mat-label class="control-label" for="sourceId">Source</mat-label> 
-                                    <mat-select placeholder="Cause" id="sourceId"  formControlName="sourceId">
-                                        <mat-option selected="selected"  value=""> </mat-option> 
-                                        <mat-option *ngFor="let sourceType of sourceTypes" [value]="sourceType?.releaseSourceId" > {{sourceType?.releaseSourceDescription}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.sourceId"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>  
-                            <div class="form-group required col-md-3 ">
-                                <mat-form-field >  
-                                    <mat-label class="control-label" for="confirmationCode">Confirmation</mat-label> 
-                                    <mat-select placeholder="Cause" id="confirmationCode"  formControlName="confirmationCode">
-                                        <mat-option selected="selected"  value=""> </mat-option> 
-                                        <mat-option *ngFor="let confirmationType of confirmationTypes" [value]="confirmationType.confirmationCode" > {{confirmationType.confirmationDescription}}</mat-option>  
-                                    </mat-select>    
-                                </mat-form-field>
-                                <app-show-errors [control]="incidentForm.controls.confirmationCode"  [submitClicked]="submitClicked"></app-show-errors>
-                            </div>                     
-                        </div>
-                        <!-- /site assessment  -->
-            
-            
-            
-                        <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Contaminants</p>
-                        <div class="form-group required row">
-                            <label class="control-label col-lg-12">(select one or more)</label>
-                        </div>
-            
-                        <div class="form-group row">
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <!-- <input class="form-check-input" type="checkbox" formControlName="heatingOil"> Heating Oil    -->
-                                        <mat-checkbox formControlName="heatingOil"> Heating Oil </mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="unleadedGas">Unleaded Gasoline</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <!-- <input class="form-check-input" type="checkbox" formControlName="leadedGas">Leaded Gasoline -->
-                                        <mat-checkbox formControlName="leadedGas">Leaded Gasoline</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <!-- <input class="form-check-input" type="checkbox" formControlName="misGas">Misc. Gasoline -->
-                                        <mat-checkbox formControlName="misGas">Misc. Gasoline</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <!-- <input class="form-check-input" type="checkbox" formControlName="diesel">Diesel (Motor Fuel) -->
-                                        <mat-checkbox formControlName="diesel">Diesel (Motor Fuel)</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <!-- <input class="form-check-input" type="checkbox" formControlName="wasteOil">Waste Oil -->
-                                        <mat-checkbox formControlName="wasteOil">Waste Oil</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="lubricant">Lubricant</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="solvent">Solvent</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="otherPet">Other Pet. Dist.  </mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="chemical">Chemical</mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="mtbe">MTBE  </mat-checkbox>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox formControlName="unknown">Unknown Contaminant  </mat-checkbox> 
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  end of contaminants -->
-                
-                
-                        <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Impacted Media</p>
-                        <div class="form-group required row">
-                            <label class="control-label col-lg-12">(select one or more)</label>
-                        </div>
-            
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox  formControlName="groundWater"> Groundwater </mat-checkbox> 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox   formControlName="surfaceWater"> Surface Water </mat-checkbox> 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox   formControlName="drinkingWater"> Drinking Water </mat-checkbox> 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox   formControlName="soil"> Soil </mat-checkbox> 
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <mat-checkbox   formControlName="vapor">Vapor </mat-checkbox> 
-                                        </label>
-                                    </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <mat-checkbox mat-autosize="true"  formControlName="freeProduct">Free Product </mat-checkbox> 
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-            
-                        <!-- Site Comments -->                                        
-                        <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
-                        <div class="form-row full-width example-container">
-                            <mat-form-field class="example-full-width">
-                                <textarea matInput class="form-control rounded-0" rows="10" formControlName="initialComment" placeholder="Site Comments"></textarea>
-                            </mat-form-field>  
-                        </div>                          
-                        <!-- /Site Comments  -->
-            
-                    <!--</div>  end Print form -->
-            
-
-
-                    <ng-container *ngIf="showStatusButtons">
-                        <p class="text-left font-weight-bold " style="background-color: darkSeaGreen">Open LIT to setup Site?</p>
-                        <div class="form-row full-width">
-                            <div class="form-group required col-md-5" style="margin-bottom:40px"> 
-                                <mat-card style="padding:0px">
-                                    <mat-card-content style="margin-bottom:10px">
-                                        <div class="form-group row full-width">
-                                            <mat-form-field class="col-md-12 font-weight-bold">
-                                                <input matInput formControlName="authUser" placeholder="Must enter your Windows User Name here to link to LIT"/>
-                                                <div *ngIf="authUserRequired; then showAuthUserRequiredErrorMessage"></div>
-                                                <ng-template #showAuthUserRequiredErrorMessage>
-                                                    <p>{{getAuthUserErrorMessage()}}</p>
-                                                </ng-template>                                    
-                                            </mat-form-field>  
+                                                <div class="form-group col-md-2">
+                                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runRpAddressCorrect()" >Run US Postal Check</button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <!-- /Responsible Party Melissa Data Correction   -->
+    
+                    
+    
+                                        <!--    -->
+                                        
+                                        <div class="form-row full-width">
+                                            <div class="form-group required col-md-4">     <!--pb-3 -->
+                                                <mat-form-field >  
+                                                    <mat-label class="control-label">State</mat-label> 
+                                                    <mat-select placeholder="State" formControlName="rpState" >  
+                                                        <mat-option selected="selected"  value=""> </mat-option> 
+                                                        <mat-option *ngFor="let state of states" [value]="state?.stateCode" > {{state?.stateCode}}</mat-option>  
+                                                    </mat-select>    
+                                                </mat-form-field>  
+                                                <app-show-errors [control]="incidentForm.controls.rpState"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div> 
+                                            <div class="form-group required col-md-4 ">
+                                                <mat-form-field > 
+                                                    <mat-label class="control-label">Phone</mat-label>
+                                                    <input matInput formControlName="rpPhone" />
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpPhone"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
+                                            <div class="form-group col-md-4 ">
+                                                <mat-form-field > 
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput formControlName="rpEmail"/>
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.rpEmail"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>
                                         </div>
                                     </mat-card-content>
-                                    <mat-card-actions>
-                                        <div class="col-md-6 col-sm-5">
-                                            <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
-                                        </div>
-                                    </mat-card-actions>
-                                
                                 </mat-card>
-                            </div>
-                        </div>
-                    </ng-container>
-
-                    
-                    <!-- show errors  -->
-                    <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
-                    <ng-template #showAllErrorsMessages> 
-                        <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
-                            <div class="form-group row">
-                                <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="submitClicked"></app-show-all-messages>
-                            </div>
-                        </ngb-alert>
-                    </ng-template>
-                    <!-- /show errors  -->
-
-
-                    <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Review Actions</p>
-            
-                    <!-- <div class="form-group row full-width">
-                        <label class="col-md-1 form-check-label">
-                            <mat-checkbox formControlName="bypassLit" > ByPass LIT </mat-checkbox>
-                        </label>                      
-                    </div> -->
-
-                    <ng-container *ngIf="showStatusButtons">
-                        <div class="form-group row">
-                            <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
-                            </div>
-                            <ng-container *ngIf="incidentData.siteStatus !== 'HOLD'">
-                            <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="hold()" >Hold</button>
-                            </div>
+                                <!-- Invoice Contact -->
+                                <div *ngIf="showInvoiceContact; then showContactInvoice"></div>
+                                <ng-template #showContactInvoice> 
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <mat-card-title class="mat-card-subtitle-background">Invoice Contact</mat-card-title>
+        
+                                            <!-- <p class=" text-left font-weight-bold pl-1" style="background-color: darkSeaGreen"  >Invoice Contact</p>                      -->
+                                            
+                                        
+                                            <div class="form-row full-width">
+                                                <div class="form-group required col-md-4 ">
+                                                    <mat-form-field > 
+                                                        <mat-label>First Name</mat-label>
+                                                        <input matInput formControlName="icFirstName" />
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icFirstName"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                                <div class="form-group required col-md-4 ">
+                                                    <mat-form-field > 
+                                                        <mat-label>Last Name</mat-label>
+                                                        <input matInput formControlName="icLastName" />
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icLastName"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                                <div class="form-group required col-md-4 ">
+                                                        <mat-form-field > 
+                                                            <mat-label>Organization</mat-label>
+                                                            <input matInput formControlName="icOrganization" />
+                                                        </mat-form-field>
+                                                        <app-show-errors [control]="incidentForm.controls.icOrganization"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                            </div>
+    
+                                            <div class="form-row full-width">
+                                                <div class="form-group required col-md-4 ">
+                                                    <mat-form-field > 
+                                                        <mat-label class="control-label">Address</mat-label>
+                                                        <input matInput formControlName="icAddress"  />
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icpAddress"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                                <div class="form-group required col-md-4 ">
+                                                    <mat-form-field > 
+                                                        <mat-label class="control-label">City</mat-label>
+                                                        <input matInput formControlName="icCity"  />
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icCity"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                                <div class="form-group required col-md-4 ">
+                                                    <mat-form-field > 
+                                                        <mat-label class="control-label">Zip Code</mat-label>
+                                                        <input matInput formControlName="icZipcode"/>
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icZipcode"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                            </div>
+    
+                                            <!-- Invoice Contact Address Correct  --> 
+                                            <ng-container *ngIf="showStatusButtons">
+                                                <div class="form-row full-width">  <!-- style="display:none -->
+                                                    <div class="form-group col-md-10">
+                                                        <mat-card>
+                                                            <mat-card-header>
+                                                                <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastIcRefresh}}</mat-card-title>
+                                                            </mat-card-header>
+                                                            <mat-card-content>
+                                                                <div *ngIf="addressCorrectNotFound('ic'); then icAddressCorrectNotFound else icAddressCorrectFound"></div>
+                                                                <ng-template #icAddressCorrectNotFound>
+                                                                    <mat-panel-description>
+                                                                        ** US Postal Addresss not found for this Invoice Contact Address. **
+                                                                    </mat-panel-description>
+                                                                </ng-template>
+                                                                <ng-template #icAddressCorrectFound>
+                                                                    <div class="form-row full-width font-weight-bold" style="background-color:white">
+                                                                        <div class="form-group col-md-4 col-sm-1 mat-card-address-data">
+                                                                            <input matInput formControlName="icAddressCorrectAddress"/>
+                                                                        </div>
+                                                                        <div class="form-group col-md-3 col-sm-1 mat-card-address-data">
+                                                                            <input matInput formControlName="icAddressCorrectCity"/>
+                                                                        </div>  
+                                                                        <div class="form-group col-md-1 col-sm-1 mat-card-address-data">
+                                                                            <input matInput formControlName="icAddressCorrectState"/>
+                                                                        </div>
+                                                                        <div class="form-group col-md-4 col-sm-2 mat-card-address-data">    
+                                                                            <input matInput formControlName="icAddressCorrectZipcode"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </ng-template>                                          
+                                                            </mat-card-content>
+                                                            <mat-card-actions>
+                                                                <div class="form-row full-width">
+                                                                    <div *ngIf="addressCorrectNotFound('ic'); else icKeepAddressCorrect"></div>
+                                                                    <ng-template #icKeepAddressCorrect>
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label font-weight-bold">
+                                                                                <mat-checkbox formControlName="updateIcWithAddressCorrect"> Update the Invoice Contact Address with the US Postal Address upon Accept action.</mat-checkbox>
+                                                                            </label>
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </div>
+                                                            </mat-card-actions>
+                                                        </mat-card>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runIcAddressCorrect()" >Run US Postal Check</button>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <!-- /Invoice Contact Address Correct  -->  
+    
+    
+    
+                                            <div class="form-row full-width">
+                                                <div class="form-group required col-md-4 ">
+                                                    <mat-form-field >  
+                                                        <mat-label>State</mat-label> 
+                                                        <mat-select placeholder="State" formControlName="icState" >  
+                                                            <mat-option selected="selected"  value=""> </mat-option> 
+                                                            <mat-option *ngFor="let state of states" [value]="state?.stateCode" > {{state?.stateCode}}</mat-option>  
+                                                        </mat-select>    
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icState"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div> 
+                                
+                                                <div class="form-group required col-md-4 ">
+                                                        <mat-form-field > 
+                                                            <mat-label>Phone</mat-label>
+                                                            <input matInput formControlName="icPhone" />
+                                                        </mat-form-field>
+                                                        <app-show-errors [control]="incidentForm.controls.icPhone"  [submitClicked]="submitClicked"></app-show-errors>
+                                                    </div>
+    
+                                                <div class="form-group col-md-4 ">
+                                                    <mat-form-field > 
+                                                        <mat-label>Email</mat-label>
+                                                        <input matInput formControlName="icEmail"  />
+                                                    </mat-form-field>
+                                                    <app-show-errors [control]="incidentForm.controls.icEmail"  [submitClicked]="submitClicked"></app-show-errors>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </ng-template>
+                            </mat-card-content>
+                        </mat-card>
+                        <!-- /Invoice Contact  -->
+    
+                        <mat-card>
+                            <mat-card-title>Assessment</mat-card-title>
+                            <mat-card-content>
+                                <mat-card>
+                                    <mat-card-content>
+                                        <!-- <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Assessment</p> -->
+                                        <!-- site assessment -->
+                                        <div class="form-row mt-4">
+                                            <div class="form-group required col-md-3 ">
+                                                <mat-form-field >  
+                                                    <mat-label class="control-label" for="discoveryCode">Discovery</mat-label> 
+                                                    <mat-select placeholder="Discovery" id="discoveryCode" formControlName="discoveryCode" >
+                                                        <mat-option selected="selected"  value=""> </mat-option> 
+                                                        <mat-option *ngFor="let discoveryType of discoveryTypes" [value]="discoveryType?.discoveryCode" > {{discoveryType?.discoveryDescription}}</mat-option>  
+                                                    </mat-select>    
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.discoveryCode"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>   
+                                            <div class="form-group required col-md-3 ">
+                                                <mat-form-field >  
+                                                    <mat-label class="control-label" for="releaseCauseCode">Cause</mat-label> 
+                                                    <mat-select placeholder="Cause" id="releaseCauseCode" formControlName="causeCode">
+                                                        <mat-option selected="selected"  value=""> </mat-option> 
+                                                        <mat-option *ngFor="let releaseCauseType of releaseCauseTypes" [value]="releaseCauseType?.releaseCauseCode" > {{releaseCauseType?.releaseCauseDescription}}</mat-option>  
+                                                    </mat-select>    
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.causeCode"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>    
+                                            <div class="form-group required col-md-3 ">
+                                                <mat-form-field >  
+                                                    <mat-label class="control-label" for="sourceId">Source</mat-label> 
+                                                    <mat-select placeholder="Cause" id="sourceId"  formControlName="sourceId">
+                                                        <mat-option selected="selected"  value=""> </mat-option> 
+                                                        <mat-option *ngFor="let sourceType of sourceTypes" [value]="sourceType?.releaseSourceId" > {{sourceType?.releaseSourceDescription}}</mat-option>  
+                                                    </mat-select>    
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.sourceId"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>  
+                                            <div class="form-group required col-md-3 ">
+                                                <mat-form-field >  
+                                                    <mat-label class="control-label" for="confirmationCode">Confirmation</mat-label> 
+                                                    <mat-select placeholder="Cause" id="confirmationCode"  formControlName="confirmationCode">
+                                                        <mat-option selected="selected"  value=""> </mat-option> 
+                                                        <mat-option *ngFor="let confirmationType of confirmationTypes" [value]="confirmationType.confirmationCode" > {{confirmationType.confirmationDescription}}</mat-option>  
+                                                    </mat-select>    
+                                                </mat-form-field>
+                                                <app-show-errors [control]="incidentForm.controls.confirmationCode"  [submitClicked]="submitClicked"></app-show-errors>
+                                            </div>                     
+                                        </div>
+                                     </mat-card-content>
+                                </mat-card>
+                                <!-- /site assessment  -->
+    
+    
+                                <mat-card>
+                                    <mat-card-title class="mat-card-subtitle-background">Contaminants</mat-card-title>
+                                    <mat-card-content>
+                                        <!-- <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Contaminants</p> -->
+                                        <div class="form-group required row">
+                                            <label class="control-label col-lg-12">(select one or more)</label>
+                                        </div>
+    
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <!-- <input class="form-check-input" type="checkbox" formControlName="heatingOil"> Heating Oil    -->
+                                                        <mat-checkbox formControlName="heatingOil"> Heating Oil </mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="unleadedGas">Unleaded Gasoline</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <!-- <input class="form-check-input" type="checkbox" formControlName="leadedGas">Leaded Gasoline -->
+                                                        <mat-checkbox formControlName="leadedGas">Leaded Gasoline</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <!-- <input class="form-check-input" type="checkbox" formControlName="misGas">Misc. Gasoline -->
+                                                        <mat-checkbox formControlName="misGas">Misc. Gasoline</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <!-- <input class="form-check-input" type="checkbox" formControlName="diesel">Diesel (Motor Fuel) -->
+                                                        <mat-checkbox formControlName="diesel">Diesel (Motor Fuel)</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <!-- <input class="form-check-input" type="checkbox" formControlName="wasteOil">Waste Oil -->
+                                                        <mat-checkbox formControlName="wasteOil">Waste Oil</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="lubricant">Lubricant</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="solvent">Solvent</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="otherPet">Other Pet. Dist.  </mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="chemical">Chemical</mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="mtbe">MTBE  </mat-checkbox>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox formControlName="unknown">Unknown Contaminant  </mat-checkbox> 
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                                <!--  end of contaminants -->
+                        
+                        
+                                <!-- <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Impacted Media</p> -->
+                                <mat-card>
+                                    <mat-card-title class="mat-card-subtitle-background">Impacted Media</mat-card-title>
+                                    <mat-card-content>
+                                        <div class="form-group required row">
+                                            <label class="control-label col-lg-12">(select one or more)</label>
+                                        </div>
+    
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox  formControlName="groundWater"> Groundwater </mat-checkbox> 
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox   formControlName="surfaceWater"> Surface Water </mat-checkbox> 
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox   formControlName="drinkingWater"> Drinking Water </mat-checkbox> 
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox   formControlName="soil"> Soil </mat-checkbox> 
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <mat-checkbox   formControlName="vapor">Vapor </mat-checkbox> 
+                                                        </label>
+                                                    </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <mat-checkbox mat-autosize="true"  formControlName="freeProduct">Free Product </mat-checkbox> 
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </mat-card-content>
+                        </mat-card>
+                        
+                        <mat-card>
+                            <mat-card-title>Comments</mat-card-title>
+                            <mat-card-content>
+                                <!-- Site Comments -->                                        
+                                <!-- <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p> -->
+    
+                                <div class="form-row full-width example-container">
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="initialComment" placeholder="Site Comments"></textarea>
+                                    </mat-form-field>  
+                                </div>                          
+                            </mat-card-content>
+                        </mat-card>
+                        <!-- /Site Comments  -->
+    
+                            <!--</div>  end Print form -->
+    
+    
+                        <mat-card>
+                            <mat-card-title>Open LIT to Setup Site?</mat-card-title>
+                            <mat-card-content>
+                                <ng-container *ngIf="showStatusButtons">
+                                    <!-- <p class="text-left font-weight-bold " style="background-color: darkSeaGreen">Open LIT to setup Site?</p> -->
+                                    <div class="form-row full-width">
+                                        <div class="form-group required col-md-6" style="margin-bottom:10px"> 
+                                            <mat-card style="padding:0px">
+                                                <mat-card-content style="margin-bottom:0px">
+                                                    <div class="form-group row full-width">
+                                                        <mat-form-field class="col-md-8 font-weight-bold">
+                                                            <input matInput formControlName="authUser" placeholder="Must enter your Windows User Name here to link to LIT"/>
+                                                            <div *ngIf="authUserRequired; then showAuthUserRequiredErrorMessage"></div>
+                                                            <ng-template #showAuthUserRequiredErrorMessage>
+                                                                <p>{{getAuthUserErrorMessage()}}</p>
+                                                            </ng-template>                                    
+                                                        </mat-form-field>  
+                                                        <mat-card-actions>
+                                                            <div class="col-md-12">
+                                                                <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
+                                                            </div>
+                                                        </mat-card-actions>
+                                                    </div>
+                                                </mat-card-content>
+    <!-- 
+                                                <mat-card-actions>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-6">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
+                                                    </div>
+                                                </mat-card-actions> -->
+                                            </mat-card>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </mat-card-content>
+                        </mat-card>
+                
+                            <!-- show errors  -->
+                            <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
+                            <ng-template #showAllErrorsMessages> 
+                                <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
+                                    <div class="form-group row">
+                                        <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="submitClicked"></app-show-all-messages>
+                                    </div>
+                                </ngb-alert>
+                            </ng-template>
+                            <!-- /show errors  -->
+    
+    
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Review Actions</p>
+    
+                            
+    
+                            <ng-container *ngIf="showStatusButtons">
+                                <div class="form-group row">
+                                    <div class="col-md-1 col-sm-2">
+                                        <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Accept</button>
+                                    </div>
+                                    <ng-container *ngIf="incidentData.siteStatus !== 'HOLD'">
+                                    <div class="col-md-1 col-sm-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="hold()" >Hold</button>
+                                    </div>
+                                    </ng-container>
+                                    <div class="col-md-1 col-sm-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="decline()" >Decline</button>
+                                    </div>
+                                    <div class="col-md-2 col-sm-3">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
+                                    </div>
+                                </div>                        
                             </ng-container>
-                            <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="decline()" >Decline</button>
-                            </div>
-                            <div class="col-md-2 col-sm-3">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
-                            </div>
-                        </div>                        
-                    </ng-container>
-                    <ng-container *ngIf="!showStatusButtons">
-                        <div class="form-group row">   
-                            <!-- <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
-                            </div>
-                            <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="sendEmail()" >Email</button>
-                            </div>
-                            <div class="col-md-1 col-sm-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="pdfGenerate()" >PDF</button>
-                            </div> -->
-                            <div class="col-md-2 col-sm-3">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
-                            </div>                        
-                        </div>                        
-                    </ng-container>            
+                            <ng-container *ngIf="!showStatusButtons">
+                                <div class="form-group row">   
+                                    <!-- <div class="col-md-1 col-sm-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="print()" >Print</button>
+                                    </div>
+                                    <div class="col-md-1 col-sm-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="sendEmail()" >Email</button>
+                                    </div>
+                                    <div class="col-md-1 col-sm-2">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="pdfGenerate()" >PDF</button>
+                                    </div> -->
+                                    <div class="col-md-2 col-sm-3">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Return to Search</button>
+                                    </div>                        
+                                </div>                        
+                            </ng-container>            
                     <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->
-                </form>
-           
+                    </form>
+    
                 </mat-card-content>    
-                </mat-card>   
-            </div>
-
+            </mat-card>   
+        </div>
+    
     </ng-template>
