@@ -13,9 +13,6 @@ import { map, mergeMap } from 'rxjs/operators';
 export class IncidentDataResolver implements Resolve<Observable<IncidentData>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IncidentData> {
-      const myid = route.paramMap.get('olprrid');
-    console.log('************IncidentReviewResolver' );
-    console.log(myid);
     return this.lustDataService.getIncidentData(route.paramMap.get('olprrid'));
   }
 }

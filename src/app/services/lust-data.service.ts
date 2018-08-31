@@ -45,6 +45,9 @@ import { SiteAliasPost } from '../models/site-alias-post';
 import { ContactSearchFilter } from '../models/contact-search-filter';
 import { ContactSearchResultStat } from '../models/contact-search-result-stat';
 import { PostalCountyLookup } from '../models/postal-county-lookup';
+import { LustIncidentGet } from '../models/lust-incident-get';
+import { Brownfield } from '../models/brownfield';
+import { SiteType2 } from '../models/site-type2';
 
 @Injectable({
   providedIn: 'root'
@@ -147,6 +150,18 @@ export class LustDataService {
     return this.http.get<Region[]>(environment.olprrapi_region);
   }
 
+  getBrownfields(): Observable<Brownfield[]> {
+    return this.http.get<Brownfield[]>(environment.olprrapi_brownfield);
+  }
+
+  getSiteType2s(): Observable<SiteType2[]> {
+    return this.http.get<SiteType2[]>(environment.olprrapi_sitetype2);
+  }
+
+  getProjectManagersByLustId(lustId: number): Observable<ProjectManager[]> {
+    return this.http.get<ProjectManager[]>(environment.olprrapi_lust_pm + '/' + lustId);
+  }
+
   getDateCompares(): Observable<DateCompare[]> {
     return this.http.get<DateCompare[]>(environment.olprrapi_datecompare);
   }
@@ -197,9 +212,11 @@ export class LustDataService {
   }
 
   getPostalCountyLookup(usPostalCountyCodeFips: number ): Observable<PostalCountyLookup> {
-    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
-    // console.log(olprrSearchFilter);
     return this.http.get<PostalCountyLookup>(environment.olprrapi_postalcounty_lookup + '/' +  usPostalCountyCodeFips);
+  }
+
+  getLustIncident(lustId: number ): Observable<LustIncidentGet> {
+    return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  lustId);
   }
 
 }

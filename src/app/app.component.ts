@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
             link: '/incident',
             index: 0
         }, {
-            label: 'OLPRR Review',
+            label: 'OLPRR Search',
             link: '/osearch',
             index: 1
         }, {
