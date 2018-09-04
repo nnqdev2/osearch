@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
@@ -126,8 +126,10 @@ export class LustIncidentEditComponent implements OnInit  {
   ) {  }
 
   ngOnInit() {
+    console.log('ngOnInit()');
     this.loadingSubject.next(true);
-    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.incidentData = data.lustIncidentGet; });
+    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.incidentData = data.lustIncidentGet;
+    console.log(this.incidentData); });
     this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {siteType2s: SiteType2[]}) => {this.siteType2s = data.siteType2s; });
@@ -143,86 +145,49 @@ export class LustIncidentEditComponent implements OnInit  {
 
 
   createForm() {
+
     this.incidentForm = this.formBuilder.group({
-        releaseType:  ['', Validators.required],
-        dateReceived:  [{value: '', disabled: false},  Validators.required],
-        discoveryDate: [{value: '', disabled: false}, Validators.compose([Validators.required])],
-        noValidAddress: [0],
+        logNumber: [this.incidentData.logNumber],
+        qTimeId: [this.incidentData.qtimeId],
+        projectManager: [''],
         facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
-        siteName:  [{value: '', disabled: false}, Validators.compose([Validators.required, Validators.maxLength(40)])],
-        siteCounty:  ['', Validators.required],
-        // streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
-        siteAddress:    ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-        siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        siteName:  [this.incidentData.siteName, Validators.compose([Validators.required, Validators.maxLength(40)])],
+        siteAddress:    [this.incidentData.siteAddress, Validators.compose([Validators.required, Validators.maxLength(50)])],
+        siteCity:  [this.incidentData.siteCity, Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
+        siteCounty:  [this.incidentData.logNbrCounty, Validators.required],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
-        // company:  ['', Validators.required],
-        confirmationCode:  ['', Validators.required],
-        discoveryCode:  ['', Validators.required],
-        causeCode: ['', Validators.required],
-        sourceId:  ['', Validators.required],
-        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
-        rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-        rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        rpPhone:  ['', Validators.compose([Validators.maxLength(30)])],
-        rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
-        rpCountry:  ['', Validators.compose([Validators.maxLength(30)])],
-        icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
-        icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-        icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        icPhone:  ['', Validators.compose([Validators.maxLength(30)])],
-        icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
-        icCountry:  ['', Validators.compose([Validators.maxLength(30)])],
-        groundWater: [0],
-        surfaceWater: [0],
-        drinkingWater: [0],
-        soil: [0],
-        vapor: [0],
-        freeProduct: [0],
-        unleadedGas: [0],
-        leadedGas: [0],
-        misGas: [0],
-        diesel: [0],
-        wasteOil: [0],
-        heatingOil: [0],
-        lubricant: [0],
-        solvent: [0],
-        otherPet: [0],
-        chemical: [0],
-        unknown: [0],
-        mtbe: [0],
-        submitDateTime: [''],
-        // deqOffice: [''],
-        saAddressCorrectAddress: [{value: '', disabled: true}],
-        saAddressCorrectCounty:  [{value: '', disabled: true}],
-        saAddressCorrectCity:    [{value: '', disabled: true}],
-        saAddressCorrectZipcode: [{value: '', disabled: true}],
-        saAddressCorrectState:   [{value: '', disabled: true}],
-        rpAddressCorrectAddress: [{value: '', disabled: true}],
-        rpAddressCorrectCity:    [{value: '', disabled: true}],
-        rpAddressCorrectZipcode: [{value: '', disabled: true}],
-        rpAddressCorrectState:   [{value: '', disabled: true}],
-        icAddressCorrectAddress: [{value: '', disabled: true}],
-        icAddressCorrectCity:    [{value: '', disabled: true}],
-        icAddressCorrectZipcode: [{value: '', disabled: true}],
-        icAddressCorrectState:   [{value: '', disabled: true}],
-        // updateSaWithAddressCorrect:   [{value: ''}],
-        // updateRpWithAddressCorrect:   [{value: ''}],
-        // updateIcWithAddressCorrect:   [{value: ''}],
+        noValidAddress: [this.incidentData.noValidAddress],
+        releaseType:  [this.incidentData.releaseType, Validators.required],
+        siteType2: [this.incidentData.siteTypeId, Validators.required],
+        closureType: [''],
+        brownfield: [this.incidentData.brownfieldCodeId],
+        propertyTranPendingInd: [{value: this.incidentData.propertyTranPendingInd}],
+        programTransferInd:     [{value: this.incidentData.programTransferInd}],
+        hotAuditRejectInd:      [{value: this.incidentData.hotAuditRejectInd}],
+        activeReleaseInd:       [{value: this.incidentData.activeReleaseInd}],
+        optionLetterSentInd:    [{value: this.incidentData.optionLetterSentInd}],
+        dateReceived:  [{value: ''},  Validators.required],
+        discoveryDate: [{value: ''}, Validators.compose([Validators.required])],
+        cleanupStartDate:  [this.transformDate(this.incidentData.cleanupStartDate)],
+        finalInvcRqstDate: [this.transformDate(this.incidentData.finalInvcRqstDate)],
+        releaseStopDate:  [this.incidentData.releaseStopDate],
+        closedDate: [this.transformDate(this.incidentData.closedDate)],
+        letterOfAgreementDate: [this.transformDate(this.incidentData.letterOfAgreementDate)],
+        createDate: [this.transformDate(this.incidentData.createDate)],
+        siteComment: [this.incidentData.siteComment],
+        seeAlsoComment: [this.incidentData.seeAlsoComment],
+        publicSummaryComment: [this.incidentData.publicSummaryComment],
         authUser: ['']
       },
       {validator: [] }
     );
     this.resetDate();
+  }
+
+  transformDate(inDate: Date): string {
+    return this.datePipe.transform(inDate, 'MM/dd/yyyy');
   }
 
   resetDate(): void {

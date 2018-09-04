@@ -215,8 +215,8 @@ export class LustDataService {
     return this.http.get<PostalCountyLookup>(environment.olprrapi_postalcounty_lookup + '/' +  usPostalCountyCodeFips);
   }
 
-  getLustIncident(lustId: number ): Observable<LustIncidentGet> {
-    return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  lustId);
+  getLustIncident(lustId: string ): Observable<LustIncidentGet> {
+    return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  +lustId);
   }
 
 }

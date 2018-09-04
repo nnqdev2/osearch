@@ -21,6 +21,10 @@ import { StatesResolver } from '../resolvers/states-resolver.service';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { LustIncidentCreateComponent } from './lust-incident-create/lust-incident-create.component';
 import { LustIncidentEditComponent } from './lust-incident-edit/lust-incident-edit.component';
+import { SiteAliasComponent } from './site-alias/site-alias.component';
+import { BrownfieldsResolver } from '../resolvers/brownfields-resolver.service';
+import { SiteType2sResolver } from '../resolvers/site-type2s-resolver.service';
+import { LustIncidentGetResolver } from '../resolvers/lust-incident-get-resolver.service';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,
@@ -54,16 +58,21 @@ const routes: Routes = [
   { path: 'lust/:lustid', component: LustIncidentEditComponent,
     resolve: {
       siteTypes: SiteTypesResolver,
-      confirmationTypes: ConfirmationTypesResolver,
+      siteType2s: SiteType2sResolver,
+      brownfields: BrownfieldsResolver,
       counties: CountiesResolver,
-      discoveryTypes: DiscoveryTypesResolver,
-      releaseCauseTypes: ReleaseCauseTypesResolver,
-      sourceTypes: SourceTypesResolver,
-      states: StatesResolver,
       zipCodes: ZipCodesResolver,
+      lustIncidentGet: LustIncidentGetResolver,
     },
-    canDeactivate: [CanDeactivateGuard]
+    canDeactivate: [CanDeactivateGuard],
+    children:
+    [
+      {
+          path: 'sitealias', component: SiteAliasComponent
+      },
+    ]
   },
+
 ];
 
 @NgModule({
