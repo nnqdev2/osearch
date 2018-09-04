@@ -32,7 +32,7 @@ export class SiteAliasResultDataSourceService implements DataSource<SiteAlias> {
   loadResults(lustId: number) {
       console.log( JSON.stringify(lustId));
       this.loadingSubject.next(true);
-      this.lustDataService.getSiteAlias(lustId)
+      this.lustDataService.getSiteAliases(lustId)
           .pipe(
               finalize(() => this.loadingSubject.next(false)),
           )

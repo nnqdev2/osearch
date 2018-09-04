@@ -235,13 +235,13 @@
                                 </div>
                                 <div class="form-group required col-md-3">
                                     <mat-form-field >  
-                                        <mat-label class="control-label" for="siteCounty">Closure</mat-label> 
-                                        <mat-select placeholder="Closure" id="closure" formControlName="brownfield">     
+                                        <mat-label class="control-label" for="fileStatusId">Closure</mat-label> 
+                                        <mat-select placeholder="Closure" id="fileStatusId" formControlName="fileStatusId">     
                                             <mat-option selected="selected" value=""> </mat-option> 
-                                            <mat-option *ngFor="let brownfield of brownfields" [value]="brownfield?.id" > {{brownfield?.descript}}</mat-option>  
+                                            <mat-option *ngFor="let fileStatus of fileStatuses" [value]="fileStatus?.fileStatusTypeID" > {{fileStatus?.fileStatusTypeDescription}}</mat-option>  
                                         </mat-select>    
                                     </mat-form-field>  
-                                    <app-show-errors [control]="incidentForm.controls.brownfield"  [submitClicked]="submitClicked"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.fileStatusId"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
                                 <div class="form-group required col-md-3">
                                     <mat-form-field >  

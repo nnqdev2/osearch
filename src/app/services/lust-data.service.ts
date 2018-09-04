@@ -187,7 +187,7 @@ export class LustDataService {
     return this.http.post<LustIncidentInsertResult>(environment.olprrapi_insert_lust, incident);
   }
 
-  getSiteAlias(lustId: number): Observable<SiteAlias[]> {
+  getSiteAliases(lustId: number): Observable<SiteAlias[]> {
     return this.http.get<SiteAlias[]>(environment.olprrapi_sitealias + '/' +  lustId);
   }
 

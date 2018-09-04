@@ -39,6 +39,7 @@ import { SiteType2 } from '../../models/site-type2';
 import { Brownfield } from '../../models/brownfield';
 import { ProjectManager } from '../../models/project-manager';
 import { LustIncidentGet } from '../../models/lust-incident-get';
+import { FileStatus } from '../../models/file-status';
 @Component({
   selector: 'app-lust-incident-edit',
   templateUrl: './lust-incident-edit.component.html',
@@ -57,6 +58,7 @@ export class LustIncidentEditComponent implements OnInit  {
   siteTypes: SiteType[] = [];
   siteType2s: SiteType2[] = [];
   brownfields: Brownfield[] = [];
+  fileStatuses: FileStatus[] = [];
   projectManagers: ProjectManager[] = [];
   sourceTypes: SourceType[] = [];
   cities: City[] = [];
@@ -126,7 +128,7 @@ export class LustIncidentEditComponent implements OnInit  {
   ) {  }
 
   ngOnInit() {
-    console.log('ngOnInit()');
+    console.log('edit lust ngOnInit()');
     this.loadingSubject.next(true);
     this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.incidentData = data.lustIncidentGet;
     console.log(this.incidentData); });
@@ -137,6 +139,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
     this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes; });
     this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    this.route.data.subscribe((data: {fileStatuses: FileStatus[]}) => {this.fileStatuses = data.fileStatuses; });
     this.createForm();
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
@@ -159,15 +162,16 @@ export class LustIncidentEditComponent implements OnInit  {
         siteCounty:  [this.incidentData.logNbrCounty, Validators.required],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
         noValidAddress: [this.incidentData.noValidAddress],
-        releaseType:  [this.incidentData.releaseType, Validators.required],
-        siteType2: [this.incidentData.siteTypeId, Validators.required],
+        releaseType:  [this.incidentData.releaseType],
+        siteType2: [this.incidentData.siteTypeId],
+        fileStatusId: [this.incidentData.fileStatusId],
         closureType: [''],
         brownfield: [this.incidentData.brownfieldCodeId],
-        propertyTranPendingInd: [{value: this.incidentData.propertyTranPendingInd}],
-        programTransferInd:     [{value: this.incidentData.programTransferInd}],
-        hotAuditRejectInd:      [{value: this.incidentData.hotAuditRejectInd}],
-        activeReleaseInd:       [{value: this.incidentData.activeReleaseInd}],
-        optionLetterSentInd:    [{value: this.incidentData.optionLetterSentInd}],
+        propertyTranPendingInd: [this.incidentData.propertyTranPendingInd],
+        programTransferInd:     [this.incidentData.programTransferInd],
+        hotAuditRejectInd:      [this.incidentData.hotAuditRejectInd],
+        activeReleaseInd:       [this.incidentData.activeReleaseInd],
+        optionLetterSentInd:    [this.incidentData.optionLetterSentInd],
         dateReceived:  [{value: ''},  Validators.required],
         discoveryDate: [{value: ''}, Validators.compose([Validators.required])],
         cleanupStartDate:  [this.transformDate(this.incidentData.cleanupStartDate)],

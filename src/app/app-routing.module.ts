@@ -75,7 +75,7 @@ const routes: Routes = [
       },
       canDeactivate: [CanDeactivateGuard]
   },
-  { path: 'sitealias/37067', component: SiteAliasComponent, }
+  // { path: 'sitealias/37067', component: SiteAliasComponent, }
 
 ];
 

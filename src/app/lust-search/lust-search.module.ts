@@ -22,6 +22,8 @@ import { ContactSearchRoutingModule } from '../contact-search/contact-search-rou
 import { ContactSearchModule } from '../contact-search/contact-search.module';
 import { ContactSearchFilterComponent } from '../contact-search/contact-search-filter.component';
 import { ContactSearchResultComponent } from '../contact-search/contact-search-result.component';
+import { LustIncidentComponent } from './lust-incident/lust-incident.component';
+
 
 @NgModule({
   imports: [
@@ -38,7 +40,7 @@ import { ContactSearchResultComponent } from '../contact-search/contact-search-r
     ContactSearchModule,
   ],
   declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
-                , ConfirmDeleteDialogComponent, SiteAliasComponent],
+                , ConfirmDeleteDialogComponent, SiteAliasComponent, LustIncidentComponent, ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
   exports: [lustSearchRoutingComponents]
 })

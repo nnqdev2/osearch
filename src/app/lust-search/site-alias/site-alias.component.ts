@@ -14,6 +14,7 @@ import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-d
 })
 export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
+  lustIdSub: any;
   lustId: number;
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
@@ -32,12 +33,19 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
     this.siteAliasDataSource = new SiteAliasResultDataSourceService(this.lustDataService);
   }
   ngOnInit() {
-    console.log('on init .....');
-    // this.lustId = +this.route.snapshot.params['lustid'];
-    this.lustId = 37067;
+    console.log('site alias on init  this.lustId.....');
+    this.lustId = +this.route.snapshot.params['lustid'];
+
+    this.lustIdSub = this.route.parent.params.subscribe(params => {
+      this.lustId = +params['lustid'];
+    });
+
+    console.log('site alias this.lustId');
+    console.log(this.lustId);
     this.loadResultPage();
     this.getSearchResults();
   }
+
 
   ngOnChanges(changes: SimpleChanges) {
     this.loadResultPage();
@@ -81,6 +89,7 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.lustIdSub.unsubscribe();
   }
 
   onEdit(siteAlias: SiteAlias) {

@@ -25,6 +25,7 @@ import { SiteAliasComponent } from './site-alias/site-alias.component';
 import { BrownfieldsResolver } from '../resolvers/brownfields-resolver.service';
 import { SiteType2sResolver } from '../resolvers/site-type2s-resolver.service';
 import { LustIncidentGetResolver } from '../resolvers/lust-incident-get-resolver.service';
+import { LustIncidentComponent } from './lust-incident/lust-incident.component';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,
@@ -55,25 +56,48 @@ const routes: Routes = [
     },
     canDeactivate: [CanDeactivateGuard]
   },
-  { path: 'lust/:lustid', component: LustIncidentEditComponent,
-    resolve: {
-      siteTypes: SiteTypesResolver,
-      siteType2s: SiteType2sResolver,
-      brownfields: BrownfieldsResolver,
-      counties: CountiesResolver,
-      zipCodes: ZipCodesResolver,
-      lustIncidentGet: LustIncidentGetResolver,
-    },
-    canDeactivate: [CanDeactivateGuard],
-    children:
-    [
-      {
-          path: 'sitealias', component: SiteAliasComponent
-      },
-    ]
-  },
+  // { path: 'lust/:lustid', component: LustIncidentEditComponent,
+  //   resolve: {
+  //     siteTypes: SiteTypesResolver,
+  //     siteType2s: SiteType2sResolver,
+  //     fileStatuses: FileStatusesResolver,
+  //     brownfields: BrownfieldsResolver,
+  //     counties: CountiesResolver,
+  //     cities: CitiesResolver,
+  //     zipCodes: ZipCodesResolver,
+  //     lustIncidentGet: LustIncidentGetResolver,
+  //   },
+  //   canDeactivate: [CanDeactivateGuard],
+  //   children:
+  //   [
+  //     {
+  //         path: 'sitealias', component: SiteAliasComponent
+  //     },
+  //   ]
+  // },
 
-];
+
+  { path: 'lust/:lustid', component: LustIncidentComponent,
+      children:
+      [
+        {path: '', redirectTo: 'incident', pathMatch: 'full'},
+        {path: 'incident', component: LustIncidentEditComponent,
+          resolve: {
+            siteTypes: SiteTypesResolver,
+            siteType2s: SiteType2sResolver,
+            fileStatuses: FileStatusesResolver,
+            brownfields: BrownfieldsResolver,
+            counties: CountiesResolver,
+            cities: CitiesResolver,
+            zipCodes: ZipCodesResolver,
+            lustIncidentGet: LustIncidentGetResolver,
+          },
+          canDeactivate: [CanDeactivateGuard],
+        },
+        {path: 'sitealias', component: SiteAliasComponent},
+      ]
+    },
+  ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
@@ -81,7 +105,7 @@ const routes: Routes = [
 })
 export class LustSearchRoutingModule { }
 export const lustSearchRoutingComponents = [LustSearchFilterComponent, LustSearchResultComponent, LustIncidentCreateComponent
-      , LustIncidentEditComponent];
+      , LustIncidentEditComponent, SiteAliasComponent];
 
 
 
