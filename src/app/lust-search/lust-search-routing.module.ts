@@ -26,6 +26,16 @@ import { BrownfieldsResolver } from '../resolvers/brownfields-resolver.service';
 import { SiteType2sResolver } from '../resolvers/site-type2s-resolver.service';
 import { LustIncidentGetResolver } from '../resolvers/lust-incident-get-resolver.service';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
+import { ContactComponent } from './contact/contact.component';
+import { InspectionComponent } from './inspection/inspection.component';
+import { ProjectManagerComponent } from './project-manager/project-manager.component';
+import { WorkReportedComponent } from './work-reported/work-reported.component';
+import { PetroleumContaminatedSoilComponent } from './petroleum-contaminated-soil/petroleum-contaminated-soil.component';
+import { SiteControlComponent } from './site-control/site-control.component';
+import { PublicNoticeComponent } from './public-notice/public-notice.component';
+import { SitePhotoComponent } from './site-photo/site-photo.component';
+import { AssessmentComponent } from './assessment/assessment.component';
+import { EnforcementComponent } from './enforcement/enforcement.component';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,
@@ -95,6 +105,17 @@ const routes: Routes = [
           canDeactivate: [CanDeactivateGuard],
         },
         {path: 'sitealias', component: SiteAliasComponent},
+        {path: 'contact', component: ContactComponent},
+        {path: 'assessment', component: AssessmentComponent},
+        {path: 'projectmanager', component: ProjectManagerComponent},
+        {path: 'workreported', component: WorkReportedComponent},
+        {path: 'petcontsoil', component: PetroleumContaminatedSoilComponent},
+        {path: 'inspection', component: InspectionComponent},
+        {path: 'sitecontrol', component: SiteControlComponent},
+        {path: 'publicnotice', component: PublicNoticeComponent},
+        {path: 'enforcement', component: EnforcementComponent},
+        {path: 'sitephoto', component: SitePhotoComponent},
+        {path: 'enforcement', component: EnforcementComponent},
       ]
     },
   ];

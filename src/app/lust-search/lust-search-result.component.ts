@@ -28,7 +28,6 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
 
   subscription: Subscription;
   lustSearchResultStats: LustSearchResultStat[];
-  lustSearchResultStat: LustSearchResultStat;
   totalRows = 0;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
@@ -112,9 +111,8 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
   }
 
   onRowClicked(lustSearchResultStat: LustSearchResultStat) {
-    this.lustSearchResultStat = lustSearchResultStat;
     if (!this.isSearchOnly) {
-      this.router.navigate(['lust', this.lustSearchResultStat.lustId]);
+      this.router.navigate(['lust', lustSearchResultStat.lustId]);
     }
   }
 

@@ -23,6 +23,16 @@ import { ContactSearchModule } from '../contact-search/contact-search.module';
 import { ContactSearchFilterComponent } from '../contact-search/contact-search-filter.component';
 import { ContactSearchResultComponent } from '../contact-search/contact-search-result.component';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
+import { ContactComponent } from './contact/contact.component';
+import { ProjectManagerComponent } from './project-manager/project-manager.component';
+import { WorkReportedComponent } from './work-reported/work-reported.component';
+import { PetroleumContaminatedSoilComponent } from './petroleum-contaminated-soil/petroleum-contaminated-soil.component';
+import { InspectionComponent } from './inspection/inspection.component';
+import { SiteControlComponent } from './site-control/site-control.component';
+import { PublicNoticeComponent } from './public-notice/public-notice.component';
+import { SitePhotoComponent } from './site-photo/site-photo.component';
+import { EnforcementComponent } from './enforcement/enforcement.component';
+import { AssessmentComponent } from './assessment/assessment.component';
 
 
 @NgModule({
@@ -40,7 +50,7 @@ import { LustIncidentComponent } from './lust-incident/lust-incident.component';
     ContactSearchModule,
   ],
   declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
-                , ConfirmDeleteDialogComponent, SiteAliasComponent, LustIncidentComponent, ],
+                , ConfirmDeleteDialogComponent, SiteAliasComponent, LustIncidentComponent, ContactComponent, ProjectManagerComponent, WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent, PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
   exports: [lustSearchRoutingComponents]
 })

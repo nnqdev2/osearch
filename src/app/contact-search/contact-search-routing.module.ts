@@ -5,16 +5,12 @@ import { ContactSearchFilterComponent } from './contact-search-filter.component'
 import { ContactSearchResultComponent } from './contact-search-result.component';
 const routes: Routes = [
   { path: 'csearch', component: ContactSearchFilterComponent,
-    resolve: {
-    },
+    resolve: { },
   },
 ];
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: []
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class ContactSearchRoutingModule { }
 export const contactSearchRoutingComponents = [ContactSearchFilterComponent, ContactSearchResultComponent];
-
