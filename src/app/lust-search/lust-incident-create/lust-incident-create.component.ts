@@ -531,7 +531,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   onCreateLustIncidentComplete(): void {
-    this.router.navigate(['lust/' , this.lustIncidentInsertResult.lustIdTemp]);
+    this.router.navigate(['lust' , this.lustIncidentInsertResult.lustIdTemp]);
   }
 
   private findInvalidControls() {
