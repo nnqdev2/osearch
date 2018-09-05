@@ -531,9 +531,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   }
 
   onCreateLustIncidentComplete(): void {
-    console.log('onCreateLustIncidentComplete() this.lustIncidentInsertResult');
-    console.log(this.lustIncidentInsertResult);
-    this.router.navigate(['lust/' + this.lustIncidentInsertResult.lustIdTemp]);
+    this.router.navigate(['lust/' , this.lustIncidentInsertResult.lustIdTemp]);
   }
 
   private findInvalidControls() {

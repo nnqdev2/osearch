@@ -8,7 +8,12 @@
 
             <mat-table class="incidents-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="dataSource"
                         matSort  matSortActive="lustId" matSortDirection="asc" matSortDisableClear >
-
+                <ng-container matColumnDef="reqPageNumber" >
+                    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                    <mat-cell *matCellDef="let lustSearchResultStat"> 
+                        <button mat-raised-button type="button" (click)="onRowClicked(lustSearchResultStat)" >Select</button>  
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="logNumber">
                     <mat-header-cell *matHeaderCellDef >Log Nbr</mat-header-cell>
                     <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.logNumber}}</mat-cell>

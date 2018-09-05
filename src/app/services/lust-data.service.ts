@@ -216,6 +216,8 @@ export class LustDataService {
   }
 
   getLustIncident(lustId: string ): Observable<LustIncidentGet> {
+    console.log('********************* getLustIncident(lustId: string )');
+    console.log(lustId);
     return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  +lustId);
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -22,9 +22,8 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
   dataSource: LustSearchResultDataSourceService;
-  displayedColumns = [ 'logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
+  displayedColumns = [ 'reqPageNumber', 'logNumber', 'siteName', 'siteAddress', 'firDt', 'closedDt'
                     , 'facilityId', 'siteScore'];
 
   subscription: Subscription;
@@ -111,13 +110,13 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
     this.subscription.unsubscribe();
   }
 
-
-  onRowClicked(lustId: string) {
-    console.log('onRowClicked(lustId: string) ');
-    console.log(lustId);
-    console.log(this.isSearchOnly);
-  // //   this.router.navigate(['review/', +lustId]);
+  onRowClicked(lustSearchResultStat: LustSearchResultStat) {
+    if (!this.isSearchOnly) {
+      this.router.navigate(['lust/', lustSearchResultStat.lustId]);
+    }
   }
+
+
 }
 
 

@@ -70,9 +70,9 @@ export class UstSearchFilterComponent implements OnInit {
     this.showUstSearchResultsFlag = true;
   }
 
-  onRowClicked(ustSearchResultStat: UstSearchResultStat) {
-    this.rowSelected.emit(ustSearchResultStat);
-  }
+  // onRowClicked(ustSearchResultStat: UstSearchResultStat) {
+  //   this.rowSelected.emit(ustSearchResultStat);
+  // }
 
   onSelected(ustSearchResultStat: UstSearchResultStat) {
     this.rowSelected.emit(ustSearchResultStat);
