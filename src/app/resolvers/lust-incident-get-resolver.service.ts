@@ -11,10 +11,6 @@ import { LustIncidentGet } from '../models/lust-incident-get';
 export class LustIncidentGetResolver implements Resolve<Observable<LustIncidentGet>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<LustIncidentGet> {
-    console.log('where am i???');
-    console.log(route);
-    console.log(state);
-    console.log(route.parent.paramMap.get('lustid'));
     return this.lustDataService.getLustIncident(route.parent.paramMap.get('lustid'));
   }
 }
