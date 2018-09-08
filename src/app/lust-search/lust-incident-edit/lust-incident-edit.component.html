@@ -223,7 +223,7 @@
                                 <div class="form-group required col-md-3">
                                     <mat-form-field>
                                         <mat-label class="control-label" for="releaseType">Site Type</mat-label>
-                                        <mat-select formControlName="siteType2" >
+                                        <mat-select formControlName="siteType2Id" >
                                             <mat-option value=""></mat-option>
                                             <mat-option *ngFor="let siteType2 of siteType2s" 
                                                     [value]="siteType2?.id" >
@@ -245,8 +245,8 @@
                                 </div> 
                                 <div class="form-group required col-md-3">
                                     <mat-form-field >  
-                                        <mat-label class="control-label" for="siteCounty">Brownfield</mat-label> 
-                                        <mat-select placeholder="Brownfield" id="brownfield" formControlName="brownfield">     
+                                        <mat-label class="control-label" for="brownfieldCodeId">Brownfield</mat-label> 
+                                        <mat-select placeholder="Brownfield" id="brownfieldCodeId" formControlName="brownfieldCodeId">     
                                             <mat-option selected="selected" value=""> </mat-option> 
                                             <mat-option *ngFor="let brownfield of brownfields" [value]="brownfield?.id" > {{brownfield?.descript}}</mat-option>  
                                         </mat-select>    
@@ -300,16 +300,7 @@
                         <mat-card-title >Management</mat-card-title>  
                         <mat-card-content> 
                             <div class="form-row full-width">
-                                <div class="form-group required col-md-3">
-                                    <mat-form-field >
-                                        <mat-label class="control-label" for="createDate">Created</mat-label>
-                                        <input matInput [max]="maxDate" [matDatepicker]="createDate"  formControlName="createDate">
-                                            <mat-datepicker-toggle matSuffix [for]="createDate"></mat-datepicker-toggle>
-                                            <mat-datepicker #createDate [startAt]="maxDate" ></mat-datepicker>
-                                    </mat-form-field>
-                                    <app-show-errors [control]="incidentForm.controls.createDate"  [submitClicked]="submitClicked"></app-show-errors>
-                                </div> 
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="dateReceived">Received</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="dateReceived"  formControlName="dateReceived">
@@ -318,7 +309,7 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.dateReceived"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="discoveryDate">Discovered</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="discoveryDate"  formControlName="discoveryDate">
@@ -327,7 +318,7 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.discoveryDate"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="discoveryDate">Closed</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="closedDate"  formControlName="closedDate">
@@ -338,7 +329,7 @@
                                 </div>
                             </div>
                             <div class="form-row full-width">
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="dateReceived">Cleanup Start</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="cleanupStartDate"  formControlName="cleanupStartDate">
@@ -347,7 +338,7 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.cleanupStartDate"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="releaseStopDate">Release Stop</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="releaseStopDate"  formControlName="releaseStopDate">
@@ -356,7 +347,7 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.releaseStopDate"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="finalInvcRqstDate">Final Invoice Request</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="finalInvcRqstDate"  formControlName="finalInvcRqstDate">
@@ -365,9 +356,9 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.finalInvcRqstDate"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
-                                <div class="form-group required col-md-3">
+                                <div class="form-group required col-md-2">
                                     <mat-form-field >
-                                        <mat-label class="control-label" for="discoveryDate">Letter Of Agreement</mat-label>
+                                        <mat-label class="control-label" for="letterOfAgreementDate">Letter Of Agreement</mat-label>
                                         <input matInput [max]="maxDate" [matDatepicker]="letterOfAgreementDate"  formControlName="letterOfAgreementDate">
                                             <mat-datepicker-toggle matSuffix [for]="letterOfAgreementDate"></mat-datepicker-toggle>
                                             <mat-datepicker #letterOfAgreementDate [startAt]="maxDate" ></mat-datepicker>
@@ -377,6 +368,59 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
+
+                    <mat-card>
+                        <mat-card-title>Comments</mat-card-title>
+                        <mat-card-content>
+                            <mat-card>
+                                <!-- <mat-card-title>Site Comment</mat-card-title> -->
+                                <mat-card-content>
+                                    <div class="form-row full-width example-container">
+                                        <mat-label class="control-label" for="siteComment">Site Comment</mat-label>
+                                        <mat-form-field class="example-full-width">
+                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="siteComment" ></textarea>
+                                        </mat-form-field>  
+                                    </div>  
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card>
+                                <!-- <mat-card-title>See Also Comment</mat-card-title> -->
+                                <mat-card-content>
+                                    <div class="form-row full-width example-container">
+                                        <mat-label class="control-label" for="seeAlsoComment">See Also Comments</mat-label>
+                                        <mat-form-field class="example-full-width">
+                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="seeAlsoComment" ></textarea>
+                                        </mat-form-field>  
+                                    </div>  
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card>
+                                <!-- <mat-card-title>Public Summary Comment</mat-card-title> -->
+                                <mat-card-content>
+                                    <div class="form-row full-width example-container">
+                                        <mat-label class="control-label" for="publicSummaryComment">Public Summary Comment</mat-label>
+                                        <mat-form-field class="example-full-width">
+                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="publicSummaryComment"></textarea>
+                                        </mat-form-field>  
+                                    </div>   
+                                </mat-card-content>
+                            </mat-card>  
+                            <mat-card>
+                                <!-- <mat-card-title>Cost Recovery Comment</mat-card-title> -->
+                                <mat-card-content>
+                                    <div class="form-row full-width example-container">
+                                        <mat-label class="control-label" for="letterOfAgreementComment">Cost Recovery Comment</mat-label>
+                                        <mat-form-field class="example-full-width">
+                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="letterOfAgreementComment"></textarea>
+                                        </mat-form-field>  
+                                    </div>   
+                                </mat-card-content>
+                            </mat-card>                     
+                        </mat-card-content>
+                    </mat-card>
+
+
+
                 </mat-card-content>
 
 

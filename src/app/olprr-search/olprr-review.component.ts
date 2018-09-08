@@ -30,7 +30,7 @@ import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../common/dialogs/guard-dialog.component';
 import { SearchDialogComponent } from './search-dialog.component';
 import { PdfService } from '../common/pdf.service';
-import { LustIncident } from '../models/lust-incident';
+import { LustIncidentUpdate } from '../models/lust-incident';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 
 @Component({
@@ -95,7 +95,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   showRpAddressCorrect = false;
   showIcAddressCorrect = false;
 
-  lustIncident = new LustIncident();
+  lustIncident = new LustIncidentUpdate();
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
@@ -491,10 +491,10 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
       this.lustIncident.icState = this.incidentData.icState;
     }
 
-    // this.lustIncident.icCountry = 'USA';
-    // this.lustIncident.rpCountry = 'USA';
-    // this.lustIncident.rpAffilComments = '';
-    // this.lustIncident.icAffilComments = '';
+    // this.lustIncidentUpdate.icCountry = 'USA';
+    // this.lustIncidentUpdate.rpCountry = 'USA';
+    // this.lustIncidentUpdate.rpAffilComments = '';
+    // this.lustIncidentUpdate.icAffilComments = '';
     this.lustIncident.lustIdIn = 0;
 
     if (typeof this.incidentForm.controls.facilityId.value !== 'undefined'

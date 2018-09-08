@@ -7,7 +7,7 @@ import { formatNumber, DatePipe, DecimalPipe } from '@angular/common';
 import { convertInjectableProviderToFactory } from '@angular/core/src/di/injectable';
 import { convertToParamMap } from '@angular/router';
 import { INT_TYPE } from '@angular/compiler/src/output/output_ast';
-import { LustIncident } from '../models/lust-incident';
+import { LustIncidentUpdate } from '../models/lust-incident';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 import { environment } from '../../environments/environment';
 
@@ -20,7 +20,7 @@ export class PdfService {
 
   constructor() { }
 
-  createOlprrPdfIncident(lustIncident: LustIncident, lustIncidentResult: LustIncidentInsertResult) {
+  createOlprrPdfIncident(lustIncident: LustIncidentUpdate, lustIncidentResult: LustIncidentInsertResult) {
 
       const SaveFileName: string = lustIncidentResult.logNumberTemp;
       let LogNumber: string;

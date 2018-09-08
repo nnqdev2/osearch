@@ -23,7 +23,7 @@ import { AddressCorrect } from '../../models/address-correct';
 import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CanDeactivateGuard } from '../../guards/can-deactivate-guard.service';
 import { GuardDialogComponent } from '../../common/dialogs/guard-dialog.component';
-import { LustIncident } from '../../models/lust-incident';
+import { LustIncidentUpdate} from '../../models/lust-incident';
 import { LustIncidentInsertResult } from '../../models/lust-incident-insert-result';
 import { City } from '../../models/city';
 import { ZipCode } from '../../models/zipcode';
@@ -74,13 +74,13 @@ export class LustIncidentCreateComponent implements OnInit  {
   showInvoiceContact = false;
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  acceptClicked = false;
-  holdClicked = false;
-  declineClicked = false;
-  searchClicked = false;
-  isClosed = true;
-  isContaminantClosed = true;
-  isMediaClosed = true;
+  private submitClicked = false;
+  private resetFormClicked = false;
+  private helpClicked = false;
+  private searchClicked = false;
+  private  isClosed = true;
+  private isContaminantClosed = true;
+  private isMediaClosed = true;
   showAllErrorsMessages = false;
   showContaminantErrorMessage = false;
   showMediaErrorMessage = false;
@@ -89,7 +89,8 @@ export class LustIncidentCreateComponent implements OnInit  {
   contaminantErrorMessages: [string];
   mediaErrorMessages: [string];
 
-  submitClicked = false;
+
+  private formUpdated = false;
 
   errors: any[];
   authRequired = false;
@@ -126,10 +127,10 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
     this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
-    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities;});
+    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes;});
-    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties;});
+    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes; });
+    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
     this.createForm();
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
@@ -382,6 +383,7 @@ export class LustIncidentCreateComponent implements OnInit  {
       this.incidentForm.controls.icEmail.setValue(contactSearchResultStat.email);
       this.incidentForm.controls.icZipcode.setValue(contactSearchResultStat.zipcode);
     }
+    this.formUpdated = true;
   }
   private updateSiteAddress(ustSearchResultStat: UstSearchResultStat) {
     this.incidentForm.controls.facilityId.setValue(ustSearchResultStat.facilityId);
@@ -390,11 +392,15 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.incidentForm.controls.siteCity.setValue(ustSearchResultStat.facilityCity);
     this.incidentForm.controls.siteCounty.setValue(ustSearchResultStat.countyCode);
     this.incidentForm.controls.siteZipcode.setValue(ustSearchResultStat.facilityZip);
+    this.formUpdated = true;
   }
 
 
   canDeactivate(): Observable<boolean> | boolean {
-    if (this.incidentForm.pristine  || this.isActionSelected() ) {
+    if (
+      (this.isActionSelected()) ||
+      (this.incidentForm.pristine  && !this.formUpdated)
+    ) {
       return true;
     }
     const choice: Subject<boolean> = new Subject<boolean>();
@@ -417,15 +423,15 @@ export class LustIncidentCreateComponent implements OnInit  {
     if  (this.submitClicked) {
       return true;
     }
-    // if  (this.holdClicked) {
-    //   return true;
-    // }
-    // if  (this.declineClicked) {
-    //   return true;
-    // }
-    // if  (this.searchClicked) {
-    //   return true;
-    // }
+    if  (this.resetFormClicked) {
+      return true;
+    }
+    if  (this.helpClicked) {
+      return true;
+    }
+    if  (this.searchClicked) {
+      return true;
+    }
     return false;
   }
 
@@ -494,7 +500,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   submitIncident(): void {
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
-        this.createIncident();
+      this.createIncident();
     } else if (this.incidentForm.invalid) {
         this.errors = this.findInvalidControls();
         console.log(this.errors);
@@ -515,6 +521,8 @@ export class LustIncidentCreateComponent implements OnInit  {
         this.isContaminantClosed = false;
         this.isMediaClosed = false;
     }
+    console.log('list of errors: ..... ');
+    console.log(this.errors);
   }
 
   createIncident(): void {
@@ -538,12 +546,10 @@ export class LustIncidentCreateComponent implements OnInit  {
     const invalid = [];
     const controls = this.incidentForm.controls;
     for (const field of Object.keys(this.incidentForm.controls)) {
-        if (this.incidentForm.controls[field].invalid) {
-            console.log('****findInvalidControls');
-            console.log(field);
-            const name = this.idToNameService.getName(field);
-            invalid.push(name + ' is required and must be valid.');
-        }
+      if (this.incidentForm.controls[field].invalid) {
+          const name = this.idToNameService.getName(field);
+          invalid.push(name + ' is required and must be valid.');
+      }
     }
 
     const contaminantErrorMessage = this.getContaminantErrorMessage();
@@ -649,6 +655,28 @@ export class LustIncidentCreateComponent implements OnInit  {
 
   getAuthUserErrorMessage(): string {
     return 'Auth User required for opening LIT.....';
+  }
+
+  private cancel() {
+    this.searchClicked = true;
+    this.router.navigate(['lsearch']);
+  }
+
+  resetFlags() {
+    this.showAllErrorsMessages = false;
+    this.submitClicked = false;
+    this.resetFormClicked = false;
+    this.helpClicked = false;
+    this.searchClicked = false;
+  }
+
+
+
+  resetForm(): void {
+    this.resetFormClicked = true;
+    this.incidentForm.reset();
+    this.resetFlags();
+    this.resetDate();
   }
 
 }

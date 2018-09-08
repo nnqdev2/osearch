@@ -1,4 +1,4 @@
-export class LustIncident {
+export class LustIncidentUpdate {
     lustIdIn: number;
     facilityId: number;
     countyId: number;

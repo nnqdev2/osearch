@@ -740,8 +740,6 @@
                         </mat-card-content>
                     </mat-card>
                 </mat-card-content>
-
-
                 <!-- show errors  -->
                 <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
                 <ng-template #showAllErrorsMessages> 
@@ -757,10 +755,6 @@
                 </ng-template>
 
                 <!-- /show errors  -->
-
-
-
-
                 <mat-card>
                     <mat-card-actions>
                         <div class="form-group row">
@@ -768,13 +762,13 @@
                                 <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Save</button>
                             </div>
                             <div class="col-md-3 ">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="hold()" >Clear</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()" >Clear</button>
                             </div>
                             <div class="col-md-3 ">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="decline()" >Return to Search</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()" >Cancel/Return to Search</button>
                             </div>
                             <div class="col-md-3">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Help</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="help()">Help</button>
                             </div>
                         </div>   
                     </mat-card-actions> 

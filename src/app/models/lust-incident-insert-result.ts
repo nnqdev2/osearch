@@ -1,4 +1,4 @@
-export class LustIncidentInsertResult {
+export interface LustIncidentInsertResult {
     olprrId: number;
     errorMessage: string;
     logNumberTemp: string;

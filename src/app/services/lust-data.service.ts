@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, of} from 'rxjs';
-import { tap, map, catchError } from 'rxjs/operators';
-import { OlprrSearchResult } from '../models/olprr-search-result';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable} from 'rxjs';
 import { OlprrSearchFilter } from '../models/olprr-search-filter';
 import { DeqOffice } from '../models/deq-office';
 import { IncidentStatus } from '../models/incident-status';
-import { OlprrSearchResultWithStats } from '../models/olprr-search-results-with-stats';
-import { ApOlprrGetIncident } from '../models/apOlprrGetIncident';
 import { OlprrSearchResultStat } from '../models/olprr-search-result-stat';
 
 
@@ -38,7 +34,6 @@ import { UstSearchFilter } from '../models/ust-search-filter';
 import { UstSearchResultStat } from '../models/ust-search-result-stat';
 import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrectStat } from '../models/address-correct-stat';
-import { LustIncident } from '../models/lust-incident';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 import { SiteAlias } from '../models/site-alias';
 import { SiteAliasPost } from '../models/site-alias-post';
@@ -48,14 +43,15 @@ import { PostalCountyLookup } from '../models/postal-county-lookup';
 import { LustIncidentGet } from '../models/lust-incident-get';
 import { Brownfield } from '../models/brownfield';
 import { SiteType2 } from '../models/site-type2';
+import { LustIncidentUpdate } from '../models/lust-incident-update-update';
+import { LustIncidentUpdateResult } from '../models/lust-incident-update-Result';
+import { LustIncident } from '../models/lust-incident';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LustDataService {
 
-  private loggers: LogPublisherConfig[] = [];
-  private addressCorrectStats: AddressCorrectStat[] = [];
 
   constructor(private http: HttpClient)  { }
 
@@ -183,7 +179,7 @@ export class LustDataService {
     return this.http.get<PostalCountyVerification>(environment.olprrapi_review_postalcounty, { params: params });
   }
 
-  createLustIncident(incident: LustIncident): Observable<LustIncidentInsertResult> {
+  createLustIncident(incident: LustIncidentUpdate): Observable<LustIncidentInsertResult> {
     return this.http.post<LustIncidentInsertResult>(environment.olprrapi_insert_lust, incident);
   }
 
@@ -217,6 +213,10 @@ export class LustDataService {
 
   getLustIncident(lustId: string ): Observable<LustIncidentGet> {
     return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  +lustId);
+  }
+
+  updateLustIncident(lustIncidentUpdate: LustIncidentUpdate): Observable<LustIncidentUpdateResult> {
+    return this.http.post<LustIncidentUpdateResult>(environment.olprrapi_lust_incident_update , lustIncidentUpdate);
   }
 
 }

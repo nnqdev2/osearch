@@ -11,7 +11,7 @@ export class ProjectManagersByLustidResolver implements Resolve<Observable<Proje
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ProjectManager[]> {
     console.log('************ProjectManagersByLustidResolverService' );
-    console.log(route.paramMap.get('lustid'));
-    return this.lustDataService.getProjectManagersByLustId(+route.paramMap.get('lustid'));
+    console.log(route.parent.paramMap.get('lustid'));
+    return this.lustDataService.getProjectManagersByLustId(+route.parent.paramMap.get('lustid'));
   }
 }

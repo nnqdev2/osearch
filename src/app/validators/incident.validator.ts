@@ -23,7 +23,7 @@ export class IncidentValidators {
         oneOrMoreMedia: {
           oneOrMoreMedia: true
         }
-      }
+      };
     }
     // return email.value === confirm.value ? null : { nomatch: true };
   }

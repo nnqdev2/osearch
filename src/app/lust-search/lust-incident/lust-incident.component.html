@@ -4,7 +4,7 @@
             <div class="form-group row">
             <div class="col-md-10"></div>
             <div class="col-md-2">
-                <button mat-button [matMenuTriggerFor]="menu">Lust Incident Menu</button>
+                <button mat-raised-button [matMenuTriggerFor]="menu"  >Lust Incident Menu</button>
                 <mat-menu #menu="matMenu">
                     <a [routerLink]="['/lust/new']" mat-menu-item>Create New Incident</a>
                     <a [routerLink]="['incident']" mat-menu-item> Update Incident</a>
@@ -26,3 +26,4 @@
     </mat-card>
     <router-outlet></router-outlet>
 </div>
+
