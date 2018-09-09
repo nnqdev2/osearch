@@ -275,12 +275,8 @@ export class LustIncidentEditComponent implements OnInit  {
 
   submitIncident(): void {
     this.submitClicked = true;
-    console.log('*******************submitIncident this.incidentForm');
-    console.log('*******************this.incidentForm');
-    console.log(this.incidentForm);
     if (this.incidentForm.dirty && this.incidentForm.valid) {
-      console.log('submitIncident this.incidentForm this.createIncident() ');
-        this.createIncident();
+        this.updateIncident();
     } else if (this.incidentForm.invalid) {
         this.errors = this.findInvalidControls();
         console.log('this.errors');
@@ -304,12 +300,11 @@ export class LustIncidentEditComponent implements OnInit  {
     }
   }
 
-  createIncident(): void {
+  updateIncident(): void {
     this.lustIncidentUpdate = Object.assign({},  this.incidentForm.value);
     console.log('updateIncident()');
     console.log(this.lustIncidentUpdate);
     this.buildUpdateRecord();
-
     this.lustDataService.updateLustIncident(this.lustIncidentUpdate)
       .subscribe(
           (data ) => (this.lustIncidentUpdateResult = data
@@ -337,7 +332,6 @@ export class LustIncidentEditComponent implements OnInit  {
     } else {
       title = 'Successfully updated ' + this.lustIncidentGet.logNumber;
     }
-    console.log('1111HELLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO');
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -346,10 +340,10 @@ export class LustIncidentEditComponent implements OnInit  {
       button1: button1,
     };
     dialogConfig.disableClose =  true;
-    console.log('22222HELLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO');
     this.submitStatusDialogRef = this.submitStatusDialog.open(SubmitStatusDialogComponent, dialogConfig);
     this.submitStatusDialogRef.afterClosed().subscribe(result => {
       this.resetFlags();
+      this.incidentForm.markAsPristine();
     });
   }
 
