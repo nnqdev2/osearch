@@ -104,10 +104,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   private lastIcRefresh: string;
   private lustIncidentInsertResult: LustIncidentInsertResult;
 
-
-
-
-
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private idToNameService: IncidentIdToNameService, private route: ActivatedRoute
     , private router: Router, private addressCorrectDataService: AddressCorrectDataService

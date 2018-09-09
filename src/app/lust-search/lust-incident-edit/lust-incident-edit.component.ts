@@ -37,6 +37,7 @@ import { LustIncidentGet } from '../../models/lust-incident-get';
 import { FileStatus } from '../../models/file-status';
 import { LustIncidentUpdateResult } from '../../models/lust-incident-update-Result';
 import { LustIncidentUpdateUpdate } from '../../models/lust-incident-update-update';
+import { SubmitStatusDialogComponent } from '../../common/dialogs/submit-status-dialog.component';
 @Component({
   selector: 'app-lust-incident-edit',
   templateUrl: './lust-incident-edit.component.html',
@@ -45,6 +46,7 @@ import { LustIncidentUpdateUpdate } from '../../models/lust-incident-update-upda
 export class LustIncidentEditComponent implements OnInit  {
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
+  submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
 
   olprrId: number;
   lustIncidentGet: LustIncidentGet|null;
@@ -79,29 +81,27 @@ export class LustIncidentEditComponent implements OnInit  {
   showInvoiceContact = false;
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  acceptClicked = false;
-  holdClicked = false;
-  declineClicked = false;
-  searchClicked = false;
-  isClosed = true;
-  isContaminantClosed = true;
-  isMediaClosed = true;
-  showAllErrorsMessages = false;
-  showContaminantErrorMessage = false;
-  showMediaErrorMessage = false;
-  contaminantErrorMessage: string;
-  mediaErrorMessage: string;
-  contaminantErrorMessages: [string];
-  mediaErrorMessages: [string];
+  private submitClicked = false;
+  private resetFormClicked = false;
+  private helpClicked = false;
+  private searchClicked = false;
+  private isClosed = true;
+  private isContaminantClosed = true;
+  private isMediaClosed = true;
+  private showAllErrorsMessages = false;
+  private showContaminantErrorMessage = false;
+  private showMediaErrorMessage = false;
+  private contaminantErrorMessage: string;
+  private mediaErrorMessage: string;
+  private contaminantErrorMessages: [string];
+  private mediaErrorMessages: [string];
 
-  submitClicked = false;
-
-  errors: any[];
-  authRequired = false;
-  showStatusButtons = false;
-  showSaAddressCorrect = false;
-  showRpAddressCorrect = false;
-  showIcAddressCorrect = false;
+  private errors: any[];
+  private authRequired = false;
+  // showStatusButtons = false;
+  private showSaAddressCorrect = false;
+  // showRpAddressCorrect = false;
+  // showIcAddressCorrect = false;
 
   private lustIncidentUpdate = new LustIncidentUpdateUpdate();
   private lustIncidentUpdateResult: LustIncidentUpdateResult;
@@ -112,11 +112,10 @@ export class LustIncidentEditComponent implements OnInit  {
 
   maxDate: Date;
 
-
-
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
-    , private route: ActivatedRoute, private addressCorrectDataService: AddressCorrectDataService
-    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog, private idToNameService: IncidentIdToNameService
+    , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
+    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog, private submitStatusDialog: MatDialog
+    , private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
@@ -143,7 +142,6 @@ export class LustIncidentEditComponent implements OnInit  {
 
     console.log(this.lustIncidentGet);
     let pm;
-
     if (this.projectManagers !== undefined) {
       pm = this.projectManagers.pop();
     }
@@ -277,9 +275,11 @@ export class LustIncidentEditComponent implements OnInit  {
 
   submitIncident(): void {
     this.submitClicked = true;
-    console.log('this.incidentForm');
+    console.log('*******************submitIncident this.incidentForm');
+    console.log('*******************this.incidentForm');
     console.log(this.incidentForm);
     if (this.incidentForm.dirty && this.incidentForm.valid) {
+      console.log('submitIncident this.incidentForm this.createIncident() ');
         this.createIncident();
     } else if (this.incidentForm.invalid) {
         this.errors = this.findInvalidControls();
@@ -308,25 +308,49 @@ export class LustIncidentEditComponent implements OnInit  {
     this.lustIncidentUpdate = Object.assign({},  this.incidentForm.value);
     console.log('updateIncident()');
     console.log(this.lustIncidentUpdate);
-    this.prepareForUpdate();
+    this.buildUpdateRecord();
 
     this.lustDataService.updateLustIncident(this.lustIncidentUpdate)
       .subscribe(
           (data ) => (this.lustIncidentUpdateResult = data
-                      , this.onCreateLustIncidentComplete()),
+                      , this.showSubmitStatusDialog()),
       );
   }
 
   onCreateLustIncidentComplete(): void {
     console.log('onCreateLustIncidentComplete() this.lustIncidentInsertResult');
     console.log(this.lustIncidentUpdateResult);
+    this.showSubmitStatusDialog();
+  }
 
-/*     if (this.submitClicked === true && this.lustIncidentUpdateResult.errorMessage.length < 1) {
-      this.pdfGenerate();
-      this.print();
+  private showSubmitStatusDialog() {
+    console.log('showSubmitStatusDialog() this.lustIncidentInsertResult');
+    console.log(this.lustIncidentUpdateResult);
+    let message1 = '';
+    let title = '';
+    const button1 = 'Close';
+    if (this.lustIncidentUpdateResult.errorMessageHandler !== undefined &&
+      this.lustIncidentUpdateResult.errorMessageHandler !== null &&
+      this.lustIncidentUpdateResult.errorMessageHandler.length > 0 ) {
+      title = 'Failed to update ' + this.lustIncidentGet.logNumber ;
+      message1 = this.lustIncidentUpdateResult.errorMessageHandler;
+    } else {
+      title = 'Successfully updated ' + this.lustIncidentGet.logNumber;
     }
-
-    this.showMovingOnDialog(); */
+    console.log('1111HELLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO');
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: title,
+      message1: message1,
+      button1: button1,
+    };
+    dialogConfig.disableClose =  true;
+    console.log('22222HELLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO');
+    this.submitStatusDialogRef = this.submitStatusDialog.open(SubmitStatusDialogComponent, dialogConfig);
+    this.submitStatusDialogRef.afterClosed().subscribe(result => {
+      this.resetFlags();
+    });
   }
 
   private findInvalidControls() {
@@ -376,7 +400,7 @@ export class LustIncidentEditComponent implements OnInit  {
   //   }
   // }
 
-  private prepareForUpdate() {
+  private buildUpdateRecord() {
 
     this.lustIncidentUpdate.activeReleaseInd = (this.incidentForm.controls.activeReleaseInd.value ? 1 : 0);
     this.lustIncidentUpdate.hotAuditRejectInd = (this.incidentForm.controls.hotAuditRejectInd.value ? 1 : 0);
@@ -415,6 +439,25 @@ export class LustIncidentEditComponent implements OnInit  {
 
   getAuthUserErrorMessage(): string {
     return 'Auth User required for opening LIT.....';
+  }
+
+  private cancel() {
+    this.searchClicked = true;
+    this.router.navigate(['lsearch']);
+  }
+  resetFlags() {
+    this.showAllErrorsMessages = false;
+    this.submitClicked = false;
+    this.resetFormClicked = false;
+    this.helpClicked = false;
+    this.searchClicked = false;
+  }
+
+  resetForm(): void {
+    this.resetFormClicked = true;
+    this.incidentForm.reset();
+    this.resetFlags();
+    this.resetDate();
   }
 
 }

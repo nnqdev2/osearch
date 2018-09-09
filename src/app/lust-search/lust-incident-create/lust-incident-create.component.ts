@@ -100,7 +100,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   showIcAddressCorrect = false;
   private showSaAddressCheck = false;
 
-  lustIncident = new LustIncident();
+  lustIncident = new LustIncidentUpdate();
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
@@ -669,8 +669,6 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.helpClicked = false;
     this.searchClicked = false;
   }
-
-
 
   resetForm(): void {
     this.resetFormClicked = true;
