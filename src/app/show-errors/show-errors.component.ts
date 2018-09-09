@@ -36,8 +36,8 @@ export class ShowErrorsComponent {
   }
 
   listOfErrors(): string[] {
-    console.log('****** ShowErrorsComponent listOfErrors() ');
-    console.log(this.control);
+    // console.log('****** ShowErrorsComponent listOfErrors() ');
+    // console.log(this.control);
     return Object.keys(this.control.errors)
       .map(
         field =>  this.getMessage(field, this.control.errors[field])
@@ -45,9 +45,9 @@ export class ShowErrorsComponent {
   }
 
   private getMessage(type: string, params: any) {
-    console.log('****** ShowErrorsComponent getMessage(type: string, params: any) ');
-    console.log(type);
-    console.log(params);
+    // console.log('****** ShowErrorsComponent getMessage(type: string, params: any) ');
+    // console.log(type);
+    // console.log(params);
     return ShowErrorsComponent.errorMessages[type](params);
   }
 

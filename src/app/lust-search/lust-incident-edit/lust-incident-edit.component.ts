@@ -142,18 +142,22 @@ export class LustIncidentEditComponent implements OnInit  {
     console.log('********************edit lust  createForm()');
 
     console.log(this.lustIncidentGet);
+    let pm;
 
+    if (this.projectManagers !== undefined) {
+      pm = this.projectManagers.pop();
+    }
     this.incidentForm = this.formBuilder.group({
         logNumber: [this.lustIncidentGet.logNumber],
         qTimeId: [this.lustIncidentGet.qtimeId],
-        projectManager: [''],
+        projectManager: [pm],
         facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
         siteName:  [this.lustIncidentGet.siteName, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteAddress:    [this.lustIncidentGet.siteAddress, Validators.compose([Validators.required, Validators.maxLength(50)])],
         siteCity:  [this.lustIncidentGet.siteCity, Validators.compose([Validators.required, Validators.maxLength(25)])],
         siteZipcode: [this.lustIncidentGet.siteZipcode, Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
-        siteCounty:  [+this.lustIncidentGet.logNbrCounty, Validators.required],
+        siteCounty:  [+this.lustIncidentGet.logNbrCounty],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
         noValidAddress: [this.lustIncidentGet.noValidAddress],
         releaseType:  [this.lustIncidentGet.releaseType],
@@ -171,13 +175,13 @@ export class LustIncidentEditComponent implements OnInit  {
         discoveryDate: [this.lustIncidentGet.discoveryDate],
         // dateReceived:  [{value: this.transformDate(this.lustIncidentGet.receivedDate)}],
         // discoveryDate: [{value: this.transformDate(this.lustIncidentGet.discoveryDate)}],
-        cleanupStartDate:  [this.transformDate(this.lustIncidentGet.cleanupStartDate)],
-        finalInvcRqstDate: [this.transformDate(this.lustIncidentGet.finalInvcRqstDate)],
+        cleanupStartDate:  [this.lustIncidentGet.cleanupStartDate],
+        finalInvcRqstDate: [this.lustIncidentGet.finalInvcRqstDate],
         releaseStopDate:  [this.lustIncidentGet.releaseStopDate],
-        closedDate: [this.transformDate(this.lustIncidentGet.closedDate)],
-        letterOfAgreementDate: [this.transformDate(this.lustIncidentGet.letterOfAgreementDate)],
+        closedDate: [this.lustIncidentGet.closedDate],
+        letterOfAgreementDate: [this.lustIncidentGet.letterOfAgreementDate],
         letterOfAgreementComment: [this.lustIncidentGet.letterOfAgreementComment],
-        createDate: [this.transformDate(this.lustIncidentGet.createDate)],
+        createDate: [this.lustIncidentGet.createDate],
         siteComment: [this.lustIncidentGet.siteComment],
         seeAlsoComment: [this.lustIncidentGet.seeAlsoComment],
         publicSummaryComment: [this.lustIncidentGet.publicSummaryComment],
@@ -190,7 +194,7 @@ export class LustIncidentEditComponent implements OnInit  {
       },
       {validator: [] }
     );
-    this.resetDate();
+    // this.resetDate();
   }
 
   transformDate(inDate: Date): string {
@@ -273,10 +277,13 @@ export class LustIncidentEditComponent implements OnInit  {
 
   submitIncident(): void {
     this.submitClicked = true;
+    console.log('this.incidentForm');
+    console.log(this.incidentForm);
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         this.createIncident();
     } else if (this.incidentForm.invalid) {
         this.errors = this.findInvalidControls();
+        console.log('this.errors');
         console.log(this.errors);
         // this.contaminantErrorMessage = this.getContaminantErrorMessage();
         // if (this.contaminantErrorMessage != null) {
@@ -326,8 +333,8 @@ export class LustIncidentEditComponent implements OnInit  {
     const invalid = [];
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
-            console.log('****findInvalidControls');
-            console.log(field);
+            console.log('****findInvalidControls ' + field);
+            console.log(this.incidentForm.controls[field]);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
