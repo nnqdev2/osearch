@@ -35,7 +35,7 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
   ngOnInit() {
     console.log('site alias on init  this.lustId.....');
     this.lustId = +this.route.snapshot.params['lustid'];
-
+    console.log(this.lustId);
     this.lustIdSub = this.route.parent.params.subscribe(params => {
       this.lustId = +params['lustid'];
     });
@@ -93,8 +93,10 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   onEdit(siteAlias: SiteAlias) {
-    console.log('onEdit');
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$onEdit');
     console.log(siteAlias);
+    // this.router.navigate([siteAlias.siteNameAliasId]);
+    this.router.navigate(['../saupdt' , siteAlias.siteNameAliasId]);
   }
 
   onDelete(siteAlias: SiteAlias) {
@@ -118,6 +120,16 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
         this.getSearchResults();
       }
     });
+  }
+
+  add() {
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$add');
+    this.router.navigate(['../sanew']);
+  }
+
+  refresh() {
+    this.loadResultPage();
+    this.getSearchResults();
   }
 }
 

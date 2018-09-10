@@ -69,3 +69,19 @@
       
 </mat-card-content>
 </mat-card>
+
+
+<mat-card>
+    <mat-card-actions>
+        <div class="form-row full-width">
+            <div class="col-md-2 ">
+                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block"  (click)="add()"  >Add New Site Name Alias</button>
+            </div>
+            <div class="col-md-1 ">
+                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="refresh()" >Refresh</button>
+            </div>
+        </div>
+    </mat-card-actions> 
+</mat-card>
+
+<router-outlet></router-outlet>

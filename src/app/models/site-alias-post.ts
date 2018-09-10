@@ -1,5 +1,4 @@
-
-export interface SiteAliasPost {
+export class SiteAliasPost {
     siteNameAliasIdIn?: number;
     lustId: number;
     siteNameAlias: string;

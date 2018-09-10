@@ -27,6 +27,7 @@ import { PublicNoticeComponent } from './public-notice/public-notice.component';
 import { SitePhotoComponent } from './site-photo/site-photo.component';
 import { EnforcementComponent } from './enforcement/enforcement.component';
 import { AssessmentComponent } from './assessment/assessment.component';
+import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import { AssessmentComponent } from './assessment/assessment.component';
   declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
                 , ConfirmDeleteDialogComponent, SiteAliasComponent, LustIncidentComponent, ContactComponent, ProjectManagerComponent
                 , WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent
-                , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, ],
+                , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent, ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
   exports: [lustSearchRoutingComponents]
 })

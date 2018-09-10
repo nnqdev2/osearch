@@ -1,0 +1,70 @@
+<div class="loading-indicator" *ngIf="loading$  | async; else showForm">
+  <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+</div>
+<ng-template #showForm>
+    <div class="container-fluid">
+        <!-- Form incidentForm begins -->
+        <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitSiteAlias()">
+            <mat-card>    
+                <mat-card-title class="mat-card-headertitle-background"> Add new site alias </mat-card-title>
+                <mat-card-content> 
+                    <div class="form-row full-width">
+                        <div class="form-group required col-md-4">
+                            <mat-form-field>
+                                <mat-label class="control-label" for="siteNameAlias">Site Name Alias</mat-label>
+                                <input matInput placeholder="Site Name Alias" formControlName="siteNameAlias">
+                            </mat-form-field>
+                            <app-show-errors [control]="incidentForm.controls.siteNameAlias"  [submitClicked]="submitClicked"></app-show-errors>                            
+                        </div>
+                        <div class="form-group col-md-3">
+                            <mat-form-field>
+                                <mat-label class="control-label" for="lastChangeBy">Last Change By</mat-label>
+                                <input matInput placeholder="QTime" formControlName="lastChangeBy">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <mat-form-field>
+                                <mat-label class="control-label" for="lastChangeDate">Last Change Date</mat-label>
+                                <input matInput placeholder="Last Change Date" formControlName="lastChangeDate">
+                            </mat-form-field>
+                        </div>  
+                    </div>
+                </mat-card-content> 
+            </mat-card>
+
+
+
+            <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
+            <ng-template #showAllErrorsMessages> 
+                <mat-card>
+                    <mat-card-content>
+                        <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
+                        <div class="form-group row">
+                            <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="submitClicked"></app-show-all-messages>
+                        </div>
+                        </ngb-alert>
+                    </mat-card-content>
+                </mat-card>
+            </ng-template> 
+
+            
+            <mat-card>
+                <mat-card-actions>
+                    <div class="form-row full-width">
+                        <div class="col-md-1">
+                            <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Save</button>
+                        </div>
+                        <div class="col-md-1 ">
+                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="delete()" >Delete</button>
+                        </div>
+                        <div class="col-md-1 ">
+                            <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()" >Cancel</button>
+                        </div>
+                
+                    </div>
+                </mat-card-actions> 
+            </mat-card>
+
+        </form>
+    </div>
+</ng-template>

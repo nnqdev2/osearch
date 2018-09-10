@@ -36,6 +36,7 @@ import { PublicNoticeComponent } from './public-notice/public-notice.component';
 import { SitePhotoComponent } from './site-photo/site-photo.component';
 import { AssessmentComponent } from './assessment/assessment.component';
 import { EnforcementComponent } from './enforcement/enforcement.component';
+import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
 
 const routes: Routes = [
   { path: 'lsearch', component: LustSearchFilterComponent,
@@ -66,27 +67,6 @@ const routes: Routes = [
     },
     canDeactivate: [CanDeactivateGuard]
   },
-  // { path: 'lust/:lustid', component: LustIncidentEditComponent,
-  //   resolve: {
-  //     siteTypes: SiteTypesResolver,
-  //     siteType2s: SiteType2sResolver,
-  //     fileStatuses: FileStatusesResolver,
-  //     brownfields: BrownfieldsResolver,
-  //     counties: CountiesResolver,
-  //     cities: CitiesResolver,
-  //     zipCodes: ZipCodesResolver,
-  //     lustIncidentGet: LustIncidentGetResolver,
-  //   },
-  //   canDeactivate: [CanDeactivateGuard],
-  //   children:
-  //   [
-  //     {
-  //         path: 'sitealias', component: SiteAliasComponent
-  //     },
-  //   ]
-  // },
-
-
   { path: 'lust/:lustid', component: LustIncidentComponent,
       children:
       [
@@ -104,7 +84,22 @@ const routes: Routes = [
           },
           canDeactivate: [CanDeactivateGuard],
         },
+        {path: 'saupdt/:siteNameAliasId', component: SiteAliasEditComponent,
+          canDeactivate: [CanDeactivateGuard],
+        },
+        {path: 'sanew', component: SiteAliasEditComponent,
+          canDeactivate: [CanDeactivateGuard],
+        },
         {path: 'sitealias', component: SiteAliasComponent},
+        // {path: 'sitealias', component: SiteAliasComponent,
+        //   children:
+        //   [
+        //     {path: 'new', component: SiteAliasEditComponent},
+        //     {path: ':siteNameAliasId', component: SiteAliasEditComponent,
+        //       canDeactivate: [CanDeactivateGuard],
+        //     },
+        //   ]
+        // },
         {path: 'contact', component: ContactComponent},
         {path: 'assessment', component: AssessmentComponent},
         {path: 'projectmanager', component: ProjectManagerComponent},

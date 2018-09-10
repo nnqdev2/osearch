@@ -43,9 +43,9 @@ import { PostalCountyLookup } from '../models/postal-county-lookup';
 import { LustIncidentGet } from '../models/lust-incident-get';
 import { Brownfield } from '../models/brownfield';
 import { SiteType2 } from '../models/site-type2';
-import { LustIncidentUpdate } from '../models/lust-incident-update-update';
+import { LustIncidentUpdateUpdate } from '../models/lust-incident-update-update';
+import { LustIncidentUpdate } from '../models/lust-incident';
 import { LustIncidentUpdateResult } from '../models/lust-incident-update-Result';
-import { LustIncident } from '../models/lust-incident';
 
 @Injectable({
   providedIn: 'root'
