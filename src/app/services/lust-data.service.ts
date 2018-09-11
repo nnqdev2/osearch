@@ -215,7 +215,7 @@ export class LustDataService {
     return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  +lustId);
   }
 
-  updateLustIncident(lustIncidentUpdate: LustIncidentUpdate): Observable<LustIncidentUpdateResult> {
+  updateLustIncident(lustIncidentUpdate: LustIncidentUpdateUpdate): Observable<LustIncidentUpdateResult> {
     return this.http.post<LustIncidentUpdateResult>(environment.olprrapi_lust_incident_update , lustIncidentUpdate);
   }
 

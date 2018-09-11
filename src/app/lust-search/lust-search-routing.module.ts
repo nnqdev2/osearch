@@ -84,22 +84,22 @@ const routes: Routes = [
           },
           canDeactivate: [CanDeactivateGuard],
         },
-        {path: 'saupdt/:siteNameAliasId', component: SiteAliasEditComponent,
-          canDeactivate: [CanDeactivateGuard],
-        },
-        {path: 'sanew', component: SiteAliasEditComponent,
-          canDeactivate: [CanDeactivateGuard],
-        },
-        {path: 'sitealias', component: SiteAliasComponent},
-        // {path: 'sitealias', component: SiteAliasComponent,
-        //   children:
-        //   [
-        //     {path: 'new', component: SiteAliasEditComponent},
-        //     {path: ':siteNameAliasId', component: SiteAliasEditComponent,
-        //       canDeactivate: [CanDeactivateGuard],
-        //     },
-        //   ]
+        // {path: 'saupdt/:siteNameAliasId', component: SiteAliasEditComponent,
+        //   canDeactivate: [CanDeactivateGuard],
         // },
+        // {path: 'sanew', component: SiteAliasEditComponent,
+        //   canDeactivate: [CanDeactivateGuard],
+        // },
+        // {path: 'sitealias', component: SiteAliasComponent},
+        {path: 'sitealias', component: SiteAliasComponent,
+          children:
+          [
+            {path: 'new', component: SiteAliasEditComponent},
+            {path: 'updt/:siteNameAliasId', component: SiteAliasEditComponent,
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
         {path: 'contact', component: ContactComponent},
         {path: 'assessment', component: AssessmentComponent},
         {path: 'projectmanager', component: ProjectManagerComponent},
