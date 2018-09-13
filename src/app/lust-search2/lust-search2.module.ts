@@ -17,7 +17,7 @@ import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.mo
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MaterialModule,
     NgbModule.forRoot(),
     ShowErrorsModule,

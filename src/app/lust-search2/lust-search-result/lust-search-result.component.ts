@@ -112,6 +112,8 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
 
   onRowClicked(lustSearchResultStat: LustSearchResultStat) {
     if (!this.isSearchOnly) {
+      console.log('***************WHERE AM I????????????????????????');
+      console.log(lustSearchResultStat.lustId);
       this.router.navigate(['lust', lustSearchResultStat.lustId]);
     }
   }

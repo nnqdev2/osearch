@@ -31,26 +31,72 @@ import { EnforcementComponent } from './enforcement/enforcement.component';
 import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
 import { SiteAliasesComponent } from './site-alias/site-aliases/site-aliases.component';
 import { LustSearchComponent } from './lust-search/lust-search.component';
+import { SiteAliasBaseComponent } from './site-alias/site-alias-base/site-alias-base.component';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
       children: [
         { path: '', component: LustIncidentCreateComponent,
-        resolve: {
-          siteTypes: SiteTypesResolver,
-          confirmationTypes: ConfirmationTypesResolver,
-          counties: CountiesResolver,
-          cities: CitiesResolver,
-          discoveryTypes: DiscoveryTypesResolver,
-          releaseCauseTypes: ReleaseCauseTypesResolver,
-          sourceTypes: SourceTypesResolver,
-          states: StatesResolver,
-          zipCodes: ZipCodesResolver,
+            resolve: {
+              siteTypes: SiteTypesResolver,
+              confirmationTypes: ConfirmationTypesResolver,
+              counties: CountiesResolver,
+              cities: CitiesResolver,
+              discoveryTypes: DiscoveryTypesResolver,
+              releaseCauseTypes: ReleaseCauseTypesResolver,
+              sourceTypes: SourceTypesResolver,
+              states: StatesResolver,
+              zipCodes: ZipCodesResolver,
+            },
+            canDeactivate: [CanDeactivateGuard]
         },
-        canDeactivate: [CanDeactivateGuard]
-      },
-    ]
-  },
+      ]
+    },
+    { path: ':lustid', component: LustIncidentComponent,
+      children: [
+        {path: '', redirectTo: 'incident', pathMatch: 'full'},
+        {path: 'incident', component: LustIncidentEditComponent,
+          resolve: {
+            siteTypes: SiteTypesResolver,
+            siteType2s: SiteType2sResolver,
+            fileStatuses: FileStatusesResolver,
+            brownfields: BrownfieldsResolver,
+            counties: CountiesResolver,
+            cities: CitiesResolver,
+            zipCodes: ZipCodesResolver,
+            lustIncidentGet: LustIncidentGetResolver,
+          },
+          canDeactivate: [CanDeactivateGuard],
+        },
+        {path: 'sitealias', component: SiteAliasBaseComponent,
+          children:
+          [
+            {path: '', redirectTo: 'new', pathMatch: 'full'},
+            {path: 'new', component: SiteAliasEditComponent,
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':sitenamealiasid', component: SiteAliasEditComponent,
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
+        {path: 'sitealiases', component: SiteAliasesComponent },
+        {path: 'contact', component: ContactComponent},
+        {path: 'assessment', component: AssessmentComponent},
+        {path: 'projectmanager', component: ProjectManagerComponent},
+        {path: 'workreported', component: WorkReportedComponent},
+        {path: 'petcontsoil', component: PetroleumContaminatedSoilComponent},
+        {path: 'inspection', component: InspectionComponent},
+        {path: 'sitecontrol', component: SiteControlComponent},
+        {path: 'publicnotice', component: PublicNoticeComponent},
+        {path: 'enforcement', component: EnforcementComponent},
+        {path: 'sitephoto', component: SitePhotoComponent},
+        {path: 'enforcement', component: EnforcementComponent},
+      ]
+    },
+
+
+
   // { path: 'new', component: LustIncidentCreateComponent,
   //   resolve: {
   //     siteTypes: SiteTypesResolver,

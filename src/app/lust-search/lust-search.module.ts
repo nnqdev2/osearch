@@ -29,6 +29,7 @@ import { AssessmentComponent } from './assessment/assessment.component';
 import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
 import { SiteAliasesComponent } from './site-alias/site-aliases/site-aliases.component';
 import { LustSearchComponent } from './lust-search/lust-search.component';
+import { SiteAliasBaseComponent } from './site-alias/site-alias-base/site-alias-base.component';
 
 
 @NgModule({
@@ -50,7 +51,7 @@ import { LustSearchComponent } from './lust-search/lust-search.component';
                 , ConfirmDeleteDialogComponent, LustIncidentComponent, ContactComponent, ProjectManagerComponent
                 , WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent
                 , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent
-                , SiteAliasesComponent ],
+                , SiteAliasesComponent, SiteAliasBaseComponent ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
   // exports: [lustSearchRoutingComponents]
 })

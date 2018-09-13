@@ -1,0 +1,28 @@
+<div>
+  <mat-card>
+      <mat-card-actions>
+          <div class="form-group row">
+          <div class="col-md-10"></div>
+          <div class="col-md-2">
+              <button mat-raised-button [matMenuTriggerFor]="menu"  >Lust Incident Menu site alias</button>
+              <mat-menu #menu="matMenu">
+                  <a [routerLink]="['/lust/new']" mat-menu-item>Create New Incident</a>
+                  <a [routerLink]="['incident']" mat-menu-item> Update Incident</a>
+                  <a [routerLink]="['contact']" mat-menu-item> Update Contact</a>
+                  <a [routerLink]="['assessment']" mat-menu-item> Update Assessment</a>
+                  <a [routerLink]="['projectmanager']" mat-menu-item>Update Project Manager</a>
+                  <a [routerLink]="['sitealiases']" mat-menu-item>Update Site Alias</a>
+                  <a [routerLink]="['workreported']" mat-menu-item>Update Work Reported</a>
+                  <a [routerLink]="['petcontsoil']" mat-menu-item> Update Petroleum Contaminated Soil</a>
+                  <a [routerLink]="['inspection']" mat-menu-item>Update Inspection</a>
+                  <a [routerLink]="['sitecontrol']" mat-menu-item>Update Site Control</a>
+                  <a [routerLink]="['publicnotice']" mat-menu-item> Update Public Notice</a>
+                  <a [routerLink]="['sitephoto']" mat-menu-item>Update Site Photos</a>
+                  <a [routerLink]="['enforcement']" mat-menu-item>Update Enforcement</a>
+              </mat-menu>
+          </div>
+          </div>   
+      </mat-card-actions> 
+  </mat-card>
+  <router-outlet></router-outlet>
+</div>

@@ -12,5 +12,6 @@ export class LustIncidentGetResolver implements Resolve<Observable<LustIncidentG
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<LustIncidentGet> {
     return this.lustDataService.getLustIncident(route.parent.paramMap.get('lustid'));
+    // return this.lustDataService.getLustIncident(route.paramMap.get('lustid'));
   }
 }

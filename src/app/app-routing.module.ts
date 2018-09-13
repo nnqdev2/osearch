@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'lust', loadChildren: './lust-search/lust-search.module#LustSearchModule'
     // path: 'lust', loadChildren: () => LustSearchModule
   },
-  { path: '', redirectTo: 'osearch', pathMatch: 'full' }
+  { path: '', redirectTo: 'lsearch', pathMatch: 'full' }
 ,
 ];
 
