@@ -125,7 +125,7 @@ export class LustSearchFilterComponent implements OnInit {
 
   createIncident() {
     console.log('createIncident');
-    this.router.navigate(['lust/new']);
+    this.router.navigate(['lust']);
   }
 
 }

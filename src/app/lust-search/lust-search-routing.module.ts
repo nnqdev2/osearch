@@ -34,24 +34,37 @@ import { LustSearchComponent } from './lust-search/lust-search.component';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
-
-
-  
+      children: [
+        { path: '', component: LustIncidentCreateComponent,
+        resolve: {
+          siteTypes: SiteTypesResolver,
+          confirmationTypes: ConfirmationTypesResolver,
+          counties: CountiesResolver,
+          cities: CitiesResolver,
+          discoveryTypes: DiscoveryTypesResolver,
+          releaseCauseTypes: ReleaseCauseTypesResolver,
+          sourceTypes: SourceTypesResolver,
+          states: StatesResolver,
+          zipCodes: ZipCodesResolver,
+        },
+        canDeactivate: [CanDeactivateGuard]
+      },
+    ]
   },
-  { path: 'new', component: LustIncidentCreateComponent,
-    resolve: {
-      siteTypes: SiteTypesResolver,
-      confirmationTypes: ConfirmationTypesResolver,
-      counties: CountiesResolver,
-      cities: CitiesResolver,
-      discoveryTypes: DiscoveryTypesResolver,
-      releaseCauseTypes: ReleaseCauseTypesResolver,
-      sourceTypes: SourceTypesResolver,
-      states: StatesResolver,
-      zipCodes: ZipCodesResolver,
-    },
-    canDeactivate: [CanDeactivateGuard]
-  },
+  // { path: 'new', component: LustIncidentCreateComponent,
+  //   resolve: {
+  //     siteTypes: SiteTypesResolver,
+  //     confirmationTypes: ConfirmationTypesResolver,
+  //     counties: CountiesResolver,
+  //     cities: CitiesResolver,
+  //     discoveryTypes: DiscoveryTypesResolver,
+  //     releaseCauseTypes: ReleaseCauseTypesResolver,
+  //     sourceTypes: SourceTypesResolver,
+  //     states: StatesResolver,
+  //     zipCodes: ZipCodesResolver,
+  //   },
+  //   canDeactivate: [CanDeactivateGuard]
+  // },
   { path: 'lust/:lustid', component: LustIncidentComponent,
       children:
       [

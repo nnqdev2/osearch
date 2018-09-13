@@ -15,7 +15,7 @@ import { UstSearchRoutingModule, ustSearchRoutingComponents } from './ust-search
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MaterialModule,
     UstSearchRoutingModule
   ],
