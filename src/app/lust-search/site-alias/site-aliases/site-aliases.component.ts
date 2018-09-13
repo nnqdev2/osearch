@@ -97,7 +97,7 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
     console.log(siteAlias);
     // this.router.navigate([siteAlias.siteNameAliasId]);
     // this.router.navigate(['../saupdt' , siteAlias.siteNameAliasId]);
-    this.router.navigate(['' , siteAlias.siteNameAliasId]);
+    this.router.navigate(['../sitealias' , siteAlias.siteNameAliasId]);
   }
 
   onDelete(siteAlias: SiteAlias) {
@@ -125,7 +125,7 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
 
   add() {
     console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$add');
-    this.router.navigate(['./new']);
+    this.router.navigate(['../sitealias'], {relativeTo: this.route});
   }
 
   refresh() {

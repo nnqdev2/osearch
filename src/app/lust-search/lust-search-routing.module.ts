@@ -54,8 +54,7 @@ const routes: Routes = [
     },
     { path: ':lustid', component: LustIncidentComponent,
       children: [
-        {path: '', redirectTo: 'incident', pathMatch: 'full'},
-        {path: 'incident', component: LustIncidentEditComponent,
+        {path: '', component: LustIncidentEditComponent,
           resolve: {
             siteTypes: SiteTypesResolver,
             siteType2s: SiteType2sResolver,
@@ -71,8 +70,8 @@ const routes: Routes = [
         {path: 'sitealias', component: SiteAliasBaseComponent,
           children:
           [
-            {path: '', redirectTo: 'new', pathMatch: 'full'},
-            {path: 'new', component: SiteAliasEditComponent,
+            // {path: '', redirectTo: 'new', pathMatch: 'full'},
+            {path: '', component: SiteAliasEditComponent,
               canDeactivate: [CanDeactivateGuard],
             },
             {path: ':sitenamealiasid', component: SiteAliasEditComponent,
@@ -95,63 +94,6 @@ const routes: Routes = [
       ]
     },
 
-
-
-  // { path: 'new', component: LustIncidentCreateComponent,
-  //   resolve: {
-  //     siteTypes: SiteTypesResolver,
-  //     confirmationTypes: ConfirmationTypesResolver,
-  //     counties: CountiesResolver,
-  //     cities: CitiesResolver,
-  //     discoveryTypes: DiscoveryTypesResolver,
-  //     releaseCauseTypes: ReleaseCauseTypesResolver,
-  //     sourceTypes: SourceTypesResolver,
-  //     states: StatesResolver,
-  //     zipCodes: ZipCodesResolver,
-  //   },
-  //   canDeactivate: [CanDeactivateGuard]
-  // },
-  { path: 'lust/:lustid', component: LustIncidentComponent,
-      children:
-      [
-        {path: '', redirectTo: 'incident', pathMatch: 'full'},
-        {path: 'incident', component: LustIncidentEditComponent,
-          resolve: {
-            siteTypes: SiteTypesResolver,
-            siteType2s: SiteType2sResolver,
-            fileStatuses: FileStatusesResolver,
-            brownfields: BrownfieldsResolver,
-            counties: CountiesResolver,
-            cities: CitiesResolver,
-            zipCodes: ZipCodesResolver,
-            lustIncidentGet: LustIncidentGetResolver,
-          },
-          canDeactivate: [CanDeactivateGuard],
-        },
-        {path: 'sitealiases', component: SiteAliasesComponent,
-          children:
-          [
-            {path: 'new-route', component: SiteAliasEditComponent,
-              canDeactivate: [CanDeactivateGuard],
-          },
-            {path: 'updt-route/:siteNameAliasId', component: SiteAliasEditComponent,
-              canDeactivate: [CanDeactivateGuard],
-            },
-          ]
-        },
-        {path: 'contact', component: ContactComponent},
-        {path: 'assessment', component: AssessmentComponent},
-        {path: 'projectmanager', component: ProjectManagerComponent},
-        {path: 'workreported', component: WorkReportedComponent},
-        {path: 'petcontsoil', component: PetroleumContaminatedSoilComponent},
-        {path: 'inspection', component: InspectionComponent},
-        {path: 'sitecontrol', component: SiteControlComponent},
-        {path: 'publicnotice', component: PublicNoticeComponent},
-        {path: 'enforcement', component: EnforcementComponent},
-        {path: 'sitephoto', component: SitePhotoComponent},
-        {path: 'enforcement', component: EnforcementComponent},
-      ]
-    },
   ];
 
 @NgModule({
@@ -159,91 +101,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class LustSearchRoutingModule { }
-// export const lustSearchRoutingComponents = [LustSearchFilterComponent, LustSearchResultComponent, LustIncidentCreateComponent
-//       , LustIncidentEditComponent, SiteAliasComponent];
-
-
-
-
-
-
-
-      // const routes: Routes = [
-      //   { path: 'lsearch', component: LustSearchFilterComponent,
-      //     resolve: {
-      //       tankStatuses: TankStatusesResolver,
-      //       fileStatuses: FileStatusesResolver,
-      //       siteTypes: SiteTypesResolver,
-      //       zipCodes: ZipCodesResolver,
-      //       regions: RegionsResolver,
-      //       cities: CitiesResolver,
-      //       projectManagers: ProjectManagersResolver,
-      //       dateCompares: DateComparesResolver,
-      //       cleanupSiteTypes: CleanupSiteTypesResolver,
-      //       counties: CountiesResolver,
-      //     },
-      //   },
-      //   { path: 'lust/new', component: LustIncidentCreateComponent,
-      //     resolve: {
-      //       siteTypes: SiteTypesResolver,
-      //       confirmationTypes: ConfirmationTypesResolver,
-      //       counties: CountiesResolver,
-      //       cities: CitiesResolver,
-      //       discoveryTypes: DiscoveryTypesResolver,
-      //       releaseCauseTypes: ReleaseCauseTypesResolver,
-      //       sourceTypes: SourceTypesResolver,
-      //       states: StatesResolver,
-      //       zipCodes: ZipCodesResolver,
-      //     },
-      //     canDeactivate: [CanDeactivateGuard]
-      //   },
-      //   { path: 'lust/:lustid', component: LustIncidentComponent,
-      //       children:
-      //       [
-      //         {path: '', redirectTo: 'incident', pathMatch: 'full'},
-      //         {path: 'incident', component: LustIncidentEditComponent,
-      //           resolve: {
-      //             siteTypes: SiteTypesResolver,
-      //             siteType2s: SiteType2sResolver,
-      //             fileStatuses: FileStatusesResolver,
-      //             brownfields: BrownfieldsResolver,
-      //             counties: CountiesResolver,
-      //             cities: CitiesResolver,
-      //             zipCodes: ZipCodesResolver,
-      //             lustIncidentGet: LustIncidentGetResolver,
-      //           },
-      //           canDeactivate: [CanDeactivateGuard],
-      //         },
-      //         {path: 'sitealiases', component: SiteAliasesComponent,
-      //           children:
-      //           [
-      //             {path: 'new-route', component: SiteAliasEditComponent,
-      //               canDeactivate: [CanDeactivateGuard],
-      //           },
-      //             {path: 'updt-route/:siteNameAliasId', component: SiteAliasEditComponent,
-      //               canDeactivate: [CanDeactivateGuard],
-      //             },
-      //           ]
-      //         },
-      //         {path: 'contact', component: ContactComponent},
-      //         {path: 'assessment', component: AssessmentComponent},
-      //         {path: 'projectmanager', component: ProjectManagerComponent},
-      //         {path: 'workreported', component: WorkReportedComponent},
-      //         {path: 'petcontsoil', component: PetroleumContaminatedSoilComponent},
-      //         {path: 'inspection', component: InspectionComponent},
-      //         {path: 'sitecontrol', component: SiteControlComponent},
-      //         {path: 'publicnotice', component: PublicNoticeComponent},
-      //         {path: 'enforcement', component: EnforcementComponent},
-      //         {path: 'sitephoto', component: SitePhotoComponent},
-      //         {path: 'enforcement', component: EnforcementComponent},
-      //       ]
-      //     },
-      //   ];
-      
-      // @NgModule({
-      //   imports: [RouterModule.forChild(routes)],
-      //   exports: [RouterModule]
-      // })
-      // export class LustSearchRoutingModule { }
-      // export const lustSearchRoutingComponents = [LustSearchFilterComponent, LustSearchResultComponent, LustIncidentCreateComponent
-      //       , LustIncidentEditComponent, SiteAliasComponent];

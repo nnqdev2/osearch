@@ -6,8 +6,8 @@
             <div class="col-md-2">
                 <button mat-raised-button [matMenuTriggerFor]="menu"  >Lust Incident Menu</button>
                 <mat-menu #menu="matMenu">
-                    <a [routerLink]="['/lust/new']" mat-menu-item>Create New Incident</a>
-                    <a [routerLink]="['incident']" mat-menu-item> Update Incident</a>
+                    <a [routerLink]="['/lust']" mat-menu-item>Create New Incident</a>
+                    <a [routerLink]="['./']" mat-menu-item> Update Incident</a>
                     <a [routerLink]="['contact']" mat-menu-item> Update Contact</a>
                     <a [routerLink]="['assessment']" mat-menu-item> Update Assessment</a>
                     <a [routerLink]="['projectmanager']" mat-menu-item>Update Project Manager</a>
