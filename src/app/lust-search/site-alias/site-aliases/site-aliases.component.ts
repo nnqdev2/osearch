@@ -1,18 +1,18 @@
 import { Component, OnInit, AfterViewInit, OnChanges, OnDestroy, Input, SimpleChanges } from '@angular/core';
-import { SiteAliasResultDataSourceService } from './site-alias-result-data-source.service';
 import { Subscription } from 'rxjs';
-import { SiteAlias } from '../../models/site-alias';
-import { LustDataService } from '../../services/lust-data.service';
+import { SiteAlias } from '../../../models/site-alias';
+import { LustDataService } from '../../../services/lust-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
+import { SiteAliasesResultDataSourceService } from './site-aliases-result-data-source.service';
 
 @Component({
-  selector: 'app-site-alias',
-  templateUrl: './site-alias.component.html',
-  styleUrls: ['./site-alias.component.scss']
+  selector: 'app-site-aliases',
+  templateUrl: './site-aliases.component.html',
+  styleUrls: ['./site-aliases.component.scss']
 })
-export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   lustIdSub: any;
   lustId: number;
@@ -20,7 +20,7 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
   // @ViewChild(MatSort) sort: MatSort;
 
 
-  siteAliasDataSource: SiteAliasResultDataSourceService;
+  siteAliasDataSource: SiteAliasesResultDataSourceService;
   displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
   subscription: Subscription;
   siteAliases: SiteAlias[];
@@ -30,17 +30,17 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
               , private confirmDeleteDialog: MatDialog) {
-    this.siteAliasDataSource = new SiteAliasResultDataSourceService(this.lustDataService);
+    this.siteAliasDataSource = new SiteAliasesResultDataSourceService(this.lustDataService);
   }
   ngOnInit() {
-    console.log('site alias on init  this.lustId.....');
+    console.log('SiteAliasesComponent on init  this.lustId.....');
     this.lustId = +this.route.snapshot.params['lustid'];
     console.log(this.lustId);
     this.lustIdSub = this.route.parent.params.subscribe(params => {
       this.lustId = +params['lustid'];
     });
 
-    console.log('site alias this.lustId');
+    console.log('SiteAliasesComponent this.lustId');
     console.log(this.lustId);
     this.loadResultPage();
     this.getSearchResults();
@@ -97,7 +97,7 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
     console.log(siteAlias);
     // this.router.navigate([siteAlias.siteNameAliasId]);
     // this.router.navigate(['../saupdt' , siteAlias.siteNameAliasId]);
-    this.router.navigate(['./updt' , siteAlias.siteNameAliasId]);
+    this.router.navigate(['' , siteAlias.siteNameAliasId]);
   }
 
   onDelete(siteAlias: SiteAlias) {
@@ -133,5 +133,3 @@ export class SiteAliasComponent implements OnInit, AfterViewInit, OnChanges, OnD
     this.getSearchResults();
   }
 }
-
-

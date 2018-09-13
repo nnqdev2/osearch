@@ -5,9 +5,9 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription, fromEvent, merge } from 'rxjs';
 
 import { LustSearchResultDataSourceService } from './lust-search-result-data-source.service';
-import { LustSearchFilter } from '../models/lust-search-filter';
-import { LustSearchResultStat } from '../models/lust-search-result-stat';
-import { LustDataService } from '../services/lust-data.service';
+import { LustSearchFilter } from '../../models/lust-search-filter';
+import { LustSearchResultStat } from '../../models/lust-search-result-stat';
+import { LustDataService } from '../../services/lust-data.service';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({

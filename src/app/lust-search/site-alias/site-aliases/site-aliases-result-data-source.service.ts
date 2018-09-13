@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { LustDataService } from '../../services/lust-data.service';
-import { SiteAlias } from '../../models/site-alias';
+import { LustDataService } from '../../../services/lust-data.service';
+import { SiteAlias } from '../../../models/site-alias';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SiteAliasResultDataSourceService implements DataSource<SiteAlias> {
+export class SiteAliasesResultDataSourceService implements DataSource<SiteAlias> {
 
   private resultsSubject = new BehaviorSubject<SiteAlias[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);

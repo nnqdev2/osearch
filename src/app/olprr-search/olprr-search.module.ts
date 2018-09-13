@@ -14,8 +14,8 @@ import { ShowErrorsModule } from '../show-errors/show-errors.module';
 import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
 import { CanDeactivateGuard } from '../guards/can-deactivate-guard.service';
 import { UstSearchModule } from '../ust-search/ust-search.module';
-import { LustSearchModule } from '../lust-search/lust-search.module';
 import { SearchDialogComponent } from './search-dialog.component';
+import { LustSearch2Module } from '../lust-search2/lust-search2.module';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { SearchDialogComponent } from './search-dialog.component';
     ShowErrorsModule,
     ShowAllMessagesModule,
     UstSearchModule,
-    LustSearchModule
+    LustSearch2Module
   ],
   declarations: [
     OlprrSearchFilterComponent,

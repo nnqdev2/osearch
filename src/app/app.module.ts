@@ -28,6 +28,9 @@ import { ContactSearchModule } from './contact-search/contact-search.module';
 import { ContactSearchRoutingModule } from './contact-search/contact-search-routing.module';
 import { OlprrIncidentRoutingModule } from './olprr-incident/olprr-incident-routing.module';
 import { OlprrIncidentModule } from './olprr-incident/olprr-incident.module';
+import { LustSearch2Module } from './lust-search2/lust-search2.module';
+import { LustSearch2RoutingModule } from './lust-search2/lust-search2-routing.module';
+import { LustSearchComponent } from './lust-search/lust-search/lust-search.component';
 
 
 @NgModule({
@@ -44,13 +47,14 @@ import { OlprrIncidentModule } from './olprr-incident/olprr-incident.module';
     ErrorsRoutingModule,
     OlprrIncidentModule,
     ContactSearchModule,
-    LustSearchModule,
+    LustSearch2Module,
     UstSearchModule,
     OlprrSearchModule,
     OlprrIncidentRoutingModule,
     ContactSearchRoutingModule,
     UstSearchRoutingModule,
-    LustSearchRoutingModule,
+    LustSearch2RoutingModule,
+    // LustSearchRoutingModule,
     OlprrSearchRoutingModule,
     AppRoutingModule,
   ],
@@ -58,6 +62,7 @@ import { OlprrIncidentModule } from './olprr-incident/olprr-incident.module';
     AppComponent,
     GuardDialogComponent,
     SubmitStatusDialogComponent,
+    // LustSearchComponent
   ],
   providers: [
     LogService,

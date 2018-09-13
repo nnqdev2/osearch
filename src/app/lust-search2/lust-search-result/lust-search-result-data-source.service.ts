@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { LustDataService } from '../services/lust-data.service';
-import { LustSearchResultStat } from '../models/lust-search-result-stat';
-import { LustSearchFilter } from '../models/lust-search-filter';
+import { LustDataService } from '../../services/lust-data.service';
+import { LustSearchResultStat } from '../../models/lust-search-result-stat';
+import { LustSearchFilter } from '../../models/lust-search-filter';
 
 @Injectable({
   providedIn: 'root'

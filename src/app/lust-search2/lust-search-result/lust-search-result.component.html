@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-content>
+      <div class="lustsearch">
+
+          <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
+              <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+          </div>
+
+          <mat-table class="incidents-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="dataSource"
+                      matSort  matSortActive="lustId" matSortDirection="asc" matSortDisableClear >
+              <ng-container matColumnDef="reqPageNumber" >
+                  <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat"> 
+                      <button mat-raised-button type="button" (click)="onRowClicked(lustSearchResultStat)" >Select</button>  
+                  </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="logNumber">
+                  <mat-header-cell *matHeaderCellDef >Log Nbr</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.logNumber}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="siteName">
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Name</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.siteName}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="siteAddress">
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Address</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.siteAddress}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="firDt">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header >F.I.R. Date</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.firDt  | date:'MM/dd/yyyy'}}</mat-cell>
+              </ng-container>
+                      
+              <ng-container matColumnDef="closedDt">
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header >Closed Date</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.closedDt | date:'MM/dd/yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="facilityId">
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header >Facility Id</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.facilityId}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="siteScore">
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header >Site Score</mat-header-cell>
+                  <mat-cell *matCellDef="let lustSearchResultStat">{{lustSearchResultStat.siteScore}}</mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+
+              <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
+              <!-- <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row.lustId)"></mat-row> -->
+
+          </mat-table>
+
+          <mat-paginator [length]="totalRows" [pageSize]="40"
+          [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
+
+      </div>
+  </mat-card-content>
+</mat-card>

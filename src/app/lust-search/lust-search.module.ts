@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from '../shared/material.module';
 
-import { LustSearchRoutingModule, lustSearchRoutingComponents } from './lust-search-routing.module';
+import { LustSearchRoutingModule} from './lust-search-routing.module';
 import { LustIncidentCreateComponent } from './lust-incident-create/lust-incident-create.component';
 import { LustIncidentEditComponent } from './lust-incident-edit/lust-incident-edit.component';
 import { ShowAllMessagesModule } from '../show-all-messages/show-all-messages.module';
@@ -14,7 +14,6 @@ import { ShowErrorsModule } from '../show-errors/show-errors.module';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-delete-dialog.component';
 import { UstSearchModule } from '../ust-search/ust-search.module';
-import { SiteAliasComponent } from './site-alias/site-alias.component';
 import { ContactSearchModule } from '../contact-search/contact-search.module';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
 import { ContactComponent } from './contact/contact.component';
@@ -28,6 +27,8 @@ import { SitePhotoComponent } from './site-photo/site-photo.component';
 import { EnforcementComponent } from './enforcement/enforcement.component';
 import { AssessmentComponent } from './assessment/assessment.component';
 import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
+import { SiteAliasesComponent } from './site-alias/site-aliases/site-aliases.component';
+import { LustSearchComponent } from './lust-search/lust-search.component';
 
 
 @NgModule({
@@ -35,22 +36,22 @@ import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MaterialModule,
     NgbModule.forRoot(),
     ShowErrorsModule,
     ShowAllMessagesModule,
-    LustSearchRoutingModule,
     UstSearchModule,
     ContactSearchModule,
+    LustSearchRoutingModule,
   ],
-  declarations: [lustSearchRoutingComponents, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
-                , ConfirmDeleteDialogComponent, SiteAliasComponent, LustIncidentComponent, ContactComponent, ProjectManagerComponent
+  // declarations: [LustSearchFilterComponent, LustSearchResultComponent,
+  declarations: [ LustSearchComponent, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
+                , ConfirmDeleteDialogComponent, LustIncidentComponent, ContactComponent, ProjectManagerComponent
                 , WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent
-                , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent, ],
+                , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent
+                , SiteAliasesComponent ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
-  exports: [lustSearchRoutingComponents]
+  // exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }
-
-
