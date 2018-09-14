@@ -67,6 +67,7 @@ const routes: Routes = [
           },
           canDeactivate: [CanDeactivateGuard],
         },
+        {path: 'sitealiases', component: SiteAliasesComponent },
         {path: 'sitealias', component: SiteAliasBaseComponent,
           children:
           [
@@ -79,7 +80,6 @@ const routes: Routes = [
             },
           ]
         },
-        {path: 'sitealiases', component: SiteAliasesComponent },
         {path: 'contact', component: ContactComponent},
         {path: 'assessment', component: AssessmentComponent},
         {path: 'projectmanager', component: ProjectManagerComponent},

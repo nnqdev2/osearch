@@ -38,6 +38,7 @@ export class SiteAliasEditComponent implements OnInit {
   private showAllErrorsMessages = false;
   private errors: any[];
   private lustId = 0;
+  private siteNameAliasId = 0;
   private isUpdate = false;
 
   private siteAliasPost = new SiteAliasPost();
@@ -56,31 +57,26 @@ export class SiteAliasEditComponent implements OnInit {
     , private submitStatusDialog: MatDialog, private idToNameService: IncidentIdToNameService
   ) {  }
 
-
-  // siteNameAliasId: number;
-  // siteNameAlias: string;
-  // lastChangeBy: string;
-  // lastChangeDate?: Date;
-  // lustId: number;
-
-
   ngOnInit() {
-    console.log('**************************HELLOOOOOOOOOOOO');
-    console.log(this.route.params);
-    console.log(this.route.parent.paramMap);
+    console.log('***SiteAliasEditComponent ngOnInit() DEBUGGING******');
     const url = this.router.url;
-    this.route.parent.params.subscribe(params => {
+
+    this.route.pathFromRoot[2].params.subscribe(params => {
       this.lustId = +params['lustid'];
-      console.log('**************************HELLOOOOOOOOOOOO this lustid is ');
       console.log(this.lustId);
-      if (isNaN(this.lustId)  || this.lustId === 0) {
-        this.isUpdate = false;
-      }
     });
 
-    // this.route.parent.paramMap.subscribe((params: Params) => {
-    //   this.lustId = params['lustid'];
-    // });
+    this.route.params.subscribe(params => {
+      this.siteNameAliasId = +params['sitenamealiasid'];
+      console.log(this.siteNameAliasId);
+    });
+
+    this.isUpdate = true;
+    if (isNaN(this.siteNameAliasId)) {
+      console.log('ADD New alias....');
+      this.isUpdate = false;
+    }
+
 
     this.incidentForm = this.formBuilder.group({
       siteNameAlias: [this.siteAliasPost.siteNameAlias, Validators.required],
@@ -89,23 +85,6 @@ export class SiteAliasEditComponent implements OnInit {
     },
     {validator: [] }
     );
-
-    // if (isNaN(this.lustId)  || this.lustId === 0) {
-    //   console.log('****SiteAliasEditComponent');
-    //   this.incidentForm = this.formBuilder.group({
-    //     siteNameAlias: ['', Validators.required],
-    //     lastChangeBy: [{value: 'nquan', disabled: true}],
-    //     lastChangeDate:  [{value: '', disabled: true}],
-    //   });
-    // } else {
-    //   this.incidentForm = this.formBuilder.group({
-    //     siteNameAlias: ['', Validators.required],
-    //     lastChangeBy: [{value: 'nquan', disabled: true}],
-    //     lastChangeDate:  [{value: '', disabled: true}],
-    //   },
-    //   {validator: [] }
-    //   );
-    // }
 
   }
 

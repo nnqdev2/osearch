@@ -33,11 +33,16 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
     this.siteAliasDataSource = new SiteAliasesResultDataSourceService(this.lustDataService);
   }
   ngOnInit() {
-    console.log('SiteAliasesComponent on init  this.lustId.....');
-    this.lustId = +this.route.snapshot.params['lustid'];
-    console.log(this.lustId);
+    // console.log('SiteAliasesComponent on init  (this.route.params this.route.parent.params  ....');
+    // console.log(this.route.params['lustid']);
+    // console.log(this.route.parent.params['lustid']);
+    // console.log(this.route.snapshot.params['lustid']);
+    // this.lustId = +this.route.snapshot.params['lustid'];
+    // console.log(this.lustId);
     this.lustIdSub = this.route.parent.params.subscribe(params => {
+      console.log('SiteAliasesComponent PARENT on init this.route.parent.params .....');
       this.lustId = +params['lustid'];
+      console.log(this.lustId);
     });
 
     console.log('SiteAliasesComponent this.lustId');
@@ -93,11 +98,11 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onEdit(siteAlias: SiteAlias) {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$onEdit');
+    console.log('onEdit(siteAlias: SiteAlias) ');
     console.log(siteAlias);
     // this.router.navigate([siteAlias.siteNameAliasId]);
     // this.router.navigate(['../saupdt' , siteAlias.siteNameAliasId]);
-    this.router.navigate(['../sitealias' , siteAlias.siteNameAliasId]);
+    this.router.navigate(['../sitealias' , siteAlias.siteNameAliasId], {relativeTo: this.route});
   }
 
   onDelete(siteAlias: SiteAlias) {
