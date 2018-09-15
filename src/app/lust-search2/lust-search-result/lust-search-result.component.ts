@@ -1,14 +1,13 @@
-import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subscription, fromEvent, merge } from 'rxjs';
+import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatPaginator, MatSort } from '@angular/material';
+import { tap } from 'rxjs/operators';
+import { Subscription, merge } from 'rxjs';
 
 import { LustSearchResultDataSourceService } from './lust-search-result-data-source.service';
 import { LustSearchFilter } from '../../models/lust-search-filter';
 import { LustSearchResultStat } from '../../models/lust-search-result-stat';
 import { LustDataService } from '../../services/lust-data.service';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-lust-search-result',
@@ -30,7 +29,7 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
   lustSearchResultStats: LustSearchResultStat[];
   totalRows = 0;
 
-  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router) {
+  constructor(private lustDataService: LustDataService, private router: Router) {
     this.dataSource = new LustSearchResultDataSourceService(this.lustDataService);
   }
 
@@ -112,8 +111,6 @@ export class LustSearchResultComponent implements AfterViewInit, OnChanges, OnDe
 
   onRowClicked(lustSearchResultStat: LustSearchResultStat) {
     if (!this.isSearchOnly) {
-      console.log('***************WHERE AM I????????????????????????');
-      console.log(lustSearchResultStat.lustId);
       this.router.navigate(['lust', lustSearchResultStat.lustId]);
     }
   }

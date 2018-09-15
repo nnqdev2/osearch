@@ -27,6 +27,7 @@ export class SiteAliasEditComponent implements OnInit {
   confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
 
   private incidentForm: FormGroup;
+  private siteAlias: SiteAlias;
 
   currentDate: Date;
   errorMessage: string;
@@ -58,6 +59,9 @@ export class SiteAliasEditComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
+    this.loadingSubject.next(true);
+    this.route.data.subscribe((data: {siteAlias: SiteAlias}) => {this.siteAlias = data.siteAlias; });
+
     console.log('***SiteAliasEditComponent ngOnInit() DEBUGGING******');
     const url = this.router.url;
 
@@ -75,17 +79,31 @@ export class SiteAliasEditComponent implements OnInit {
     if (isNaN(this.siteNameAliasId)) {
       console.log('ADD New alias....');
       this.isUpdate = false;
+      this.siteNameAliasId = 0;
+    }
+
+    if (this.isUpdate) {
+      this.incidentForm = this.formBuilder.group({
+        siteNameAlias: [this.siteAlias.siteNameAlias, Validators.required],
+        lastChangeBy: [{value: this.siteAlias.lastChangeBy, disabled: true}],
+        lastChangeDate:  [{value: this.siteAlias.lastChangeDate, disabled: true}],
+      },
+      {validator: [] }
+      );
+    } else {
+        this.incidentForm = this.formBuilder.group({
+          siteNameAlias: ['', Validators.required],
+          // lastChangeBy: [{value: 'nquan', disabled: true}],
+          // lastChangeDate:  [{value: this.siteAlias.lastChangeDate, disabled: true}],
+        },
+        {validator: [] }
+        );
     }
 
 
-    this.incidentForm = this.formBuilder.group({
-      siteNameAlias: [this.siteAliasPost.siteNameAlias, Validators.required],
-      lastChangeBy: [{value: 'nquan', disabled: true}],
-      lastChangeDate:  [{value: '', disabled: true}],
-    },
-    {validator: [] }
-    );
-
+    this.maxDate = new Date();
+    this.maxDate.setDate( this.maxDate.getDate());
+    this.loadingSubject.next(false);
   }
 
   private isActionSelected(): boolean {
@@ -156,17 +174,21 @@ export class SiteAliasEditComponent implements OnInit {
 
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
-      console.log('updateIncident()');
-      console.log(this.siteAliasPost);
+
       this.siteAliasPost.siteNameAlias = this.incidentForm.controls.siteNameAlias.value;
-      this.siteAliasPost.lastChangeBy = this.incidentForm.controls.lastChangeBy.value;
+      // this.siteAliasPost.lastChangeBy = this.incidentForm.controls.lastChangeBy.value;
+      this.siteAliasPost.lastChangeBy = 'LUSTUSER';
       this.siteAliasPost.lustId = this.lustId;
+      this.siteAliasPost.siteNameAliasIdIn = this.siteNameAliasId;
+
+      console.log('submitSiteAlias()');
+      console.log(this.siteAliasPost);
 
       this.lustDataService.insUpdSiteAlias(this.siteAliasPost)
         .subscribe(
           (data ) => (
             this.siteAliasPostResult = data,
-            console.log('HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO'),
+            console.log('submitSiteAlias() this.siteAliasPostResult'),
             console.log(this.siteAliasPostResult),
             this.onCreateLustIncidentComplete()),
         );

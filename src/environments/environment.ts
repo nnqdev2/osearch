@@ -34,6 +34,7 @@ export const environment = {
   lit_site_setup: 'http://deqwebdev/lit_maint/?appid=',
   olprrapi_insert_lust: 'http://deqwebdev/olprrapi/review/lustincident',
   olprrapi_sitealias: 'http://deqwebdev/olprrapi/lust/sitealias',
+  olprrapi_sitealiases: 'http://deqwebdev/olprrapi/lust/lustid',
   olprrapi_contact: 'http://deqwebdev/olprrapi/lust/contact',
   olprrapi_postalcounty_lookup: 'http://deqwebdev/olprrapi/lust/postalcounty',
   olprrapi_brownfield: 'http://deqwebdev/olprrapi/olprr/brownfield',
