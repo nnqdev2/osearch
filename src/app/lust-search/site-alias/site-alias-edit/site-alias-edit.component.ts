@@ -1,9 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import { environment } from '../../../../environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, BehaviorSubject} from 'rxjs';
-import { map, flatMap} from 'rxjs/operators';
 import { LustDataService } from '../../../services/lust-data.service';
 import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GuardDialogComponent } from '../../../common/dialogs/guard-dialog.component';
@@ -19,28 +17,24 @@ import { IncidentIdToNameService } from '../../../olprr-search/incident-id-to-na
   templateUrl: './site-alias-edit.component.html',
   styleUrls: ['./site-alias-edit.component.scss']
 })
-export class SiteAliasEditComponent implements OnInit {
-  // @Input() siteAlias: SiteAlias;
 
+export class SiteAliasEditComponent implements OnInit {
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
   confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
-
   private incidentForm: FormGroup;
   private siteAlias: SiteAlias;
-
   currentDate: Date;
   errorMessage: string;
-  private isActionSeleted = false;
   private submitClicked = false;
   private resetFormClicked = false;
-  private helpClicked = false;
+  private deleteClicked = false;
   private cancelClicked = false;
-  private showAllErrorsMessages = false;
   private errors: any[];
   private lustId = 0;
   private siteNameAliasId = 0;
   private isUpdate = false;
+  private returnPath: string;
 
   private siteAliasPost = new SiteAliasPost();
   private siteAliasPostResult = new SiteAliasPost();
@@ -48,40 +42,33 @@ export class SiteAliasEditComponent implements OnInit {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
 
-  private isClosed = true;
 
   maxDate: Date;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
-    , private datePipe: DatePipe, private route: ActivatedRoute, private router: Router
+    , private route: ActivatedRoute, private router: Router
     , private canDeactivateDialog: MatDialog, private confirmDeleteDialog: MatDialog
-    , private submitStatusDialog: MatDialog, private idToNameService: IncidentIdToNameService
+    , private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
     this.loadingSubject.next(true);
     this.route.data.subscribe((data: {siteAlias: SiteAlias}) => {this.siteAlias = data.siteAlias; });
-
-    console.log('***SiteAliasEditComponent ngOnInit() DEBUGGING******');
-    const url = this.router.url;
-
     this.route.pathFromRoot[2].params.subscribe(params => {
       this.lustId = +params['lustid'];
       console.log(this.lustId);
     });
-
     this.route.params.subscribe(params => {
       this.siteNameAliasId = +params['sitenamealiasid'];
       console.log(this.siteNameAliasId);
     });
-
     this.isUpdate = true;
     if (isNaN(this.siteNameAliasId)) {
       console.log('ADD New alias....');
       this.isUpdate = false;
       this.siteNameAliasId = 0;
     }
-
+    this.returnPath = 'lust/' + this.lustId + '/sitealiases';
     if (this.isUpdate) {
       this.incidentForm = this.formBuilder.group({
         siteNameAlias: [this.siteAlias.siteNameAlias, Validators.required],
@@ -99,8 +86,6 @@ export class SiteAliasEditComponent implements OnInit {
         {validator: [] }
         );
     }
-
-
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
     this.loadingSubject.next(false);
@@ -113,7 +98,7 @@ export class SiteAliasEditComponent implements OnInit {
     if  (this.resetFormClicked) {
       return true;
     }
-    if  (this.helpClicked) {
+    if  (this.deleteClicked) {
       return true;
     }
     if  (this.cancelClicked) {
@@ -170,8 +155,6 @@ export class SiteAliasEditComponent implements OnInit {
 
 
   submitSiteAlias(): void {
-    console.log('submitSiteAlias() starts................................. ');
-
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
 
@@ -196,15 +179,37 @@ export class SiteAliasEditComponent implements OnInit {
         this.errors = this.findInvalidControls();
         console.log('this.errors');
         console.log(this.errors);
-        this.showAllErrorsMessages = true;
-        this.isClosed = false;
     }
   }
 
-
   onCreateLustIncidentComplete(): void {
-    console.log('onCreateLustIncidentComplete() ');
+    this.router.navigate([this.returnPath]);
+  }
 
+  cancel() {
+    this.cancelClicked = true;
+    this.router.navigate([this.returnPath]);
+  }
+
+  delete() {
+    this.deleteClicked = true;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Confirm Delete',
+      message1: 'Are you sure you want to delete Site Name Alias ' + this.siteAlias.siteNameAlias + ' ?' ,
+    };
+    dialogConfig.disableClose =  true;
+    this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
+    this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
+      console.log('after confirm delete');
+      console.log(result);
+      if (result === 'confirm') {
+        console.log('siteAlias.siteNameAliasId ====>' + this.siteAlias.siteNameAliasId);
+        this.lustDataService.delSiteAlias(this.siteAlias.siteNameAliasId).subscribe();
+        this.router.navigate([this.returnPath]);
+      }
+    });
   }
 
 

@@ -129,7 +129,6 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   add() {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$add');
     this.router.navigate(['../sitealias'], {relativeTo: this.route});
   }
 
