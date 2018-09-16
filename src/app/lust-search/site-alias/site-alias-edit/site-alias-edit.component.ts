@@ -35,6 +35,7 @@ export class SiteAliasEditComponent implements OnInit {
   private siteNameAliasId = 0;
   private isUpdate = false;
   private returnPath: string;
+  private formTitle: string;
 
   private siteAliasPost = new SiteAliasPost();
   private siteAliasPostResult = new SiteAliasPost();
@@ -62,11 +63,15 @@ export class SiteAliasEditComponent implements OnInit {
       this.siteNameAliasId = +params['sitenamealiasid'];
       console.log(this.siteNameAliasId);
     });
-    this.isUpdate = true;
+    const formTitle = 'Site Name Alias for Log Number ';  // + this.siteAlias.logNumber;
     if (isNaN(this.siteNameAliasId)) {
       console.log('ADD New alias....');
       this.isUpdate = false;
       this.siteNameAliasId = 0;
+      this.formTitle = 'Add ' + formTitle;
+    } else {
+      this.isUpdate = true;
+      this.formTitle = 'Update ' + formTitle;
     }
     this.returnPath = 'lust/' + this.lustId + '/sitealiases';
     if (this.isUpdate) {
@@ -212,5 +217,9 @@ export class SiteAliasEditComponent implements OnInit {
     });
   }
 
-
+  resetForm() {
+    this.resetFormClicked = true;
+    this.incidentForm.reset();
+    this.incidentForm.markAsPristine();
+  }
 }
