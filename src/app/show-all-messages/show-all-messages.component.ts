@@ -17,7 +17,6 @@ export class ShowAllMessagesComponent implements OnInit {
   }
 
   shouldShowErrors(): boolean {
-    console.log('***should show errors');
     return (this.messages !== null && this.submitClicked);
   }
 

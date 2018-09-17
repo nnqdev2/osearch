@@ -1,9 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
-import { environment } from '../../../environments/environment';
 import { Observable, Subject, BehaviorSubject} from 'rxjs';
 import { map, flatMap} from 'rxjs/operators';
 
@@ -19,15 +17,10 @@ import { AddressCorrectStat } from '../../models/address-correct-stat';
 import { AddressCorrect } from '../../models/address-correct';
 import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GuardDialogComponent } from '../../common/dialogs/guard-dialog.component';
-import { LustIncidentUpdate } from '../../models/lust-incident';
-import { LustIncidentInsertResult } from '../../models/lust-incident-insert-result';
 import { City } from '../../models/city';
 import { ZipCode } from '../../models/zipcode';
 import { County } from '../../models/county';
 import { SearchDialogComponent } from '../search-dialog/search-dialog.component';
-import { SelectedDataService } from '../services/selected-data.service';
-import { ContactSearchResultStat } from '../../models/contact-search-result-stat';
-import { UstSearchResultStat } from '../../models/ust-search-result-stat';
 import { IncidentIdToNameService } from '../../olprr-search/incident-id-to-name.service';
 import { PostalCountyLookup } from '../../models/postal-county-lookup';
 import { SiteType2 } from '../../models/site-type2';
@@ -83,25 +76,12 @@ export class LustIncidentEditComponent implements OnInit  {
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   private submitClicked = false;
   private resetFormClicked = false;
-  private helpClicked = false;
   private searchClicked = false;
-  private isClosed = true;
-  private isContaminantClosed = true;
-  private isMediaClosed = true;
-  private showAllErrorsMessages = false;
-  private showContaminantErrorMessage = false;
-  private showMediaErrorMessage = false;
-  private contaminantErrorMessage: string;
-  private mediaErrorMessage: string;
-  private contaminantErrorMessages: [string];
-  private mediaErrorMessages: [string];
 
   private errors: any[];
-  private authRequired = false;
-  // showStatusButtons = false;
   private showSaAddressCorrect = false;
-  // showRpAddressCorrect = false;
-  // showIcAddressCorrect = false;
+  private showSaAddressCheck = false;
+
 
   private lustIncidentUpdate = new LustIncidentUpdateUpdate();
   private lustIncidentUpdateResult: LustIncidentUpdateResult;
@@ -114,7 +94,7 @@ export class LustIncidentEditComponent implements OnInit  {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
-    , private canDeactivateDialog: MatDialog, private searchDialog: MatDialog, private submitStatusDialog: MatDialog
+    , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog
     , private idToNameService: IncidentIdToNameService
   ) {  }
 
@@ -206,9 +186,10 @@ export class LustIncidentEditComponent implements OnInit  {
   }
 
   runSaAddressCorrect() {
+    console.log('******** runSaAddressCorrect()');
     if (this.incidentForm.controls.siteAddress !== undefined
       && this.incidentForm.controls.siteAddress.value.length > 0 ) {
-      this.showSaAddressCorrect = true;
+        this.showSaAddressCorrect = true;
     }
     this.addressCorrectDataService.getAddressCorrectStat(this.incidentForm.controls.siteAddress.value
       , this.incidentForm.controls.siteCity.value, 'OR')
@@ -226,7 +207,10 @@ export class LustIncidentEditComponent implements OnInit  {
       } )
     );
   }
+
   private refreshSaAddressCorrect(postalCountyLookup: PostalCountyLookup) {
+    console.log('********refreshSaAddressCorrect(postalCountyLookup: PostalCountyLookup)');
+    console.log(postalCountyLookup);
     this.postalCountyLookup = postalCountyLookup;
     this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
     this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
@@ -234,7 +218,16 @@ export class LustIncidentEditComponent implements OnInit  {
     this.incidentForm.controls.saAddressCorrectCounty.setValue(this.postalCountyLookup.countyCode);
   }
 
-
+  private addressCorrectNotFound(addressType: string): boolean {
+    console.log('********addressCorrectNotFound(addressType: string)');
+    console.log(addressType);
+    if ((addressType === 'sa')
+    && (this.saAddressCorrectStat !== undefined)
+    && (this.saAddressCorrectStat.Records[0].PostalCode.length < 5)) {
+      return true;
+    }
+    return false;
+  }
 
   canDeactivate(): Observable<boolean> | boolean {
     if (this.incidentForm.pristine  || this.isActionSelected() ) {
@@ -260,15 +253,12 @@ export class LustIncidentEditComponent implements OnInit  {
     if  (this.submitClicked) {
       return true;
     }
-    // if  (this.esetFormClicked) {
-    //   return true;
-    // }
-    // if  (this.helpClicked) {
-    //   return true;
-    // }
-    // if  (this.searchClicked) {
-    //   return true;
-    // }
+    if  (this.resetFormClicked) {
+      return true;
+    }
+    if  (this.searchClicked) {
+      return true;
+    }
     return false;
   }
 
@@ -281,22 +271,6 @@ export class LustIncidentEditComponent implements OnInit  {
         this.errors = this.findInvalidControls();
         console.log('this.errors');
         console.log(this.errors);
-        // this.contaminantErrorMessage = this.getContaminantErrorMessage();
-        // if (this.contaminantErrorMessage != null) {
-        //   this.contaminantErrorMessages = [this.contaminantErrorMessage];
-        //   this.errors.push(this.contaminantErrorMessage);
-        //   this.showContaminantErrorMessage = true;
-        // }
-        // this.mediaErrorMessage = this.getMediaErrorMessage();
-        // if (this.mediaErrorMessage != null) {
-        //   this.mediaErrorMessages = [this.mediaErrorMessage];
-        //   this.errors.push(this.mediaErrorMessage);
-        //   this.showMediaErrorMessage = true;
-        // }
-        this.showAllErrorsMessages = true;
-        this.isClosed = false;
-        this.isContaminantClosed = false;
-        this.isMediaClosed = false;
     }
   }
 
@@ -341,7 +315,7 @@ export class LustIncidentEditComponent implements OnInit  {
     };
     dialogConfig.disableClose =  true;
     this.submitStatusDialogRef = this.submitStatusDialog.open(SubmitStatusDialogComponent, dialogConfig);
-    this.submitStatusDialogRef.afterClosed().subscribe(result => {
+    this.submitStatusDialogRef.afterClosed().subscribe(() => {
       this.resetFlags();
       this.incidentForm.markAsPristine();
     });
@@ -403,6 +377,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.lustIncidentUpdate.optionLetterSentInd = (this.incidentForm.controls.optionLetterSentInd.value ? 1 : 0);
     this.lustIncidentUpdate.noValidAddress = (this.incidentForm.controls.noValidAddress.value ? 1 : 0);
     this.lustIncidentUpdate.lustIdIn = this.lustIncidentGet.crisCheck;
+    this.lustIncidentUpdate.managementIdIn = this.lustIncidentGet.managementId;
     this.lustIncidentUpdate.hotInd = 0;
     this.lustIncidentUpdate.regTankInd = 0;
     this.lustIncidentUpdate.nonRegTankInd = 0;
@@ -423,7 +398,11 @@ export class LustIncidentEditComponent implements OnInit  {
     this.lustIncidentUpdate.fileStatusId = this.incidentForm.controls.fileStatusId.value;
     this.lustIncidentUpdate.brownfieldCodeId = this.incidentForm.controls.brownfieldCodeId.value;
     this.lustIncidentUpdate.geolocId = this.incidentForm.controls.geoLocId.value;
-    this.lustIncidentUpdate.geolocId = this.incidentForm.controls.geoLocId.value;
+    this.lustIncidentUpdate.cleanupStartDt = this.incidentForm.controls.cleanupStartDate.value;
+    this.lustIncidentUpdate.releaseStopDt = this.incidentForm.controls.releaseStopDate.value;
+    this.lustIncidentUpdate.finalInvcRqstDt = this.incidentForm.controls.finalInvcRqstDate.value;
+    this.lustIncidentUpdate.letterOfAgreementDt = this.incidentForm.controls.letterOfAgreementDate.value;
+    this.lustIncidentUpdate.letterOfAgreementComment = this.incidentForm.controls.letterOfAgreementComment.value;
     console.log('*********this.lustIncident ' );
     console.log(this.lustIncidentUpdate);
     console.log( JSON.stringify(this.lustIncidentUpdate));
@@ -435,23 +414,25 @@ export class LustIncidentEditComponent implements OnInit  {
     return 'Auth User required for opening LIT.....';
   }
 
-  private cancel() {
-    this.searchClicked = true;
-    this.router.navigate(['lsearch']);
-  }
   resetFlags() {
-    this.showAllErrorsMessages = false;
     this.submitClicked = false;
     this.resetFormClicked = false;
-    this.helpClicked = false;
     this.searchClicked = false;
   }
 
   resetForm(): void {
-    this.resetFormClicked = true;
-    this.incidentForm.reset();
     this.resetFlags();
     this.resetDate();
+    this.resetFormClicked = true;
+    this.incidentForm.reset();
+    this.incidentForm.markAsPristine();
+
+    this.loadingSubject.next(true);
+    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet; });
+    this.createForm();
+    this.maxDate = new Date();
+    this.maxDate.setDate( this.maxDate.getDate());
+    this.loadingSubject.next(false);
   }
 
 }

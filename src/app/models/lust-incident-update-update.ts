@@ -26,4 +26,10 @@ export class LustIncidentUpdateUpdate {
     geolocId: number;
     olprrId: number;
     discoveryDate: Date;
+    managementIdIn: number;
+    cleanupStartDt: Date;
+    releaseStopDt: Date;
+    finalInvcRqstDt: Date;
+    letterOfAgreementDt: Date;
+    letterOfAgreementComment: string;
 }

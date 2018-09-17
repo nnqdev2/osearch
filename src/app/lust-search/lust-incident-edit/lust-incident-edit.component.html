@@ -6,10 +6,10 @@
         <!-- Form incidentForm begins -->
         <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
             <mat-card>    
-                <mat-card-title class="mat-card-headertitle-background"> Update Lust Incident for {{lustIncidentGet.logNumber}} </mat-card-title> 
+                <mat-card-title class="mat-card-headertitle-background"> Update Lust Incident for Log Number {{lustIncidentGet.logNumber}} </mat-card-title> 
                 <mat-card-content> 
                     <mat-card>    
-                        <!-- <mat-card-title > Site </mat-card-title>   -->
+                        <mat-card-title > Site </mat-card-title>  
                         <mat-card-content> 
                             <div class="form-row full-width">
                                 <div class="form-group required col-md-2">
@@ -114,67 +114,64 @@
                                     </mat-form-field>  
                                     <app-show-errors [control]="incidentForm.controls.siteCounty"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
-
-
+                            </div>
                             <!-- site address address check -->                            
                             <div class="form-row full-width">  
-                                    <div class="form-group col-md-11">
-                                        <ng-container *ngIf="showSaAddressCorrect">
-                                            <mat-card>   <!--  Moved to css style="padding: 10px" -->
-                                                <mat-card-header>   <!-- style="margin-top: -10px; margin-bottom: -10px; margin-left: -10px;" -->
-                                                    <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastSaRefresh}}</mat-card-title>
-                                                </mat-card-header>
-                                                <mat-card-content>
-                                                    <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
-                                                    <ng-template #saAddressCorrectNotFound>
-                                                        <mat-panel-description>
-                                                            ** US Postal Addresss not found for this Site Address. **
-                                                        </mat-panel-description>
-                                                    </ng-template>
-                                                    <ng-template #saAddressCorrectFound>
-                                                        <div class="form-row full-width font-weight-bold " style="background-color: white">
-                                                            <div class="form-group col-md-4 col-sm-1 mat-card-address-data">  <!-- style="padding: 0px; margin-bottom: -20px;" -->   
-                                                                <input matInput formControlName="saAddressCorrectAddress"/>
-                                                            </div>
-                                                            <div class="form-group col-md-3 col-sm-1 mat-card-address-data">
-                                                                <input matInput formControlName="saAddressCorrectCity"/>
-                                                            </div>
-                                                            <div  class="form-group col-md-1 col-sm-1 mat-card-address-data">
-                                                                <input matInput formControlName="saAddressCorrectState"/>
-                                                            </div>
-                                                            <div class="form-group col-md-2 col-sm-1 mat-card-address-data">
-                                                                <input matInput formControlName="saAddressCorrectZipcode"/>
-                                                            </div>
-                                                            <div  class="form-group col-md-2 col-sm-1 mat-card-address-data">    
-                                                                <input matInput formControlName="saAddressCorrectCounty"/>
-                                                            </div>
+                                <div class="form-group col-md-11">
+                                    <ng-container *ngIf="showSaAddressCorrect">
+                                        <mat-card>   <!--  Moved to css style="padding: 10px" -->
+                                            <mat-card-header>   <!-- style="margin-top: -10px; margin-bottom: -10px; margin-left: -10px;" -->
+                                                <mat-card-title class="mat-card-title-background">US Postal Address Check {{lastSaRefresh}}</mat-card-title>
+                                            </mat-card-header>
+                                            <mat-card-content>
+                                                <div *ngIf="addressCorrectNotFound('sa'); then saAddressCorrectNotFound else saAddressCorrectFound"></div>
+                                                <ng-template #saAddressCorrectNotFound>
+                                                    <mat-panel-description>
+                                                        ** US Postal Addresss not found for this Site Address. **
+                                                    </mat-panel-description>
+                                                </ng-template>
+                                                <ng-template #saAddressCorrectFound>
+                                                    <div class="form-row full-width font-weight-bold " style="background-color: white">
+                                                        <div class="form-group col-md-4 col-sm-1 mat-card-address-data">  <!-- style="padding: 0px; margin-bottom: -20px;" -->   
+                                                            <input matInput formControlName="saAddressCorrectAddress"/>
                                                         </div>
-                                                    </ng-template>                                          
-                                                </mat-card-content>
-                                                <!-- <mat-card-actions>
-                                                    <div class="form-row full-width">
-                                                        <div *ngIf="addressCorrectNotFound('sa'); else saKeepAddressCorrect"></div>
-                                                        <ng-template #saKeepAddressCorrect>
-                                                            <div class="form-check">
-                                                                <label class="form-check-label font-weight-bold">
-                                                                    <mat-checkbox formControlName="updateSaWithAddressCorrect"> Update the Site Address with the US Postal Address.</mat-checkbox>
-                                                                </label>
-                                                            </div>
-                                                        </ng-template>
+                                                        <div class="form-group col-md-3 col-sm-1 mat-card-address-data">
+                                                            <input matInput formControlName="saAddressCorrectCity"/>
+                                                        </div>
+                                                        <div  class="form-group col-md-1 col-sm-1 mat-card-address-data">
+                                                            <input matInput formControlName="saAddressCorrectState"/>
+                                                        </div>
+                                                        <div class="form-group col-md-2 col-sm-1 mat-card-address-data">
+                                                            <input matInput formControlName="saAddressCorrectZipcode"/>
+                                                        </div>
+                                                        <div  class="form-group col-md-2 col-sm-1 mat-card-address-data">    
+                                                            <input matInput formControlName="saAddressCorrectCounty"/>
+                                                        </div>
                                                     </div>
-                                                </mat-card-actions> -->
-                                            </mat-card>
-                                        </ng-container>
-                                    </div>
-                                    <div class="form-group col-md-1">
-                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runSaAddressCorrect()" >Run US Postal Check</button>
-                                    </div>
-                                </div>                          
-                                <!-- /site address check-->
-                            </div>
+                                                </ng-template>                                          
+                                            </mat-card-content>
+                                            <!-- <mat-card-actions>
+                                                <div class="form-row full-width">
+                                                    <div *ngIf="addressCorrectNotFound('sa'); else saKeepAddressCorrect"></div>
+                                                    <ng-template #saKeepAddressCorrect>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label font-weight-bold">
+                                                                <mat-checkbox formControlName="updateSaWithAddressCorrect"> Update the Site Address with the US Postal Address.</mat-checkbox>
+                                                            </label>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </mat-card-actions> -->
+                                        </mat-card>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="runSaAddressCorrect()" >Run US Postal Check</button>
+                                </div>
+                            </div>                          
+                            <!-- /site address check-->
                         </mat-card-content> 
-                    </mat-card>  
-                    
+                    </mat-card>                      
                     <mat-card>    
                         <mat-card-title > Lit Setup </mat-card-title>  
                         <mat-card-content>
@@ -204,7 +201,7 @@
                         </mat-card-content>
                     </mat-card>    
                     <mat-card>
-                        <!-- <mat-card-title > Site </mat-card-title>   -->
+                        <mat-card-title > Assessment </mat-card-title>  
                         <mat-card-content>
                             <div class="form-row full-width">  
                                 <div class="form-group required col-md-3">
@@ -418,9 +415,6 @@
                             </mat-card>                     
                         </mat-card-content>
                     </mat-card>
-
-
-
                 </mat-card-content>
 
 
@@ -439,10 +433,6 @@
                 </ng-template>
 
                 <!-- /show errors  -->
-
-
-
-
                 <mat-card>
                     <mat-card-actions>
                         <div class="form-group row">
@@ -450,14 +440,14 @@
                                 <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Save</button>
                             </div>
                             <div class="col-md-3 ">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="hold()" >Clear</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()" >Reset Form</button>
                             </div>
                             <div class="col-md-3 ">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="decline()" >Return to Search</button>
                             </div>
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Help</button>
-                            </div>
+                            </div> -->
                         </div>   
                     </mat-card-actions> 
                 </mat-card>

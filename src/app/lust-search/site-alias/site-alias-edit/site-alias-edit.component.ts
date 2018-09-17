@@ -206,5 +206,17 @@ export class SiteAliasEditComponent implements OnInit {
     this.resetFormClicked = true;
     this.incidentForm.reset();
     this.incidentForm.markAsPristine();
+    if (this.isUpdate) {
+      this.route.data.subscribe((data: {siteAlias: SiteAlias}) => {
+        this.siteAlias = data.siteAlias; this.logNumber = this.siteAlias.logNumber;
+        this.incidentForm = this.formBuilder.group({
+          siteNameAlias: [this.siteAlias.siteNameAlias, Validators.required],
+          lastChangeBy: [{value: this.siteAlias.lastChangeBy, disabled: true}],
+          lastChangeDate:  [{value: this.siteAlias.lastChangeDate, disabled: true}],
+        },
+        {validator: [] }
+        );
+    });
+    }
   }
 }
