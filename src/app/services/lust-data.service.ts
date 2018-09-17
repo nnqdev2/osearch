@@ -216,7 +216,7 @@ export class LustDataService {
   }
 
   getLustIncident(lustId: string ): Observable<LustIncidentGet> {
-    return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' +  +lustId);
+    return this.http.get<LustIncidentGet>(environment.olprrapi_lust_incident_get + '/' + lustId);
   }
 
   updateLustIncident(lustIncidentUpdate: LustIncidentUpdateUpdate): Observable<LustIncidentUpdateResult> {
@@ -224,7 +224,7 @@ export class LustDataService {
   }
 
   getLogNumber(lustId: number): Observable<ApGetLogNumber> {
-    return this.http.get<ApGetLogNumber>(environment.olprrapi_lust_detail  + lustId + '/lognumber');  }
+    return this.http.get<ApGetLogNumber>(environment.olprrapi_lust_detail  + '/' + lustId + '/lognumber');  }
 
 
 }

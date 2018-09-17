@@ -41,7 +41,7 @@ export const environment = {
   olprrapi_lust_incident_get: 'http://deqwebdev/olprrapi/lust/incident',
   olprrapi_lust_pm: 'http://deqwebdev/olprrapi/lust/pm',
   olprrapi_lust_incident_update: 'http://deqwebdev/olprrapi/lust/incident',
-  olprrapi_lust_detail: 'http://deqwebdev/olprrapi/lust/lustid/',
+  olprrapi_lust_detail: 'http://deqwebdev/olprrapi/lust/lustid',
   contractor_uid: 'INGRID',
   contractor_pwd: 'GAFFNEY',
   cache_expiry_in_ms: '43200000',
