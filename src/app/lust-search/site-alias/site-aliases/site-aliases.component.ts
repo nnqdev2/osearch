@@ -1,11 +1,13 @@
 import { Component, OnInit, AfterViewInit, OnChanges, OnDestroy, Input, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { SiteAlias } from '../../../models/site-alias';
-import { LustDataService } from '../../../services/lust-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+
+import { SiteAlias } from '../../../models/site-alias';
+import { LustDataService } from '../../../services/lust-data.service';
 import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 import { SiteAliasesResultDataSourceService } from './site-aliases-result-data-source.service';
+import { ApGetLogNumber } from '../../../models/apGetLogNumber';
 
 @Component({
   selector: 'app-site-aliases',
@@ -14,43 +16,30 @@ import { SiteAliasesResultDataSourceService } from './site-aliases-result-data-s
 })
 export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
-  lustIdSub: any;
-  lustId: number;
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
-
-
-  siteAliasDataSource: SiteAliasesResultDataSourceService;
-  displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
-  subscription: Subscription;
-  siteAliases: SiteAlias[];
-  totalRows = 0;
-
-  confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
+  private lustIdSub: any;
+  private lustId: number;
+  private logNumber: string;
+  private siteAliasDataSource: SiteAliasesResultDataSourceService;
+  private displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
+  private subscription: Subscription;
+  private siteAliases: SiteAlias[];
+  private totalRows = 0;
+  private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
               , private confirmDeleteDialog: MatDialog) {
     this.siteAliasDataSource = new SiteAliasesResultDataSourceService(this.lustDataService);
   }
-  ngOnInit() {
-    // console.log('SiteAliasesComponent on init  (this.route.params this.route.parent.params  ....');
-    // console.log(this.route.params['lustid']);
-    // console.log(this.route.parent.params['lustid']);
-    // console.log(this.route.snapshot.params['lustid']);
-    // this.lustId = +this.route.snapshot.params['lustid'];
-    // console.log(this.lustId);
-    this.lustIdSub = this.route.parent.params.subscribe(params => {
-      console.log('SiteAliasesComponent PARENT on init this.route.parent.params .....');
-      this.lustId = +params['lustid'];
-      console.log(this.lustId);
-    });
 
-    console.log('SiteAliasesComponent this.lustId');
-    console.log(this.lustId);
+  ngOnInit() {
+    this.lustIdSub = this.route.parent.params.subscribe(params => {
+      this.lustId = +params['lustid'];
+    });
+    this.route.data.subscribe((data: {apGetLogNumber: ApGetLogNumber}) => {
+      this.logNumber = data.apGetLogNumber.logNumber; });
     this.loadResultPage();
     this.getSearchResults();
   }
-
 
   ngOnChanges(changes: SimpleChanges) {
     this.loadResultPage();
@@ -58,25 +47,11 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   ngAfterViewInit() {
-    // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    // merge(this.sort.sortChange, this.paginator.page)
-    // .pipe(
-    //     tap(() => this.loadResultPage())
-    // )
-    // .subscribe();
   }
 
   loadResultPage() {
-    console.log('loadResultPage() .....' + this.lustId);
-    console.log(this.siteAliasDataSource);
-    // this.lustSearchFilter.pageNumber = this.paginator.pageIndex + 1;
-    // this.lustSearchFilter.rowsPerPage = ((this.paginator.pageSize === 0 || this.paginator.pageSize === undefined)
-    //       ? 40 : this.paginator.pageSize);
-    // this.lustSearchFilter.sortColumn = (this.sort.active === undefined ? 1 : this.getSortCol(this.sort.active));
-    // this.lustSearchFilter.sortOrder = this.getSortOrder(this.sort.direction);
     this.siteAliasDataSource.loadResults(this.lustId);
   }
-
 
   getSearchResults() {
     this.subscription = this.siteAliasDataSource.siteAliasResultReturned$.subscribe(
@@ -98,16 +73,10 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onEdit(siteAlias: SiteAlias) {
-    console.log('onEdit(siteAlias: SiteAlias) ');
-    console.log(siteAlias);
-    // this.router.navigate([siteAlias.siteNameAliasId]);
-    // this.router.navigate(['../saupdt' , siteAlias.siteNameAliasId]);
     this.router.navigate(['../sitealias' , siteAlias.siteNameAliasId], {relativeTo: this.route});
   }
 
   onDelete(siteAlias: SiteAlias) {
-    console.log('onDelete');
-    console.log(siteAlias);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -117,10 +86,7 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
     dialogConfig.disableClose =  true;
     this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
     this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
-      console.log('after confirm delete');
-      console.log(result);
       if (result === 'confirm') {
-        console.log('siteAlias.siteNameAliasId ====>' + siteAlias.siteNameAliasId);
         this.lustDataService.delSiteAlias(siteAlias.siteNameAliasId).subscribe();
         this.loadResultPage();
         this.getSearchResults();

@@ -9,7 +9,6 @@ import { SubmitStatusDialogComponent } from '../../../common/dialogs/submit-stat
 import { SiteAlias } from '../../../models/site-alias';
 import { SiteAliasPost } from '../../../models/site-alias-post';
 import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
-import { DatePipe } from '@angular/common';
 import { IncidentIdToNameService } from '../../../olprr-search/incident-id-to-name.service';
 import { ApGetLogNumber } from '../../../models/apGetLogNumber';
 
@@ -38,14 +37,10 @@ export class SiteAliasEditComponent implements OnInit {
   private returnPath: string;
   private logNumber: string;
   private formTitle: string;
-
   private siteAliasPost = new SiteAliasPost();
   private siteAliasPostResult = new SiteAliasPost();
-
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
-
-
   maxDate: Date;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
@@ -55,19 +50,15 @@ export class SiteAliasEditComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    console.log('siteAliasEditComponent ngOnInit()');
     this.loadingSubject.next(true);
     this.route.pathFromRoot[2].params.subscribe(params => {
       this.lustId = +params['lustid'];
-      console.log(this.lustId);
     });
     this.route.params.subscribe(params => {
       this.siteNameAliasId = +params['sitenamealiasid'];
-      console.log(this.siteNameAliasId);
     });
-    const formTitle = 'Site Name Alias for Log Number ';  // + this.siteAlias.logNumber;
+    const formTitle = 'Site Name Alias for Log Number ';
     if (isNaN(this.siteNameAliasId)) {
-      console.log('ADD New alias....');
       this.isUpdate = false;
       this.siteNameAliasId = 0;
       this.formTitle = 'Add ' + formTitle;
@@ -119,8 +110,6 @@ export class SiteAliasEditComponent implements OnInit {
     return false;
   }
 
-
-
   canDeactivate(): Observable<boolean> | boolean {
     if (this.incidentForm.pristine  || this.isActionSelected() ) {
       return true;
@@ -145,8 +134,6 @@ export class SiteAliasEditComponent implements OnInit {
     const invalid = [];
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
-            console.log('****findInvalidControls ' + field);
-            console.log(this.incidentForm.controls[field]);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
@@ -175,16 +162,10 @@ export class SiteAliasEditComponent implements OnInit {
       this.siteAliasPost.lastChangeBy = 'LUSTUSER';
       this.siteAliasPost.lustId = this.lustId;
       this.siteAliasPost.siteNameAliasIdIn = this.siteNameAliasId;
-
-      console.log('submitSiteAlias()');
-      console.log(this.siteAliasPost);
-
       this.lustDataService.insUpdSiteAlias(this.siteAliasPost)
         .subscribe(
           (data ) => (
             this.siteAliasPostResult = data,
-            console.log('submitSiteAlias() this.siteAliasPostResult'),
-            console.log(this.siteAliasPostResult),
             this.onCreateLustIncidentComplete()),
         );
     } else if (this.incidentForm.invalid) {
@@ -214,10 +195,7 @@ export class SiteAliasEditComponent implements OnInit {
     dialogConfig.disableClose =  true;
     this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
     this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
-      console.log('after confirm delete');
-      console.log(result);
       if (result === 'confirm') {
-        console.log('siteAlias.siteNameAliasId ====>' + this.siteAlias.siteNameAliasId);
         this.lustDataService.delSiteAlias(this.siteAlias.siteNameAliasId).subscribe();
         this.router.navigate([this.returnPath]);
       }

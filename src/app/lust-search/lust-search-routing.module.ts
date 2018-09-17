@@ -69,7 +69,11 @@ const routes: Routes = [
           },
           canDeactivate: [CanDeactivateGuard],
         },
-        {path: 'sitealiases', component: SiteAliasesComponent },
+        {path: 'sitealiases', component: SiteAliasesComponent,
+          resolve: {
+            apGetLogNumber: LogNumberResolver,
+          },
+        },
         {path: 'sitealias', component: SiteAliasBaseComponent,
           children:
           [

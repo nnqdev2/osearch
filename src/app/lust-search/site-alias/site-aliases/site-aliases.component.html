@@ -1,83 +1,48 @@
-<!-- <div class="siteAlias">
-  <div class="loading-indicator" *ngIf="siteAliasDataSource.siteAliasLoading$ | async">
-      <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-  </div>
-  <mat-table class="child-table mat-elevation-z8 table-hover"  cdkScrollable [dataSource]="siteAliasDataSource">
-      <ng-container matColumnDef="siteAliasName">
-          <mat-header-cell *matHeaderCellDef >Site Alias</mat-header-cell>
-          <mat-cell *matCellDef="let siteAlias">{{siteAlias.siteNameAlias}}</mat-cell>
-      </ng-container>
-          <ng-container matColumnDef="lastChangeBy">
-          <mat-header-cell *matHeaderCellDef >Last Change By</mat-header-cell>
-          <mat-cell *matCellDef="let siteAlias">{{siteAlias.lastChangeBy}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="lastChangeDate">
-          <mat-header-cell *matHeaderCellDef >Last Change Date</mat-header-cell>
-          <mat-cell *matCellDef="let siteAlias">{{siteAlias.lastChangeDate | date:'MM/dd/yyyy'}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="siteNameAliasId">
-          <mat-header-cell *matHeaderCellDef> Action 2</mat-header-cell>
-          <mat-cell *matCellDef="let siteAlias"> 
-              <button mat-button [matMenuTriggerFor]="menu">Action</button>
-              <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="onEdit(siteAlias) ">Edit</button>
-                  <button mat-menu-item (click)="onDelete(siteAlias) ">Delete</button> 
-              </mat-menu>
-          </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
-  </mat-table>
-</div> -->
-
 <mat-card>
-    <mat-card-title > Update Site Alias for {{lustId}} </mat-card-title>  
-    <mat-card-content>
-    
-    <div class="siteAliases">
-        <div class="loading-indicator" *ngIf="siteAliasDataSource.siteAliasLoading$ | async">
-            <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-        </div>
-        <mat-table class="child-table mat-elevation-z8 "  cdkScrollable [dataSource]="siteAliasDataSource">
-        <!-- <mat-table class="child-table mat-elevation-z8 table-hover "  cdkScrollable [dataSource]="siteAliasDataSource"> -->
-            <ng-container matColumnDef="siteAliasName">
-                <mat-header-cell *matHeaderCellDef >Site Alias</mat-header-cell>
-                <mat-cell *matCellDef="let siteAlias">{{siteAlias.siteNameAlias}}</mat-cell>
-            </ng-container>
-                <ng-container matColumnDef="lastChangeBy">
-                <mat-header-cell *matHeaderCellDef >Last Change By</mat-header-cell>
-                <mat-cell *matCellDef="let siteAlias">{{siteAlias.lastChangeBy}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="lastChangeDate">
-                <mat-header-cell *matHeaderCellDef >Last Change Date</mat-header-cell>
-                <mat-cell *matCellDef="let siteAlias">{{siteAlias.lastChangeDate | date:'MM/dd/yyyy'}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="siteNameAliasId">
-                <mat-header-cell *matHeaderCellDef> Action 2</mat-header-cell>
-                <mat-cell *matCellDef="let siteAlias"> 
-                    <button mat-button [matMenuTriggerFor]="menu">Action</button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="onEdit(siteAlias) ">Edit</button>
-                        <button mat-menu-item (click)="onDelete(siteAlias) ">Delete</button> 
-                    </mat-menu>
-                </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
-        </mat-table>
-      </div>
-          
-    </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-actions>
-            <div class="form-row full-width">
-                <div class="col-md-2 ">
-                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block"  (click)="add()"  >Add New Site Name Alias</button>
-                </div>
-                <div class="col-md-1 ">
-                    <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="refresh()" >Refresh</button>
-                </div>
+    <mat-card-title > Update Site Name Alias for Log Number {{logNumber}} </mat-card-title>  
+    <mat-card-content>    
+        <div class="siteAliases">
+            <div class="loading-indicator" *ngIf="siteAliasDataSource.siteAliasLoading$ | async">
+                <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
             </div>
-        </mat-card-actions> 
-    </mat-card>
+            <mat-table class="child-table mat-elevation-z8 "  cdkScrollable [dataSource]="siteAliasDataSource">
+                <ng-container matColumnDef="siteAliasName">
+                    <mat-header-cell *matHeaderCellDef >Site Alias</mat-header-cell>
+                    <mat-cell *matCellDef="let siteAlias">{{siteAlias.siteNameAlias}}</mat-cell>
+                </ng-container>
+                    <ng-container matColumnDef="lastChangeBy">
+                    <mat-header-cell *matHeaderCellDef >Last Change By</mat-header-cell>
+                    <mat-cell *matCellDef="let siteAlias">{{siteAlias.lastChangeBy}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="lastChangeDate">
+                    <mat-header-cell *matHeaderCellDef >Last Change Date</mat-header-cell>
+                    <mat-cell *matCellDef="let siteAlias">{{siteAlias.lastChangeDate | date:'MM/dd/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="siteNameAliasId">
+                    <mat-header-cell *matHeaderCellDef> Action 2</mat-header-cell>
+                    <mat-cell *matCellDef="let siteAlias"> 
+                        <button mat-button [matMenuTriggerFor]="menu">Action</button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="onEdit(siteAlias) ">Edit</button>
+                            <button mat-menu-item (click)="onDelete(siteAlias) ">Delete</button> 
+                        </mat-menu>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
+            </mat-table>
+        </div>          
+    </mat-card-content>
+</mat-card>
+<mat-card>
+    <mat-card-actions>
+        <div class="form-row full-width">
+            <div class="col-md-2 ">
+                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block"  (click)="add()"  >Add New Site Name Alias</button>
+            </div>
+            <div class="col-md-1 ">
+                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="refresh()" >Refresh</button>
+            </div>
+        </div>
+    </mat-card-actions> 
+</mat-card>

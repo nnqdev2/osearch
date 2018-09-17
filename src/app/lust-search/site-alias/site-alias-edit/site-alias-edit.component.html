@@ -49,17 +49,17 @@
                         <div class="col-md-2">
                             <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Save</button>
                         </div>
-                        <!-- <div *ngIf="isUpdate">
-                            <div class="col-md-2">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="delete()" >Delete</button>
-                            </div>
-                        </div> -->
-
-                        <div class="col-md-2">
-                            <div *ngIf="isUpdate">
+                        <div *ngIf="isUpdate">
+                            <div class="full-width  col-md-12">
                                 <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="delete()" >Delete</button>
                             </div>
                         </div>
+
+                        <!-- <div class="col-md-2">
+                            <div *ngIf="isUpdate">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="delete()" >Delete</button>
+                            </div>
+                        </div> -->
 
                         <div class="col-md-2 ">
                             <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()" >Reset Form</button>
