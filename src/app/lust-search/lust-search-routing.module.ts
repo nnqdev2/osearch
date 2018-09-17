@@ -33,6 +33,7 @@ import { SiteAliasesComponent } from './site-alias/site-aliases/site-aliases.com
 import { LustSearchComponent } from './lust-search/lust-search.component';
 import { SiteAliasBaseComponent } from './site-alias/site-alias-base/site-alias-base.component';
 import { SiteAliasResolver } from '../resolvers/site-alias-resolver.service';
+import { LogNumberResolver } from '../resolvers/log-number-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
@@ -74,6 +75,9 @@ const routes: Routes = [
           [
             // {path: '', redirectTo: 'new', pathMatch: 'full'},
             {path: '', component: SiteAliasEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
               canDeactivate: [CanDeactivateGuard],
             },
             {path: ':sitenamealiasid', component: SiteAliasEditComponent,

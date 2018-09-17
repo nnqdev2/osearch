@@ -11,6 +11,7 @@ import { SiteAliasPost } from '../../../models/site-alias-post';
 import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 import { DatePipe } from '@angular/common';
 import { IncidentIdToNameService } from '../../../olprr-search/incident-id-to-name.service';
+import { ApGetLogNumber } from '../../../models/apGetLogNumber';
 
 @Component({
   selector: 'app-site-alias-edit',
@@ -35,6 +36,7 @@ export class SiteAliasEditComponent implements OnInit {
   private siteNameAliasId = 0;
   private isUpdate = false;
   private returnPath: string;
+  private logNumber: string;
   private formTitle: string;
 
   private siteAliasPost = new SiteAliasPost();
@@ -53,8 +55,8 @@ export class SiteAliasEditComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
+    console.log('siteAliasEditComponent ngOnInit()');
     this.loadingSubject.next(true);
-    this.route.data.subscribe((data: {siteAlias: SiteAlias}) => {this.siteAlias = data.siteAlias; });
     this.route.pathFromRoot[2].params.subscribe(params => {
       this.lustId = +params['lustid'];
       console.log(this.lustId);
@@ -69,10 +71,15 @@ export class SiteAliasEditComponent implements OnInit {
       this.isUpdate = false;
       this.siteNameAliasId = 0;
       this.formTitle = 'Add ' + formTitle;
+      this.route.data.subscribe((data: {apGetLogNumber: ApGetLogNumber}) => {
+        this.logNumber = data.apGetLogNumber.logNumber; });
     } else {
+      this.route.data.subscribe((data: {siteAlias: SiteAlias}) => {
+        this.siteAlias = data.siteAlias; this.logNumber = this.siteAlias.logNumber; });
       this.isUpdate = true;
       this.formTitle = 'Update ' + formTitle;
     }
+    this.formTitle = this.formTitle + this.logNumber;
     this.returnPath = 'lust/' + this.lustId + '/sitealiases';
     if (this.isUpdate) {
       this.incidentForm = this.formBuilder.group({

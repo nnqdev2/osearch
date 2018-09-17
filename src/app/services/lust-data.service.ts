@@ -46,6 +46,7 @@ import { SiteType2 } from '../models/site-type2';
 import { LustIncidentUpdateUpdate } from '../models/lust-incident-update-update';
 import { LustIncidentUpdate } from '../models/lust-incident';
 import { LustIncidentUpdateResult } from '../models/lust-incident-update-Result';
+import { ApGetLogNumber } from '../models/apGetLogNumber';
 
 @Injectable({
   providedIn: 'root'
@@ -184,7 +185,7 @@ export class LustDataService {
   }
 
   getSiteAliases(lustId: number): Observable<SiteAlias[]> {
-    return this.http.get<SiteAlias[]>(environment.olprrapi_sitealiases + '/' + lustId + '/sitealiases');  }
+    return this.http.get<SiteAlias[]>(environment.olprrapi_lust_detail + '/' + lustId + '/sitealiases');  }
 
   getSiteAlias(siteNameAliasId: number): Observable<SiteAlias> {
     return this.http.get<SiteAlias>(environment.olprrapi_sitealias + '/' +  siteNameAliasId);
@@ -221,6 +222,10 @@ export class LustDataService {
   updateLustIncident(lustIncidentUpdate: LustIncidentUpdateUpdate): Observable<LustIncidentUpdateResult> {
     return this.http.post<LustIncidentUpdateResult>(environment.olprrapi_lust_incident_update , lustIncidentUpdate);
   }
+
+  getLogNumber(lustId: number): Observable<ApGetLogNumber> {
+    return this.http.get<ApGetLogNumber>(environment.olprrapi_lust_detail  + lustId + '/lognumber');  }
+
 
 }
 
