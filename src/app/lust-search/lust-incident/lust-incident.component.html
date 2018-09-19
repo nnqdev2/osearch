@@ -2,13 +2,13 @@
     <mat-card>
         <mat-card-actions>
             <div class="form-group row">
-            <div class="col-md-10"></div>
-            <div class="col-md-2">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
                 <button mat-raised-button [matMenuTriggerFor]="menu"  >Lust Incident Menu</button>
                 <mat-menu #menu="matMenu">
                     <a [routerLink]="['/lust']" mat-menu-item>Create New Incident</a>
                     <a [routerLink]="['./']" mat-menu-item> Update Incident</a>
-                    <a [routerLink]="['contact']" mat-menu-item> Update Contact</a>
+                    <a [routerLink]="['contacts']" mat-menu-item> Update Contact</a>
                     <a [routerLink]="['assessment']" mat-menu-item> Update Assessment</a>
                     <a [routerLink]="['projectmanager']" mat-menu-item>Update Project Manager</a>
                     <a [routerLink]="['sitealiases']" mat-menu-item>Update Site Alias</a>

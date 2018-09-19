@@ -34,6 +34,9 @@ import { LustSearchComponent } from './lust-search/lust-search.component';
 import { SiteAliasBaseComponent } from './site-alias/site-alias-base/site-alias-base.component';
 import { SiteAliasResolver } from '../resolvers/site-alias-resolver.service';
 import { LogNumberResolver } from '../resolvers/log-number-resolver.service';
+import { ContactsComponent } from './contact/contacts/contacts.component';
+import { ContactBaseComponent } from './contact/contact-base/contact-base.component';
+import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
@@ -77,7 +80,6 @@ const routes: Routes = [
         {path: 'sitealias', component: SiteAliasBaseComponent,
           children:
           [
-            // {path: '', redirectTo: 'new', pathMatch: 'full'},
             {path: '', component: SiteAliasEditComponent,
               resolve: {
                 apGetLogNumber: LogNumberResolver,
@@ -92,7 +94,28 @@ const routes: Routes = [
             },
           ]
         },
-        {path: 'contact', component: ContactComponent},
+        {path: 'contacts', component: ContactsComponent,
+          resolve: {
+            apGetLogNumber: LogNumberResolver,
+          },
+        },
+        {path: 'contact', component: ContactBaseComponent,
+          children:
+          [
+            {path: '', component: ContactEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':affilid', component: ContactEditComponent,
+              resolve: {
+                // siteAlias: SiteAliasResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
         {path: 'assessment', component: AssessmentComponent},
         {path: 'projectmanager', component: ProjectManagerComponent},
         {path: 'workreported', component: WorkReportedComponent},
