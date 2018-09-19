@@ -89,7 +89,6 @@ export class LustIncidentCreateComponent implements OnInit  {
   contaminantErrorMessages: [string];
   mediaErrorMessages: [string];
 
-
   private formUpdated = false;
 
   errors: any[];
@@ -127,10 +126,10 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
     this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
-    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
+    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities;});
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes; });
-    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes;});
+    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties;});
     this.createForm();
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
@@ -149,34 +148,38 @@ export class LustIncidentCreateComponent implements OnInit  {
         siteCounty:  ['', Validators.required],
         // streetNbr: ['', Validators.compose([Validators.required, Validators.maxLength(11)])],
         siteAddress:    ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-        siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
+        siteCity:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
-        sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
+        sitePhone:  ['', Validators.compose([Validators.maxLength(25)
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.Ã¢â€”Â]?([0-9]{3})[-.Ã¢â€”Â]?([0-9]{4})$')])],
         // company:  ['', Validators.required],
         confirmationCode:  ['', Validators.required],
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
         sourceId:  ['', Validators.required],
-        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-        rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        rpPhone:  ['', Validators.compose([Validators.maxLength(30)])],
-        rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
+        rpZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
+          , , Validators.pattern('^\\d{5}(?:[-\s]\\d{4})?')])],
+        rpPhone:  ['', Validators.compose([Validators.maxLength(40)
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
+        rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(40)])],
         rpCountry:  ['', Validators.compose([Validators.maxLength(30)])],
-        icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
-        icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
         icZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
-        icPhone:  ['', Validators.compose([Validators.maxLength(30)])],
-        icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(30)])],
+        icPhone:  ['', Validators.compose([Validators.maxLength(40) 
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
+        icEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(40)])],
         icCountry:  ['', Validators.compose([Validators.maxLength(30)])],
         groundWater: [0],
         surfaceWater: [0],
@@ -500,7 +503,7 @@ export class LustIncidentCreateComponent implements OnInit  {
   submitIncident(): void {
     this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
-      this.createIncident();
+        this.createIncident();
     } else if (this.incidentForm.invalid) {
         this.errors = this.findInvalidControls();
         console.log(this.errors);
@@ -523,6 +526,7 @@ export class LustIncidentCreateComponent implements OnInit  {
     }
     console.log('list of errors: ..... ');
     console.log(this.errors);
+
   }
 
   createIncident(): void {
@@ -542,14 +546,17 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.router.navigate(['lust' , this.lustIncidentInsertResult.lustIdTemp]);
   }
 
+
   private findInvalidControls() {
     const invalid = [];
     const controls = this.incidentForm.controls;
     for (const field of Object.keys(this.incidentForm.controls)) {
-      if (this.incidentForm.controls[field].invalid) {
-          const name = this.idToNameService.getName(field);
-          invalid.push(name + ' is required and must be valid.');
-      }
+        if (this.incidentForm.controls[field].invalid) {
+            console.log('****findInvalidControls');
+            console.log(field);
+            const name = this.idToNameService.getName(field);
+            invalid.push(name + ' is required and must be valid.');
+        }
     }
 
     const contaminantErrorMessage = this.getContaminantErrorMessage();
@@ -676,5 +683,7 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.resetFlags();
     this.resetDate();
   }
+
+
 
 }

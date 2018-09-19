@@ -376,7 +376,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.lustIncidentUpdate.propertyTranPendingInd = (this.incidentForm.controls.propertyTranPendingInd.value ? 1 : 0);
     this.lustIncidentUpdate.optionLetterSentInd = (this.incidentForm.controls.optionLetterSentInd.value ? 1 : 0);
     this.lustIncidentUpdate.noValidAddress = (this.incidentForm.controls.noValidAddress.value ? 1 : 0);
-    this.lustIncidentUpdate.lustIdIn = this.lustIncidentGet.crisCheck;
+    this.lustIncidentUpdate.lustIdIn = this.lustIncidentGet.lustId;
     this.lustIncidentUpdate.managementIdIn = this.lustIncidentGet.managementId;
     this.lustIncidentUpdate.hotInd = 0;
     this.lustIncidentUpdate.regTankInd = 0;

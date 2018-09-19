@@ -1,4 +1,5 @@
 export interface LustIncidentGet {
+    lustId: number;
     logNumber: number;
     logNbrCounty: number;
     facilityId?: number;
