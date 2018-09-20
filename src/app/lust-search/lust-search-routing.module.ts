@@ -18,7 +18,6 @@ import { BrownfieldsResolver } from '../resolvers/brownfields-resolver.service';
 import { SiteType2sResolver } from '../resolvers/site-type2s-resolver.service';
 import { LustIncidentGetResolver } from '../resolvers/lust-incident-get-resolver.service';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
-import { ContactComponent } from './contact/contact.component';
 import { InspectionComponent } from './inspection/inspection.component';
 import { ProjectManagerComponent } from './project-manager/project-manager.component';
 import { WorkReportedComponent } from './work-reported/work-reported.component';

@@ -16,7 +16,6 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-de
 import { UstSearchModule } from '../ust-search/ust-search.module';
 import { ContactSearchModule } from '../contact-search/contact-search.module';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
-import { ContactComponent } from './contact/contact.component';
 import { ProjectManagerComponent } from './project-manager/project-manager.component';
 import { WorkReportedComponent } from './work-reported/work-reported.component';
 import { PetroleumContaminatedSoilComponent } from './petroleum-contaminated-soil/petroleum-contaminated-soil.component';
@@ -40,7 +39,6 @@ import { ContactEditComponent } from './contact/contact-edit/contact-edit.compon
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // BrowserAnimationsModule,
     MaterialModule,
     NgbModule.forRoot(),
     ShowErrorsModule,
@@ -49,13 +47,11 @@ import { ContactEditComponent } from './contact/contact-edit/contact-edit.compon
     ContactSearchModule,
     LustSearchRoutingModule,
   ],
-  // declarations: [LustSearchFilterComponent, LustSearchResultComponent,
   declarations: [ LustSearchComponent, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
-                , ConfirmDeleteDialogComponent, LustIncidentComponent, ContactComponent, ProjectManagerComponent
+                , ConfirmDeleteDialogComponent, LustIncidentComponent, ProjectManagerComponent
                 , WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent
                 , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent
                 , SiteAliasesComponent, SiteAliasBaseComponent, ContactsComponent, ContactBaseComponent, ContactEditComponent ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
-  // exports: [lustSearchRoutingComponents]
 })
 export class LustSearchModule { }

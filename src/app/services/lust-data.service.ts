@@ -47,6 +47,10 @@ import { LustIncidentUpdateUpdate } from '../models/lust-incident-update-update'
 import { LustIncidentUpdate } from '../models/lust-incident';
 import { LustIncidentUpdateResult } from '../models/lust-incident-update-Result';
 import { ApGetLogNumber } from '../models/apGetLogNumber';
+import { ContactAffilGet } from '../models/contact-affil-get';
+import { ContactAffilPost } from '../models/contact-affil-post';
+import { ContactAffilPostResult } from '../models/contact-affil-post-result';
+import { ContactType } from '../models/contact-type';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +159,12 @@ export class LustDataService {
     return this.http.get<SiteType2[]>(environment.olprrapi_sitetype2);
   }
 
+  getContactTypes(): Observable<ContactType[]> {
+    return this.http.get<ContactType[]>(environment.olprrapi_contacttype);
+  }
+  getContactType2s(): Observable<ContactType[]> {
+    return this.http.get<ContactType[]>(environment.olprrapi_contacttype2);
+  }
   getProjectManagersByLustId(lustId: number): Observable<ProjectManager[]> {
     return this.http.get<ProjectManager[]>(environment.olprrapi_lust_pm + '/' + lustId);
   }
@@ -226,6 +236,15 @@ export class LustDataService {
   getLogNumber(lustId: number): Observable<ApGetLogNumber> {
     return this.http.get<ApGetLogNumber>(environment.olprrapi_lust_detail  + '/' + lustId + '/lognumber');  }
 
+  getLustContact(affilId: number): Observable<ContactAffilGet> {
+    return this.http.get<ContactAffilGet>(environment.olprrapi_lust_contact  + '/' + affilId);  }
 
+  getLustContacts(lustId: number): Observable<ContactAffilGet[]> {
+    return this.http.get<ContactAffilGet[]>(environment.olprrapi_lust_detail  + '/' + lustId + '/contact');  }
+
+  updateLustContact(contactAffilPost: ContactAffilPost): Observable<ContactAffilPostResult> {
+    return this.http.post<ContactAffilPostResult>(
+      environment.olprrapi_lust_detail  + '/' + contactAffilPost.lustId + '/contact' , contactAffilPost);
+  }
 }
 
