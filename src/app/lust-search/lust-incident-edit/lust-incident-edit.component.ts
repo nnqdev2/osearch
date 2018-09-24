@@ -31,15 +31,17 @@ import { FileStatus } from '../../models/file-status';
 import { LustIncidentUpdateResult } from '../../models/lust-incident-update-Result';
 import { LustIncidentUpdateUpdate } from '../../models/lust-incident-update-update';
 import { SubmitStatusDialogComponent } from '../../common/dialogs/submit-status-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 @Component({
   selector: 'app-lust-incident-edit',
   templateUrl: './lust-incident-edit.component.html',
   styleUrls: ['./lust-incident-edit.component.scss']
 })
 export class LustIncidentEditComponent implements OnInit  {
-  guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
-  searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
-  submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
+  private guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
+  private searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
+  private submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
+  private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
 
   olprrId: number;
   lustIncidentGet: LustIncidentGet|null;
@@ -94,7 +96,7 @@ export class LustIncidentEditComponent implements OnInit  {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
-    , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog
+    , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog, private confirmDeleteDialog: MatDialog
     , private idToNameService: IncidentIdToNameService
   ) {  }
 
@@ -433,6 +435,22 @@ export class LustIncidentEditComponent implements OnInit  {
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
     this.loadingSubject.next(false);
+  }
+
+  delete() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Confirm Delete',
+      message1: 'Are you sure you want to delete this incident ' + this.lustIncidentGet.logNumber + ' ?' ,
+    };
+    dialogConfig.disableClose =  true;
+    this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
+    this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirm') {
+        this.lustDataService.delSiteAlias(this.lustIncidentGet.lustId).subscribe();
+      }
+    });
   }
 
 }

@@ -246,5 +246,9 @@ export class LustDataService {
     return this.http.post<ContactAffilPostResult>(
       environment.olprrapi_lust_detail  + '/' + contactAffilPost.lustId + '/contact' , contactAffilPost);
   }
+
+  delLustIncident(lustId: number): Observable<any|null> {
+    return this.http.delete(environment.olprrapi_lust_incident_delete + lustId);
+  }
 }
 
