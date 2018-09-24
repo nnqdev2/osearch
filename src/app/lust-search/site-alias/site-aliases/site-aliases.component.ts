@@ -18,9 +18,9 @@ export class SiteAliasesComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private lustIdSub: any;
   private lustId: number;
-  private logNumber: string;
-  private siteAliasDataSource: SiteAliasesResultDataSourceService;
-  private displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
+  logNumber: string;
+  siteAliasDataSource: SiteAliasesResultDataSourceService;
+  displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
   private subscription: Subscription;
   private siteAliases: SiteAlias[];
   private totalRows = 0;
