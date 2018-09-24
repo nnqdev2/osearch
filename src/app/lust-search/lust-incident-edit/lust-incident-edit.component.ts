@@ -448,7 +448,8 @@ export class LustIncidentEditComponent implements OnInit  {
     this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
     this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        this.lustDataService.delSiteAlias(this.lustIncidentGet.lustId).subscribe();
+        this.lustDataService.delLustIncident(this.lustIncidentGet.lustId).subscribe();
+        this.router.navigate(['lsearch']);
       }
     });
   }
