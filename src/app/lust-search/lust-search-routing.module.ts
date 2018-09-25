@@ -36,6 +36,9 @@ import { LogNumberResolver } from '../resolvers/log-number-resolver.service';
 import { ContactsComponent } from './contact/contacts/contacts.component';
 import { ContactBaseComponent } from './contact/contact-base/contact-base.component';
 import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
+import { LustContactResolver } from '../resolvers/lust-contact-resolver.service';
+import { ContactTypesResolver } from '../resolvers/contact-types-resolver.service';
+import { ContactType2sResolver } from '../resolvers/contact-type2s-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
@@ -104,12 +107,18 @@ const routes: Routes = [
             {path: '', component: ContactEditComponent,
               resolve: {
                 apGetLogNumber: LogNumberResolver,
+                contacts: ContactTypesResolver,
+                contact2s: ContactType2sResolver,
+                states: StatesResolver,
               },
               canDeactivate: [CanDeactivateGuard],
             },
             {path: ':affilid', component: ContactEditComponent,
               resolve: {
-                // siteAlias: SiteAliasResolver,
+                contacts: ContactTypesResolver,
+                contact2s: ContactType2sResolver,
+                states: StatesResolver,
+                contactAffilGet: LustContactResolver,
               },
               canDeactivate: [CanDeactivateGuard],
             },
