@@ -50,7 +50,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "baseHref": "/review/"
+              "baseHref": "/hol/"
             },
             "dev": {
               "fileReplacements": [
@@ -68,7 +68,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "baseHref": "/dev_review/"
+              "baseHref": "/hol_dev/"
             },
             "test": {
               "fileReplacements": [
@@ -86,7 +86,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "baseHref": "/test_review/"
+              "baseHref": "/hol_test/"
             },
             "devprod": {
               "fileReplacements": [
@@ -104,7 +104,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "baseHref": "/prod_review/"
+              "baseHref": "/hol_prod/"
             }
           }
         },
