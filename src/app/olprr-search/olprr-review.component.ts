@@ -189,7 +189,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   private createForm() {
     console.log('createForm');
     console.log(this.incidentData);
-    console.log(this.incidentData.drinkingWater);
     this.incidentForm = this.formBuilder.group({
       rpFirstName:      [this.incidentData.rpFirstName, Validators.compose([Validators.required, Validators.maxLength(30)])],
       rpLastName:       [this.incidentData.rpLastName, Validators.compose([Validators.required, Validators.maxLength(30)])],
