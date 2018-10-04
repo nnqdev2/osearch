@@ -45,6 +45,8 @@ export class IncidentIdToNameService {
         this.idToNameMap.set('icState', 'Invoice Contact State');
         this.idToNameMap.set('icZipcode', 'Invoice Contact Zipcode');
         this.idToNameMap.set('icPhone', 'Invoice Contact Phone');
+        this.idToNameMap.set('noValidAddress', 'No Valid Address');
+
     }
     // function reverse(s: string): string;
     getIdToNameMap():  Map<string, string> {

@@ -22,6 +22,9 @@ export class ShowErrorsComponent {
     'selectOneOrMoreMedias': 'Must select one or more Medias.',
     'selectOneOrMoreContaminants': 'Must select one or more Contaminants.',
     'matDatepickerParse': () => 'Required. ' ,
+    'noValidAddress': () => 'No Valid Address and Site Address should not be set',
+    'ReceivedDateAfterCloseDate' : () => 'Received Date cannot be after Close Date',
+
   };
 
   @Input()

@@ -21,6 +21,7 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.dateReceived"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
+                                
                                 <div class="form-group required col-md-3">
                                     <mat-form-field >
                                         <mat-label class="control-label" for="discoveryDate">Date Release Discovered</mat-label>
@@ -188,16 +189,16 @@
                                 <mat-card-content>  
                                     <!-- Responsible Party -->
                                     <div class="form-row full-width">
-                                        <div class="form-group required col-md-3 ">
+                                        <div class="form-group col-md-3 ">
                                             <mat-form-field > 
-                                                <mat-label>First Name</mat-label>
+                                                <mat-label class="control-label" for="rpFirstName">First Name</mat-label>
                                                 <input matInput formControlName="rpFirstName" />     
                                             </mat-form-field>
                                             <app-show-errors [control]="incidentForm.controls.rpFirstName" [submitClicked]="submitClicked"></app-show-errors>
                                         </div>
-                                        <div class="form-group required col-md-4 ">
+                                        <div class="form-group col-md-4 ">
                                             <mat-form-field > 
-                                                <mat-label>Last Name</mat-label>
+                                                <mat-label class="control-label" for="rpFirstName">Last Name</mat-label>
                                                 <input matInput formControlName="rpLastName" />   
                                             </mat-form-field>
                                             <app-show-errors [control]="incidentForm.controls.rpLastName" [submitClicked]="submitClicked"></app-show-errors>
@@ -260,7 +261,7 @@
                                                 <mat-label class="control-label">Phone</mat-label>
                                                 <input matInput formControlName="rpPhone" />                    
                                             </mat-form-field>
-                                            <app-show-errors [control]="incidentForm.controls.rpPhone"  [submitClicked]="submitClicked"></app-show-errors>
+                                            <app-show-errors [control]="incidentForm.controls.rpPhone" [submitClicked]="submitClicked"></app-show-errors>
                                         </div>
                                         <div class="form-group required col-md-4 "   >
                                             <mat-form-field > 
@@ -740,6 +741,8 @@
                         </mat-card-content>
                     </mat-card>
                 </mat-card-content>
+
+
                 <!-- show errors  -->
                 <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
                 <ng-template #showAllErrorsMessages> 
@@ -755,6 +758,14 @@
                 </ng-template>
 
                 <!-- /show errors  -->
+                <div class="error" *ngIf="incidentForm.hasError('notValid')">
+                    Date Received is greather than Date Release
+                </div>
+
+                <div class="error" *ngIf="incidentForm.hasError('OrganizationNameRPFirstLastNameError')">
+                    Organization Name and RP First and Last names cannot be blank
+                </div>
+
                 <mat-card>
                     <mat-card-actions>
                         <div class="form-group row">
@@ -762,14 +773,14 @@
                                 <button mat-raised-button color="accent" type="submit" class="btn btn-success btn-md btn-block" >Save</button>
                             </div>
                             <div class="col-md-3 ">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()" >Reset Form</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="hold()" >Clear</button>
                             </div>
                             <div class="col-md-3 ">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()" >Cancel/Return to Search</button>
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="decline()" >Return to Search</button>
                             </div>
-                            <!-- <div class="col-md-3">
-                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="help()">Help</button>
-                            </div> -->
+                            <div class="col-md-3">
+                                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="cancel()">Help</button>
+                            </div>
                         </div>   
                     </mat-card-actions> 
                 </mat-card>

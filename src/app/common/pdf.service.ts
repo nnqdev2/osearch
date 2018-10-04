@@ -37,9 +37,6 @@ export class PdfService {
       const todaysDate = this.pipe.transform(Date.now(), 'mediumDate');
       topTemplate.src = './assets/images/NWRTemplateTop.JPG';
       bottomTemplate.src = './assets/images/NWRTemplateBottom.JPG';
-      
-      
-
 
       const doc = new jsPDF('landscape');
       doc.setFontSize(10);
@@ -52,7 +49,7 @@ export class PdfService {
       doc.text('RE: ' + [lustIncident.siteName], 120, 40);
       // doc.text('File No: ' + LogNumber + '-' + LogYearStr.toString() + '-' + LogOlprrId, 120, 45);
       doc.text('File No: ' + lustIncidentResult.logNumberTemp, 120, 45);
-      doc.text('A release was reported from an underground heating oil tank (HOT) system located at ' 
+      doc.text('A release was reported from an underground heating oil tank (HOT) system located at '
               + [lustIncident.rpAddress] + ', in', 20, 55);
       doc.text([lustIncident.rpCity.toUpperCase()] + ', '
               + [lustIncident.rpState] + '.  As the responsible party for the property, you are required to clean', 20, 60);
@@ -60,9 +57,9 @@ export class PdfService {
       doc.text('through OAR 340-177-0095.  These rules require cleaning up the soil, groundwater, surface', 20, 75);
       doc.text('water, soil vapor, and any other media contaminated by heating oil to the appropriate standards or', 20, 80);
       doc.text('demonstrating that the contamination does not pose a risk to human health or the environment', 20, 85);
-      doc.addImage(topTemplate.src, 'JPEG', 15, 90, 250, 120);
-      doc.addPage();
-      doc.addImage(bottomTemplate.src, 'JPEG', 15, 10, 250, 120);
+      // doc.addImage(topTemplate.src, 'JPEG', 15, 90, 250, 120);
+      // doc.addPage();
+      // doc.addImage(bottomTemplate.src, 'JPEG', 15, 10, 250, 120);
       doc.save(SaveFileName + '-NWR.PDF');
       // doc.output(environment.olprr_PDF_output_location);
 

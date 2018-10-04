@@ -111,7 +111,7 @@ export class LustIncidentCreateComponent implements OnInit  {
 
   private selectedContact: ContactSearchResultStat;
   private selectedUst: UstSearchResultStat;
-
+  OrganizationNameRPFirstLastNameError: boolean;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
@@ -219,10 +219,29 @@ export class LustIncidentCreateComponent implements OnInit  {
         // updateIcWithAddressCorrect:   [{value: ''}],
         authUser: ['']
       },
-      {validator: [] }
+      {validator: [this.dateReceivedDateReleaseValidator,
+          this.OrgNameFirstLastNameValidator] }
     );
     this.resetDate();
   }
+
+  OrgNameFirstLastNameValidator(group: FormGroup) {
+    if (group.controls.rpOrganization.untouched === false && group.controls.rpFirstName.untouched === false 
+      && group.controls.rpLastName.untouched === false) {
+      if (group.controls.rpOrganization.value === '' 
+        && (group.controls.rpFirstName.value === '' && group.controls.rpLastName.value === '')) {
+          return { OrganizationNameRPFirstLastNameError: true };
+      }
+    }
+  }
+  dateReceivedDateReleaseValidator(group: FormGroup) {
+    if (group.controls.dateReceived.untouched === false && group.controls.discoveryDate.untouched === false) {
+        if (group.controls.dateReceived.value > group.controls.discoveryDate.value) {
+          return { notValid: true } ;
+        }
+    }
+  }
+
 
   resetDate(): void {
     this.incidentForm.patchValue({
@@ -452,13 +471,13 @@ export class LustIncidentCreateComponent implements OnInit  {
         this.incidentForm.controls.icPhone.enable();
         this.incidentForm.controls.icEmail.enable();
         this.incidentForm.controls.icCountry.enable();
-        this.incidentForm.controls.icAddress.setValidators([Validators.required]);
-        this.incidentForm.controls.icFirstName.setValidators([Validators.required]);
-        this.incidentForm.controls.icLastName.setValidators([Validators.required]);
+        this.incidentForm.controls.icAddress.setValidators([Validators.required, Validators.maxLength(40)]);
+        this.incidentForm.controls.icFirstName.setValidators([Validators.required, Validators.maxLength(40)]);
+        this.incidentForm.controls.icLastName.setValidators([Validators.required, Validators.maxLength(40)]);
         // this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
-        this.incidentForm.controls.icCity.setValidators([Validators.required]);
-        this.incidentForm.controls.icState.setValidators([Validators.required]);
-        this.incidentForm.controls.icZipcode.setValidators([Validators.required]);
+        this.incidentForm.controls.icCity.setValidators([Validators.required, Validators.maxLength(25)]);
+        this.incidentForm.controls.icState.setValidators([Validators.required, Validators.maxLength(2)]);
+        this.incidentForm.controls.icZipcode.setValidators([Validators.required, Validators.maxLength(10)]);
         // this.incidentForm.controls.icPhone.setValidators([Validators.required]);
         // this.incidentForm.controls.icEmail.setValidators([Validators.required]);
       } else {

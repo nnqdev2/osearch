@@ -109,7 +109,7 @@ export class OlprrIncidentComponent implements OnInit {
         siteZipcode: ['', Validators.compose([Validators.required, Validators.maxLength(10)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)
-          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.ÃƒÂ¢Ã¢â‚¬â€Ã‚Â]?([0-9]{3})[-.ÃƒÂ¢Ã¢â‚¬â€Ã‚Â]?([0-9]{4})$')])],
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.Ã¢â€”Â]?([0-9]{3})[-.Ã¢â€”Â]?([0-9]{4})$')])],
         company:  ['', Validators.required],
         initialComment:  ['', Validators.maxLength(710)],
         discoveryDate: [{value: '', disabled: true}, Validators.compose([Validators.required])],
@@ -169,6 +169,7 @@ export class OlprrIncidentComponent implements OnInit {
     this.incidentForm.controls.releaseType.valueChanges.subscribe(data => {
       if (data === 'R' || data === 'U') {
         this.showInvoiceContact = true;
+
         this.incidentForm.controls.facilityId.enable();
         this.incidentForm.controls.icAddress.enable();
         this.incidentForm.controls.icFirstName.enable();
@@ -189,27 +190,30 @@ export class OlprrIncidentComponent implements OnInit {
         this.incidentForm.controls.icPhone.setValidators([Validators.required]);
         this.incidentForm.controls.icEmail.setValidators([Validators.required]);
 
-        this.incidentForm.controls.icFirstName.markAsUntouched();
-        this.incidentForm.controls.icLastName.markAsUntouched();
-        this.incidentForm.controls.icOrganization.markAsUntouched();
-        this.incidentForm.controls.icAddress.markAsUntouched();
-        this.incidentForm.controls.icCity.markAsUntouched();
-        this.incidentForm.controls.icState.markAsUntouched();
-        this.incidentForm.controls.icZipcode.markAsUntouched();
-        this.incidentForm.controls.icEmail.markAsUntouched();
-        this.incidentForm.controls.icPhone.markAsUntouched();
+        this.incidentForm.controls.icFirstName.markAsUntouched;
+        this.incidentForm.controls.icLastName.markAsUntouched;
+        this.incidentForm.controls.icOrganization.markAsUntouched;
+        this.incidentForm.controls.icAddress.markAsUntouched;
+        this.incidentForm.controls.icCity.markAsUntouched;
+        this.incidentForm.controls.icState.markAsUntouched;
+        this.incidentForm.controls.icZipcode.markAsUntouched;
+        this.incidentForm.controls.icEmail.markAsUntouched;
+        this.incidentForm.controls.icPhone.markAsUntouched;
+        
+        this.incidentForm.controls.icFirstName.markAsPristine;
+        this.incidentForm.controls.icLastName.markAsPristine;
+        this.incidentForm.controls.icOrganization.markAsPristine;
+        this.incidentForm.controls.icAddress.markAsPristine;
+        this.incidentForm.controls.icCity.markAsPristine;
+        this.incidentForm.controls.icState.markAsPristine;
+        this.incidentForm.controls.icZipcode.markAsPristine;
+        this.incidentForm.controls.icEmail.markAsPristine;
+        this.incidentForm.controls.icPhone.markAsPristine;
+        
 
-        this.incidentForm.controls.icFirstName.markAsPristine();
-        this.incidentForm.controls.icLastName.markAsPristine();
-        this.incidentForm.controls.icOrganization.markAsPristine();
-        this.incidentForm.controls.icAddress.markAsPristine();
-        this.incidentForm.controls.icCity.markAsPristine();
-        this.incidentForm.controls.icState.markAsPristine();
-        this.incidentForm.controls.icZipcode.markAsPristine();
-        this.incidentForm.controls.icEmail.markAsPristine();
-        this.incidentForm.controls.icPhone.markAsPristine();
       } else {
         this.showInvoiceContact = false;
+
         this.incidentForm.controls.facilityId.disable();
         this.incidentForm.controls.facilityId.setValidators(null);
         this.incidentForm.controls.icAddress.disable();
@@ -230,10 +234,18 @@ export class OlprrIncidentComponent implements OnInit {
         this.incidentForm.controls.icPhone.setValidators(null);
         this.incidentForm.controls.icEmail.disable();
         this.incidentForm.controls.icEmail.setValidators(null);
-        // this.incidentForm.controls.rpAddress2.setValue("");
+        //this.incidentForm.controls.rpAddress2.setValue("");
+
       }
     } );
+
   }
+
+
+
+
+
+
   copyResponsibleToInvoice() {
     this.incidentForm.controls.icFirstName.setValue(this.incidentForm.controls.rpFirstName.value);
     this.incidentForm.controls.icLastName.setValue(this.incidentForm.controls.rpLastName.value);
@@ -329,6 +341,7 @@ export class OlprrIncidentComponent implements OnInit {
 
   }
 
+  
   transformDate(date) {
     this.datePipe.transform(date, 'yyyy/MM/dd');
   }

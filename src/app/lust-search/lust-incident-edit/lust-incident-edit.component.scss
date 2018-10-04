@@ -1,0 +1,33 @@
+
+mat-card{
+    padding: 0px;
+    background-color: rgb(247, 245, 245);
+  }
+  
+  md-card{
+  width: 20em;
+  }
+
+
+  
+.btn-outline-secondary {
+    height: 38px;
+    padding: 4px 2px;
+}
+
+.btn-outline-secondary img {
+    height: 30px;
+}
+    
+
+.form-group.required .control-label:after {
+    content:"*";
+    color:red;
+    }
+    
+    .input-group.required .control-label:after{
+    content:"*";
+    color:red;
+    }
+
+    

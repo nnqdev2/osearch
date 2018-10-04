@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Observable, Subject, BehaviorSubject} from 'rxjs';
@@ -116,6 +116,8 @@ export class LustIncidentEditComponent implements OnInit  {
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
     this.loadingSubject.next(false);
+    this.OnScrollIntoView();
+
   }
 
 
@@ -131,16 +133,18 @@ export class LustIncidentEditComponent implements OnInit  {
         logNumber: [this.lustIncidentGet.logNumber],
         qTimeId: [this.lustIncidentGet.qtimeId],
         projectManager: [pm],
-        facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
+        // facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
+        facilityId: [{value: '', disabled: true}],
         siteName:  [this.lustIncidentGet.siteName, Validators.compose([Validators.required, Validators.maxLength(40)])],
-        siteAddress:    [this.lustIncidentGet.siteAddress, Validators.compose([Validators.required, Validators.maxLength(50)])],
-        siteCity:  [this.lustIncidentGet.siteCity, Validators.compose([Validators.required, Validators.maxLength(25)])],
-        siteZipcode: [this.lustIncidentGet.siteZipcode, Validators.compose([Validators.required, Validators.maxLength(10)
+        siteAddress:    [this.lustIncidentGet.siteAddress, Validators.compose([Validators.required, Validators.maxLength(40)])],
+        siteCity:  [this.lustIncidentGet.siteCity, Validators.compose([Validators.required, Validators.maxLength(20)])],
+        siteZipcode: [this.lustIncidentGet.siteZipcode, Validators.compose([Validators.required, Validators.maxLength(5)
           , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
-        siteCounty:  [+this.lustIncidentGet.logNbrCounty],
-        sitePhone:  ['', Validators.compose([Validators.maxLength(25)])],
+        siteCounty:  [+this.lustIncidentGet.logNbrCounty, Validators.required],
+        sitePhone:  ['', Validators.compose([Validators.maxLength(25)
+          , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.Ã¢â€”Â]?([0-9]{3})[-.Ã¢â€”Â]?([0-9]{4})$')])],
         noValidAddress: [this.lustIncidentGet.noValidAddress],
-        releaseType:  [this.lustIncidentGet.releaseType],
+        releaseType:  [this.lustIncidentGet.releaseType, Validators.required],
         geoLocId: [this.lustIncidentGet.geolocId],
         siteType2Id: [this.lustIncidentGet.siteTypeId],
         fileStatusId: [this.lustIncidentGet.fileStatusId],
@@ -151,8 +155,8 @@ export class LustIncidentEditComponent implements OnInit  {
         hotAuditRejectInd:      [this.lustIncidentGet.hotAuditRejectInd],
         activeReleaseInd:       [this.lustIncidentGet.activeReleaseInd],
         optionLetterSentInd:    [this.lustIncidentGet.optionLetterSentInd],
-        dateReceived:  [this.lustIncidentGet.receivedDate],
-        discoveryDate: [this.lustIncidentGet.discoveryDate],
+        dateReceived:  [this.lustIncidentGet.receivedDate, Validators.required],
+        discoveryDate: [this.lustIncidentGet.discoveryDate, Validators.required],
         // dateReceived:  [{value: this.transformDate(this.lustIncidentGet.receivedDate)}],
         // discoveryDate: [{value: this.transformDate(this.lustIncidentGet.discoveryDate)}],
         cleanupStartDate:  [this.lustIncidentGet.cleanupStartDate],
@@ -172,9 +176,9 @@ export class LustIncidentEditComponent implements OnInit  {
         saAddressCorrectState:   [{value: '', disabled: true}],
         authUser: ['']
       },
-      {validator: [] }
+      {validator: [this.ValidateAddressData, this.ReceivedDateValidation] }
     );
-    // this.resetDate();
+    // this.resetDate();   Validators.ValidateAddressData()
   }
 
   transformDate(inDate: Date): string {
@@ -286,6 +290,7 @@ export class LustIncidentEditComponent implements OnInit  {
           (data ) => (this.lustIncidentUpdateResult = data
                       , this.showSubmitStatusDialog()),
       );
+      this.OnScrollIntoView();
   }
 
   onCreateLustIncidentComplete(): void {
@@ -378,7 +383,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.lustIncidentUpdate.propertyTranPendingInd = (this.incidentForm.controls.propertyTranPendingInd.value ? 1 : 0);
     this.lustIncidentUpdate.optionLetterSentInd = (this.incidentForm.controls.optionLetterSentInd.value ? 1 : 0);
     this.lustIncidentUpdate.noValidAddress = (this.incidentForm.controls.noValidAddress.value ? 1 : 0);
-    this.lustIncidentUpdate.lustIdIn = this.lustIncidentGet.lustId;
+    this.lustIncidentUpdate.lustIdIn = this.lustIncidentGet.crisCheck;
     this.lustIncidentUpdate.managementIdIn = this.lustIncidentGet.managementId;
     this.lustIncidentUpdate.hotInd = 0;
     this.lustIncidentUpdate.regTankInd = 0;
@@ -427,7 +432,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.resetDate();
     this.resetFormClicked = true;
     this.incidentForm.reset();
-    this.incidentForm.markAsPristine();
+    this.incidentForm.markAsUntouched();
 
     this.loadingSubject.next(true);
     this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet; });
@@ -453,5 +458,71 @@ export class LustIncidentEditComponent implements OnInit  {
       }
     });
   }
+
+  OnScrollIntoView () {
+    // Attempt to bring the Search Results into view
+    const scrToView = document.querySelector('#topOfForm');
+    // console.log(scrToView);
+    if (scrToView) {
+      scrToView.scrollIntoView();
+      scrToView.scrollIntoView();
+    }
+  }
+
+  ValidateAddressData(control: AbstractControl) {
+    // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
+    // such as SiteCity and SiteZipCode are required.
+    let noValidAddressTemp = false;
+    const noValidAddress = control.get('noValidAddress');
+    const siteAddress = control.get('siteAddress');
+    noValidAddressTemp = noValidAddress.value;
+    if ((noValidAddressTemp === true) && siteAddress.value.length !== 0) {
+      noValidAddress.setErrors({'noValidAddress': true});
+
+      return {
+        noValidAddressSiteAddressError: {
+          noValidAddressSiteAddressError: true
+        }
+      };
+    }  else {
+      noValidAddress.setErrors(null);
+      return null;
+    }
+  }
+
+  ReceivedDateValidation(control: AbstractControl) {
+    //   // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
+    //   // such as SiteCity and SiteZipCode are required.
+
+
+    // const receivedDatefd = control.get('dateReceived');
+    // //   // const discoveryDate = control.get('discoveryDate');
+    // const closedDatefd = control.get('closedDate');
+    // console.log(receivedDatefd.value);
+    // console.log(closedDatefd.value);
+    // if (receivedDatefd > closedDatefd) {
+    //   // console.log('Error condition <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    //   receivedDatefd.setErrors({'ReceivedDateAfterCloseDate': true});
+    //           return {
+    //         noValidAddressSiteAddressError: {
+    //           noValidAddressSiteAddressError: true
+    //         }
+    //       };
+    //     } else {
+    //       receivedDatefd.setErrors(null);
+    //      return null;
+    //     }
+
+    //       receivedDate.setErrors({'years': true});
+    //       return {
+    //         noValidAddressSiteAddressError: {
+    //           noValidAddressSiteAddressError: true
+    //         }
+    //       };
+    //   }  else {
+    //     receivedDate.setErrors(null);
+    //     return null;
+    }
+
 
 }
