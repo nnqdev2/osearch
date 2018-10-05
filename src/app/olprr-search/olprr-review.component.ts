@@ -400,7 +400,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
     this.acceptClicked = true;
     // if (this.incidentForm.dirty && this.incidentForm.valid) {
     if (this.incidentForm.valid) {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!ok-valid form');
         this.submitLustIncident();
     } else if (this.incidentForm.invalid) {
         console.log('not ok-invalid form');
@@ -408,7 +407,6 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
         console.log(this.errors);
         this.showAllErrorsMessages = true;
         this.isClosed = false;
-        console.log('ok why the errors not showing?????');
     }
   }
 
@@ -631,7 +629,7 @@ export class OlprrReviewComponent implements OnInit, CanDeactivateGuard {
   }
 
   private movingOn(choice: string) {
-    this.router.navigate([choice]);
+    this.router.navigate([choice, this.lustIncidentInsertResult.lustIdTemp]);
   }
 
   resetFlags() {

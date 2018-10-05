@@ -20,7 +20,7 @@ export class AcceptedDialogComponent implements OnInit {
   }
 
   openLust() {
-      this.dialogRef.close('lsearch');
+      this.dialogRef.close('lust');
   }
 
 }

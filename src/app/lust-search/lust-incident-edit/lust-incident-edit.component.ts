@@ -97,7 +97,7 @@ export class LustIncidentEditComponent implements OnInit  {
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog, private confirmDeleteDialog: MatDialog
-    , private idToNameService: IncidentIdToNameService
+    ,  private searchDialog: MatDialog, private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
@@ -488,6 +488,15 @@ export class LustIncidentEditComponent implements OnInit  {
       noValidAddress.setErrors(null);
       return null;
     }
+  }
+
+  private openUstSearch() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      searchType: 'UST',
+    };
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
   ReceivedDateValidation(control: AbstractControl) {
