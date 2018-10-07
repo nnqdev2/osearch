@@ -19,7 +19,8 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   private lustId: number;
   logNumber: string;
   contactsDataSource: ContactsResultDataSourceService;
-  displayedColumns = ['siteNameAliasId', 'siteAliasName', 'lastChangeBy', 'lastChangeDate'];
+  displayedColumns = ['affilId', 'affilTypeDesc', 'startDt', 'endDt', 'organization', 'subOrganization', 'jobtitle'
+                      , 'firstName', 'lastName', 'lastUpdBy', 'lastUpdDttm', 'zp4Checked', 'affilComments'];
   private subscription: Subscription;
   private contacts: ContactAffilGet[];
   private totalRows = 0;
