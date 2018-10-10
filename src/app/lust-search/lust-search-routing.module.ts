@@ -39,6 +39,7 @@ import { ContactEditComponent } from './contact/contact-edit/contact-edit.compon
 import { LustContactResolver } from '../resolvers/lust-contact-resolver.service';
 import { ContactTypesResolver } from '../resolvers/contact-types-resolver.service';
 import { ContactType2sResolver } from '../resolvers/contact-type2s-resolver.service';
+import { ContactResolver } from '../resolvers/contact-resolver.service';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
@@ -118,7 +119,7 @@ const routes: Routes = [
                 contacts: ContactTypesResolver,
                 contact2s: ContactType2sResolver,
                 states: StatesResolver,
-                contactAffilGet: LustContactResolver,
+                contactAffilGet: ContactResolver,
               },
               canDeactivate: [CanDeactivateGuard],
             },

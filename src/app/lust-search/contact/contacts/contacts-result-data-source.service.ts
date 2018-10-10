@@ -13,7 +13,7 @@ export class ContactsResultDataSourceService implements DataSource<ContactAffilG
 
     private resultsSubject = new BehaviorSubject<ContactAffilGet[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    private contactAffilGets?: ContactAffilGet[];
+    // private contactAffilGets?: ContactAffilGet[];
 
     public contactResultReturned$ = this.resultsSubject.asObservable();
     public contactLoading$ = this.loadingSubject.asObservable();
@@ -36,9 +36,9 @@ export class ContactsResultDataSourceService implements DataSource<ContactAffilG
             )
             .subscribe(
                 data => {
-                    this.contactAffilGets = data;
-                    this.resultsSubject.next(this.contactAffilGets);
-                    // this.resultsSubject.next(data);
+                    // this.contactAffilGets = data;
+                    // this.resultsSubject.next(this.contactAffilGets);
+                    this.resultsSubject.next(data);
                     this.loadingSubject.next(false);
                 }
             );

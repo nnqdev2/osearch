@@ -122,8 +122,6 @@ export class LustIncidentEditComponent implements OnInit  {
 
 
   createForm() {
-    console.log('********************edit lust  createForm()');
-
     console.log(this.lustIncidentGet);
     let pm;
     if (this.projectManagers !== undefined) {
@@ -134,7 +132,7 @@ export class LustIncidentEditComponent implements OnInit  {
         qTimeId: [this.lustIncidentGet.qtimeId],
         projectManager: [pm],
         // facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
-        facilityId: [{value: '', disabled: true}],
+        facilityId: [{value: this.lustIncidentGet.facilityId, disabled: true}],
         siteName:  [this.lustIncidentGet.siteName, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteAddress:    [this.lustIncidentGet.siteAddress, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCity:  [this.lustIncidentGet.siteCity, Validators.compose([Validators.required, Validators.maxLength(20)])],
@@ -192,7 +190,6 @@ export class LustIncidentEditComponent implements OnInit  {
   }
 
   runSaAddressCorrect() {
-    console.log('******** runSaAddressCorrect()');
     if (this.incidentForm.controls.siteAddress !== undefined
       && this.incidentForm.controls.siteAddress.value.length > 0 ) {
         this.showSaAddressCorrect = true;

@@ -21,4 +21,6 @@ export interface ContactAffilGet {
     lastUpdBy: string;
     lastUpdDttm: Date;
     zp4Checked: number;
+    lustId: number;
+    logNumber: string;
 }

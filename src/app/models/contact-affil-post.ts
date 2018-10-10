@@ -1,4 +1,4 @@
-export interface ContactAffilPost {
+export class ContactAffilPost {
     lustId: number;
     affilId: number;
     affilType: string;

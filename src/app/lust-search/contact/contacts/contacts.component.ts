@@ -19,8 +19,6 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   private lustId: number;
   logNumber: string;
   contactDataSource: ContactsResultDataSourceService;
-  // displayedColumns = ['affilId', 'affilTypeDesc', 'startDt', 'endDt', 'organization', 'subOrganization', 'jobtitle'
-  //                     , 'firstName', 'lastName', 'lastUpdBy', 'lastUpdDttm', 'zp4Checked', 'affilComments'];
   displayedColumns = ['affilId', 'affilTypeDesc', 'startDt', 'endDt', 'organization', 'subOrganization', 'jobtitle'
                        , 'firstName', 'lastName', 'zp4Checked', 'affilComments', 'lastUpdBy', 'lastUpdDttm'];
   private subscription: Subscription;
@@ -74,7 +72,9 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     this.lustIdSub.unsubscribe();
   }
 
-  onEdit(contact: ContactAffilGet) {
+  edit(contact: ContactAffilGet) {
+    console.log('edit(contact: ContactAffilGet)');
+    console.log(contact);
     this.router.navigate(['../contact' , contact.affilId], {relativeTo: this.route});
   }
 

@@ -36,7 +36,6 @@ import { PostalCountyVerification } from '../models/postal-county-verification';
 import { AddressCorrectStat } from '../models/address-correct-stat';
 import { LustIncidentInsertResult } from '../models/lust-incident-insert-result';
 import { SiteAlias } from '../models/site-alias';
-import { SiteAliasPost } from '../models/site-alias-post';
 import { ContactSearchFilter } from '../models/contact-search-filter';
 import { ContactSearchResultStat } from '../models/contact-search-result-stat';
 import { PostalCountyLookup } from '../models/postal-county-lookup';
@@ -45,12 +44,13 @@ import { Brownfield } from '../models/brownfield';
 import { SiteType2 } from '../models/site-type2';
 import { LustIncidentUpdateUpdate } from '../models/lust-incident-update-update';
 import { LustIncidentUpdate } from '../models/lust-incident';
-import { LustIncidentUpdateResult } from '../models/lust-incident-update-Result';
+import { LustIncidentUpdateResult } from '../models/lust-incident-update-result';
 import { ApGetLogNumber } from '../models/apGetLogNumber';
 import { ContactAffilGet } from '../models/contact-affil-get';
 import { ContactAffilPost } from '../models/contact-affil-post';
 import { ContactAffilPostResult } from '../models/contact-affil-post-result';
 import { ContactType } from '../models/contact-type';
+import { SiteAliasPost } from '../models/site-alias-post';
 
 @Injectable({
   providedIn: 'root'
@@ -61,8 +61,6 @@ export class LustDataService {
   constructor(private http: HttpClient)  { }
 
   getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter): Observable<OlprrSearchResultStat[]> {
-    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
-    // console.log(olprrSearchFilter);
     const params = new HttpParams({
         fromString: `deqo=${olprrSearchFilter.deqOffice}&stat=${olprrSearchFilter.incidentStatus}`
         + `&st=${olprrSearchFilter.siteTypeCode}&id=${olprrSearchFilter.olprrId}`
@@ -182,8 +180,6 @@ export class LustDataService {
   }
 
   getPostalCountyVerification(reportedCountyCode: number, usPostalCountyCodeFips: string ): Observable<PostalCountyVerification> {
-    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
-    // console.log(olprrSearchFilter);
     const params = new HttpParams({
         fromString: `reported=${reportedCountyCode}&usPostal=${usPostalCountyCodeFips}`
     });
@@ -210,8 +206,6 @@ export class LustDataService {
   }
 
   getContacts(contactSearchFilter: ContactSearchFilter): Observable<ContactSearchResultStat[]> {
-    // console.log('*******lust data service getOlprrIncidents(olprrSearchFilter: OlprrSearchFilter)');
-    // console.log(olprrSearchFilter);
     const params = new HttpParams({
         fromString: `fname=${contactSearchFilter.firstName}&lname=${contactSearchFilter.lastName}`
         + `&org=${contactSearchFilter.organization}`
