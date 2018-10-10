@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { ContactsResultDataSourceService } from '../../contact/contacts/contacts-result-data-source.service';
 import { Subscription } from 'rxjs';
-
 import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+
+import { ContactsResultDataSourceService } from '../../contact/contacts/contacts-result-data-source.service';
 import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 import { LustDataService } from '../../../services/lust-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,17 +18,19 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   private lustIdSub: any;
   private lustId: number;
   logNumber: string;
-  contactsDataSource: ContactsResultDataSourceService;
+  contactDataSource: ContactsResultDataSourceService;
+  // displayedColumns = ['affilId', 'affilTypeDesc', 'startDt', 'endDt', 'organization', 'subOrganization', 'jobtitle'
+  //                     , 'firstName', 'lastName', 'lastUpdBy', 'lastUpdDttm', 'zp4Checked', 'affilComments'];
   displayedColumns = ['affilId', 'affilTypeDesc', 'startDt', 'endDt', 'organization', 'subOrganization', 'jobtitle'
-                      , 'firstName', 'lastName', 'lastUpdBy', 'lastUpdDttm', 'zp4Checked', 'affilComments'];
+                       , 'firstName', 'lastName', 'zp4Checked', 'affilComments', 'lastUpdBy', 'lastUpdDttm'];
   private subscription: Subscription;
-  private contacts: ContactAffilGet[];
+  private contactAffilGets: ContactAffilGet[];
   private totalRows = 0;
   private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
 
   constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
               , private confirmDeleteDialog: MatDialog) {
-    this.contactsDataSource = new ContactsResultDataSourceService(this.lustDataService);
+    this.contactDataSource = new ContactsResultDataSourceService(this.lustDataService);
   }
 
   ngOnInit() {
@@ -50,16 +52,16 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   }
 
   loadResultPage() {
-    this.contactsDataSource.loadResults(this.lustId);
+    this.contactDataSource.loadResults(this.lustId);
   }
 
   getSearchResults() {
-    this.subscription = this.contactsDataSource.contactResultReturned$.subscribe(
-      siteAliases => {
-        this.contacts = siteAliases;
-        if (this.contacts !== undefined &&
-          this.contacts.length > 0) {
-            this.totalRows = this.contacts.length;
+    this.subscription = this.contactDataSource.contactResultReturned$.subscribe(
+      contactAffilGets => {
+        this.contactAffilGets = contactAffilGets;
+        if (this.contactAffilGets !== undefined &&
+          this.contactAffilGets.length > 0) {
+            this.totalRows = this.contactAffilGets.length;
         } else {
           this.totalRows = 0;
         }
@@ -75,24 +77,6 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   onEdit(contact: ContactAffilGet) {
     this.router.navigate(['../contact' , contact.affilId], {relativeTo: this.route});
   }
-
-  // onDelete(contact: ContactAffilGet) {
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.autoFocus = true;
-  //   dialogConfig.data = {
-  //     title: 'Confirm Delete',
-  //     message1: 'Are you sure you want to delete contact ' + contact.firstName + ' ' + contact.lastName + ' ?' ,
-  //   };
-  //   dialogConfig.disableClose =  true;
-  //   this.confirmDeleteDialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, dialogConfig);
-  //   this.confirmDeleteDialogRef.afterClosed().subscribe(result => {
-  //     if (result === 'confirm') {
-  //       this.lustDataService.delSiteAlias(contact.siteNameAliasId).subscribe();
-  //       this.loadResultPage();
-  //       this.getSearchResults();
-  //     }
-  //   });
-  // }
 
   add() {
     this.router.navigate(['../contact'], {relativeTo: this.route});

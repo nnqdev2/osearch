@@ -11,38 +11,36 @@ import { finalize } from 'rxjs/operators';
 })
 export class ContactsResultDataSourceService implements DataSource<ContactAffilGet> {
 
-  private resultsSubject = new BehaviorSubject<ContactAffilGet[]>([]);
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-  private contacts: ContactAffilGet[];
+    private resultsSubject = new BehaviorSubject<ContactAffilGet[]>([]);
+    private loadingSubject = new BehaviorSubject<boolean>(false);
+    private contactAffilGets?: ContactAffilGet[];
 
-  public contactResultReturned$ = this.resultsSubject.asObservable();
-  public contactLoading$ = this.loadingSubject.asObservable();
+    public contactResultReturned$ = this.resultsSubject.asObservable();
+    public contactLoading$ = this.loadingSubject.asObservable();
 
-  constructor(private lustDataService: LustDataService) {}
+    constructor(private lustDataService: LustDataService) {}
 
-  connect(collectionViewer: CollectionViewer): Observable<ContactAffilGet[]> {
-      return this.contactResultReturned$;
-      // return this.resultsSubject.asObservable();
-  }
+    connect(collectionViewer: CollectionViewer): Observable<ContactAffilGet[]> {
+        return this.contactResultReturned$;
+    }
 
-  disconnect(collectionViewer: CollectionViewer): void {
-      this.resultsSubject.complete();
-      this.loadingSubject.complete();
-  }
+    disconnect(collectionViewer: CollectionViewer): void {
+        this.resultsSubject.complete();
+        this.loadingSubject.complete();
+    }
 
-  loadResults(lustId: number) {
-      console.log( JSON.stringify(lustId));
-      this.loadingSubject.next(true);
-      this.lustDataService.getLustContacts(lustId)
-          .pipe(
-              finalize(() => this.loadingSubject.next(false)),
-          )
-          .subscribe(
-              data => {
-                  this.contacts = data;
-                  this.resultsSubject.next(this.contacts);
-                  this.loadingSubject.next(false);
-              }
-          );
+    loadResults(lustId: number) {
+        this.lustDataService.getLustContacts(lustId)
+            .pipe(
+                finalize(() => this.loadingSubject.next(false)),
+            )
+            .subscribe(
+                data => {
+                    this.contactAffilGets = data;
+                    this.resultsSubject.next(this.contactAffilGets);
+                    // this.resultsSubject.next(data);
+                    this.loadingSubject.next(false);
+                }
+            );
   }
 }

@@ -1,48 +1,80 @@
 <mat-card>
-  <mat-card-title > Update Contacts for Log Number {{logNumber}} </mat-card-title>  
-  <mat-card-content>    
-      <div class="contacts">
-          <div class="loading-indicator" *ngIf="contactDataSource.contactLoading$ | async">
-              <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-          </div>
-          <mat-table class="child-table mat-elevation-z8 "  cdkScrollable [dataSource]="contactDataSource">
-              <ng-container matColumnDef="siteAliasName">
-                  <mat-header-cell *matHeaderCellDef >ContactType</mat-header-cell>
-                  <mat-cell *matCellDef="let contact">{{contact.affilTypeDesc}}</mat-cell>
-              </ng-container>
-                  <ng-container matColumnDef="startDt">
-                  <mat-header-cell *matHeaderCellDef >Start Date</mat-header-cell>
-                  <mat-cell *matCellDef="let contact">{{contact.startDt}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="lastChangeDate">
-                  <mat-header-cell *matHeaderCellDef >Last Change Date</mat-header-cell>
-                  <mat-cell *matCellDef="let contact">{{contact.lastChangeDate | date:'MM/dd/yyyy'}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="affilId">
-                  <mat-header-cell *matHeaderCellDef> Action 2</mat-header-cell>
-                  <mat-cell *matCellDef="let contact"> 
-                      <button mat-button [matMenuTriggerFor]="menu">Action</button>
-                      <mat-menu #menu="matMenu">
-                          <button mat-menu-item (click)="onEdit(siteAlias) ">Edit</button>
-                          <button mat-menu-item (click)="onDelete(siteAlias) ">Delete</button> 
-                      </mat-menu>
-                  </mat-cell>
-              </ng-container>
-              <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
-          </mat-table>
-      </div>          
-  </mat-card-content>
+    <mat-card-title >Update Contacts for Log Number {{logNumber}} </mat-card-title>  
+    <mat-card-content>    
+        <div class="contacts">
+            <div class="loading-indicator" *ngIf="contactDataSource.contactLoading$ | async">
+                <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+            </div>
+            <mat-table class="child-table mat-elevation-z8 "  cdkScrollable [dataSource]="contactDataSource">
+                <ng-container matColumnDef="affilTypeDesc">
+                    <mat-header-cell *matHeaderCellDef >ContactType</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet?.affilTypeDesc}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="startDt">
+                    <mat-header-cell *matHeaderCellDef >Start Date</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.startDt | date:'MM/dd/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="endDt">
+                    <mat-header-cell *matHeaderCellDef >End Date</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.endDt | date:'MM/dd/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="organization">
+                    <mat-header-cell *matHeaderCellDef >Organization</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet?.organization}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="subOrganization">
+                    <mat-header-cell *matHeaderCellDef >Sub-Organization</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.subOrganization}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="jobtitle">
+                    <mat-header-cell *matHeaderCellDef >Title</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.jobtitle}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <mat-header-cell *matHeaderCellDef >First Name</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.firstName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <mat-header-cell *matHeaderCellDef >Last Name</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.lastName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="zp4Checked">
+                    <mat-header-cell *matHeaderCellDef >Zip4Checked</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.zp4Checked}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="affilComments">
+                    <mat-header-cell *matHeaderCellDef >Comments</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.affilComments}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="lastUpdBy">
+                    <mat-header-cell *matHeaderCellDef >Updated By</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet?.lastUpdBy}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="lastUpdDttm">
+                    <mat-header-cell *matHeaderCellDef >Updated Date</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet">{{contactAffilGet.lastUpdDttm | date:'MM/dd/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="affilId" >
+                    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                    <mat-cell *matCellDef="let contactAffilGet"> 
+                        <button mat-raised-button type="button" (click)="edit(contactAffilGet)" >Edit</button>  
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
+            </mat-table>
+        </div>          
+    </mat-card-content>
 </mat-card>
 <mat-card>
-  <mat-card-actions>
-      <div class="form-row full-width">
-          <div class="col-md-2 ">
-              <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block"  (click)="add()"  >Add New Site Name Alias</button>
-          </div>
-          <div class="col-md-1 ">
-              <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="refresh()" >Refresh</button>
-          </div>
-      </div>
-  </mat-card-actions> 
+    <mat-card-actions>
+        <div class="form-row full-width">
+            <div class="col-md-2 ">
+                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block"  (click)="add()"  >Add New Contact</button>
+            </div>
+            <div class="col-md-1 ">
+                <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="refresh()" >Refresh</button>
+            </div>
+        </div>
+    </mat-card-actions> 
 </mat-card>

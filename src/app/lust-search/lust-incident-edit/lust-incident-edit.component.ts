@@ -103,7 +103,7 @@ export class LustIncidentEditComponent implements OnInit  {
   ngOnInit() {
     console.log('********************edit lust ngOnInit()');
     this.loadingSubject.next(true);
-    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet;});
+    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet; });
     this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {siteType2s: SiteType2[]}) => {this.siteType2s = data.siteType2s; });
@@ -116,7 +116,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
     this.loadingSubject.next(false);
-    this.OnScrollIntoView();
+    this.onScrollIntoView();
 
   }
 
@@ -176,9 +176,9 @@ export class LustIncidentEditComponent implements OnInit  {
         saAddressCorrectState:   [{value: '', disabled: true}],
         authUser: ['']
       },
-      {validator: [this.ValidateAddressData, this.ReceivedDateValidation] }
+      {validator: [this.validateAddressData, this.receivedDateValidation] }
     );
-    // this.resetDate();   Validators.ValidateAddressData()
+    // this.resetDate();   Validators.validateAddressData()
   }
 
   transformDate(inDate: Date): string {
@@ -290,7 +290,7 @@ export class LustIncidentEditComponent implements OnInit  {
           (data ) => (this.lustIncidentUpdateResult = data
                       , this.showSubmitStatusDialog()),
       );
-      this.OnScrollIntoView();
+      this.onScrollIntoView();
   }
 
   onCreateLustIncidentComplete(): void {
@@ -332,8 +332,8 @@ export class LustIncidentEditComponent implements OnInit  {
     const invalid = [];
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
-            console.log('****findInvalidControls ' + field);
-            console.log(this.incidentForm.controls[field]);
+            // console.log('****findInvalidControls ' + field);
+            // console.log(this.incidentForm.controls[field]);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
@@ -459,7 +459,7 @@ export class LustIncidentEditComponent implements OnInit  {
     });
   }
 
-  OnScrollIntoView () {
+  onScrollIntoView () {
     // Attempt to bring the Search Results into view
     const scrToView = document.querySelector('#topOfForm');
     // console.log(scrToView);
@@ -469,7 +469,7 @@ export class LustIncidentEditComponent implements OnInit  {
     }
   }
 
-  ValidateAddressData(control: AbstractControl) {
+  validateAddressData(control: AbstractControl) {
     // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
     // such as SiteCity and SiteZipCode are required.
     let noValidAddressTemp = false;
@@ -499,7 +499,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
   }
 
-  ReceivedDateValidation(control: AbstractControl) {
+  receivedDateValidation(control: AbstractControl) {
     //   // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
     //   // such as SiteCity and SiteZipCode are required.
 

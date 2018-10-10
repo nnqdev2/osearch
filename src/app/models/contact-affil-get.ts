@@ -1,7 +1,7 @@
 export interface ContactAffilGet {
     affilId: number;
     affilTypeCd: number;
-    affilTypeDesc: string;
+    affilTypeDesc?: string;
     startDt?: Date;
     endDt?: Date;
     partyId?: number;
