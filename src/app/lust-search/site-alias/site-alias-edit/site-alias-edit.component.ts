@@ -84,7 +84,7 @@ export class SiteAliasEditComponent implements OnInit {
         this.incidentForm = this.formBuilder.group({
           siteNameAlias: ['', Validators.required],
           // lastChangeBy: [{value: 'nquan', disabled: true}],
-          // lastChangeDate:  [{value: this.contactAffil.lastChangeDate, disabled: true}],
+          // lastChangeDate:  [{value: this.siteAlias.lastChangeDate, disabled: true}],
         },
         {validator: [] }
         );

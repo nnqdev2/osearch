@@ -25,9 +25,20 @@ mat-card{
     color:red;
     }
     
-    .input-group.required .control-label:after{
-    content:"*";
-    color:red;
-    }
+.input-group.required .control-label:after{
+content:"*";
+color:red;
+}
 
     
+
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    }
+    
+.example-container > * {
+width: 100%;
+height: auto;
+}

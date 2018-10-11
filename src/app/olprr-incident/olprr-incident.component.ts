@@ -190,25 +190,25 @@ export class OlprrIncidentComponent implements OnInit {
         this.incidentForm.controls.icPhone.setValidators([Validators.required]);
         this.incidentForm.controls.icEmail.setValidators([Validators.required]);
 
-        this.incidentForm.controls.icFirstName.markAsUntouched;
-        this.incidentForm.controls.icLastName.markAsUntouched;
-        this.incidentForm.controls.icOrganization.markAsUntouched;
-        this.incidentForm.controls.icAddress.markAsUntouched;
-        this.incidentForm.controls.icCity.markAsUntouched;
-        this.incidentForm.controls.icState.markAsUntouched;
-        this.incidentForm.controls.icZipcode.markAsUntouched;
-        this.incidentForm.controls.icEmail.markAsUntouched;
-        this.incidentForm.controls.icPhone.markAsUntouched;
+        this.incidentForm.controls.icFirstName.markAsUntouched();
+        this.incidentForm.controls.icLastName.markAsUntouched();
+        this.incidentForm.controls.icOrganization.markAsUntouched();
+        this.incidentForm.controls.icAddress.markAsUntouched();
+        this.incidentForm.controls.icCity.markAsUntouched();
+        this.incidentForm.controls.icState.markAsUntouched();
+        this.incidentForm.controls.icZipcode.markAsUntouched();
+        this.incidentForm.controls.icEmail.markAsUntouched();
+        this.incidentForm.controls.icPhone.markAsUntouched();
         
-        this.incidentForm.controls.icFirstName.markAsPristine;
-        this.incidentForm.controls.icLastName.markAsPristine;
-        this.incidentForm.controls.icOrganization.markAsPristine;
-        this.incidentForm.controls.icAddress.markAsPristine;
-        this.incidentForm.controls.icCity.markAsPristine;
-        this.incidentForm.controls.icState.markAsPristine;
-        this.incidentForm.controls.icZipcode.markAsPristine;
-        this.incidentForm.controls.icEmail.markAsPristine;
-        this.incidentForm.controls.icPhone.markAsPristine;
+        this.incidentForm.controls.icFirstName.markAsPristine();
+        this.incidentForm.controls.icLastName.markAsPristine();
+        this.incidentForm.controls.icOrganization.markAsPristine();
+        this.incidentForm.controls.icAddress.markAsPristine();
+        this.incidentForm.controls.icCity.markAsPristine();
+        this.incidentForm.controls.icState.markAsPristine();
+        this.incidentForm.controls.icZipcode.markAsPristine();
+        this.incidentForm.controls.icEmail.markAsPristine();
+        this.incidentForm.controls.icPhone.markAsPristine();
         
 
       } else {
@@ -234,7 +234,7 @@ export class OlprrIncidentComponent implements OnInit {
         this.incidentForm.controls.icPhone.setValidators(null);
         this.incidentForm.controls.icEmail.disable();
         this.incidentForm.controls.icEmail.setValidators(null);
-        //this.incidentForm.controls.rpAddress2.setValue("");
+        // this.incidentForm.controls.rpAddress2.setValue("");
 
       }
     } );

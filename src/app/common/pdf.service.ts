@@ -36,7 +36,7 @@ export class PdfService {
       const bottomTemplate = new Image();
       const todaysDate = this.pipe.transform(Date.now(), 'mediumDate');
       topTemplate.src = './assets/images/NWRTemplateTop.JPG';
-      bottomTemplate.src = './assets/images/NWRTemplateBottom.JPG';
+      bottomTemplate.src = './assets/images/NWRXTemplateBottom.JPG';
 
       const doc = new jsPDF('landscape');
       doc.setFontSize(10);
@@ -57,9 +57,10 @@ export class PdfService {
       doc.text('through OAR 340-177-0095.  These rules require cleaning up the soil, groundwater, surface', 20, 75);
       doc.text('water, soil vapor, and any other media contaminated by heating oil to the appropriate standards or', 20, 80);
       doc.text('demonstrating that the contamination does not pose a risk to human health or the environment', 20, 85);
-      // doc.addImage(topTemplate.src, 'JPEG', 15, 90, 250, 120);
-      // doc.addPage();
-      // doc.addImage(bottomTemplate.src, 'JPEG', 15, 10, 250, 120);
+      doc.addImage(topTemplate.src, 'JPEG', 15, 90, 250, 120);
+      doc.addPage();
+      doc.text('Page 2', 2, 2);
+      doc.addImage(bottomTemplate.src, 'JPEG', 15, 10, 260, 120);
       doc.save(SaveFileName + '-NWR.PDF');
       // doc.output(environment.olprr_PDF_output_location);
 

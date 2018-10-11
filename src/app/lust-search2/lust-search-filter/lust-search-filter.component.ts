@@ -120,6 +120,14 @@ export class LustSearchFilterComponent implements OnInit {
     this.lustSearchFilter = Object.assign({}, this.lustSearchFilterForm.value);
     // console.log(JSON.stringify(this.lustSearchFilter));
     this.showLustSearchResultsFlag = true;
+
+    // Scroll to top of control (grid list)
+    const scrToView = document.getElementById('topSearchResults');
+    if (scrToView) {
+      scrToView.scrollIntoView();
+      scrToView.scrollTop = scrToView.scrollHeight;
+    }
+
   }
 
 
@@ -127,6 +135,18 @@ export class LustSearchFilterComponent implements OnInit {
     console.log('createIncident');
     this.router.navigate(['lust']);
   }
+
+  onInputEntry(event, nextInput) {
+    const input = event.target;
+    const length = input.value.length;
+    const maxLength = input.attributes.maxLength.value;
+
+
+    if (length >= maxLength) {
+      nextInput.focus();
+    }
+  }
+
 
 }
 

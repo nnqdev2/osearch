@@ -21,26 +21,26 @@
             <div class="form-group col-md-1">
                 <mat-form-field>
                   <mat-label>Log County</mat-label>
-                  <input matInput formControlName="logCounty">
+                  <input matInput formControlName="logCounty"  #logCounty maxlength="2" size="2" (input)="onInputEntry($event, logYear)">
                 </mat-form-field>
             </div>
 
           <div class="form-group col-md-1">
             <mat-form-field>
               <mat-label>Log Year</mat-label>
-              <input matInput formControlName="logYear">
+              <input matInput formControlName="logYear" #logYear maxlength="2" size="2" (input)="onInputEntry($event, logSeqNbr)">
             </mat-form-field>
           </div>
           <div class="form-group col-md-2">
             <mat-form-field>
               <mat-label>Log Seq Nbr</mat-label>
-              <input matInput formControlName="logSeqNbr">
+              <input matInput formControlName="logSeqNbr" #logSeqNbr maxlength="4" size="4" (input)="onInputEntry($event, facilityId)">
             </mat-form-field>
           </div> 
           <div class="form-group col-md-2">
             <mat-form-field>
               <mat-label>Facility Id</mat-label>
-              <input matInput  formControlName="facilityId">
+              <input matInput  formControlName="facilityId" #facilityId>
             </mat-form-field>
           </div> 
           <div class="form-group col-md-2">
@@ -272,6 +272,9 @@
       </form>    
     </mat-card-content>    
   </mat-card>  
+
+  <!-- Scroll to top of control (grid list) -->
+  <div id='topSearchResults'></div>
   
   <div *ngIf="showLustSearchResultsFlag==true; then showResultComp ">  </div> 
   <ng-template #showResultComp>

@@ -46,6 +46,10 @@ export class IncidentIdToNameService {
         this.idToNameMap.set('icZipcode', 'Invoice Contact Zipcode');
         this.idToNameMap.set('icPhone', 'Invoice Contact Phone');
         this.idToNameMap.set('noValidAddress', 'No Valid Address');
+        this.idToNameMap.set('dateReceived', 'Received Date');
+        this.idToNameMap.set('receivedDateAfterCloseDate', 'Received Date');
+        this.idToNameMap.set('siteNoValidAddressMissing', 'Site Address');
+
 
     }
     // function reverse(s: string): string;

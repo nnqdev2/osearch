@@ -22,9 +22,10 @@ export class ShowErrorsComponent {
     'selectOneOrMoreMedias': 'Must select one or more Medias.',
     'selectOneOrMoreContaminants': 'Must select one or more Contaminants.',
     'matDatepickerParse': () => 'Required. ' ,
-    'noValidAddress': () => 'No Valid Address and Site Address should not be set',
-    'ReceivedDateAfterCloseDate' : () => 'Received Date cannot be after Close Date',
-
+    'noValidAddress': () => 'No Valid Address and Site Address cannot both contain values',
+    'receivedDateAfterCloseDate' : () => 'Received Date cannot be after all dates',
+    'siteNoValidAddressMissing' : () => 'A Street, City, County, and Zip Code is necessary - or No Valid Address must be checked.',
+    'orgNameNameMissing' : () => 'First/Last Name OR Organization Name is required',
   };
 
   @Input()

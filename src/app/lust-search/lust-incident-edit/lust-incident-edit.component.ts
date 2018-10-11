@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { Observable, Subject, BehaviorSubject} from 'rxjs';
+import { Observable, Subject, BehaviorSubject, iif} from 'rxjs';
 import { map, flatMap} from 'rxjs/operators';
 
 import { LustDataService } from '../../services/lust-data.service';
@@ -42,6 +42,7 @@ export class LustIncidentEditComponent implements OnInit  {
   private searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
   private submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
   private confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
+  
 
   olprrId: number;
   lustIncidentGet: LustIncidentGet|null;
@@ -94,16 +95,18 @@ export class LustIncidentEditComponent implements OnInit  {
 
   maxDate: Date;
 
+  
+
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog, private confirmDeleteDialog: MatDialog
-    ,  private searchDialog: MatDialog, private idToNameService: IncidentIdToNameService
+    , private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
     console.log('********************edit lust ngOnInit()');
     this.loadingSubject.next(true);
-    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet; });
+    this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet;});
     this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {siteType2s: SiteType2[]}) => {this.siteType2s = data.siteType2s; });
@@ -116,7 +119,7 @@ export class LustIncidentEditComponent implements OnInit  {
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
     this.loadingSubject.next(false);
-    this.onScrollIntoView();
+    this.OnScrollIntoView();
 
   }
 
@@ -131,13 +134,11 @@ export class LustIncidentEditComponent implements OnInit  {
         logNumber: [this.lustIncidentGet.logNumber],
         qTimeId: [this.lustIncidentGet.qtimeId],
         projectManager: [pm],
-        // facilityId: ['', Validators.pattern('^([+-]?[1-9]\\d*|0)$')],
         facilityId: [{value: this.lustIncidentGet.facilityId, disabled: true}],
         siteName:  [this.lustIncidentGet.siteName, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteAddress:    [this.lustIncidentGet.siteAddress, Validators.compose([Validators.required, Validators.maxLength(40)])],
         siteCity:  [this.lustIncidentGet.siteCity, Validators.compose([Validators.required, Validators.maxLength(20)])],
-        siteZipcode: [this.lustIncidentGet.siteZipcode, Validators.compose([Validators.required, Validators.maxLength(5)
-          , Validators.pattern('^(?!0{5})\\d{5}(?:[-\s]\\d{4})?')])],
+        siteZipcode: [this.lustIncidentGet.siteZipcode, Validators.compose([Validators.required])],
         siteCounty:  [+this.lustIncidentGet.logNbrCounty, Validators.required],
         sitePhone:  ['', Validators.compose([Validators.maxLength(25)
           , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.Ã¢â€”Â]?([0-9]{3})[-.Ã¢â€”Â]?([0-9]{4})$')])],
@@ -155,8 +156,6 @@ export class LustIncidentEditComponent implements OnInit  {
         optionLetterSentInd:    [this.lustIncidentGet.optionLetterSentInd],
         dateReceived:  [this.lustIncidentGet.receivedDate, Validators.required],
         discoveryDate: [this.lustIncidentGet.discoveryDate, Validators.required],
-        // dateReceived:  [{value: this.transformDate(this.lustIncidentGet.receivedDate)}],
-        // discoveryDate: [{value: this.transformDate(this.lustIncidentGet.discoveryDate)}],
         cleanupStartDate:  [this.lustIncidentGet.cleanupStartDate],
         finalInvcRqstDate: [this.lustIncidentGet.finalInvcRqstDate],
         releaseStopDate:  [this.lustIncidentGet.releaseStopDate],
@@ -172,11 +171,12 @@ export class LustIncidentEditComponent implements OnInit  {
         saAddressCorrectCity:    [{value: '', disabled: true}],
         saAddressCorrectZipcode: [{value: '', disabled: true}],
         saAddressCorrectState:   [{value: '', disabled: true}],
+        latDegrees: [this.lustIncidentGet.latDegrees],
+        latMinutes: [this.lustIncidentGet.latMinutes],
         authUser: ['']
       },
-      {validator: [this.validateAddressData, this.receivedDateValidation] }
+      {validator: [this.siteNoAddressMissingValidation.bind(this), this.siteAddressNoAddressValidation.bind(this)] }
     );
-    // this.resetDate();   Validators.validateAddressData()
   }
 
   transformDate(inDate: Date): string {
@@ -212,8 +212,6 @@ export class LustIncidentEditComponent implements OnInit  {
   }
 
   private refreshSaAddressCorrect(postalCountyLookup: PostalCountyLookup) {
-    console.log('********refreshSaAddressCorrect(postalCountyLookup: PostalCountyLookup)');
-    console.log(postalCountyLookup);
     this.postalCountyLookup = postalCountyLookup;
     this.incidentForm.controls.saAddressCorrectAddress.setValue(this.saAddressCorrectStat.Records[0].AddressLine1);
     this.incidentForm.controls.saAddressCorrectCity.setValue(this.saAddressCorrectStat.Records[0].City);
@@ -222,8 +220,6 @@ export class LustIncidentEditComponent implements OnInit  {
   }
 
   private addressCorrectNotFound(addressType: string): boolean {
-    console.log('********addressCorrectNotFound(addressType: string)');
-    console.log(addressType);
     if ((addressType === 'sa')
     && (this.saAddressCorrectStat !== undefined)
     && (this.saAddressCorrectStat.Records[0].PostalCode.length < 5)) {
@@ -279,26 +275,20 @@ export class LustIncidentEditComponent implements OnInit  {
 
   updateIncident(): void {
     this.lustIncidentUpdate = Object.assign({},  this.incidentForm.value);
-    console.log('updateIncident()');
-    console.log(this.lustIncidentUpdate);
     this.buildUpdateRecord();
     this.lustDataService.updateLustIncident(this.lustIncidentUpdate)
       .subscribe(
           (data ) => (this.lustIncidentUpdateResult = data
                       , this.showSubmitStatusDialog()),
       );
-      this.onScrollIntoView();
+      this.OnScrollIntoView();
   }
 
   onCreateLustIncidentComplete(): void {
-    console.log('onCreateLustIncidentComplete() this.lustIncidentInsertResult');
-    console.log(this.lustIncidentUpdateResult);
     this.showSubmitStatusDialog();
   }
 
   private showSubmitStatusDialog() {
-    console.log('showSubmitStatusDialog() this.lustIncidentInsertResult');
-    console.log(this.lustIncidentUpdateResult);
     let message1 = '';
     let title = '';
     const button1 = 'Close';
@@ -329,48 +319,15 @@ export class LustIncidentEditComponent implements OnInit  {
     const invalid = [];
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
-            // console.log('****findInvalidControls ' + field);
-            // console.log(this.incidentForm.controls[field]);
+            console.log('****findInvalidControls ' + field);
+            console.log(this.incidentForm.controls[field]);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
     }
 
-    // const contaminantErrorMessage = this.getContaminantErrorMessage();
-    // if (contaminantErrorMessage != null) {
-    //   invalid.push(contaminantErrorMessage);
-    // }
-
-    // const mediaErrorMessage = this.getMediaErrorMessage();
-    // if (mediaErrorMessage != null) {
-    //   invalid.push(mediaErrorMessage);
-    // }
-
     return invalid;
   }
-
-  // private getMediaErrorMessage(): string {
-  //   const test = this.incidentForm.controls.activeReleaseInd.value;
-  //   if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
-  //     this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
-  //     this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value
-  //   ) { return null; } else {
-  //     this.showMediaErrorMessage = true;
-  //     return('Must select at least one Media.');
-  //   }
-  // }
-  // private getContaminantErrorMessage(): string {
-  //   if (this.incidentForm.controls.heatingOil.value || this.incidentForm.controls.unleadedGas.value ||
-  //     this.incidentForm.controls.leadedGas.value || this.incidentForm.controls.misGas.value ||
-  //     this.incidentForm.controls.diesel.value || this.incidentForm.controls.wasteOil.value ||
-  //     this.incidentForm.controls.lubricant.value || this.incidentForm.controls.solvent.value ||
-  //     this.incidentForm.controls.otherPet.value || this.incidentForm.controls.chemical.value ||
-  //     this.incidentForm.controls.unknown.value || this.incidentForm.controls.mtbe.value
-  //   ) { return null; } else {
-  //     this.showContaminantErrorMessage = true;
-  //     return('Must select at least one Contaminant.');
-  //   }
-  // }
 
   private buildUpdateRecord() {
 
@@ -456,17 +413,16 @@ export class LustIncidentEditComponent implements OnInit  {
     });
   }
 
-  onScrollIntoView () {
+  OnScrollIntoView () {
     // Attempt to bring the Search Results into view
     const scrToView = document.querySelector('#topOfForm');
     // console.log(scrToView);
     if (scrToView) {
       scrToView.scrollIntoView();
-      scrToView.scrollIntoView();
     }
   }
 
-  validateAddressData(control: AbstractControl) {
+  siteAddressNoAddressValidation(control: AbstractControl) {
     // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
     // such as SiteCity and SiteZipCode are required.
     let noValidAddressTemp = false;
@@ -487,48 +443,117 @@ export class LustIncidentEditComponent implements OnInit  {
     }
   }
 
-  private openUstSearch() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      searchType: 'UST',
-    };
-    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
-  }
-
   receivedDateValidation(control: AbstractControl) {
-    //   // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
-    //   // such as SiteCity and SiteZipCode are required.
+
+    const receivedDatefd = control.get('dateReceived');
+    const receivedDate = new Date(receivedDatefd.value);
+    const closedDate = new Date(control.get('closedDate').value);
+    const cleanupStartDate = new Date(control.get('cleanupStartDate').value);
+    const releaseStopDate = new Date(control.get('releaseStopDate').value);
+    const finalInvcRqstDate  = new Date(control.get('finalInvcRqstDate').value);
+    const letterOfAgreementDate = new Date(control.get('letterOfAgreementDate').value);
 
 
-    // const receivedDatefd = control.get('dateReceived');
-    // //   // const discoveryDate = control.get('discoveryDate');
-    // const closedDatefd = control.get('closedDate');
-    // console.log(receivedDatefd.value);
-    // console.log(closedDatefd.value);
-    // if (receivedDatefd > closedDatefd) {
-    //   // console.log('Error condition <<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    //   receivedDatefd.setErrors({'ReceivedDateAfterCloseDate': true});
-    //           return {
-    //         noValidAddressSiteAddressError: {
-    //           noValidAddressSiteAddressError: true
-    //         }
-    //       };
-    //     } else {
-    //       receivedDatefd.setErrors(null);
-    //      return null;
-    //     }
 
-    //       receivedDate.setErrors({'years': true});
-    //       return {
-    //         noValidAddressSiteAddressError: {
-    //           noValidAddressSiteAddressError: true
-    //         }
-    //       };
-    //   }  else {
-    //     receivedDate.setErrors(null);
-    //     return null;
+    if (receivedDate > closedDate || receivedDate > cleanupStartDate || receivedDate > releaseStopDate
+            || receivedDate > finalInvcRqstDate || receivedDate > letterOfAgreementDate ) {
+
+        receivedDatefd.setErrors({'receivedDateAfterCloseDate': true});
+
+      return {
+        receivedDateAfterCloseDateError: {
+          receivedDateAfterCloseDateError: true
+            }
+        };
+
+      } else {
+          receivedDatefd.setErrors(null);
+          return null;
+        }
     }
 
+    siteNoAddressMissingValidation(control: AbstractControl) {
+
+      const noValidAddressMissingfd = control.get('noValidAddress');
+      const noValidAddressMissing = control.get('noValidAddress').value;
+      const siteAddressMissingfd = control.get('siteAddress');
+      // const siteAddressMissing = control.get('siteAddress').value;
+      const siteCityMissingfd = control.get('siteCity');
+      const siteCountyMissingfd = control.get('siteCounty');
+      const siteZipcodeMissingfd = control.get('siteZipcode');
+      // console.log(noValidAddressMissingfd.value);
+      // console.log(noValidAddressMissing.value);
+
+      if ((noValidAddressMissingfd.value === 0 || noValidAddressMissing.value === 0 || noValidAddressMissingfd.value === false)) {
+        console.log('noValidAddress NOT checked');
+        siteAddressMissingfd.setValidators([Validators.required, Validators.maxLength(40)]);
+        siteCityMissingfd.setValidators([Validators.required, Validators.maxLength(20)]);
+        siteCountyMissingfd.setValidators([Validators.required]);
+        siteZipcodeMissingfd.setValidators([Validators.required]);
+
+        siteAddressMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+        siteCityMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+        siteCountyMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+        siteZipcodeMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+
+
+
+      } else {
+        console.log('noValidAddress checked');
+        siteAddressMissingfd.clearValidators();
+        siteCityMissingfd.clearValidators();
+        siteCountyMissingfd.clearValidators();
+        siteZipcodeMissingfd.clearValidators();
+
+
+      }
+    }
+
+    public displayLatDms(): string {
+      return 'Deg, Min, Sec:' + this.lustIncidentGet.latDegrees + 'º ' + this.lustIncidentGet.latMinutes + '\' '
+      + this.lustIncidentGet.latSeconds + '\'\'';
+    }
+
+    public displayLogDms(): string {
+      const degrees = this.lustIncidentGet.longDegrees.toString().replace('-', '');
+      return 'Deg, Min, Sec:' +  degrees + 'º ' + this.lustIncidentGet.longMinutes
+            + '\' ' + this.lustIncidentGet.longSeconds + '\'\'';
+    }
+
+    public displayLatDec(): string {
+      return 'Decimal:' + this.lustIncidentGet.latDecimals.toString() + ' ' +
+      this.getCoordLat(this.lustIncidentGet.latDecimals.toString());
+    }
+
+    public displayLogDec(): string {
+      return 'Decimal:' + this.lustIncidentGet.longDecimals.toString() + ' ' +
+        this.getCoordLOG(this.lustIncidentGet.longDecimals.toString());
+    }
+
+
+    getCoordLat(degrees: string): string {
+      let rtn = ' N';
+      if (degrees.includes('-', 1 )) {
+          rtn = ' S';
+      }
+      return rtn;
+    }
+
+    getCoordLOG(degrees: string): string {
+      let rtn = ' W';
+      if (degrees.includes('-', 1 )) {
+          rtn = ' E';
+      }
+      return rtn;
+    }
+
+    lustEntry(): void {
+
+    }
+
+
+    lustViewDocs(): void {
+
+    }
 
 }

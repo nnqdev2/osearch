@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
@@ -111,7 +111,7 @@ export class LustIncidentCreateComponent implements OnInit  {
 
   private selectedContact: ContactSearchResultStat;
   private selectedUst: UstSearchResultStat;
-  OrganizationNameRPFirstLastNameError: boolean;
+  organizationNameRPFirstLastNameError: boolean;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
@@ -126,10 +126,10 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
     this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
-    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities; });
+    this.route.data.subscribe((data: {cities: City[]}) => {this.cities = data.cities;});
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes; });
-    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
+    this.route.data.subscribe((data: {zipCodes: ZipCode[]}) => {this.zipcodes = data.zipCodes;});
+    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties;});
     this.createForm();
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
@@ -158,9 +158,9 @@ export class LustIncidentCreateComponent implements OnInit  {
         discoveryCode:  ['', Validators.required],
         causeCode: ['', Validators.required],
         sourceId:  ['', Validators.required],
-        rpFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        rpLastName: ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        rpOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        rpFirstName:  ['', Validators.compose([Validators.maxLength(40)])],
+        rpLastName: ['', Validators.compose([Validators.maxLength(40)])],
+        rpOrganization:  ['', Validators.compose([Validators.maxLength(40)])],
         rpAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         rpCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         rpState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
@@ -170,9 +170,9 @@ export class LustIncidentCreateComponent implements OnInit  {
           , Validators.pattern('^\\(?([0-9]{3})\\)?[ -.â—]?([0-9]{3})[-.â—]?([0-9]{4})$')])],
         rpEmail:  ['', Validators.compose([Validators.email, Validators.maxLength(40)])],
         rpCountry:  ['', Validators.compose([Validators.maxLength(30)])],
-        icFirstName:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icLastName: ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
-        icOrganization:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
+        icFirstName:  ['', Validators.compose([Validators.maxLength(40)])],
+        icLastName: ['', Validators.compose([Validators.maxLength(40)])],
+        icOrganization:  ['', Validators.compose([Validators.maxLength(40)])],
         icAddress:  ['', Validators.compose([Validators.required, Validators.maxLength(40)])],
         icCity:  ['', Validators.compose([Validators.required, Validators.maxLength(25)])],
         icState:  ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
@@ -220,20 +220,38 @@ export class LustIncidentCreateComponent implements OnInit  {
         authUser: ['']
       },
       {validator: [this.dateReceivedDateReleaseValidator,
-          this.OrgNameFirstLastNameValidator] }
+          this.rpOrgNameFirstLastNameValidator.bind(this), this.icOrgNameFirstLastNameValidator.bind(this),
+          this.siteNoAddressMissingValidation.bind(this),
+          this.siteAddressNoAddressValidation.bind(this)] }
+
     );
     this.resetDate();
   }
 
-  OrgNameFirstLastNameValidator(group: FormGroup) {
+  rpOrgNameFirstLastNameValidator(group: FormGroup) {
+    const rpFirstNamefd = group.get('rpFirstName');
     if (group.controls.rpOrganization.untouched === false && group.controls.rpFirstName.untouched === false 
-      && group.controls.rpLastName.untouched === false) {
-      if (group.controls.rpOrganization.value === '' 
+       && group.controls.rpLastName.untouched === false) {
+      if (group.controls.rpOrganization.value === ''
         && (group.controls.rpFirstName.value === '' && group.controls.rpLastName.value === '')) {
-          return { OrganizationNameRPFirstLastNameError: true };
+          rpFirstNamefd.setErrors({'orgNameNameMissing': true});
+          return { organizationNameRPFirstLastNameError: true };
       }
     }
   }
+
+  icOrgNameFirstLastNameValidator(group: FormGroup) {
+    const icFirstNamefd = group.get('icFirstName');
+    // if (group.controls.icOrganization.untouched === false && group.controls.icFirstName.untouched === false 
+    //   && group.controls.icLastName.untouched === false) {
+      if (group.controls.icOrganization.value === ''
+        && (group.controls.icFirstName.value === '' && group.controls.icLastName.value === '')) {
+          icFirstNamefd.setErrors({'orgNameNameMissing': true });
+          return { organizationNameICFirstLastNameError: true };
+      }
+    // }
+  }
+
   dateReceivedDateReleaseValidator(group: FormGroup) {
     if (group.controls.dateReceived.untouched === false && group.controls.discoveryDate.untouched === false) {
         if (group.controls.dateReceived.value > group.controls.discoveryDate.value) {
@@ -472,8 +490,8 @@ export class LustIncidentCreateComponent implements OnInit  {
         this.incidentForm.controls.icEmail.enable();
         this.incidentForm.controls.icCountry.enable();
         this.incidentForm.controls.icAddress.setValidators([Validators.required, Validators.maxLength(40)]);
-        this.incidentForm.controls.icFirstName.setValidators([Validators.required, Validators.maxLength(40)]);
-        this.incidentForm.controls.icLastName.setValidators([Validators.required, Validators.maxLength(40)]);
+        this.incidentForm.controls.icFirstName.setValidators([Validators.maxLength(40)]);
+        this.incidentForm.controls.icLastName.setValidators([Validators.maxLength(40)]);
         // this.incidentForm.controls.icOrganization.setValidators([Validators.required]);
         this.incidentForm.controls.icCity.setValidators([Validators.required, Validators.maxLength(25)]);
         this.incidentForm.controls.icState.setValidators([Validators.required, Validators.maxLength(2)]);
@@ -703,6 +721,65 @@ export class LustIncidentCreateComponent implements OnInit  {
     this.resetDate();
   }
 
+  siteAddressNoAddressValidation(control: AbstractControl) {
+    // Validation - No Valid Address cannot be checked if siteAddress contains a value.  Other fields
+    // such as SiteCity and SiteZipCode are required.
+    let noValidAddressTemp = false;
+    const noValidAddress = control.get('noValidAddress');
+    const siteAddress = control.get('siteAddress');
+    noValidAddressTemp = noValidAddress.value;
+    if ((noValidAddressTemp === true) && siteAddress.value.length !== 0) {
+      noValidAddress.setErrors({'noValidAddress': true});
+
+      return {
+        noValidAddressSiteAddressError: {
+          noValidAddressSiteAddressError: true
+        }
+      };
+    }  else {
+      noValidAddress.setErrors(null);
+      return null;
+    }
+  }
+
+
+
+  siteNoAddressMissingValidation(control: AbstractControl) {
+
+    const noValidAddressMissingfd = control.get('noValidAddress');
+    const noValidAddressMissing = control.get('noValidAddress').value;
+    const siteAddressMissingfd = control.get('siteAddress');
+    // const siteAddressMissing = control.get('siteAddress').value;
+    const siteCityMissingfd = control.get('siteCity');
+    const siteCountyMissingfd = control.get('siteCounty');
+    const siteZipcodeMissingfd = control.get('siteZipcode');
+    // console.log(noValidAddressMissingfd.value);
+    // console.log(noValidAddressMissing.value);
+
+    if ((noValidAddressMissingfd.value === 0 || noValidAddressMissing.value === 0 || noValidAddressMissingfd.value === false)) {
+      console.log('noValidAddress NOT checked');
+      siteAddressMissingfd.setValidators([Validators.required, Validators.maxLength(40)]);
+      siteCityMissingfd.setValidators([Validators.required, Validators.maxLength(20)]);
+      siteCountyMissingfd.setValidators([Validators.required]);
+      siteZipcodeMissingfd.setValidators([Validators.required]);
+
+      siteAddressMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+      siteCityMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+      siteCountyMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+      siteZipcodeMissingfd.updateValueAndValidity({emitEvent: false, onlySelf: true});
+
+
+
+    } else {
+      console.log('noValidAddress checked');
+      siteAddressMissingfd.clearValidators();
+      siteCityMissingfd.clearValidators();
+      siteCountyMissingfd.clearValidators();
+      siteZipcodeMissingfd.clearValidators();
+
+
+    }
+  }
 
 
 }

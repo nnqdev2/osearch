@@ -120,6 +120,7 @@
                                             <mat-checkbox formControlName="noValidAddress"> No Valid Address</mat-checkbox> 
                                         </label>
                                     </div>
+                                    <app-show-errors [control]="incidentForm.controls.noValidAddress"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <!-- /city, zip, phone  -->
@@ -712,29 +713,28 @@
                         </mat-card-content>
                     </mat-card>
                     <mat-card>    
-                        <mat-card-title > Lit Setup </mat-card-title>  
-                        <mat-card-content>
+                    <mat-card-title > Open LIT to Setup Site? </mat-card-title>  
+                            <mat-card-content>
                                 <div class="form-row full-width">
-                                        <div class="form-group required col-md-5" style="margin-bottom:40px"> 
-                                            <mat-card style="padding:0px">
-                                                <mat-card-content style="margin-bottom:10px">
+                                        <div class="form-group required col-md-6" style="margin-bottom:10px"> 
+                                            <!-- <mat-card style="padding:0px"> -->
+                                                <mat-card-content style="margin-bottom:0px">
                                                     <div class="form-group row full-width">
-                                                        <mat-form-field class="col-md-12 font-weight-bold">
+                                                        <mat-form-field class="col-md-8 font-weight-bold">
                                                             <input matInput formControlName="authUser" placeholder="Must enter your Windows User Name here to link to LIT"/>
                                                             <div *ngIf="authUserRequired; then showAuthUserRequiredErrorMessage"></div>
                                                             <ng-template #showAuthUserRequiredErrorMessage>
                                                                 <p>{{getAuthUserErrorMessage()}}</p>
                                                             </ng-template>                                    
                                                         </mat-form-field>  
+                                                        <mat-card-actions>
+                                                            <div class="col-md-12">
+                                                                <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
+                                                            </div>
+                                                        </mat-card-actions>
                                                     </div>
                                                 </mat-card-content>
-                                                <mat-card-actions>
-                                                    <div class="col-md-6 col-sm-5">
-                                                        <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
-                                                    </div>
-                                                </mat-card-actions>
-                                            
-                                            </mat-card>
+                                            <!-- </mat-card> -->
                                         </div>
                                     </div>
 
@@ -749,7 +749,7 @@
                     <mat-card>
                         <mat-card-content>
                             <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
-                            <div class="form-group row">
+                            <div class="form-group row">   
                                 <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="submitClicked"></app-show-all-messages>
                             </div>
                             </ngb-alert>
@@ -762,7 +762,7 @@
                     Date Received is greather than Date Release
                 </div>
 
-                <div class="error" *ngIf="incidentForm.hasError('OrganizationNameRPFirstLastNameError')">
+                <div class="error" *ngIf="incidentForm.hasError('organizationNameRPFirstLastNameError')">
                     Organization Name and RP First and Last names cannot be blank
                 </div>
 

@@ -244,14 +244,14 @@
                                         <div class="form-row full-width">
                                             <div class="form-group required col-md-4 ">
                                                 <mat-form-field > 
-                                                    <mat-label>First Name</mat-label>
+                                                    <mat-label class="control-label">First Name</mat-label>
                                                     <input matInput formControlName="rpFirstName" />     
                                                 </mat-form-field>
                                                 <app-show-errors [control]="incidentForm.controls.rpFirstName" [submitClicked]="submitClicked"></app-show-errors>
                                             </div>
                                             <div class="form-group required col-md-4 ">
                                                 <mat-form-field > 
-                                                    <mat-label>Last Name</mat-label>
+                                                    <mat-label class="control-label">Last Name</mat-label>
                                                     <input matInput formControlName="rpLastName" />   
                                                 </mat-form-field>
                                                 <app-show-errors [control]="incidentForm.controls.rpLastName" [submitClicked]="submitClicked"></app-show-errors>
@@ -801,11 +801,15 @@
                             <!-- show errors  -->
                             <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
                             <ng-template #showAllErrorsMessages> 
-                                <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
-                                    <div class="form-group row">
-                                        <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="submitClicked"></app-show-all-messages>
-                                    </div>
-                                </ngb-alert>
+                                <mat-card>
+                                    <mat-card-content>
+                                        <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
+                                            <div class="form-group row">
+                                                <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="accept"></app-show-all-messages>
+                                            </div>
+                                        </ngb-alert>
+                                    </mat-card-content> 
+                                </mat-card> 
                             </ng-template>
                             <!-- /show errors  -->
     

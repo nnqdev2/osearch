@@ -6,7 +6,7 @@
         <!-- Form incidentForm begins -->
         <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
             <mat-card>    
-                <mat-card-title class="mat-card-headertitle-background"> {{lustIncidentGet.logNumber}} Incident</mat-card-title> 
+                <mat-card-title class="mat-card-headertitle-background"> Update Lust Incident for Log Number {{lustIncidentGet.logNumber}} </mat-card-title> 
                 <mat-card-content> 
                     <mat-card>    
                         <mat-card-title > Site </mat-card-title>  
@@ -19,7 +19,7 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.logNumber"  [submitClicked]="submitClicked"></app-show-errors>                            
                                 </div>
-                                <div class="form-group required col-md-2">
+                                <div class="form-group col-md-2">
                                     <mat-form-field>
                                         <mat-label class="control-label" for="qTimeId">QTime</mat-label>
                                         <input matInput placeholder="QTime" formControlName="qTimeId">
@@ -66,12 +66,13 @@
                                     </mat-form-field>
                                     <app-show-errors [control]="incidentForm.controls.sitePhone" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-3">
                                     <div class="form-check">
                                         <label class="form-check-label">
                                             <mat-checkbox formControlName="noValidAddress"> No Valid Address</mat-checkbox> 
                                         </label>
                                     </div>
+                                    <app-show-errors [control]="incidentForm.controls.noValidAddress" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>                        
                             <!-- /Site Name, County -->  
@@ -173,30 +174,68 @@
                         </mat-card-content> 
                     </mat-card>                      
                     <mat-card>    
-                        <mat-card-title > Lit Setup </mat-card-title>  
+                        <mat-card-title > Open LIT to Setup Site? </mat-card-title>  
                         <mat-card-content>
                             <div class="form-row full-width">
-                                <div class="form-group required col-md-5" style="margin-bottom:40px"> 
+                                <div class="form-group required col-md-4" style="margin-bottom:10px"> 
                                     <mat-card style="padding:0px">
-                                        <mat-card-content style="margin-bottom:10px">
+                                        <mat-card-content style="margin-bottom:0px">
                                             <div class="form-group row full-width">
-                                                <mat-form-field class="col-md-12 font-weight-bold">
+                                                <mat-form-field class="col-md-8 font-weight-bold">
                                                     <input matInput formControlName="authUser" placeholder="Must enter your Windows User Name here to link to LIT"/>
                                                     <div *ngIf="authUserRequired; then showAuthUserRequiredErrorMessage"></div>
                                                     <ng-template #showAuthUserRequiredErrorMessage>
                                                         <p>{{getAuthUserErrorMessage()}}</p>
                                                     </ng-template>                                    
                                                 </mat-form-field>  
+                                                <mat-card-actions>
+                                                    <div class="col-md-12">
+                                                        <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
+                                                    </div>
+                                                </mat-card-actions>
                                             </div>
                                         </mat-card-content>
-                                        <mat-card-actions>
-                                            <div class="col-md-6 col-sm-5">
-                                                <button mat-raised-button color="primary" type="button" class="btn btn-success btn-md btn-block" (click)="openLit()">Open Lit in a new window</button>
-                                            </div>
-                                        </mat-card-actions>
-                                    
                                     </mat-card>
                                 </div>
+                                <div class="form-group" style="width: 250px;">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label" for="latDegrees">Latitude</mat-label>
+                                        <input matInput value={{displayLatDms()}}/>
+                                    </mat-form-field>
+                                    <!-- <app-show-errors [control]="incidentForm.controls.latDegrees"  [submitClicked]="submitClicked"></app-show-errors> -->
+                                </div>
+                                <div class="form-group" style="width: 250px;">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label" for="latMinutes">Longitude</mat-label>
+                                        <input matInput value={{displayLogDms()}}/>                                    
+                                    </mat-form-field>
+                                    <!-- <app-show-errors [control]="incidentForm.controls.Minutes"  [submitClicked]="submitClicked"></app-show-errors> -->
+                                </div>
+
+                                <div class="form-group" style="width: 200px;">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label" for="latDegrees">LAT Degrees</mat-label>
+                                        <input matInput value={{displayLatDec()}}/>                                    
+                                    </mat-form-field>
+                                    <!-- <app-show-errors [control]="incidentForm.controls.Minutes"  [submitClicked]="submitClicked"></app-show-errors> -->
+                                </div>
+
+                                <div class="form-group" style="width: 200px;">
+                                    <mat-form-field > 
+                                        <mat-label class="control-label" for="latDegrees">LOG Degrees</mat-label>
+                                        <input matInput value={{displayLogDec()}}/>                                    
+                                    </mat-form-field>
+                                    <!-- <app-show-errors [control]="incidentForm.controls.Minutes"  [submitClicked]="submitClicked"></app-show-errors> -->
+                                </div>
+                                <div class="form-group col-md-1">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="LustEntry()" >Entry</button>
+                                </div>
+                                <div class="form-group col-md-1">
+                                        <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="LustViewDocs()" >View Docs</button>
+                                </div>
+        
+
+
                             </div>
                         </mat-card-content>
                     </mat-card>    
@@ -366,55 +405,93 @@
                         </mat-card-content>
                     </mat-card>
 
-                    <mat-card>
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header style="background-color:darkSeaGreen; font-size:24px; padding:0px; text-align:left; ">
+                                <mat-panel-title style="text-align: left;">
+                                    Comments
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Site / See Also / Public Summary / Cost Recover 
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <!-- Site Comments-->
+                            <mat-card-content>
+                                <div class="form-row full-width example-container mat-card-subtitle-background">
+                                    <mat-label class="control-label" for="siteComment" sytle="padding-top:5px;">Site Comment</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="siteComment"></textarea>
+                                    </mat-form-field>  
+                                </div>  
+                            </mat-card-content>
+                            <!-- See Also Comments-->
+                            <mat-card-content>
+                                <div class="form-row full-width example-container mat-card-subtitle-background">
+                                    <mat-label class="control-label" for="seeAlsoComment">See Also Comments</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="seeAlsoComment" ></textarea>
+                                    </mat-form-field>  
+                                </div>  
+                            </mat-card-content>
+                            <!-- Public Summary Comment-->
+                            <mat-card-content>
+                                <div class="form-row full-width example-container mat-card-subtitle-background">
+                                    <mat-label class="control-label" for="publicSummaryComment">Public Summary Comment</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="publicSummaryComment"></textarea>
+                                    </mat-form-field>  
+                                </div>   
+                            </mat-card-content>
+                            <!-- Cost Recovery Comment-->
+                            <mat-card-content>
+                                <div class="form-row full-width example-container mat-card-subtitle-background">
+                                    <mat-label class="control-label" for="letterOfAgreementComment">Cost Recovery Comment</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="letterOfAgreementComment"></textarea>
+                                    </mat-form-field>  
+                                </div>   
+                            </mat-card-content>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                   
+                    <!-- <mat-card>
                         <mat-card-title>Comments</mat-card-title>
-                        <mat-card-content>
-                            <mat-card>
-                                <!-- <mat-card-title>Site Comment</mat-card-title> -->
-                                <mat-card-content>
-                                    <div class="form-row full-width example-container">
-                                        <mat-label class="control-label" for="siteComment">Site Comment</mat-label>
-                                        <mat-form-field class="example-full-width">
-                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="siteComment" ></textarea>
-                                        </mat-form-field>  
-                                    </div>  
-                                </mat-card-content>
-                            </mat-card>
-                            <mat-card>
-                                <!-- <mat-card-title>See Also Comment</mat-card-title> -->
-                                <mat-card-content>
-                                    <div class="form-row full-width example-container">
-                                        <mat-label class="control-label" for="seeAlsoComment">See Also Comments</mat-label>
-                                        <mat-form-field class="example-full-width">
-                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="seeAlsoComment" ></textarea>
-                                        </mat-form-field>  
-                                    </div>  
-                                </mat-card-content>
-                            </mat-card>
-                            <mat-card>
-                                <!-- <mat-card-title>Public Summary Comment</mat-card-title> -->
-                                <mat-card-content>
-                                    <div class="form-row full-width example-container">
-                                        <mat-label class="control-label" for="publicSummaryComment">Public Summary Comment</mat-label>
-                                        <mat-form-field class="example-full-width">
-                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="publicSummaryComment"></textarea>
-                                        </mat-form-field>  
-                                    </div>   
-                                </mat-card-content>
-                            </mat-card>  
-                            <mat-card>
-                                <!-- <mat-card-title>Cost Recovery Comment</mat-card-title> -->
-                                <mat-card-content>
-                                    <div class="form-row full-width example-container">
-                                        <mat-label class="control-label" for="letterOfAgreementComment">Cost Recovery Comment</mat-label>
-                                        <mat-form-field class="example-full-width">
-                                            <textarea matInput class="form-control rounded-0" rows="10" formControlName="letterOfAgreementComment"></textarea>
-                                        </mat-form-field>  
-                                    </div>   
-                                </mat-card-content>
-                            </mat-card>                     
-                        </mat-card-content>
-                    </mat-card>
+                            <mat-card-content>
+                                <div class="form-row full-width example-container">
+                                    <mat-label class="control-label" for="siteComment">Site Comment</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="siteComment"></textarea>
+                                    </mat-form-field>  
+                                </div>  
+                            </mat-card-content>
+                            <mat-card-content>
+                                <div class="form-row full-width example-container">
+                                    <mat-label class="control-label" for="seeAlsoComment">See Also Comments</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="seeAlsoComment" ></textarea>
+                                    </mat-form-field>  
+                                </div>  
+                            </mat-card-content>
+                            <mat-card-content>
+                                <div class="form-row full-width example-container">
+                                    <mat-label class="control-label" for="publicSummaryComment">Public Summary Comment</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="publicSummaryComment"></textarea>
+                                    </mat-form-field>  
+                                </div>   
+                            </mat-card-content>
+                            <mat-card-content>
+                                <div class="form-row full-width example-container">
+                                    <mat-label class="control-label" for="letterOfAgreementComment">Cost Recovery Comment</mat-label>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="letterOfAgreementComment"></textarea>
+                                    </mat-form-field>  
+                                </div>   
+                            </mat-card-content>
+                    </mat-card> -->
+
+
                 </mat-card-content>
 
 
