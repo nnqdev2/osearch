@@ -32,6 +32,7 @@ export class ContactEditComponent implements OnInit {
   errorMessage: string;
   private contactTypes: ContactType[];
   private contactType2s: ContactType[];
+  private theRealContactTypes: ContactType[];
   private apGetLogNumber: ApGetLogNumber;
   private submitClicked = false;
   private resetFormClicked = false;
@@ -68,11 +69,10 @@ export class ContactEditComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.affilId = +params['affilid'];
     });
-    const formTitle = 'Contact for Log Number ';
     if (isNaN(this.affilId)) {
       this.isUpdate = false;
       this.affilId = 0;
-      this.formTitle = 'Add ' + formTitle;
+      this.formTitle = 'Add New Contact for Log Number ';
       this.route.data.subscribe((data: {apGetLogNumber: ApGetLogNumber}) => {
         this.apGetLogNumber = data.apGetLogNumber;
         this.logNumber = this.apGetLogNumber.logNumber;
@@ -83,7 +83,7 @@ export class ContactEditComponent implements OnInit {
       this.route.data.subscribe((data: {contactAffilGet: ContactAffilGet}) => {
         this.contactAffilGet = data.contactAffilGet; this.logNumber = this.contactAffilGet.logNumber;
         this.isUpdate = true;
-        this.formTitle = 'Update ' + formTitle;
+        this.formTitle = 'Update Contact Details for Log Number ';
         this.setContactTypes(this.contactAffilGet.releaseType);
         this.buildUpdateForm();
       });
@@ -97,9 +97,14 @@ export class ContactEditComponent implements OnInit {
 
   private setContactTypes(releaseType: string) {
     if (releaseType === 'H') {
+      this.theRealContactTypes = this.contactType2s;
     } else {
+      this.theRealContactTypes = this.contactTypes;
     }
+    console.log('private setContactTypes(releaseType: string)  ' + releaseType);
+    console.log(this.theRealContactTypes);
   }
+
   private buildUpdateForm() {
     this.contactForm = this.formBuilder.group({
       affilTypeCd: [this.contactAffilGet.affilTypeCd, Validators.required],
@@ -109,7 +114,7 @@ export class ContactEditComponent implements OnInit {
       lastName: [this.contactAffilGet.lastName, Validators.required],
       organization:   [this.contactAffilGet.organization, Validators.required],
       subOrganization:   [this.contactAffilGet.subOrganization, Validators.required],
-      jobtitle: [this.contactAffilGet.jobtitle, Validators.required],
+      jobTitle: [this.contactAffilGet.jobtitle, Validators.required],
       street: [this.contactAffilGet.street, Validators.required],
       city:   [this.contactAffilGet.city, Validators.required],
       state: [this.contactAffilGet.state, Validators.required],
@@ -131,7 +136,7 @@ export class ContactEditComponent implements OnInit {
       lastName: ['', Validators.required],
       organization:   ['', Validators.required],
       subOrganization:   ['', Validators.required],
-      jobtitle: ['', Validators.required],
+      jobTitle: ['', Validators.required],
       street: ['', Validators.required],
       city:   ['', Validators.required],
       state: ['', Validators.required],
@@ -202,7 +207,7 @@ export class ContactEditComponent implements OnInit {
 
     return invalid;
   }
-  
+
   submit(): void {
     this.submitClicked = true;
     if (this.contactForm.dirty && this.contactForm.valid) {
