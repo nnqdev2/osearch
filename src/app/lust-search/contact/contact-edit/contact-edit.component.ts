@@ -13,8 +13,6 @@ import { IncidentIdToNameService } from '../../../olprr-search/incident-id-to-na
 import { ApGetLogNumber } from '../../../models/apGetLogNumber';
 import { ContactAffilPostResult } from '../../../models/contact-affil-post-result';
 import { ContactAffilGet } from '../../../models/contact-affil-get';
-import { SiteType } from '../../../models/site-type';
-import { SiteType2 } from '../../../models/site-type2';
 import { ContactType } from '../../../models/contact-type';
 import { State } from '../../../models/state';
 
@@ -34,7 +32,7 @@ export class ContactEditComponent implements OnInit {
   errorMessage: string;
   private contactTypes: ContactType[];
   private contactType2s: ContactType[];
-  private states: State[];
+  private apGetLogNumber: ApGetLogNumber;
   private submitClicked = false;
   private resetFormClicked = false;
   private deleteClicked = false;
@@ -50,17 +48,20 @@ export class ContactEditComponent implements OnInit {
   private contactAffilPostResult: ContactAffilPostResult;
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
-  
+
   maxDate: Date;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
     , private route: ActivatedRoute, private router: Router
-    , private canDeactivateDialog: MatDialog, private confirmDeleteDialog: MatDialog
-    , private idToNameService: IncidentIdToNameService
+    , private canDeactivateDialog: MatDialog, private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
     this.loadingSubject.next(true);
+    this.route.data.subscribe((data: {contactTypes: ContactType[]}) => {this.contactTypes = data.contactTypes; });
+    this.route.data.subscribe((data: {contactType2s: ContactType[]}) => {this.contactType2s = data.contactType2s; });
+    this.route.data.subscribe((data: {states: State[]}) => { });
+
     this.route.pathFromRoot[2].params.subscribe(params => {
       this.lustId = +params['lustid'];
     });
@@ -73,33 +74,32 @@ export class ContactEditComponent implements OnInit {
       this.affilId = 0;
       this.formTitle = 'Add ' + formTitle;
       this.route.data.subscribe((data: {apGetLogNumber: ApGetLogNumber}) => {
-        this.logNumber = data.apGetLogNumber.logNumber; });
+        this.apGetLogNumber = data.apGetLogNumber;
+        this.logNumber = this.apGetLogNumber.logNumber;
+        this.setContactTypes(this.apGetLogNumber.releaseType);
+        this.buildAddForm();
+      });
     } else {
       this.route.data.subscribe((data: {contactAffilGet: ContactAffilGet}) => {
-        this.contactAffilGet = data.contactAffilGet; this.logNumber = this.contactAffilGet.logNumber; });
-      this.isUpdate = true;
-      this.formTitle = 'Update ' + formTitle;
+        this.contactAffilGet = data.contactAffilGet; this.logNumber = this.contactAffilGet.logNumber;
+        this.isUpdate = true;
+        this.formTitle = 'Update ' + formTitle;
+        this.setContactTypes(this.contactAffilGet.releaseType);
+        this.buildUpdateForm();
+      });
     }
     this.formTitle = this.formTitle + this.logNumber;
     this.returnPath = 'lust/' + this.lustId + '/contacts';
-    if (this.isUpdate) {
-      this.buildUpdateForm();
-    } else {
-      this.buildAddForm();
-    }
     this.maxDate = new Date();
     this.maxDate.setDate( this.maxDate.getDate());
-    this.route.data.subscribe((data: {contactTypes: ContactType[]}) => {this.contactTypes = data.contactTypes; });
-    this.route.data.subscribe((data: {contactType2s: ContactType[]}) => {this.contactType2s = data.contactType2s; });
-    this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
-    console.log('contact edit form init');
-    console.log(this.contactTypes);
-    console.log(this.contactType2s);
-    console.log(this.states);
-
     this.loadingSubject.next(false);
   }
 
+  private setContactTypes(releaseType: string) {
+    if (releaseType === 'H') {
+    } else {
+    }
+  }
   private buildUpdateForm() {
     this.contactForm = this.formBuilder.group({
       affilTypeCd: [this.contactAffilGet.affilTypeCd, Validators.required],
@@ -202,9 +202,8 @@ export class ContactEditComponent implements OnInit {
 
     return invalid;
   }
-
-
-  submitSiteAlias(): void {
+  
+  submit(): void {
     this.submitClicked = true;
     if (this.contactForm.dirty && this.contactForm.valid) {
 

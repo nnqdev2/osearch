@@ -23,4 +23,5 @@ export interface ContactAffilGet {
     zp4Checked: number;
     lustId: number;
     logNumber: string;
+    releaseType: string;
 }

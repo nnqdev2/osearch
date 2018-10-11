@@ -10,6 +10,6 @@ import { LustDataService } from '../services/lust-data.service';
 export class ContactTypesResolver implements Resolve<Observable<ContactType[]>> {
   constructor(private lustDataService: LustDataService, private router: Router) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ContactType[]> {
-    return this.lustDataService.getContactType2s();
+    return this.lustDataService.getContactTypes();
   }
 }
