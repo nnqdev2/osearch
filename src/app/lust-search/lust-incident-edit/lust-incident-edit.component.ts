@@ -32,6 +32,7 @@ import { LustIncidentUpdateResult } from '../../models/lust-incident-update-Resu
 import { LustIncidentUpdateUpdate } from '../../models/lust-incident-update-update';
 import { SubmitStatusDialogComponent } from '../../common/dialogs/submit-status-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
+import { UstSearchResultStat } from '../../models/ust-search-result-stat';
 @Component({
   selector: 'app-lust-incident-edit',
   templateUrl: './lust-incident-edit.component.html',
@@ -80,6 +81,7 @@ export class LustIncidentEditComponent implements OnInit  {
   private submitClicked = false;
   private resetFormClicked = false;
   private searchClicked = false;
+  private formUpdated = false;
 
   private errors: any[];
   private showSaAddressCorrect = false;
@@ -95,12 +97,10 @@ export class LustIncidentEditComponent implements OnInit  {
 
   maxDate: Date;
 
-  
-
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private route: ActivatedRoute, private router: Router, private addressCorrectDataService: AddressCorrectDataService
     , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog, private confirmDeleteDialog: MatDialog
-    , private idToNameService: IncidentIdToNameService
+    , private idToNameService: IncidentIdToNameService, private searchDialog: MatDialog
   ) {  }
 
   ngOnInit() {
@@ -229,7 +229,10 @@ export class LustIncidentEditComponent implements OnInit  {
   }
 
   canDeactivate(): Observable<boolean> | boolean {
-    if (this.incidentForm.pristine  || this.isActionSelected() ) {
+    if (
+      (this.isActionSelected()) ||
+      (this.incidentForm.pristine  && !this.formUpdated)
+    ) {
       return true;
     }
     const choice: Subject<boolean> = new Subject<boolean>();
@@ -319,8 +322,6 @@ export class LustIncidentEditComponent implements OnInit  {
     const invalid = [];
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
-            console.log('****findInvalidControls ' + field);
-            console.log(this.incidentForm.controls[field]);
             const name = this.idToNameService.getName(field);
             invalid.push(name + ' is required and must be valid.');
         }
@@ -382,13 +383,15 @@ export class LustIncidentEditComponent implements OnInit  {
   }
 
   resetForm(): void {
+    this.loadingSubject.next(true);
+    console.log('DEBUG11111');
     this.resetFlags();
     this.resetDate();
     this.resetFormClicked = true;
-    this.incidentForm.reset();
     this.incidentForm.markAsUntouched();
+    console.log('DEBUG44444');
 
-    this.loadingSubject.next(true);
+  
     this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet; });
     this.createForm();
     this.maxDate = new Date();
@@ -411,6 +414,30 @@ export class LustIncidentEditComponent implements OnInit  {
         this.router.navigate(['lsearch']);
       }
     });
+  }
+
+  private openUstSearch() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      searchType: 'UST',
+    };
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
+    this.searchDialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.updateSiteAddress(result);
+      }
+    });
+  }
+
+  private updateSiteAddress(ustSearchResultStat: UstSearchResultStat) {
+    this.incidentForm.controls.facilityId.setValue(ustSearchResultStat.facilityId);
+    this.incidentForm.controls.siteName.setValue(ustSearchResultStat.facilityName);
+    this.incidentForm.controls.siteAddress.setValue(ustSearchResultStat.facilityAddress);
+    this.incidentForm.controls.siteCity.setValue(ustSearchResultStat.facilityCity);
+    this.incidentForm.controls.siteCounty.setValue(ustSearchResultStat.countyCode);
+    this.incidentForm.controls.siteZipcode.setValue(ustSearchResultStat.facilityZip);
+    this.formUpdated = true;
   }
 
   OnScrollIntoView () {
@@ -485,7 +512,6 @@ export class LustIncidentEditComponent implements OnInit  {
       // console.log(noValidAddressMissing.value);
 
       if ((noValidAddressMissingfd.value === 0 || noValidAddressMissing.value === 0 || noValidAddressMissingfd.value === false)) {
-        console.log('noValidAddress NOT checked');
         siteAddressMissingfd.setValidators([Validators.required, Validators.maxLength(40)]);
         siteCityMissingfd.setValidators([Validators.required, Validators.maxLength(20)]);
         siteCountyMissingfd.setValidators([Validators.required]);
@@ -499,7 +525,6 @@ export class LustIncidentEditComponent implements OnInit  {
 
 
       } else {
-        console.log('noValidAddress checked');
         siteAddressMissingfd.clearValidators();
         siteCityMissingfd.clearValidators();
         siteCountyMissingfd.clearValidators();
@@ -527,7 +552,7 @@ export class LustIncidentEditComponent implements OnInit  {
 
     public displayLogDec(): string {
       return 'Decimal:' + this.lustIncidentGet.longDecimals.toString() + ' ' +
-        this.getCoordLOG(this.lustIncidentGet.longDecimals.toString());
+        this.getCoordLog(this.lustIncidentGet.longDecimals.toString());
     }
 
 
@@ -539,7 +564,7 @@ export class LustIncidentEditComponent implements OnInit  {
       return rtn;
     }
 
-    getCoordLOG(degrees: string): string {
+    getCoordLog(degrees: string): string {
       let rtn = ' W';
       if (degrees.includes('-', 1 )) {
           rtn = ' E';
