@@ -104,7 +104,6 @@ export class LustIncidentEditComponent implements OnInit  {
   ) {  }
 
   ngOnInit() {
-    console.log('********************edit lust ngOnInit()');
     this.loadingSubject.next(true);
     this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet;});
     this.route.data.subscribe((data: {projectManagers: ProjectManager[]}) => {this.projectManagers = data.projectManagers; });
@@ -380,18 +379,15 @@ export class LustIncidentEditComponent implements OnInit  {
     this.submitClicked = false;
     this.resetFormClicked = false;
     this.searchClicked = false;
+    this.formUpdated = false;
   }
 
   resetForm(): void {
     this.loadingSubject.next(true);
-    console.log('DEBUG11111');
     this.resetFlags();
     this.resetDate();
     this.resetFormClicked = true;
     this.incidentForm.markAsUntouched();
-    console.log('DEBUG44444');
-
-  
     this.route.data.subscribe((data: {lustIncidentGet: LustIncidentGet}) => {this.lustIncidentGet = data.lustIncidentGet; });
     this.createForm();
     this.maxDate = new Date();

@@ -40,6 +40,7 @@ export class ContactEditComponent implements OnInit {
   private apGetLogNumber: ApGetLogNumber;
   private submitClicked = false;
   private resetFormClicked = false;
+  private formUpdated = false;
   private deleteClicked = false;
   private cancelClicked = false;
   private errors: any[];
@@ -170,7 +171,10 @@ export class ContactEditComponent implements OnInit {
   }
 
   canDeactivate(): Observable<boolean> | boolean {
-    if (this.contactForm.pristine  || this.isActionSelected() ) {
+    if (
+      (this.isActionSelected()) ||
+      (this.contactForm.pristine  && !this.formUpdated)
+    ) {
       return true;
     }
     const choice: Subject<boolean> = new Subject<boolean>();
@@ -309,7 +313,7 @@ export class ContactEditComponent implements OnInit {
     this.contactForm.controls.phone.setValue(contactSearchResultStat.phone);
     this.contactForm.controls.email.setValue(contactSearchResultStat.email);
     this.contactForm.controls.zip.setValue(contactSearchResultStat.zipcode);
-    // this.formUpdated = true;
+    this.formUpdated = true;
   }
 
 
