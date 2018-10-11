@@ -15,6 +15,8 @@ import { ContactAffilPostResult } from '../../../models/contact-affil-post-resul
 import { ContactAffilGet } from '../../../models/contact-affil-get';
 import { ContactType } from '../../../models/contact-type';
 import { State } from '../../../models/state';
+import { SearchDialogComponent } from '../../../olprr-search/search-dialog.component';
+import { ContactSearchResultStat } from '../../../models/contact-search-result-stat';
 
 @Component({
   selector: 'app-contact-edit',
@@ -26,6 +28,7 @@ export class ContactEditComponent implements OnInit {
   guardDialogRef: MatDialogRef<GuardDialogComponent, any>;
   submitStatusDialogRef: MatDialogRef<SubmitStatusDialogComponent, any>;
   confirmDeleteDialogRef: MatDialogRef<ConfirmDeleteDialogComponent, any>;
+  searchDialogRef: MatDialogRef<SearchDialogComponent, any>;
   private contactForm: FormGroup;
   private contactAffilGet: ContactAffilGet;
   currentDate: Date;
@@ -33,6 +36,7 @@ export class ContactEditComponent implements OnInit {
   private contactTypes: ContactType[];
   private contactType2s: ContactType[];
   private theRealContactTypes: ContactType[];
+  private states: State[];
   private apGetLogNumber: ApGetLogNumber;
   private submitClicked = false;
   private resetFormClicked = false;
@@ -53,7 +57,7 @@ export class ContactEditComponent implements OnInit {
   maxDate: Date;
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
-    , private route: ActivatedRoute, private router: Router
+    , private route: ActivatedRoute, private router: Router, private searchDialog: MatDialog
     , private canDeactivateDialog: MatDialog, private idToNameService: IncidentIdToNameService
   ) {  }
 
@@ -61,7 +65,7 @@ export class ContactEditComponent implements OnInit {
     this.loadingSubject.next(true);
     this.route.data.subscribe((data: {contactTypes: ContactType[]}) => {this.contactTypes = data.contactTypes; });
     this.route.data.subscribe((data: {contactType2s: ContactType[]}) => {this.contactType2s = data.contactType2s; });
-    this.route.data.subscribe((data: {states: State[]}) => { });
+    this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
 
     this.route.pathFromRoot[2].params.subscribe(params => {
       this.lustId = +params['lustid'];
@@ -101,8 +105,6 @@ export class ContactEditComponent implements OnInit {
     } else {
       this.theRealContactTypes = this.contactTypes;
     }
-    console.log('private setContactTypes(releaseType: string)  ' + releaseType);
-    console.log(this.theRealContactTypes);
   }
 
   private buildUpdateForm() {
@@ -127,6 +129,7 @@ export class ContactEditComponent implements OnInit {
     {validator: [] }
     );
   }
+
   private buildAddForm() {
     this.contactForm = this.formBuilder.group({
       affilTypeCd: ['', Validators.required],
@@ -278,4 +281,38 @@ export class ContactEditComponent implements OnInit {
     });
     }
   }
+
+
+  private openContactSearch() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    // dialogConfig.disableClose =  true;
+    dialogConfig.data = {
+      searchType: 'Contact',
+    };
+    this.searchDialogRef = this.searchDialog.open(SearchDialogComponent, dialogConfig);
+    this.searchDialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.updateContact(result);
+      }
+    });
+  }
+
+  private updateContact(contactSearchResultStat: ContactSearchResultStat) {
+    this.contactForm.controls.street.setValue(contactSearchResultStat.street);
+    this.contactForm.controls.city.setValue(contactSearchResultStat.city);
+    this.contactForm.controls.state.setValue(contactSearchResultStat.state);
+    this.contactForm.controls.firstName.setValue(contactSearchResultStat.firstName);
+    this.contactForm.controls.lastName.setValue(contactSearchResultStat.lastName);
+    this.contactForm.controls.organization.setValue(contactSearchResultStat.organization);
+    this.contactForm.controls.country.setValue(contactSearchResultStat.country);
+    this.contactForm.controls.phone.setValue(contactSearchResultStat.phone);
+    this.contactForm.controls.email.setValue(contactSearchResultStat.email);
+    this.contactForm.controls.zip.setValue(contactSearchResultStat.zipcode);
+    // this.formUpdated = true;
+  }
+
+
+
+
 }
