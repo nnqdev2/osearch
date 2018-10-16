@@ -47,6 +47,7 @@ export class ContactEditComponent implements OnInit {
   private lustId = 0;
   private affilId = 0;
   private isUpdate = false;
+  private success = false;
   private returnPath: string;
   private logNumber: string;
   private formTitle: string;
@@ -59,7 +60,8 @@ export class ContactEditComponent implements OnInit {
 
   constructor(private lustDataService: LustDataService, private formBuilder: FormBuilder
     , private route: ActivatedRoute, private router: Router, private searchDialog: MatDialog
-    , private canDeactivateDialog: MatDialog, private idToNameService: IncidentIdToNameService
+    , private canDeactivateDialog: MatDialog, private submitStatusDialog: MatDialog
+    , private idToNameService: IncidentIdToNameService
   ) {  }
 
   ngOnInit() {
@@ -218,33 +220,12 @@ export class ContactEditComponent implements OnInit {
   submit(): void {
     this.submitClicked = true;
     if (this.contactForm.dirty && this.contactForm.valid) {
-
-      this.contactAffilPost.affilType = this.contactForm.controls.affilTypeCd.value;
-      this.contactAffilPost.startDt = this.contactForm.controls.startDt.value;
-      this.contactAffilPost.endDt = this.contactForm.controls.endDt.value;
-      this.contactAffilPost.firstName = this.contactForm.controls.firstName.value;
-      this.contactAffilPost.lastName = this.contactForm.controls.lastName.value;
-      this.contactAffilPost.street = this.contactForm.controls.street.value;
-      this.contactAffilPost.organization = this.contactForm.controls.organization.value;
-      this.contactAffilPost.subOrg = this.contactForm.controls.subOrganization.value;
-      this.contactAffilPost.jobTitle = this.contactForm.controls.jobTitle.value;
-      this.contactAffilPost.city = this.contactForm.controls.city.value;
-      this.contactAffilPost.phone = this.contactForm.controls.phone.value;
-      this.contactAffilPost.email = this.contactForm.controls.email.value;
-      this.contactAffilPost.lustId = this.lustId;
-      this.contactAffilPost.affilId = this.affilId;
-      this.contactAffilPost.zip = this.contactForm.controls.zip.value;
-      this.contactAffilPost.country = this.contactForm.controls.country.value;
-      this.contactAffilPost.state = this.contactForm.controls.state.value;
-      this.contactAffilPost.lastChangedBy = 'LUSTUSER';
-      console.log('update contact........');
-      console.log(this.contactAffilPost);
-      console.log(JSON.stringify(this.contactAffilPost));
+      this.setModelToFormData();
       this.lustDataService.updateLustContact(this.contactAffilPost)
         .subscribe(
           (data ) => (
-            this.contactAffilPostResult = data,
-            this.onCreateComplete()),
+            this.contactAffilPostResult = data
+            , this.showSubmitStatusDialog()),
         );
     } else if (this.contactForm.invalid) {
         this.errors = this.findInvalidControls();
@@ -253,9 +234,61 @@ export class ContactEditComponent implements OnInit {
     }
   }
 
-  onCreateComplete(): void {
-    this.router.navigate([this.returnPath]);
+  private showSubmitStatusDialog() {
+    let message1 = '';
+    let title = '';
+    const button1 = 'Close';
+    if (this.contactAffilPostResult.errMsg !== undefined &&
+      this.contactAffilPostResult.errMsg !== null &&
+      this.contactAffilPostResult.errMsg.length > 0 ) {
+      title = 'Failed to save due to ' + this.contactAffilPostResult.errMsg ;
+      message1 = this.contactAffilPostResult.errMsg;
+      this.success = false;
+    } else {
+      title = 'Successfully saved ' + this.contactAffilPostResult.affilId;
+      this.success = true;
+    }
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: title,
+      message1: message1,
+      button1: button1,
+    };
+    dialogConfig.disableClose =  true;
+    this.submitStatusDialogRef = this.submitStatusDialog.open(SubmitStatusDialogComponent, dialogConfig);
+    this.submitStatusDialogRef.afterClosed().subscribe(() => {
+      if (this.success) {
+        this.router.navigate([this.returnPath]);
+      }
+    });
   }
+
+  private setModelToFormData() {
+    this.contactAffilPost.affilType = this.contactForm.controls.affilTypeCd.value;
+    this.contactAffilPost.startDt = this.contactForm.controls.startDt.value;
+    this.contactAffilPost.endDt = this.contactForm.controls.endDt.value;
+    this.contactAffilPost.firstName = this.contactForm.controls.firstName.value;
+    this.contactAffilPost.lastName = this.contactForm.controls.lastName.value;
+    this.contactAffilPost.street = this.contactForm.controls.street.value;
+    this.contactAffilPost.organization = this.contactForm.controls.organization.value;
+    this.contactAffilPost.subOrg = this.contactForm.controls.subOrganization.value;
+    this.contactAffilPost.jobTitle = this.contactForm.controls.jobTitle.value;
+    this.contactAffilPost.city = this.contactForm.controls.city.value;
+    this.contactAffilPost.phone = this.contactForm.controls.phone.value;
+    this.contactAffilPost.email = this.contactForm.controls.email.value;
+    this.contactAffilPost.lustId = this.lustId;
+    this.contactAffilPost.affilId = this.affilId;
+    this.contactAffilPost.zip = this.contactForm.controls.zip.value;
+    this.contactAffilPost.country = this.contactForm.controls.country.value;
+    this.contactAffilPost.state = this.contactForm.controls.state.value;
+    this.contactAffilPost.lastChangedBy = 'nquan';
+    console.log('update contact........');
+    console.log(this.contactAffilPost);
+    console.log(JSON.stringify(this.contactAffilPost));
+  }
+
+
 
   cancel() {
     this.cancelClicked = true;
