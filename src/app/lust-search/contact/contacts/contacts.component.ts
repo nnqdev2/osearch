@@ -73,8 +73,6 @@ export class ContactsComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   }
 
   edit(contact: ContactAffilGet) {
-    console.log('edit(contact: ContactAffilGet)');
-    console.log(contact);
     this.router.navigate(['../contact' , contact.affilId], {relativeTo: this.route});
   }
 

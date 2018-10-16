@@ -22,7 +22,7 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: ContactSearchResultDataSourceService;
-  displayedColumns = ['reqPageNumber', 'partyId', 'organization', 'personName', 'phone', 'address', 'email'];
+  displayedColumns = ['reqPageNumber', 'partyId', 'organization', 'subOrganization', 'personName', 'phone', 'address', 'email'];
  
   subscription: Subscription;
   contactSearchResultStats: ContactSearchResultStat[];

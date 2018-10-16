@@ -11,7 +11,7 @@
                 <div class="form-row full-width">
                   <div class="form-group col-md-11"></div>
                   <div class="form-group col-md-1 text-center"> 
-                      <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openContactSearch()" >Contact xxSearch</button>
+                      <button mat-raised-button color="primary" type="button" class="btn btn-default btn-md btn-block" (click)="openContactSearch()" >Contact Search</button>
                   </div>
                 </div>
                 <div class="form-row full-width">
@@ -136,6 +136,13 @@
                   </div>
                 </div>
 
+
+                <div class="form-row full-width example-container mat-card-subtitle-background">
+                    <mat-label class="control-label" for="affilComments">Comment</mat-label>
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput class="form-control rounded-0" rows="10" formControlName="affilComments"></textarea>
+                    </mat-form-field>  
+                </div>   
 
 
 

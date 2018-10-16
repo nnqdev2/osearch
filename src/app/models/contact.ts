@@ -12,4 +12,5 @@ export interface Contact {
     address: number;
     country: string;
     email: string;
+    subOrganization: string;
 }

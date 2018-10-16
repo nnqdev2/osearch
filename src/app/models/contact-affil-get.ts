@@ -7,7 +7,7 @@ export interface ContactAffilGet {
     partyId?: number;
     organization?: string;
     subOrganization?: string;
-    jobtitle?: string;
+    jobTitle?: string;
     firstName?: string;
     lastName?: string;
     phone: string;

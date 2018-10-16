@@ -1,55 +1,51 @@
 <mat-card>
     <mat-card-content>
-<div class="search-result">
-
-  <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
-      <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-  </div>
-
-  <mat-table class="search-results-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="dataSource"
-              matSort  matSortActive="partyId" matSortDirection="asc" matSortDisableClear >
-    <ng-container matColumnDef="reqPageNumber" >
-        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-        <mat-cell *matCellDef="let contactSearchResultStat"> 
-            <button mat-raised-button class="matcellbuttoncolor" type="button" (click)="onRowClicked(contactSearchResultStat)" >Select</button>  
-        </mat-cell>
-    </ng-container>
-      <ng-container matColumnDef="partyId">
-          <mat-header-cell *matHeaderCellDef >Contact Id</mat-header-cell>
-          <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.partyId}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="organization">
-          <mat-header-cell *matHeaderCellDef  mat-sort-header >Organization</mat-header-cell>
-          <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.organization}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="personName">
-          <mat-header-cell *matHeaderCellDef  mat-sort-header >Contact Name</mat-header-cell>
-          <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.personName}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="phone">
-          <mat-header-cell *matHeaderCellDef mat-sort-header >Phone</mat-header-cell>
-          <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.phone}}</mat-cell>
-      </ng-container>
-              
-      <ng-container matColumnDef="address">
-          <mat-header-cell *matHeaderCellDef  mat-sort-header >Address</mat-header-cell>
-          <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.address}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="email">
-          <mat-header-cell *matHeaderCellDef  mat-sort-header >Email</mat-header-cell>
-          <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.email}}</mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
-
-      <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
-      <!-- <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row> -->
-
-  </mat-table>
-
-  <mat-paginator [length]="totalRows" [pageSize]="40"
-  [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
-
-</div>
-</mat-card-content>
+        <div class="search-result">
+            <div class="loading-indicator" *ngIf="dataSource.loading$ | async">
+                <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+            </div>
+            <mat-table class="search-results-table mat-elevation-z8 table-hover " cdkScrollable [dataSource]="dataSource"
+                        matSort  matSortActive="partyId" matSortDirection="asc" matSortDisableClear >
+                <ng-container matColumnDef="reqPageNumber" >
+                    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat"> 
+                        <button mat-raised-button class="matcellbuttoncolor" type="button" (click)="onRowClicked(contactSearchResultStat)" >Select</button>  
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="partyId">
+                    <mat-header-cell *matHeaderCellDef >Contact Id</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.partyId}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="organization">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Organization</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.organization}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="subOrganization">
+                    <mat-header-cell *matHeaderCellDef  >Sub Organization</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.subOrganization}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="personName">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Contact Name</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.personName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header >Phone</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.phone}}</mat-cell>
+                </ng-container>              
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Address</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.address}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header >Email</mat-header-cell>
+                    <mat-cell *matCellDef="let contactSearchResultStat">{{contactSearchResultStat.email}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
+                <!-- <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row> -->
+            </mat-table>
+            <mat-paginator [length]="totalRows" [pageSize]="40"
+            [pageSizeOptions]="[30, 40, 50, 100]" ></mat-paginator>
+        </div>
+    </mat-card-content>
 </mat-card>

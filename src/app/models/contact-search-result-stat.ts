@@ -21,4 +21,5 @@ export interface ContactSearchResultStat {
     address: number;
     country: string;
     email: string;
+    subOrganization: string;
 }

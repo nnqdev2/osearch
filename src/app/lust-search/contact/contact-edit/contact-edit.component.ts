@@ -15,7 +15,7 @@ import { ContactAffilPostResult } from '../../../models/contact-affil-post-resul
 import { ContactAffilGet } from '../../../models/contact-affil-get';
 import { ContactType } from '../../../models/contact-type';
 import { State } from '../../../models/state';
-import { SearchDialogComponent } from '../../../olprr-search/search-dialog.component';
+import { SearchDialogComponent } from '../../search-dialog/search-dialog.component';
 import { ContactSearchResultStat } from '../../../models/contact-search-result-stat';
 
 @Component({
@@ -112,12 +112,12 @@ export class ContactEditComponent implements OnInit {
     this.contactForm = this.formBuilder.group({
       affilTypeCd: [this.contactAffilGet.affilTypeCd, Validators.required],
       startDt: [this.contactAffilGet.startDt, Validators.required],
-      endDt:   [this.contactAffilGet.endDt, Validators.required],
+      endDt:   [this.contactAffilGet.endDt],
       firstName: [this.contactAffilGet.firstName, Validators.required],
       lastName: [this.contactAffilGet.lastName, Validators.required],
       organization:   [this.contactAffilGet.organization, Validators.required],
-      subOrganization:   [this.contactAffilGet.subOrganization, Validators.required],
-      jobTitle: [this.contactAffilGet.jobtitle, Validators.required],
+      subOrganization:   [this.contactAffilGet.subOrganization],
+      jobTitle: [this.contactAffilGet.jobTitle],
       street: [this.contactAffilGet.street, Validators.required],
       city:   [this.contactAffilGet.city, Validators.required],
       state: [this.contactAffilGet.state, Validators.required],
@@ -125,7 +125,7 @@ export class ContactEditComponent implements OnInit {
       phone:   [this.contactAffilGet.phone, Validators.required],
       email:   [this.contactAffilGet.email, Validators.required],
       country:   [this.contactAffilGet.country, Validators.required],
-      affilComments:   [this.contactAffilGet.affilComments, Validators.required],
+      affilComments:   [this.contactAffilGet.affilComments],
     },
     {validator: [] }
     );
@@ -135,12 +135,12 @@ export class ContactEditComponent implements OnInit {
     this.contactForm = this.formBuilder.group({
       affilTypeCd: ['', Validators.required],
       startDt: ['', Validators.required],
-      endDt:   ['', Validators.required],
+      endDt:   [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       organization:   ['', Validators.required],
-      subOrganization:   ['', Validators.required],
-      jobTitle: ['', Validators.required],
+      subOrganization:   [''],
+      jobTitle: [''],
       street: ['', Validators.required],
       city:   ['', Validators.required],
       state: ['', Validators.required],
@@ -148,7 +148,7 @@ export class ContactEditComponent implements OnInit {
       phone:   ['', Validators.required],
       email:   ['', Validators.required],
       country:   ['', Validators.required],
-      affilComments:   ['', Validators.required],
+      affilComments:   [''],
     },
     {validator: [] }
     );
@@ -227,13 +227,19 @@ export class ContactEditComponent implements OnInit {
       this.contactAffilPost.street = this.contactForm.controls.street.value;
       this.contactAffilPost.organization = this.contactForm.controls.organization.value;
       this.contactAffilPost.subOrg = this.contactForm.controls.subOrganization.value;
-      this.contactAffilPost.jobtitle = this.contactForm.controls.jobtitle.value;
+      this.contactAffilPost.jobTitle = this.contactForm.controls.jobTitle.value;
       this.contactAffilPost.city = this.contactForm.controls.city.value;
       this.contactAffilPost.phone = this.contactForm.controls.phone.value;
       this.contactAffilPost.email = this.contactForm.controls.email.value;
       this.contactAffilPost.lustId = this.lustId;
       this.contactAffilPost.affilId = this.affilId;
       this.contactAffilPost.zip = this.contactForm.controls.zip.value;
+      this.contactAffilPost.country = this.contactForm.controls.country.value;
+      this.contactAffilPost.state = this.contactForm.controls.state.value;
+      this.contactAffilPost.lastChangedBy = 'LUSTUSER';
+      console.log('update contact........');
+      console.log(this.contactAffilPost);
+      console.log(JSON.stringify(this.contactAffilPost));
       this.lustDataService.updateLustContact(this.contactAffilPost)
         .subscribe(
           (data ) => (
@@ -313,6 +319,7 @@ export class ContactEditComponent implements OnInit {
     this.contactForm.controls.phone.setValue(contactSearchResultStat.phone);
     this.contactForm.controls.email.setValue(contactSearchResultStat.email);
     this.contactForm.controls.zip.setValue(contactSearchResultStat.zipcode);
+    this.contactForm.controls.subOrganization.setValue(contactSearchResultStat.subOrganization);
     this.formUpdated = true;
   }
 

@@ -6,7 +6,7 @@ export class ContactAffilPost {
     endDt?: Date;
     organization?: string;
     subOrg?: string;
-    jobtitle?: string;
+    jobTitle?: string;
     firstName?: string;
     lastName?: string;
     phone?: string;
@@ -17,4 +17,5 @@ export class ContactAffilPost {
     zip?: string;
     country?: string;
     affilComments?: string;
+    lastChangedBy: string;
 }
