@@ -7,18 +7,20 @@
                 <button mat-raised-button [matMenuTriggerFor]="menu"  >Lust Incident Menu</button>
                 <mat-menu #menu="matMenu">
                     <a [routerLink]="['/lust']" mat-menu-item>Create New Incident</a>
-                    <a [routerLink]="['./']" mat-menu-item> Update Incident</a>
-                    <a [routerLink]="['contacts']" mat-menu-item> Update Contact</a>
-                    <a [routerLink]="['assessment']" mat-menu-item> Update Assessment</a>
+                    <a [routerLink]="['./']" mat-menu-item>Update Incident</a>
+                    <a [routerLink]="['contacts']" mat-menu-item>Update Contact</a>
+                    <a [routerLink]="['assessment']" mat-menu-item>Update Assessment</a>
                     <a [routerLink]="['projectmanager']" mat-menu-item>Update Project Manager</a>
                     <a [routerLink]="['sitealiases']" mat-menu-item>Update Site Alias</a>
                     <a [routerLink]="['workreported']" mat-menu-item>Update Work Reported</a>
-                    <a [routerLink]="['petcontsoil']" mat-menu-item> Update Petroleum Contaminated Soil</a>
-                    <!-- <a [routerLink]="['inspection']" mat-menu-item>Update Inspection</a> -->
+                    <a [routerLink]="['petcontsoil']" mat-menu-item>Update Petroleum Contaminated Soil</a>                    
                     <a [routerLink]="['sitecontrol']" mat-menu-item>Update Site Control</a>
-                    <a [routerLink]="['publicnotice']" mat-menu-item> Update Public Notice</a>
+                    <a [routerLink]="['publicnotice']" mat-menu-item>Update Public Notice</a>
                     <a [routerLink]="['sitephoto']" mat-menu-item>Update Site Photos</a>
+                    <a [routerLink]="['lhotcd']" mat-menu-item>LUST HOTC Decommissioning</a>
+                    <a [routerLink]="['hotcd']" mat-menu-item>HOTC Decommissioning</a>
                     <!-- <a [routerLink]="['enforcement']" mat-menu-item>Update Enforcement</a> -->
+                    <!-- <a [routerLink]="['inspection']" mat-menu-item>Update Inspection</a> -->
                 </mat-menu>
             </div>
             </div>   

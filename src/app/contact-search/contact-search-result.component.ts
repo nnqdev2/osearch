@@ -1,13 +1,12 @@
 import { Component, Input, AfterViewInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { MatPaginator, MatSort, MatSortHeader } from '@angular/material';
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subscription, fromEvent, merge } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatPaginator, MatSort } from '@angular/material';
+import { tap } from 'rxjs/operators';
+import { Subscription, merge } from 'rxjs';
 import { ContactSearchFilter } from '../models/contact-search-filter';
 import { ContactSearchResultDataSourceService } from './contact-search-result-data-source.service';
 import { ContactSearchResultStat } from '../models/contact-search-result-stat';
 import { LustDataService } from '../services/lust-data.service';
-import { SelectedDataService } from '../lust-search/services/selected-data.service';
 
 
 @Component({
@@ -31,8 +30,7 @@ export class ContactSearchResultComponent implements AfterViewInit, OnChanges, O
 
   @Output() rowSelected = new EventEmitter<ContactSearchResultStat>();
 
-  constructor(private lustDataService: LustDataService, private route: ActivatedRoute, private router: Router
-              , private selectedDataService: SelectedDataService) {
+  constructor(private lustDataService: LustDataService) {
     this.dataSource = new ContactSearchResultDataSourceService(this.lustDataService);
   }
 

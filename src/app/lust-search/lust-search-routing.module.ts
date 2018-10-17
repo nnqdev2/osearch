@@ -40,6 +40,8 @@ import { LustContactResolver } from '../resolvers/lust-contact-resolver.service'
 import { ContactTypesResolver } from '../resolvers/contact-types-resolver.service';
 import { ContactType2sResolver } from '../resolvers/contact-type2s-resolver.service';
 import { ContactResolver } from '../resolvers/contact-resolver.service';
+import { LustHotcDecommComponent } from './lust-hotc-decomm/lust-hotc-decomm.component';
+import { HotcDecommComponent } from './hotc-decomm/hotc-decomm.component';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
@@ -129,12 +131,11 @@ const routes: Routes = [
         {path: 'projectmanager', component: ProjectManagerComponent},
         {path: 'workreported', component: WorkReportedComponent},
         {path: 'petcontsoil', component: PetroleumContaminatedSoilComponent},
-        {path: 'inspection', component: InspectionComponent},
         {path: 'sitecontrol', component: SiteControlComponent},
         {path: 'publicnotice', component: PublicNoticeComponent},
-        {path: 'enforcement', component: EnforcementComponent},
         {path: 'sitephoto', component: SitePhotoComponent},
-        {path: 'enforcement', component: EnforcementComponent},
+        {path: 'lhotcd', component: LustHotcDecommComponent},
+        {path: 'hotcd', component: HotcDecommComponent},
       ]
     },
 
