@@ -16,13 +16,7 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-de
 import { UstSearchModule } from '../ust-search/ust-search.module';
 import { ContactSearchModule } from '../contact-search/contact-search.module';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
-import { ProjectManagerComponent } from './project-manager/project-manager.component';
-import { WorkReportedComponent } from './work-reported/work-reported.component';
-import { PetroleumContaminatedSoilComponent } from './petroleum-contaminated-soil/petroleum-contaminated-soil.component';
 import { InspectionComponent } from './inspection/inspection.component';
-import { SiteControlComponent } from './site-control/site-control.component';
-import { PublicNoticeComponent } from './public-notice/public-notice.component';
-import { SitePhotoComponent } from './site-photo/site-photo.component';
 import { EnforcementComponent } from './enforcement/enforcement.component';
 import { AssessmentComponent } from './assessment/assessment.component';
 import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
@@ -34,6 +28,24 @@ import { ContactBaseComponent } from './contact/contact-base/contact-base.compon
 import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
 import { LustHotcDecommComponent } from './lust-hotc-decomm/lust-hotc-decomm.component';
 import { HotcDecommComponent } from './hotc-decomm/hotc-decomm.component';
+import { ProjectManagerBaseComponent } from './project-manager/project-manager-base/project-manager-base.component';
+import { ProjectManagerEditComponent } from './project-manager/project-manager-edit/project-manager-edit.component';
+import { ProjectManagersComponent } from './project-manager/project-managers/project-managers.component';
+import { WorkReportedBaseComponent } from './work-reported/work-reported-base/work-reported-base.component';
+import { WorkReportedEditComponent } from './work-reported/work-reported-edit/work-reported-edit.component';
+import { WorkReportedsComponent } from './work-reported/work-reporteds/work-reporteds.component';
+import { PcsBaseComponent } from './petroleum-contaminated-soil/pcs-base/pcs-base.component';
+import { PcsEditComponent } from './petroleum-contaminated-soil/pcs-edit/pcs-edit.component';
+import { PcssComponent } from './petroleum-contaminated-soil/pcss/pcss.component';
+import { SiteControlBaseComponent } from './site-control/site-control-base/site-control-base.component';
+import { SiteControlEditComponent } from './site-control/site-control-edit/site-control-edit.component';
+import { SiteControlsComponent } from './site-control/site-controls/site-controls.component';
+import { PublicNoticesComponent } from './public-notice/public-notices/public-notices.component';
+import { PublicNoticeEditComponent } from './public-notice/public-notice-edit/public-notice-edit.component';
+import { PublicNoticeBaseComponent } from './public-notice/public-notice-base/public-notice-base.component';
+import { SitePhotoBaseComponent } from './site-photo/site-photo-base/site-photo-base.component';
+import { SitePhotoEditComponent } from './site-photo/site-photo-edit/site-photo-edit.component';
+import { SitePhotosComponent } from './site-photo/site-photos/site-photos.component';
 
 
 @NgModule({
@@ -50,11 +62,17 @@ import { HotcDecommComponent } from './hotc-decomm/hotc-decomm.component';
     LustSearchRoutingModule,
   ],
   declarations: [ LustSearchComponent, LustIncidentCreateComponent, LustIncidentEditComponent, SearchDialogComponent
-                , ConfirmDeleteDialogComponent, LustIncidentComponent, ProjectManagerComponent
-                , WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent
-                , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent
-                , SiteAliasesComponent, SiteAliasBaseComponent, ContactsComponent, ContactBaseComponent, ContactEditComponent
-                , LustHotcDecommComponent, HotcDecommComponent ],
+                , ConfirmDeleteDialogComponent, LustIncidentComponent
+                , InspectionComponent, EnforcementComponent
+                , AssessmentComponent, SiteAliasEditComponent, SiteAliasesComponent, SiteAliasBaseComponent
+                , ContactsComponent, ContactBaseComponent, ContactEditComponent
+                , LustHotcDecommComponent, HotcDecommComponent
+                , ProjectManagerBaseComponent, ProjectManagerEditComponent, ProjectManagersComponent
+                , WorkReportedBaseComponent, WorkReportedEditComponent, WorkReportedsComponent
+                , PcsBaseComponent, PcsEditComponent, PcssComponent
+                , SiteControlBaseComponent, SiteControlEditComponent, SiteControlsComponent
+                , PublicNoticesComponent, PublicNoticeEditComponent, PublicNoticeBaseComponent
+                , SitePhotoBaseComponent, SitePhotoEditComponent, SitePhotosComponent ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
 })
 export class LustSearchModule { }

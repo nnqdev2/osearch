@@ -18,15 +18,7 @@ import { BrownfieldsResolver } from '../resolvers/brownfields-resolver.service';
 import { SiteType2sResolver } from '../resolvers/site-type2s-resolver.service';
 import { LustIncidentGetResolver } from '../resolvers/lust-incident-get-resolver.service';
 import { LustIncidentComponent } from './lust-incident/lust-incident.component';
-import { InspectionComponent } from './inspection/inspection.component';
-import { ProjectManagerComponent } from './project-manager/project-manager.component';
-import { WorkReportedComponent } from './work-reported/work-reported.component';
-import { PetroleumContaminatedSoilComponent } from './petroleum-contaminated-soil/petroleum-contaminated-soil.component';
-import { SiteControlComponent } from './site-control/site-control.component';
-import { PublicNoticeComponent } from './public-notice/public-notice.component';
-import { SitePhotoComponent } from './site-photo/site-photo.component';
 import { AssessmentComponent } from './assessment/assessment.component';
-import { EnforcementComponent } from './enforcement/enforcement.component';
 import { SiteAliasEditComponent } from './site-alias/site-alias-edit/site-alias-edit.component';
 import { SiteAliasesComponent } from './site-alias/site-aliases/site-aliases.component';
 import { LustSearchComponent } from './lust-search/lust-search.component';
@@ -36,12 +28,29 @@ import { LogNumberResolver } from '../resolvers/log-number-resolver.service';
 import { ContactsComponent } from './contact/contacts/contacts.component';
 import { ContactBaseComponent } from './contact/contact-base/contact-base.component';
 import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
-import { LustContactResolver } from '../resolvers/lust-contact-resolver.service';
 import { ContactTypesResolver } from '../resolvers/contact-types-resolver.service';
 import { ContactType2sResolver } from '../resolvers/contact-type2s-resolver.service';
 import { ContactResolver } from '../resolvers/contact-resolver.service';
 import { LustHotcDecommComponent } from './lust-hotc-decomm/lust-hotc-decomm.component';
 import { HotcDecommComponent } from './hotc-decomm/hotc-decomm.component';
+import { ProjectManagersComponent } from './project-manager/project-managers/project-managers.component';
+import { ProjectManagerBaseComponent } from './project-manager/project-manager-base/project-manager-base.component';
+import { ProjectManagerEditComponent } from './project-manager/project-manager-edit/project-manager-edit.component';
+import { WorkReportedsComponent } from './work-reported/work-reporteds/work-reporteds.component';
+import { WorkReportedBaseComponent } from './work-reported/work-reported-base/work-reported-base.component';
+import { WorkReportedEditComponent } from './work-reported/work-reported-edit/work-reported-edit.component';
+import { PcssComponent } from './petroleum-contaminated-soil/pcss/pcss.component';
+import { PcsBaseComponent } from './petroleum-contaminated-soil/pcs-base/pcs-base.component';
+import { PcsEditComponent } from './petroleum-contaminated-soil/pcs-edit/pcs-edit.component';
+import { SiteControlsComponent } from './site-control/site-controls/site-controls.component';
+import { SiteControlBaseComponent } from './site-control/site-control-base/site-control-base.component';
+import { SiteControlEditComponent } from './site-control/site-control-edit/site-control-edit.component';
+import { PublicNoticesComponent } from './public-notice/public-notices/public-notices.component';
+import { PublicNoticeBaseComponent } from './public-notice/public-notice-base/public-notice-base.component';
+import { PublicNoticeEditComponent } from './public-notice/public-notice-edit/public-notice-edit.component';
+import { SitePhotosComponent } from './site-photo/site-photos/site-photos.component';
+import { SitePhotoBaseComponent } from './site-photo/site-photo-base/site-photo-base.component';
+import { SitePhotoEditComponent } from './site-photo/site-photo-edit/site-photo-edit.component';
 
 const routes: Routes = [
   { path: '', component: LustSearchComponent,
@@ -128,12 +137,118 @@ const routes: Routes = [
           ]
         },
         {path: 'assessment', component: AssessmentComponent},
-        {path: 'projectmanager', component: ProjectManagerComponent},
-        {path: 'workreported', component: WorkReportedComponent},
-        {path: 'petcontsoil', component: PetroleumContaminatedSoilComponent},
-        {path: 'sitecontrol', component: SiteControlComponent},
-        {path: 'publicnotice', component: PublicNoticeComponent},
-        {path: 'sitephoto', component: SitePhotoComponent},
+        {path: 'projectmanagers', component: ProjectManagersComponent,
+          resolve: {
+            apGetLogNumber: LogNumberResolver,
+          },
+        },
+        {path: 'projectmanager', component: ProjectManagerBaseComponent,
+          children:
+          [
+            {path: '', component: ProjectManagerEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':pmid', component: ProjectManagerEditComponent,
+              resolve: {
+
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
+        {path: 'workreporteds', component: WorkReportedsComponent},
+        {path: 'workreported', component: WorkReportedBaseComponent,
+          children:
+          [
+            {path: '', component: WorkReportedEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':wrid', component: WorkReportedEditComponent,
+              resolve: {
+
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
+        {path: 'pcss', component: PcssComponent},
+        {path: 'pcs', component: PcsBaseComponent,
+          children:
+          [
+            {path: '', component: PcsEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':pcsid', component: PcsEditComponent,
+              resolve: {
+
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
+        {path: 'sitecontrols', component: SiteControlsComponent},
+        {path: 'sitecontrol', component: SiteControlBaseComponent,
+          children:
+          [
+            {path: '', component: SiteControlEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':scid', component: SiteControlEditComponent,
+              resolve: {
+
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
+        {path: 'publicnotices', component: PublicNoticesComponent},
+        {path: 'publicnotice', component: PublicNoticeBaseComponent,
+          children:
+          [
+            {path: '', component: PublicNoticeEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':pnid', component: PublicNoticeEditComponent,
+              resolve: {
+
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
+        {path: 'sitephotos', component: SitePhotosComponent},
+        {path: 'sitephoto', component: SitePhotoBaseComponent,
+          children:
+          [
+            {path: '', component: SitePhotoEditComponent,
+              resolve: {
+                apGetLogNumber: LogNumberResolver,
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+            {path: ':spid', component: SitePhotoEditComponent,
+              resolve: {
+
+              },
+              canDeactivate: [CanDeactivateGuard],
+            },
+          ]
+        },
         {path: 'lhotcd', component: LustHotcDecommComponent},
         {path: 'hotcd', component: HotcDecommComponent},
       ]
