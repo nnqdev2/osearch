@@ -32,6 +32,8 @@ import { SiteAliasBaseComponent } from './site-alias/site-alias-base/site-alias-
 import { ContactsComponent } from './contact/contacts/contacts.component';
 import { ContactBaseComponent } from './contact/contact-base/contact-base.component';
 import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
+import { LustHotcDecommComponent } from './lust-hotc-decomm/lust-hotc-decomm.component';
+import { HotcDecommComponent } from './hotc-decomm/hotc-decomm.component';
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { ContactEditComponent } from './contact/contact-edit/contact-edit.compon
                 , ConfirmDeleteDialogComponent, LustIncidentComponent, ProjectManagerComponent
                 , WorkReportedComponent, PetroleumContaminatedSoilComponent, InspectionComponent, SiteControlComponent
                 , PublicNoticeComponent, SitePhotoComponent, EnforcementComponent, AssessmentComponent, SiteAliasEditComponent
-                , SiteAliasesComponent, SiteAliasBaseComponent, ContactsComponent, ContactBaseComponent, ContactEditComponent ],
+                , SiteAliasesComponent, SiteAliasBaseComponent, ContactsComponent, ContactBaseComponent, ContactEditComponent
+                , LustHotcDecommComponent, HotcDecommComponent ],
   entryComponents: [SearchDialogComponent, ConfirmDeleteDialogComponent ],
 })
 export class LustSearchModule { }
